@@ -26,24 +26,28 @@ public class ProcedureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_procedure);
 		
-		initViewPager();
-		initBreadcrumb();
+		initViewPager(); // initializes ViewPager (the horizontal swiping UI element)
+		initBreadcrumb(); // initilizes the breadcrumb (the step numbers at the top)
 	}
 
 	
+	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
-		viewPager = (ViewPager) findViewById(R.id.viewpager);
-		String[] testStr={"1","2","3","4","5"};
+		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
+		String[] testStr={"1","2","3","4","5"}; // dummy data that serves as text for the step pages
 		ArrayList<StepPage> sp = new ArrayList<StepPage>();
 		
-		for (int i = 0; i<5; i++){
+		for (int i = 0; i<5; i++){ // populates the StepPage array with dummy data
 			sp.add(new StepPage(this, testStr[i]));
 		}
 		
-		PagerAdapter pagerAdapter = new StepPagerAdapter(this, sp);
+		PagerAdapter pagerAdapter = new StepPagerAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
 		
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setCurrentItem(0);
+		
+		
+		// sets a listener for whenever the page in the ViewPager changes.
 		viewPager.setOnPageChangeListener(new OnPageChangeListener(){
 
 			@Override
@@ -61,12 +65,13 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
-				breadcrumb.setCurrentStep(arg0+1);
+				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
 			}
 			
 		});
 	}
 	
+	// initalizes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
 		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
 		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
