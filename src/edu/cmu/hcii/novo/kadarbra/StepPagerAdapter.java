@@ -12,17 +12,18 @@ public class StepPagerAdapter extends PagerAdapter {
 	Activity activity;
 	ArrayList<StepPage> steps;
 	
+	// constructor
+		// takes in the current activity and an ArrayList of StepPage objects
 	public StepPagerAdapter(Activity act, ArrayList<StepPage> stepPages){
 		steps = stepPages;
 		activity = act;
 	}
 	
+	// called when adding a view to the ViewPager
 	@Override
 	public Object instantiateItem(View collection, int position) {
 		StepPage view = steps.get(position);
 		view.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-		
-//		tv.setText(text[position]);
 		((ViewPager) collection).addView(view,0);
 		
 		return view;
@@ -33,9 +34,9 @@ public class StepPagerAdapter extends PagerAdapter {
 	     ((ViewPager) collection).removeView((View) view);
 	}
 	
+	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return steps.size();
 	}
 

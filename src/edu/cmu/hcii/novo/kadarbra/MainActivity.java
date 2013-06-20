@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";	// used for logging purposes
 	
-	ListView procedureListView;
+	ListView procedureListView; // android widget for lists
 	
 	
 	@Override
@@ -40,22 +40,22 @@ public class MainActivity extends Activity {
 	
 		final ArrayList<String> procedureList = new ArrayList<String>();
 		
-		for (int i = 0; i < 10; i++){
+		for (int i = 0; i < 10; i++){ // dummy data that fills the list up
 			procedureList.add("Procedure #"+i);
 		}
 		
 		final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, procedureList);
-		procedureListView.setAdapter(adapter);
+		procedureListView.setAdapter(adapter); // adapter is used to populate the ListView
 		
 		
-		
+		// sets an listener for if the user clicks on one of the ListView items
 		procedureListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 		      @Override
 		      public void onItemClick(AdapterView<?> parent, final View view,
 		          int position, long id) {
 		    	  //if (position==0){
 		    		  Intent intent = new Intent(parent.getContext(), ProcedureActivity.class);
-		    		  startNewActivity();
+		    		  startNewActivity(); 
 		    	 // }
 		      }
 
@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
 	}
 	
 	
+	// This function currently starts the ProcedureActivity activity
 	private void startNewActivity(){
 		  Intent intent = new Intent(this, ProcedureActivity.class);
 		  startActivity(intent);

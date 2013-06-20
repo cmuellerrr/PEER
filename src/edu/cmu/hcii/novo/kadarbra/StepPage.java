@@ -9,18 +9,18 @@ import android.widget.TextView;
 public class StepPage extends LinearLayout{
 	String stepText;
 	
-	
+	// constructs a step page, which is a layout object that can have children objects - the type of layout object used will change in the future (probably a vertical ViewPager)
 	public StepPage(Context context, String text) {
 		super(context);
-		//this.setText(text);
 		
+		// adds text to the layout by adding a TextView
 		stepText = text;
-		// TODO Auto-generated constructor stub
 		TextView temp = new TextView(context);
 		temp.setText(stepText);
 		temp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
-		
 		this.addView(temp);
+		
+		
 		//this.setBackgroundColor(Color.RED);
 	}
 	
