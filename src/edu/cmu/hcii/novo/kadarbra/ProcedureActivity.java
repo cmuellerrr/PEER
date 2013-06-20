@@ -19,6 +19,7 @@ import android.os.Build;
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
 	ViewPager viewPager;
+	Breadcrumb breadcrumb;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class ProcedureActivity extends Activity {
 		setContentView(R.layout.activity_procedure);
 		
 		initViewPager();
-
+		initBreadcrumb();
 	}
 
 	
@@ -60,10 +61,16 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
-				
+				breadcrumb.setCurrentStep(arg0+1);
 			}
 			
 		});
+	}
+	
+	private void initBreadcrumb(){
+		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
+		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
+		breadcrumb.setCurrentStep(1);
 	}
 	
 	

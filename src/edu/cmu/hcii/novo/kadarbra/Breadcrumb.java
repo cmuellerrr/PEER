@@ -25,17 +25,23 @@ public class Breadcrumb extends View{
 	private void init(){
 		p = new Paint();
 		p.setColor(Color.BLACK);
+		p.setTextSize(50f);
+		
 	}
 	
 	
-	public void updateStep(int step){
+	public void setCurrentStep(int step){
 		curStep = step;
 		invalidate();
+	}
+
+	public void setTotalSteps(int totsteps){
+		totalSteps = totsteps;
 	}
 	
 	@Override
 	public void onDraw(Canvas c){	
-		c.drawText(""+curStep, 0, 0, p);
+		c.drawText(curStep+"/"+totalSteps, 50, 50, p);
 	}
 	
 }
