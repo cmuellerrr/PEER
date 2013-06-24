@@ -3,23 +3,33 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.WindowManager;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
+	private MainApp MainApp;
 	
-	Procedure procedure;
-	ViewPager viewPager;
-	Breadcrumb breadcrumb;
+	private Procedure procedure;
+	private ViewPager viewPager;
+	private Breadcrumb breadcrumb;
 	
+	private DataUpdateReceiver dataUpdateReceiver;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		MainApp = (MainApp)this.getApplicationContext();
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -66,7 +76,6 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
-				
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
 			}
 			
@@ -88,25 +97,34 @@ public class ProcedureActivity extends Activity {
         Log.v(TAG, "onStart");   
     }
 	
-    // The activity has become visible (it is now "resumed").     
+    // The activity has become visible (it is now "resumed").
     @Override
     protected void onResume() {
         super.onResume();
+        MainApp.setCurrentActivity(this);
         Log.v(TAG, "onResume");
 
+        if (dataUpdateReceiver == null) 
+        	dataUpdateReceiver = new DataUpdateReceiver();
+        IntentFilter intentFilter = new IntentFilter("command");
+        registerReceiver(dataUpdateReceiver, intentFilter);
     }
     
     // The activity is paused
     @Override
     protected void onPause(){
     	super.onPause();
+    	clearReferences();
     	Log.v(TAG, "onPause");
+    	if (dataUpdateReceiver != null) 
+    		unregisterReceiver(dataUpdateReceiver);
     }
     
     // The activity is no longer visible (it is now "stopped")
     @Override
     protected void onStop() {
         super.onStop();
+        clearReferences();
         Log.v(TAG, "onStop");
     }
     
@@ -114,34 +132,48 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearReferences();
         Log.v(TAG, "onDestroy");
     }
-	
+    
+    private void clearReferences() {
+    	Activity currActivity = MainApp.getCurrentActivity();
+    	if (currActivity != null && currActivity.equals(this))
+    		MainApp.setCurrentActivity(null);
+    }
+    
+	// Listens to broadcast messages
+    private class DataUpdateReceiver extends BroadcastReceiver {
+    	@Override
+        public void onReceive(Context context, Intent intent) {
+        	Log.v(TAG, "on receive: " +intent.getAction());
+            if (intent.getAction().equals("command")) {
+            	Bundle b = intent.getExtras();
+            	String msg = b.getString("msg");
+            	
+            	Log.v(TAG, msg);
+            	
+            	// For testing test input 
+            	if (msg.equals("Back")){
+            		prevPage();
+            	}else if (msg.equals("Next")){
+            		nextPage();
+            	}
+            	
+          }
+          
+        }
+    }
+   
+    private void prevPage(){
+    	if (viewPager.getCurrentItem()>0)
+    		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
+    	else
+    		finish();
+    }
+    private void nextPage(){
+    	if (viewPager.getCurrentItem()<viewPager.getChildCount());
+    		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
+    }
 
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.procedure, menu);
-		return true;
-	}
-	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-*/
 }
