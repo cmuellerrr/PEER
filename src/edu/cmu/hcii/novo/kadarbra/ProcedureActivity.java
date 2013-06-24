@@ -1,29 +1,29 @@
 package edu.cmu.hcii.novo.kadarbra;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.support.v4.app.NavUtils;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.annotation.TargetApi;
-import android.os.Build;
+import android.util.Log;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
+	
+	Procedure procedure;
 	ViewPager viewPager;
 	Breadcrumb breadcrumb;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Intent intent = getIntent();
+		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
+		
 		setContentView(R.layout.activity_procedure);
 		
 		initViewPager(); // initializes ViewPager (the horizontal swiping UI element)
@@ -34,11 +34,12 @@ public class ProcedureActivity extends Activity {
 	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
-		String[] testStr={"1","2","3","4","5"}; // dummy data that serves as text for the step pages
 		ArrayList<StepPage> sp = new ArrayList<StepPage>();
 		
-		for (int i = 0; i<5; i++){ // populates the StepPage array with dummy data
-			sp.add(new StepPage(this, testStr[i]));
+		for (int i = 0; i < procedure.getNumSteps(); i++){ // populates the StepPage array with dummy data
+			//TODO this could be more efficient -- too many calls to the getters
+			sp.add(new StepPage(this, procedure.getStep(i)));
+			//TODO recursively add the substeps
 		}
 		
 		PagerAdapter pagerAdapter = new StepPagerAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager

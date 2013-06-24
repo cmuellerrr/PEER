@@ -1,28 +1,23 @@
 package edu.cmu.hcii.novo.kadarbra;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.DataSetObserver;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";	// used for logging purposes
+	public final static String PROCEDURE = "edu.cmu.hcii.novo.kadarbra.PROCEDURE";
 	
 	ListView procedureListView; // android widget for lists
+	List<Procedure> procedures;
 	
 	
 	@Override
@@ -30,7 +25,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-
+		procedures = ProcedureFactory.getProcedures(this);
+		
 		initExampleList();
 	}
 	
@@ -40,8 +36,8 @@ public class MainActivity extends Activity {
 	
 		final ArrayList<String> procedureList = new ArrayList<String>();
 		
-		for (int i = 0; i < 10; i++){ // dummy data that fills the list up
-			procedureList.add("Procedure #"+i);
+		for (int i = 0; i < procedures.size(); i++){ // dummy data that fills the list up
+			procedureList.add(procedures.get(i).getTitle());
 		}
 		
 		final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, procedureList);
@@ -53,22 +49,15 @@ public class MainActivity extends Activity {
 		      @Override
 		      public void onItemClick(AdapterView<?> parent, final View view,
 		          int position, long id) {
-		    	  //if (position==0){
-		    		  Intent intent = new Intent(parent.getContext(), ProcedureActivity.class);
-		    		  startNewActivity(); 
-		    	 // }
+		    	  
+		    	  Log.i(TAG, "Selected " + position);
+		    	  Intent intent = new Intent(parent.getContext(), ProcedureActivity.class);
+		    	  intent.putExtra(PROCEDURE, procedures.get(position));
+		    	  startActivity(intent); 
 		      }
 
 		    });		
-	}
-	
-	
-	// This function currently starts the ProcedureActivity activity
-	private void startNewActivity(){
-		  Intent intent = new Intent(this, ProcedureActivity.class);
-		  startActivity(intent);
-	}
-	
+	}	
 
     // The activity is about to become visible.
     @Override

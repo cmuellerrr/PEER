@@ -3,6 +3,7 @@
  */
 package edu.cmu.hcii.novo.kadarbra;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,8 +14,12 @@ import java.util.List;
  * @author Chris
  *
  */
-public class Procedure {
+public class Procedure implements Serializable {
 
+	/**
+	 * Auto-Generated serial id
+	 */
+	private static final long serialVersionUID = -5333895722021665909L;
 	private String title;
 	private String objective;
 	private String duration;
@@ -59,7 +64,22 @@ public class Procedure {
 			if (index <= stepIndex) stepIndex++;
 		}
 	}
+	
+	/**
+	 * @param index
+	 * @return the step at index
+	 */
+	public Step getStep(int index) {
+		return steps.get(index);
+	}
 
+	/**
+	 * @return the number of steps
+	 */
+	public int getNumSteps() {
+		return steps.size();
+	}
+	
 	/**
 	 * @return the title
 	 */

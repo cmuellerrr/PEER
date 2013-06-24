@@ -3,14 +3,19 @@
  */
 package edu.cmu.hcii.novo.kadarbra;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Chris
  *
  */
-public class Step {
+public class Step implements Serializable {
 	
+	/**
+	 * Auto-Generated serial id
+	 */
+	private static final long serialVersionUID = -4348295150944687945L;
 	private String number;
 	private String text;
 	private List<Step> substeps;
@@ -46,5 +51,48 @@ public class Step {
 			substeps.add(index, step);
 			if (index <= substepIndex) substepIndex ++;
 		}
+	}
+	
+	/**
+	 * @param index
+	 * @return the step at index
+	 */
+	public Step getSubstep(int index) {
+		return substeps.get(index);
+	}
+	
+	/**
+	 * @return the number of steps
+	 */
+	public int getNumSubsteps() {
+		return substeps.size();
+	}
+
+	/**
+	 * @return the number
+	 */
+	public String getNumber() {
+		return number;
+	}
+
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	/**
+	 * @return the text
+	 */
+	public String getText() {
+		return text;
+	}
+
+	/**
+	 * @param text the text to set
+	 */
+	public void setText(String text) {
+		this.text = text;
 	}
 }
