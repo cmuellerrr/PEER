@@ -12,7 +12,7 @@ import android.util.Log;
 public class MainApp extends Application{
 	private static String TAG = "MainApp"; // string used for Logs
 	
-	private Activity mCurrentActivity = null;
+	private static Activity mCurrentActivity = null;
 	private DataUpdateReceiver dataUpdateReceiver; // receives broadcast messages from ConnectionService
 
 	
@@ -25,12 +25,20 @@ public class MainApp extends Application{
         registerReceiver(dataUpdateReceiver, intentFilter);
 	}
 	
-	public Activity getCurrentActivity(){
+	/**
+	 * Returns current activity.
+	 * @param mCurrentAct current activity
+	 */
+    public static Activity getCurrentActivity(){
 		return mCurrentActivity;
 	}
 	
-	public void setCurrentActivity(Activity mCurrentActivity){
-	    this.mCurrentActivity = mCurrentActivity;
+	/**
+	 * For keeping track of current activity.
+	 * @param mCurrentAct
+	 */
+	public static void setCurrentActivity(Activity mCurrentAct){
+	    mCurrentActivity = mCurrentAct;
 	}
 	
     // receives broadcast messages from ConnectionService

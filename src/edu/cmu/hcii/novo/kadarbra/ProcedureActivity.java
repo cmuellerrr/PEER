@@ -23,13 +23,15 @@ public class ProcedureActivity extends Activity {
 	private Breadcrumb breadcrumb;
 	
 	private DataUpdateReceiver dataUpdateReceiver;
-
+	private ProcedureActivity mProcedureActivity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainApp = (MainApp)this.getApplicationContext();
+		mProcedureActivity = this;
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -147,7 +149,7 @@ public class ProcedureActivity extends Activity {
     	@Override
         public void onReceive(Context context, Intent intent) {
         	Log.v(TAG, "on receive: " +intent.getAction());
-            if (intent.getAction().equals("command")) {
+            if (intent.getAction().equals("command") && MainApp.getCurrentActivity()==mProcedureActivity) {
             	Bundle b = intent.getExtras();
             	String msg = b.getString("msg");
             	
