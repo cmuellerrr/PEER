@@ -31,13 +31,13 @@ public class MainActivity extends Activity {
 	}
 	
 	// Initializes the example list
-	private void initExampleList(){
+	private void initExampleList() {
 		procedureListView = (ListView) findViewById(R.id.listView1);
 	
 		final ArrayList<String> procedureList = new ArrayList<String>();
 		
-		for (int i = 0; i < procedures.size(); i++){ // dummy data that fills the list up
-			procedureList.add(procedures.get(i).getTitle());
+		for (int i = 0; i < procedures.size(); i++) { // dummy data that fills the list up
+			procedureList.add(procedures.get(i).getNumber() + ": " + procedures.get(i).getTitle());
 		}
 		
 		final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, procedureList);
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
     
     // The activity is paused
     @Override
-    protected void onPause(){
+    protected void onPause() {
     	super.onPause();
     	Log.v(TAG, "onPause");
     }

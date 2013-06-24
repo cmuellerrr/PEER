@@ -92,6 +92,9 @@ public class ProcedureFactory {
 	private static Procedure readProcedure(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing procedure");
 		
+		String section = null;
+		String subsection = null;
+		String sub_subsection = null;
 		String title = null;
 		String objective = null;
 		String duration = null;	
@@ -108,7 +111,13 @@ public class ProcedureFactory {
 	        String name = parser.getName();
 	       
 	        //Get the attributes
-	        if (name.equals("title")) {
+	        if (name.equals("section")) {
+	        	section = readTag(parser, "section");
+	        } else if (name.equals("subsection")) {
+	        	subsection = readTag(parser, "subsection");
+	        } else if (name.equals("sub_subsection")) {
+	        	sub_subsection = readTag(parser, "sub_subsection");
+	        } else if (name.equals("title")) {
 	        	title = readTag(parser, "title");
 	        } else if (name.equals("objective")) {
 	        	objective = readTag(parser, "objective");
@@ -120,7 +129,7 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }  
-	    return new Procedure(title, objective, duration, steps);
+	    return new Procedure(section + "." + subsection + "." + sub_subsection, title, objective, duration, steps);
 	}
 	
 	/**

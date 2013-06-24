@@ -25,7 +25,7 @@ public class Breadcrumb extends View{
 	// initializes the paint used by this class for drawing
 	private void init(){
 		p = new Paint();
-		p.setColor(Color.BLACK);
+		p.setColor(Color.CYAN);
 		p.setTextSize(50f);
 		
 	}

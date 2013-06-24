@@ -16,7 +16,7 @@ public class StepPage extends LinearLayout {
 		// adds text to the layout by adding a TextView
 		this.step = step;
 		TextView temp = new TextView(context);
-		temp.setText(step.getText());
+		temp.setText(step.getNumber() + ": " + step.getText());
 		temp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
 		this.addView(temp);
 		

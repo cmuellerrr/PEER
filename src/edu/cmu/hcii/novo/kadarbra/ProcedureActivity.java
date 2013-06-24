@@ -66,6 +66,7 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
+				
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
 			}
 			

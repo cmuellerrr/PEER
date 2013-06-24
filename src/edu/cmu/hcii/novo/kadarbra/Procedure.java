@@ -20,6 +20,7 @@ public class Procedure implements Serializable {
 	 * Auto-Generated serial id
 	 */
 	private static final long serialVersionUID = -5333895722021665909L;
+	private String number;
 	private String title;
 	private String objective;
 	private String duration;
@@ -35,7 +36,8 @@ public class Procedure implements Serializable {
 	 * @param duration
 	 * @param steps
 	 */
-	public Procedure(String title, String objective, String duration, List<Step> steps) {
+	public Procedure(String number, String title, String objective, String duration, List<Step> steps) {
+		this.number = number;
 		this.title = title;
 		this.objective = objective;
 		this.duration = duration;
@@ -80,6 +82,20 @@ public class Procedure implements Serializable {
 		return steps.size();
 	}
 	
+	/**
+	 * @return the number
+	 */
+	public String getNumber() {
+		return number;
+	}
+
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
 	/**
 	 * @return the title
 	 */
