@@ -29,7 +29,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.cmu.hcii.novo.kadarbra.MainActivity" />
         </activity>
-         <service android:name=".ConnectionService" />
+        <service android:name=".ConnectionService" />
         
 
     </application>
