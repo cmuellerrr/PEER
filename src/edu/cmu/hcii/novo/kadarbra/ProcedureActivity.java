@@ -1,6 +1,7 @@
 package edu.cmu.hcii.novo.kadarbra;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -23,13 +24,15 @@ public class ProcedureActivity extends Activity {
 	private Breadcrumb breadcrumb;
 	
 	private DataUpdateReceiver dataUpdateReceiver;
-
+	private ProcedureActivity mProcedureActivity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainApp = (MainApp)this.getApplicationContext();
+		mProcedureActivity = this;
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -44,13 +47,7 @@ public class ProcedureActivity extends Activity {
 	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
-		ArrayList<StepPage> sp = new ArrayList<StepPage>();
-		
-		for (int i = 0; i < procedure.getNumSteps(); i++){ // populates the StepPage array with dummy data
-			//TODO this could be more efficient -- too many calls to the getters
-			sp.add(new StepPage(this, procedure.getStep(i)));
-			//TODO recursively add the substeps
-		}
+		List<StepPage> sp = setupStepPages();
 		
 		PagerAdapter pagerAdapter = new StepPagerAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
 		
@@ -80,6 +77,48 @@ public class ProcedureActivity extends Activity {
 			}
 			
 		});
+	}
+	
+	/**
+	 * Setup the procedure steps as a list of step pages.
+	 * 
+	 * @return
+	 */
+	private List<StepPage> setupStepPages() {
+		List<StepPage> sp = new ArrayList<StepPage>();
+		
+		for (int i = 0; i < procedure.getNumSteps(); i++){ // populates the StepPage array with dummy data
+			sp.addAll(setupStepPage(procedure.getStep(i), null));
+		}
+		
+		return sp;
+	}
+	
+	/**
+	 * Setup the given step as a list of step pages.  Recursively
+	 * loops through any substeps to get all children.
+	 * 
+	 * TODO: redo how step pages get their parents. this is dumb
+	 * 
+	 * @param s
+	 * @return
+	 */
+	private List<StepPage> setupStepPage(Step s, Step p) {
+		List<StepPage> sp = new ArrayList<StepPage>();
+		
+		if (s.getNumSubsteps() > 0) {
+			for (int i = 0; i < s.getNumSubsteps(); i++) {
+				sp.addAll(setupStepPage(s.getSubstep(i), s));
+			}
+		} else {
+			if (p != null) {
+				sp.add(new StepPage(this, s, p));
+			} else {
+				sp.add(new StepPage(this, s));
+			}
+		}
+		
+		return sp;
 	}
 	
 	// initalizes the Breadcrumb (currently just step numbers)
@@ -147,7 +186,7 @@ public class ProcedureActivity extends Activity {
     	@Override
         public void onReceive(Context context, Intent intent) {
         	Log.v(TAG, "on receive: " +intent.getAction());
-            if (intent.getAction().equals("command")) {
+            if (intent.getAction().equals("command") && MainApp.getCurrentActivity()==mProcedureActivity) {
             	Bundle b = intent.getExtras();
             	String msg = b.getString("msg");
             	

@@ -1,6 +1,6 @@
 package edu.cmu.hcii.novo.kadarbra;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
@@ -10,11 +10,11 @@ import android.view.ViewGroup.LayoutParams;
 
 public class StepPagerAdapter extends PagerAdapter {
 	Activity activity;
-	ArrayList<StepPage> steps;
+	List<StepPage> steps;
 	
 	// constructor
 		// takes in the current activity and an ArrayList of StepPage objects
-	public StepPagerAdapter(Activity act, ArrayList<StepPage> stepPages){
+	public StepPagerAdapter(Activity act, List<StepPage> stepPages){
 		steps = stepPages;
 		activity = act;
 	}
