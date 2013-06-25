@@ -4,6 +4,7 @@
 package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,6 +26,8 @@ public class Procedure implements Serializable {
 	private String title;
 	private String objective;
 	private String duration;
+	private List<ExecNote> execNotes;
+	private List<StowageItem> stowageItems;
 	private List<Step> steps;
 	private int stepIndex;
 	
@@ -42,6 +45,32 @@ public class Procedure implements Serializable {
 		this.title = title;
 		this.objective = objective;
 		this.duration = duration;
+		this.execNotes = new ArrayList<ExecNote>();
+		this.stowageItems = new ArrayList<StowageItem>();
+		this.steps = steps;
+		this.stepIndex = 0;
+	}
+	
+	/**
+	 * Create a procedure object with the given properties.  The index is then set to
+	 * 0.
+	 * 
+	 * @param number
+	 * @param title
+	 * @param objective
+	 * @param duration
+	 * @param execNotes
+	 * @param stowageItems
+	 * @param steps
+	 */
+	public Procedure(String number, String title, String objective, String duration, 
+			List<ExecNote> execNotes, List<StowageItem> stowageItems, List<Step> steps) {
+		this.number = number;
+		this.title = title;
+		this.objective = objective;
+		this.duration = duration;
+		this.execNotes = execNotes;
+		this.stowageItems = stowageItems;
 		this.steps = steps;
 		this.stepIndex = 0;
 	}
@@ -66,21 +95,6 @@ public class Procedure implements Serializable {
 			steps.add(index, step);
 			if (index <= stepIndex) stepIndex++;
 		}
-	}
-	
-	/**
-	 * @param index
-	 * @return the step at index
-	 */
-	public Step getStep(int index) {
-		return steps.get(index);
-	}
-
-	/**
-	 * @return the number of steps
-	 */
-	public int getNumSteps() {
-		return steps.size();
 	}
 	
 	/**
@@ -140,6 +154,58 @@ public class Procedure implements Serializable {
 	}
 
 	/**
+	 * @return the execNotes
+	 */
+	public List<ExecNote> getExecNotes() {
+		return execNotes;
+	}
+
+	/**
+	 * @param execNotes the execNotes to set
+	 */
+	public void setExecNotes(List<ExecNote> execNotes) {
+		this.execNotes = execNotes;
+	}
+
+	/**
+	 * 
+	 * @return the number of execution notes
+	 */
+	public int getNumExecNotes() {
+		return execNotes.size();
+	}
+
+	/**
+	 * @return the stowageItems
+	 */
+	public List<StowageItem> getStowageItems() {
+		return stowageItems;
+	}
+
+	/**
+	 * @param stowageItems the stowageItems to set
+	 */
+	public void setStowageItems(List<StowageItem> stowageItems) {
+		this.stowageItems = stowageItems;
+	}
+
+	/**
+	 * 
+	 * @return the number of stowage items
+	 */
+	public int getNumStowageItems() {
+		return stowageItems.size();
+	}
+
+	/**
+	 * @param index
+	 * @return the step at index
+	 */
+	public Step getStep(int index) {
+		return steps.get(index);
+	}
+
+	/**
 	 * @return the steps
 	 */
 	public List<Step> getSteps() {
@@ -151,6 +217,13 @@ public class Procedure implements Serializable {
 	 */
 	public void setSteps(List<Step> steps) {
 		this.steps = steps;
+	}
+
+	/**
+	 * @return the number of steps
+	 */
+	public int getNumSteps() {
+		return steps.size();
 	}
 
 	/**
