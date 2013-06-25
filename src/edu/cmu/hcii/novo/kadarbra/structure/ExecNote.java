@@ -3,14 +3,20 @@
  */
 package edu.cmu.hcii.novo.kadarbra.structure;
 
+import java.io.Serializable;
+
 /**
  * A class to represent execution notes.  
  * 
  * @author Chris
  *
  */
-public class ExecNote {
+public class ExecNote implements Serializable {
 
+	/**
+	 * Auto-Generated serial id
+	 */
+	private static final long serialVersionUID = -2878004998524413511L;
 	private String text;
 	
 	/**

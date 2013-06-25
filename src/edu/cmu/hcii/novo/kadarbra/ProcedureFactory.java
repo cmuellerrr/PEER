@@ -8,13 +8,14 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
-import edu.cmu.hcii.novo.kadarbra.structure.Step;
-
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.util.Xml;
+import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.Step;
+import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
 public class ProcedureFactory {
 	private static final String TAG = "ProcedureFactory";
@@ -101,7 +102,9 @@ public class ProcedureFactory {
 		String title = null;
 		String objective = null;
 		String duration = null;	
-		List<Step> steps = new ArrayList<Step>();		
+		List<ExecNote> execNotes = null;
+		List<StowageItem> stowageItems = null;
+		List<Step> steps = null;		
 		
 		//This is the tag we are looking for
 	    parser.require(XmlPullParser.START_TAG, ns, "procedure");
@@ -111,28 +114,235 @@ public class ProcedureFactory {
 	        if (parser.getEventType() != XmlPullParser.START_TAG) {
 	            continue;
 	        }
-	        String name = parser.getName();
+	        String tag = parser.getName();
 	       
 	        //Get the attributes
-	        if (name.equals("section")) {
-	        	section = readTag(parser, "section");
-	        } else if (name.equals("subsection")) {
-	        	subsection = readTag(parser, "subsection");
-	        } else if (name.equals("sub_subsection")) {
-	        	sub_subsection = readTag(parser, "sub_subsection");
-	        } else if (name.equals("title")) {
-	        	title = readTag(parser, "title");
-	        } else if (name.equals("objective")) {
-	        	objective = readTag(parser, "objective");
-	        } else if (name.equals("duration")) {
-	        	duration = readTag(parser, "duration");
-	        } else if (name.equals("steps")) {
+	        if (tag.equals("section")) {
+	        	section = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("subsection")) {
+	        	subsection = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("sub_subsection")) {
+	        	sub_subsection = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("title")) {
+	        	title = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("objective")) {
+	        	objective = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("duration")) {
+	        	duration = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("execution_notes")) {
+	        	execNotes = readExecNotes(parser);
+	        	
+	        } else if (tag.equals("stowage_notes")) {
+	        	stowageItems = readStowageNotes(parser);
+	        	
+	    	} else if (tag.equals("steps")) {
 	            steps = readSteps(parser);
+	            
 	        } else {
 	            skip(parser);
 	        }
 	    }  
-	    return new Procedure(section + "." + subsection + "." + sub_subsection, title, objective, duration, steps);
+	    return new Procedure(section + "." + subsection + "." + sub_subsection, 
+	    		title, objective, duration, execNotes, stowageItems, steps);
+	}
+	
+	/**
+	 * Parse the xml for a list of overall execution notes
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting list of execution notes
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static List<ExecNote> readExecNotes(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing execution notes");
+		
+		List<ExecNote> execNotes = new ArrayList<ExecNote>();
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "execution_notes");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("note")) {
+	        	execNotes.add(readExecNote(parser));
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return execNotes;
+	}
+	
+	/**
+	 * Parse xml for an execution note
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting execution note
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static ExecNote readExecNote(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing execution note");
+		
+		String step = null;
+		String substep = null;
+		String text = null;
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "note");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("step")) {
+	        	step = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("substep")) {
+	        	substep = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("text")) {
+	        	text = readTag(parser, tag);
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return new ExecNote(text);
+	}
+	
+	/**
+	 * Parse the xml for a list of overall stowage items
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting list of stowage items
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static List<StowageItem> readStowageNotes(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing stowage notes");
+		
+		List<StowageItem> stowageItems = new ArrayList<StowageItem>();
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "stowage_notes");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("note")) {
+	        	stowageItems.add(readStowageNote(parser));
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return stowageItems;
+	}
+	
+	/**
+	 * Parse xml for a stowage note
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting stowage item from the note
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static StowageItem readStowageNote(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing stowage note");
+		
+		StowageItem item = null;
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "note");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("item")) {
+	        	item = readStowageItem(parser);
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return item;
+	}
+	
+	/**
+	 * Parse xml for an execution note
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resultin execution note
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static StowageItem readStowageItem(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.v(TAG, "Parsing stowage item");
+		
+		String name = null;
+		int quantity = 0;
+		String itemCode = null;
+		String binCode = null;
+		String text = null;
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "item");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("name")) {
+	        	name = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("quantity")) {
+	        	quantity = Integer.parseInt(readTag(parser, tag));
+	        	
+	        } else if (tag.equals("item_code")) {
+	        	itemCode = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("bin_code")) {
+	        	binCode = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("text")) {
+	        	text = readTag(parser, tag);
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return new StowageItem(name, quantity, itemCode, binCode, text);
 	}
 	
 	/**
@@ -157,10 +367,10 @@ public class ProcedureFactory {
 	        if (parser.getEventType() != XmlPullParser.START_TAG) {
 	            continue;
 	        }
-	        String name = parser.getName();
+	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (name.equals("parent_step")) {
+	        if (tag.equals("parent_step")) {
 	        	steps.add(readParentStep(parser));
 	        } else {
 	            skip(parser);
@@ -192,15 +402,18 @@ public class ProcedureFactory {
 	        if (parser.getEventType() != XmlPullParser.START_TAG) {
 	            continue;
 	        }
-	        String name = parser.getName();
+	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (name.equals("number")) {
-	            number = readTag(parser, "number");
-	        } else if (name.equals("text")) {
-	            text = readTag(parser, "text");
-	        } else if (name.equals("substep")) {
+	        if (tag.equals("number")) {
+	            number = readTag(parser, tag);
+	        
+	        } else if (tag.equals("text")) {
+	            text = readTag(parser, tag);
+	            
+	        } else if (tag.equals("substep")) {
 	            substeps.add(readSubstep(parser));
+	            
 	        } else {
 	            skip(parser);
 	        }
@@ -233,13 +446,15 @@ public class ProcedureFactory {
 	        if (parser.getEventType() != XmlPullParser.START_TAG) {
 	            continue;
 	        }
-	        String name = parser.getName();
+	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (name.equals("number")) {
-	            number = readTag(parser, "number");
-	        } else if (name.equals("text")) {
-	            text = readTag(parser, "text");
+	        if (tag.equals("number")) {
+	            number = readTag(parser, tag);
+	            
+	        } else if (tag.equals("text")) {
+	            text = readTag(parser, tag);
+	            
 	        } else {
 	            skip(parser);
 	        }

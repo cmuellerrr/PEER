@@ -3,6 +3,8 @@
  */
 package edu.cmu.hcii.novo.kadarbra.structure;
 
+import java.io.Serializable;
+
 /**
  * A class to represent stowage items.  This is the
  * stuff that gets put into the stowage table.
@@ -10,8 +12,12 @@ package edu.cmu.hcii.novo.kadarbra.structure;
  * @author Chris
  *
  */
-public class StowageItem {
+public class StowageItem implements Serializable {
 
+	/**
+	 * Auto-Generated serial id
+	 */
+	private static final long serialVersionUID = -5599609840863259369L;
 	//TODO location?
 	private String name;
 	private int quantity;
