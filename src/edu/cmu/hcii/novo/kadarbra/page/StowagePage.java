@@ -46,7 +46,7 @@ public class StowagePage extends TableLayout {
 		    item.setText(s.getName());
 		    
 		    TextView quant = new TextView(context);
-		    quant.setText(s.getQuantity());
+		    quant.setText(String.valueOf(s.getQuantity()));
 		    
 		    TextView code = new TextView(context);
 		    code.setText(s.getItemCode());

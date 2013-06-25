@@ -3,11 +3,6 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.cmu.hcii.novo.kadarbra.page.StepPage;
-import edu.cmu.hcii.novo.kadarbra.page.StepPagerAdapter;
-import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
-import edu.cmu.hcii.novo.kadarbra.structure.Step;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,7 +13,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
+import edu.cmu.hcii.novo.kadarbra.page.StepPage;
+import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
+import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
+import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
@@ -52,9 +55,9 @@ public class ProcedureActivity extends Activity {
 	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
-		List<StepPage> sp = setupStepPages();
+		List<ViewGroup> sp = setupPages();
 		
-		PagerAdapter pagerAdapter = new StepPagerAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
+		PagerAdapter pagerAdapter = new PageAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
 		
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setCurrentItem(0);
@@ -89,14 +92,20 @@ public class ProcedureActivity extends Activity {
 	 * 
 	 * @return
 	 */
-	private List<StepPage> setupStepPages() {
-		List<StepPage> sp = new ArrayList<StepPage>();
+	private List<ViewGroup> setupPages() {
+		List<ViewGroup> result = new ArrayList<ViewGroup>();
+		
+		result.add(new TitlePage(this, procedure.getNumber(), procedure.getTitle(), procedure.getObjective(), procedure.getDuration()));
+		
+		result.add(new StowagePage(this, procedure.getStowageItems()));
+		
+		result.add(new ExecNotesPage(this, procedure.getExecNotes()));
 		
 		for (int i = 0; i < procedure.getNumSteps(); i++){ // populates the StepPage array with dummy data
-			sp.addAll(setupStepPage(procedure.getStep(i), null));
+			result.addAll(setupStepPage(procedure.getStep(i), null));
 		}
 		
-		return sp;
+		return result;
 	}
 	
 	/**
@@ -105,25 +114,25 @@ public class ProcedureActivity extends Activity {
 	 * 
 	 * TODO: redo how step pages get their parents. this is dumb
 	 * 
-	 * @param s
+	 * @param step
 	 * @return
 	 */
-	private List<StepPage> setupStepPage(Step s, Step p) {
-		List<StepPage> sp = new ArrayList<StepPage>();
+	private List<ViewGroup> setupStepPage(Step step, Step parent) {
+		List<ViewGroup> result = new ArrayList<ViewGroup>();
 		
-		if (s.getNumSubsteps() > 0) {
-			for (int i = 0; i < s.getNumSubsteps(); i++) {
-				sp.addAll(setupStepPage(s.getSubstep(i), s));
+		if (step.getNumSubsteps() > 0) {
+			for (int i = 0; i < step.getNumSubsteps(); i++) {
+				result.addAll(setupStepPage(step.getSubstep(i), step));
 			}
 		} else {
-			if (p != null) {
-				sp.add(new StepPage(this, s, p));
+			if (parent != null) {
+				result.add(new StepPage(this, step, parent));
 			} else {
-				sp.add(new StepPage(this, s));
+				result.add(new StepPage(this, step));
 			}
 		}
 		
-		return sp;
+		return result;
 	}
 	
 	// initalizes the Breadcrumb (currently just step numbers)
