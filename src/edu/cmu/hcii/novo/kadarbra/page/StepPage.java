@@ -1,8 +1,7 @@
-package edu.cmu.hcii.novo.kadarbra;
+package edu.cmu.hcii.novo.kadarbra.page;
 
+import edu.cmu.hcii.novo.kadarbra.structure.Step;
 import android.content.Context;
-import android.graphics.Color;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 

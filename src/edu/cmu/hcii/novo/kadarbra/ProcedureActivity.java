@@ -3,6 +3,11 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cmu.hcii.novo.kadarbra.page.StepPage;
+import edu.cmu.hcii.novo.kadarbra.page.StepPagerAdapter;
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.Step;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,7 +45,7 @@ public class ProcedureActivity extends Activity {
 		setContentView(R.layout.activity_procedure);
 		
 		initViewPager(); // initializes ViewPager (the horizontal swiping UI element)
-		initBreadcrumb(); // initilizes the breadcrumb (the step numbers at the top)
+		initBreadcrumb(); // initializes the breadcrumb (the step numbers at the top)
 	}
 
 	

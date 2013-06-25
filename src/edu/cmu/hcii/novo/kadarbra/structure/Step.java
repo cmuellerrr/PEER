@@ -1,7 +1,7 @@
 /**
  * 
  */
-package edu.cmu.hcii.novo.kadarbra;
+package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
 import java.util.List;

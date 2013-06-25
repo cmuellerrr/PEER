@@ -3,6 +3,8 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;

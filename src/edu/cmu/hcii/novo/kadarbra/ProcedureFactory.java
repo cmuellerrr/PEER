@@ -8,6 +8,9 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.Step;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;

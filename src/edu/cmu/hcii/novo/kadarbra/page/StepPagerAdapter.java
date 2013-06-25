@@ -1,6 +1,7 @@
-package edu.cmu.hcii.novo.kadarbra;
+package edu.cmu.hcii.novo.kadarbra.page;
 
 import java.util.List;
+
 
 import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
