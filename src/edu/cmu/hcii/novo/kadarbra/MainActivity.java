@@ -3,8 +3,6 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -23,6 +21,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";	// used for logging purposes
@@ -58,13 +57,13 @@ public class MainActivity extends Activity {
 	private void initExampleList() {
 		procedureListView = (ListView) findViewById(R.id.listView1);
 	
-		final ArrayList<String> procedureList = new ArrayList<String>();
+		final List<String> procedureList = new ArrayList<String>();
 		
 		for (int i = 0; i < procedures.size(); i++) { // dummy data that fills the list up
 			procedureList.add(procedures.get(i).getNumber() + ": " + procedures.get(i).getTitle());
 		}
 		
-		final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, procedureList);
+		final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, procedureList);
 		procedureListView.setAdapter(adapter); // adapter is used to populate the ListView
 		
 		
