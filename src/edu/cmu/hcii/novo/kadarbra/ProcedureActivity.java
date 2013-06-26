@@ -142,11 +142,7 @@ public class ProcedureActivity extends Activity {
 				result.addAll(setupStepPage(step.getSubstep(i), step));
 			}
 		} else {
-			if (parent != null) {
-				result.add(new StepPage(this, step, parent));
-			} else {
-				result.add(new StepPage(this, step));
-			}
+			result.add(new StepPage(this, step, parent));
 		}
 		
 		return result;
