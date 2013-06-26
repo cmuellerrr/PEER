@@ -384,8 +384,12 @@ public class ProcedureFactory {
 	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (tag.equals("parent_step")) {
-	        	steps.add(readParentStep(parser));
+	        if (tag.equals("step")) {
+	        	steps.add(readStep(parser));
+	        	
+	        } else if (tag.equals("cycle")) {
+	        	steps.addAll(readCycle(parser));
+	        	
 	        } else {
 	            skip(parser);
 	        }
@@ -403,15 +407,15 @@ public class ProcedureFactory {
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static Step readParentStep(XmlPullParser parser) throws XmlPullParserException, IOException {
-		Log.d(TAG, "Parsing parent step");
+	private static Step readStep(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing step");
 		
 		String number = null;
 	    String text = null;
 	    List<Step> substeps = new ArrayList<Step>();
 	    
 	    //This is the tag we are looking for
-  		parser.require(XmlPullParser.START_TAG, ns, "parent_step");
+  		parser.require(XmlPullParser.START_TAG, ns, "step");
 	    
 	    //Until we get to the closing tag
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -427,8 +431,8 @@ public class ProcedureFactory {
 	        } else if (tag.equals("text")) {
 	            text = readTag(parser, tag);
 	            
-	        } else if (tag.equals("substep")) {
-	            substeps.add(readSubstep(parser, number));
+	        } else if (tag.equals("step")) {
+	            substeps.add(readStep(parser));
 	            
 	        } else {
 	            skip(parser);
@@ -438,26 +442,14 @@ public class ProcedureFactory {
 	}
 	
 	
-	
-	/**
-	 * Parse an xml document to create a substep.
-	 * 
-	 * TODO right now this doesn't look for further substeps
-	 * 
-	 * @param parser the xml to parse
-	 * @return a step object
-	 * @throws XmlPullParserException
-	 * @throws IOException
-	 */
-	private static Step readSubstep(XmlPullParser parser, String parentNumber)  throws XmlPullParserException, IOException {
-		Log.d(TAG, "Parsing substep");
+	private static List<Step> readCycle(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing cycle");
 		
-		String number = null;
-	    String text = null;
-	    List<Step> substeps = new ArrayList<Step>();
-
+		int repetitions = 0;
+	    List<Step> steps = new ArrayList<Step>();
+	    
 	    //This is the tag we are looking for
-	    parser.require(XmlPullParser.START_TAG, ns, "substep");
+  		parser.require(XmlPullParser.START_TAG, ns, "cycle");
 	    
 	    //Until we get to the closing tag
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -467,18 +459,25 @@ public class ProcedureFactory {
 	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (tag.equals("number")) {
-	            number = readTag(parser, tag);
-	            
-	        } else if (tag.equals("text")) {
-	            text = readTag(parser, tag);
-	            
+	        if (tag.equals("repetitions")) {
+	        	repetitions = Integer.parseInt(readTag(parser, tag));
+	        	
+	        } else if (tag.equals("step")) {
+	        	steps.add(readStep(parser));
+	        	
 	        } else {
 	            skip(parser);
 	        }
 	    }
+	    Log.v(TAG, "adding steps " + repetitions + " times");
 	    
-	    return new Step(parentNumber + "." + number, text, substeps);
+	    List<Step> result = new ArrayList<Step>();
+	    
+	    for (int i = 0; i < repetitions; i++) {
+	    	result.addAll(new ArrayList<Step>(steps));
+	    }
+	    
+	    return result;
 	}
 	
 	

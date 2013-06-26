@@ -134,6 +134,8 @@ public class ProcedureActivity extends Activity {
 	private List<ViewGroup> setupStepPage(Step step, Step parent) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
 		
+		//if (parent != null) step.setNumber(parent.getNumber() + "." + step.getNumber());
+		
 		int execNoteIndex = getExecNoteIndex(step.getNumber());
 		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
