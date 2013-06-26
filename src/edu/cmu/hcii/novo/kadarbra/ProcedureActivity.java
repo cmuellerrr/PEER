@@ -13,11 +13,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
-import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
+import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
 import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
@@ -33,6 +35,8 @@ public class ProcedureActivity extends Activity {
 	
 	private DataUpdateReceiver dataUpdateReceiver;
 	private ProcedureActivity mProcedureActivity;
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class ProcedureActivity extends Activity {
 		initBreadcrumb(); // initializes the breadcrumb (the step numbers at the top)
 	}
 
+	
 	
 	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
@@ -82,10 +87,19 @@ public class ProcedureActivity extends Activity {
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
+				/*if (!(viewPager.getChildAt(viewPager.getCurrentItem()).getClass() == StepPage.class)) {
+					Log.v(TAG, "Removing breadcrumb");
+					breadcrumb.setVisibility(View.INVISIBLE);
+				} else {
+					Log.v(TAG, "Removing breadcrumb");
+					breadcrumb.setVisibility(View.VISIBLE);
+				}*/
 			}
 			
 		});
 	}
+	
+	
 	
 	/**
 	 * Setup the procedure steps as a list of step pages.
@@ -107,6 +121,8 @@ public class ProcedureActivity extends Activity {
 		
 		return result;
 	}
+	
+	
 	
 	/**
 	 * Setup the given step as a list of step pages.  Recursively
@@ -135,12 +151,16 @@ public class ProcedureActivity extends Activity {
 		return result;
 	}
 	
+	
+	
 	// initalizes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
 		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
 		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
 		breadcrumb.setCurrentStep(1);
+		breadcrumb.setVisibility(View.INVISIBLE);
 	}
+	
 	
 	
 	// The activity is about to become visible.
@@ -150,6 +170,8 @@ public class ProcedureActivity extends Activity {
         Log.v(TAG, "onStart");   
     }
 	
+    
+    
     // The activity has become visible (it is now "resumed").
     @Override
     protected void onResume() {
@@ -163,6 +185,8 @@ public class ProcedureActivity extends Activity {
         registerReceiver(dataUpdateReceiver, intentFilter);
     }
     
+    
+    
     // The activity is paused
     @Override
     protected void onPause(){
@@ -173,6 +197,8 @@ public class ProcedureActivity extends Activity {
     		unregisterReceiver(dataUpdateReceiver);
     }
     
+    
+    
     // The activity is no longer visible (it is now "stopped")
     @Override
     protected void onStop() {
@@ -180,6 +206,8 @@ public class ProcedureActivity extends Activity {
         clearReferences();
         Log.v(TAG, "onStop");
     }
+    
+    
     
     // The activity is about to be destroyed.
     @Override
@@ -189,11 +217,15 @@ public class ProcedureActivity extends Activity {
         Log.v(TAG, "onDestroy");
     }
     
+    
+    
     private void clearReferences() {
     	Activity currActivity = MainApp.getCurrentActivity();
     	if (currActivity != null && currActivity.equals(this))
     		MainApp.setCurrentActivity(null);
     }
+    
+    
     
 	// Listens to broadcast messages
     private class DataUpdateReceiver extends BroadcastReceiver {
@@ -218,12 +250,17 @@ public class ProcedureActivity extends Activity {
         }
     }
    
+    
+    
     private void prevPage(){
     	if (viewPager.getCurrentItem()>0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
     	else
     		finish();
     }
+    
+    
+    
     private void nextPage(){
     	if (viewPager.getCurrentItem()<viewPager.getChildCount());
     		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);

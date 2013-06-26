@@ -23,6 +23,8 @@ public class ExecNotesPage extends LinearLayout {
 
 	private List<ExecNote> execNotes;
 	
+	
+	
 	/**
 	 * @param context
 	 */
@@ -33,13 +35,17 @@ public class ExecNotesPage extends LinearLayout {
 		this.execNotes = execNotes;
 
 		for (int i = 0; i < execNotes.size(); i++) {
-			TextView temp = new TextView(context);
-			temp.setText(execNotes.get(i).getText());
+			ExecNote curNote = execNotes.get(i);
+			
+			TextView temp = new TextView(context);			
+			temp.setText(curNote.getNumber() + ": " + curNote.getText());
 			temp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 			this.addView(temp);
 		}
 	}
 
+	
+	
 	/**
 	 * @param context
 	 * @param attrs

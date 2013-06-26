@@ -37,7 +37,7 @@ public class StepPage extends LinearLayout {
 		this.addView(parentView);
 		
 		TextView subView = new TextView(context);
-		subView.setText(parent.getNumber() + "." + step.getNumber() + ": " + step.getText());
+		subView.setText(step.getNumber() + ": " + step.getText());
 		subView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		this.addView(subView);
 	}
