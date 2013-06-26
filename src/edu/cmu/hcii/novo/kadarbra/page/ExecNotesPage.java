@@ -32,6 +32,11 @@ public class ExecNotesPage extends LinearLayout {
 		this.setOrientation(VERTICAL);
 		
 		this.execNotes = execNotes;
+		
+		TextView title = new TextView(context);
+		title.setText("Execution Notes");
+		title.setTextSize(40);
+		this.addView(title);
 
 		for (int i = 0; i < execNotes.size(); i++) {
 			ExecNote curNote = execNotes.get(i);

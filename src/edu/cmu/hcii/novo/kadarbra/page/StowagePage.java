@@ -33,6 +33,11 @@ public class StowagePage extends TableLayout {
 		
 		this.stowageItems = stowageItems;
 		
+		TextView title = new TextView(context);
+		title.setText("Stowage Instructions");
+		title.setTextSize(40);
+		this.addView(title);
+		
 		this.addView(getHeaderRow(context));
 		
 		for (int i = 0; i < stowageItems.size(); i++) {
