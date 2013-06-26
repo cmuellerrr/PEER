@@ -9,7 +9,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 
 /**

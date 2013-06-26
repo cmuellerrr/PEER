@@ -6,10 +6,7 @@ package edu.cmu.hcii.novo.kadarbra.page;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
