@@ -158,7 +158,7 @@ public class ProcedureActivity extends Activity {
 		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
 		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
 		breadcrumb.setCurrentStep(1);
-		breadcrumb.setVisibility(View.INVISIBLE);
+		//breadcrumb.setVisibility(View.INVISIBLE);
 	}
 	
 	
