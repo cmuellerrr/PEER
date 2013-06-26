@@ -7,9 +7,12 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
 /**
@@ -33,9 +36,9 @@ public class StowagePage extends TableLayout {
 		
 		this.stowageItems = stowageItems;
 		
-		TextView title = new TextView(context);
-		title.setText("Stowage Instructions");
-		title.setTextSize(40);
+		final LayoutInflater inflater = LayoutInflater.from(context);
+		TextView title = (TextView) inflater.inflate(R.layout.title_stowage_notes, (ViewGroup) this.getParent(), false);
+
 		this.addView(title);
 		
 		this.addView(getHeaderRow(context));

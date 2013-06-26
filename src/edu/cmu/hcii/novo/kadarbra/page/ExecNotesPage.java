@@ -7,8 +7,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 
 /**
@@ -33,9 +36,9 @@ public class ExecNotesPage extends LinearLayout {
 		
 		this.execNotes = execNotes;
 		
-		TextView title = new TextView(context);
-		title.setText("Execution Notes");
-		title.setTextSize(40);
+		final LayoutInflater inflater = LayoutInflater.from(context);
+		TextView title = (TextView) inflater.inflate(R.layout.title_execution_notes, (ViewGroup) this.getParent(), false);
+		
 		this.addView(title);
 
 		for (int i = 0; i < execNotes.size(); i++) {
