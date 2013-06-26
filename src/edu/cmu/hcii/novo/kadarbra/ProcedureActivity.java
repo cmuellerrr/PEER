@@ -20,6 +20,7 @@ import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
 import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
+import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
@@ -121,8 +122,9 @@ public class ProcedureActivity extends Activity {
 	
 	
 	/**
-	 * Setup the given step as a list of step pages.  Recursively
-	 * loops through any substeps to get all children.
+	 * Setup the given step as a list of step pages.  First checks for
+	 * and sets any execution notes which may exist for the given step.
+	 * Recursively loops through any substeps to get all children.
 	 * 
 	 * TODO: redo how step pages get their parents. this is dumb
 	 * 
@@ -131,6 +133,9 @@ public class ProcedureActivity extends Activity {
 	 */
 	private List<ViewGroup> setupStepPage(Step step, Step parent) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
+		
+		int execNoteIndex = getExecNoteIndex(step.getNumber());
+		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
 		if (step.getNumSubsteps() > 0) {
 			for (int i = 0; i < step.getNumSubsteps(); i++) {
@@ -145,6 +150,24 @@ public class ProcedureActivity extends Activity {
 		}
 		
 		return result;
+	}
+	
+	
+	
+	/**
+	 * Get the index of the execution note for the given step number.
+	 * If no execution note exists, return -1.
+	 * 
+	 * @param stepNumber the step number to check for notes
+	 * @return the index of the corresponding execution note
+	 */
+	private int getExecNoteIndex(String stepNumber) {
+		List<ExecNote> notes = procedure.getExecNotes();
+		for (int i = 0; i < notes.size(); i++) {
+			if (stepNumber.equals(notes.get(i).getNumber())) return i;
+		}
+		
+		return -1;
 	}
 	
 	

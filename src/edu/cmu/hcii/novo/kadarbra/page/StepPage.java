@@ -1,8 +1,12 @@
 package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class StepPage extends LinearLayout {
@@ -18,6 +22,8 @@ public class StepPage extends LinearLayout {
 		this.step = step;
 		this.parent = null;
 		
+		setupExecutionNotes();
+		
 		TextView temp = new TextView(context);
 		temp.setText(step.getNumber() + ": " + step.getText());
 		temp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
@@ -30,6 +36,8 @@ public class StepPage extends LinearLayout {
 		
 		this.step = step;
 		this.parent = parent;
+		
+		setupExecutionNotes();
 		
 		TextView parentView = new TextView(context);
 		parentView.setText(parent.getNumber() + ": " + parent.getText());
@@ -50,4 +58,34 @@ public class StepPage extends LinearLayout {
 		// TODO Auto-generated method stub	
 	}
 
+	
+	
+	/**
+	 * Sets up the execution notes to be displayed for this step.
+	 * If there is a parent step, show that one too.
+	 */
+	private void setupExecutionNotes() {
+		if (parent != null) setupExecutionNote(parent.getExecNote());
+		setupExecutionNote(step.getExecNote());
+	}
+	
+	
+	
+	/**
+	 * Add the given execution note to the step page.
+	 * 
+	 * @param note the note to display
+	 */
+	private void setupExecutionNote(ExecNote note) {
+		if (note != null) {
+			final LayoutInflater inflater = LayoutInflater.from(getContext());
+			
+			TextView title = (TextView) inflater.inflate(R.layout.execution_note_header, (ViewGroup) this.getParent(), false);
+			this.addView(title);
+
+			TextView noteView = (TextView) inflater.inflate(R.layout.execution_note_text, (ViewGroup) this.getParent(), false);
+			noteView.setText(note.getText());
+			this.addView(noteView);
+		}
+	}
 }
