@@ -25,7 +25,6 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
-	private MainApp MainApp;
 	
 	private Procedure procedure;
 	private ViewPager viewPager;
@@ -41,7 +40,6 @@ public class ProcedureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		MainApp = (MainApp)this.getApplicationContext();
 		mProcedureActivity = this;
 		
 		Intent intent = getIntent();
@@ -174,7 +172,7 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        MainApp.setCurrentActivity(this);
+        edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
         Log.v(TAG, "onResume");
 
         if (dataUpdateReceiver == null) 
@@ -218,9 +216,9 @@ public class ProcedureActivity extends Activity {
     
     
     private void clearReferences() {
-    	Activity currActivity = MainApp.getCurrentActivity();
+    	Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
     	if (currActivity != null && currActivity.equals(this))
-    		MainApp.setCurrentActivity(null);
+    		edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(null);
     }
     
     
@@ -230,7 +228,7 @@ public class ProcedureActivity extends Activity {
     	@Override
         public void onReceive(Context context, Intent intent) {
         	Log.v(TAG, "on receive: " +intent.getAction());
-            if (intent.getAction().equals("command") && MainApp.getCurrentActivity()==mProcedureActivity) {
+            if (intent.getAction().equals("command") && edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity()==mProcedureActivity) {
             	Bundle b = intent.getExtras();
             	String msg = b.getString("msg");
             	
