@@ -26,6 +26,8 @@ public class StowagePage extends TableLayout {
 
 	private List<StowageItem> stowageItems;
 	
+	
+	
 	/**
 	 * @param context
 	 */
@@ -33,6 +35,8 @@ public class StowagePage extends TableLayout {
 		super(context);
 		
 		this.stowageItems = stowageItems;
+		
+		this.addView(getHeaderRow(context));
 		
 		for (int i = 0; i < stowageItems.size(); i++) {
 			StowageItem s = stowageItems.get(i);
@@ -63,6 +67,8 @@ public class StowagePage extends TableLayout {
 		}
 	}
 
+	
+	
 	/**
 	 * @param context
 	 * @param attrs
@@ -72,4 +78,37 @@ public class StowagePage extends TableLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
+	/**
+	 * Set up the header row for the stowage page.
+	 * 
+	 * @param context
+	 * @return the header row
+	 */
+	private static TableRow getHeaderRow(Context context) {
+		TableRow header = new TableRow(context);
+		
+		TextView binHeader = new TextView(context);
+		binHeader.setText("Bin Code");
+	
+		TextView itemHeader = new TextView(context);
+		itemHeader.setText("Item");
+		
+		TextView qtyHeader = new TextView(context);
+		qtyHeader.setText("Qty");
+		
+		TextView codeHeader = new TextView(context);
+		codeHeader.setText("Code");
+		
+		TextView notesHeader = new TextView(context);
+		notesHeader.setText("Notes");
+		
+		header.addView(binHeader);
+		header.addView(itemHeader);
+		header.addView(qtyHeader);
+		header.addView(codeHeader);
+		header.addView(notesHeader);
+		return header;
+	}
 }
