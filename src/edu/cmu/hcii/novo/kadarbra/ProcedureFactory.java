@@ -23,6 +23,8 @@ public class ProcedureFactory {
 	// We don't use namespaces
     private static final String ns = null;
 	
+    
+    
     /**
      * Generate a list of procedure objects based off of the 
      * xml definitions in the ___ directory.
@@ -59,6 +61,8 @@ public class ProcedureFactory {
     	return results;
     }
     
+    
+    
     /**
      * Get a procedure object based off of the given input stream.
      * Sets up the parser then calls a different parse method.
@@ -82,6 +86,8 @@ public class ProcedureFactory {
         }
 	}
 	
+	
+	
 	/**
 	 * Parse an xml document to create a procedure object.
 	 * 
@@ -97,8 +103,6 @@ public class ProcedureFactory {
 		Log.d(TAG, "Parsing procedure");
 		
 		String section = null;
-		String subsection = null;
-		String sub_subsection = null;
 		String title = null;
 		String objective = null;
 		String duration = null;	
@@ -121,10 +125,10 @@ public class ProcedureFactory {
 	        	section = readTag(parser, tag);
 	        	
 	        } else if (tag.equals("subsection")) {
-	        	subsection = readTag(parser, tag);
+	        	section += "." + readTag(parser, tag);
 	        	
 	        } else if (tag.equals("sub_subsection")) {
-	        	sub_subsection = readTag(parser, tag);
+	        	section += "." +  readTag(parser, tag);
 	        	
 	        } else if (tag.equals("title")) {
 	        	title = readTag(parser, tag);
@@ -148,9 +152,10 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }  
-	    return new Procedure(section + "." + subsection + "." + sub_subsection, 
-	    		title, objective, duration, execNotes, stowageItems, steps);
+	    return new Procedure(section, title, objective, duration, execNotes, stowageItems, steps);
 	}
+	
+	
 	
 	/**
 	 * Parse the xml for a list of overall execution notes
@@ -186,6 +191,8 @@ public class ProcedureFactory {
 	    return execNotes;
 	}
 	
+	
+	
 	/**
 	 * Parse xml for an execution note
 	 * 
@@ -198,7 +205,6 @@ public class ProcedureFactory {
 		Log.d(TAG, "Parsing execution note");
 		
 		String step = null;
-		String substep = null;
 		String text = null;
 	    
 	    //This is the tag we are looking for
@@ -216,7 +222,7 @@ public class ProcedureFactory {
 	        	step = readTag(parser, tag);
 	        	
 	        } else if (tag.equals("substep")) {
-	        	substep = readTag(parser, tag);
+	        	step += "." + readTag(parser, tag);
 	        	
 	        } else if (tag.equals("text")) {
 	        	text = readTag(parser, tag);
@@ -225,8 +231,10 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }
-	    return new ExecNote(text);
+	    return new ExecNote(step, text);
 	}
+	
+	
 	
 	/**
 	 * Parse the xml for a list of overall stowage items
@@ -261,6 +269,8 @@ public class ProcedureFactory {
 	    return stowageItems;
 	}
 	
+	
+	
 	/**
 	 * Parse xml for a stowage note
 	 * 
@@ -294,6 +304,8 @@ public class ProcedureFactory {
 	    }
 	    return item;
 	}
+	
+	
 	
 	/**
 	 * Parse xml for an execution note
@@ -345,6 +357,8 @@ public class ProcedureFactory {
 	    return new StowageItem(name, quantity, itemCode, binCode, text);
 	}
 	
+	
+	
 	/**
 	 * Parse the xml for the list of overall procedure steps.
 	 * 
@@ -370,14 +384,20 @@ public class ProcedureFactory {
 	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (tag.equals("parent_step")) {
-	        	steps.add(readParentStep(parser));
+	        if (tag.equals("step")) {
+	        	steps.add(readStep(parser));
+	        	
+	        } else if (tag.equals("cycle")) {
+	        	steps.addAll(readCycle(parser));
+	        	
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    return steps;
 	}
+	
+	
 	
 	/**
 	 * Parse an xml document to create a parent step.
@@ -387,15 +407,15 @@ public class ProcedureFactory {
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static Step readParentStep(XmlPullParser parser) throws XmlPullParserException, IOException {
-		Log.d(TAG, "Parsing parent step");
+	private static Step readStep(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing step");
 		
 		String number = null;
 	    String text = null;
 	    List<Step> substeps = new ArrayList<Step>();
 	    
 	    //This is the tag we are looking for
-  		parser.require(XmlPullParser.START_TAG, ns, "parent_step");
+  		parser.require(XmlPullParser.START_TAG, ns, "step");
 	    
 	    //Until we get to the closing tag
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -411,8 +431,8 @@ public class ProcedureFactory {
 	        } else if (tag.equals("text")) {
 	            text = readTag(parser, tag);
 	            
-	        } else if (tag.equals("substep")) {
-	            substeps.add(readSubstep(parser));
+	        } else if (tag.equals("step")) {
+	            substeps.add(readStep(parser));
 	            
 	        } else {
 	            skip(parser);
@@ -421,25 +441,15 @@ public class ProcedureFactory {
 	    return new Step(number, text, substeps);
 	}
 	
-	/**
-	 * Parse an xml document to create a substep.
-	 * 
-	 * TODO right now this doesn't look for further substeps
-	 * 
-	 * @param parser the xml to parse
-	 * @return a step object
-	 * @throws XmlPullParserException
-	 * @throws IOException
-	 */
-	private static Step readSubstep(XmlPullParser parser)  throws XmlPullParserException, IOException {
-		Log.d(TAG, "Parsing substep");
+	
+	private static List<Step> readCycle(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing cycle");
 		
-		String number = null;
-	    String text = null;
-	    List<Step> substeps = new ArrayList<Step>();
-
+		int repetitions = 0;
+	    List<Step> steps = new ArrayList<Step>();
+	    
 	    //This is the tag we are looking for
-	    parser.require(XmlPullParser.START_TAG, ns, "substep");
+  		parser.require(XmlPullParser.START_TAG, ns, "cycle");
 	    
 	    //Until we get to the closing tag
 	    while (parser.next() != XmlPullParser.END_TAG) {
@@ -449,19 +459,28 @@ public class ProcedureFactory {
 	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (tag.equals("number")) {
-	            number = readTag(parser, tag);
-	            
-	        } else if (tag.equals("text")) {
-	            text = readTag(parser, tag);
-	            
+	        if (tag.equals("repetitions")) {
+	        	repetitions = Integer.parseInt(readTag(parser, tag));
+	        	
+	        } else if (tag.equals("step")) {
+	        	steps.add(readStep(parser));
+	        	
 	        } else {
 	            skip(parser);
 	        }
 	    }
+	    Log.v(TAG, "adding steps " + repetitions + " times");
 	    
-	    return new Step(number, text, substeps);
+	    List<Step> result = new ArrayList<Step>();
+	    
+	    for (int i = 0; i < repetitions; i++) {
+	    	result.addAll(new ArrayList<Step>(steps));
+	    }
+	    
+	    return result;
 	}
+	
+	
 	
 	/**
 	 * Read the text value of the given tag from the xml.
@@ -481,6 +500,8 @@ public class ProcedureFactory {
 	    return result;
 	}
 	
+	
+	
 	/**
 	 * Extracts a tag's textual value.
 	 * 
@@ -497,6 +518,8 @@ public class ProcedureFactory {
 	    }
 	    return result;
 	}
+	
+	
 	
 	/**
 	 * Skip the tag currently pointed to by the parser.  This lets us 

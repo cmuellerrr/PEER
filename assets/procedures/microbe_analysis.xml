@@ -156,133 +156,131 @@
 		</note>
 	</procedure_notes>
 	<steps>
-		<parent_step>
-			<number>1</number>
-			<text>Prepare for sample collection</text>
-			<substep>
-				<number>1</number>
-				<text>Label incubation bags with sharpei and tape. Bags should be labeled with module and number of sample site used, as in Figure 1.</text>
-				<reference>
-					<type>image</type>
-					<name>Figure 1</name>
-					<description>Incubation bag labeling and placement</description>
-					<link>link_to_image.png</link>
-				</reference>
-			</substep>
-			<substep>
+	    <step>
+            <number>1</number>
+            <text>Perform steps 2 - 8 for each sample site.</text>
+        </step>
+	    <cycle>
+	        <repetitions>3</repetitions>
+			<step>
 				<number>2</number>
-				<text>Put on gloves.</text>
-			</substep>
-		</parent_step>
-		<parent_step>
-			<number>2</number>
-			<text>Collect microbe samples</text>
-			<warning_message>
-				<type>caution</type>
-				<text>Caution: Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
-			</warning_message>
-			<substep>
-				<number>1</number>
-				<text>Remove swab from Ziploc bag.</text>
-			</substep>
-			<substep>
-				<number>2</number>
-				<text>Swipe front face of selected sampling site in zigzag motion as indicated in Figure 2.</text>
-				<reference>
-					<type>image</type>
-					<name>Figure 2</name>
-					<description>Correct motion for swabbing sample site</description>
-					<link>link_to_image.png</link>
-				</reference>
-			</substep>
-		</parent_step>
-		<parent_step>
-			<number>3</number>
-			<text>Analyze microbe samples</text>
-			<substep>
-				<number>1</number>
-				<text>Insert tip of swab into microbe analyzer.</text>
-			</substep>
-			<substep>
-				<number>2</number>
-				<text>Allow microbe analyzer between 15-20 seconds to complete.</text>
-			</substep>
-			<substep>
+				<text>Prepare for sample collection</text>
+				<step>
+					<number>1</number>
+					<text>Label incubation bags with sharpei and tape. Bags should be labeled with module and number of sample site used, as in Figure 1.</text>
+					<reference>
+						<type>image</type>
+						<name>Figure 1</name>
+						<description>Incubation bag labeling and placement</description>
+						<link>link_to_image.png</link>
+					</reference>
+				</step>
+				<step>
+					<number>2</number>
+					<text>Put on gloves.</text>
+				</step>
+			</step>
+			<step>
 				<number>3</number>
-				<text>Remove swab from microbe analyzer.</text>
-			</substep>
-			<substep>
+				<text>Collect microbe samples</text>
+				<callout>
+					<type>caution</type>
+					<text>Caution: Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
+				</callout>
+				<step>
+					<number>1</number>
+					<text>Remove swab from Ziploc bag.</text>
+				</step>
+				<step>
+					<number>2</number>
+					<text>Swipe front face of selected sampling site in zigzag motion as indicated in Figure 2.</text>
+					<reference>
+						<type>image</type>
+						<name>Figure 2</name>
+						<description>Correct motion for swabbing sample site</description>
+						<link>link_to_image.png</link>
+					</reference>
+				</step>
+			</step>
+			<step>
 				<number>4</number>
-				<text>Place swab into incubation bag.</text>
-			</substep>
-			<substep>
+				<text>Analyze microbe samples</text>
+				<step>
+					<number>1</number>
+					<text>Insert tip of swab into microbe analyzer.</text>
+				</step>
+				<step>
+					<number>2</number>
+					<text>Allow microbe analyzer between 15-20 seconds to complete.</text>
+				</step>
+				<step>
+					<number>3</number>
+					<text>Remove swab from microbe analyzer.</text>
+				</step>
+				<step>
+					<number>4</number>
+					<text>Place swab into incubation bag.</text>
+				</step>
+				<step>
+					<number>5</number>
+					<text>Record the resulting microbe level (Figure 3).</text>
+					<reference>
+						<type>table</type>
+						<name>Figure 3</name>
+						<description>Table indicating number of microbes based on color returned.</description>
+						<table_content>
+							<item>
+								<number_of_microbes>10</number_of_microbes>
+								<color>Red</color>
+							</item>
+							<item>
+								<number_of_microbes>50</number_of_microbes>
+								<color>Blue</color>
+							</item>
+							<item>
+								<number_of_microbes>100</number_of_microbes>
+								<color>Green</color>
+							</item>
+							<item>
+								<number_of_microbes>500</number_of_microbes>
+								<color>Yellow</color>
+							</item>
+						</table_content>
+					</reference>
+				</step>
+			</step>
+			<step>
 				<number>5</number>
-				<text>Record the resulting microbe level (Figure 3).</text>
-				<reference>
-					<type>table</type>
-					<name>Figure 3</name>
-					<description>Table indicating number of microbes based on color returned.</description>
-					<table_content>
-						<item>
-							<number_of_microbes>10</number_of_microbes>
-							<color>Red</color>
-						</item>
-						<item>
-							<number_of_microbes>50</number_of_microbes>
-							<color>Blue</color>
-						</item>
-						<item>
-							<number_of_microbes>100</number_of_microbes>
-							<color>Green</color>
-						</item>
-						<item>
-							<number_of_microbes>500</number_of_microbes>
-							<color>Yellow</color>
-						</item>
-					</table_content>
-				</reference>
-			</substep>
-		</parent_step>
-		<parent_step>
-			<number>4</number>
-			<text>Add microbe number next to module and site number on incubation bag.</text>
-		</parent_step>
-		<parent_step>
-			<number>5</number>
-			<text>Clean sample site and analyzer</text>
-			<substep>
-				<number>1</number>
-				<text>Using one side of cleaning wipe, thoroughly wipe down sample site, including all sites of site.</text>
-			</substep>
-			<substep>
-				<number>2</number>
-				<text>Fold cleaning wipe in half.</text>
-			</substep>
-			<substep>
-				<number>3</number>
-				<text>Use one side of cleaning wipe to thoroughly wipe down center of microbe analyzer.</text>
-			</substep>
-		</parent_step>
-		<parent_step>
-			<number>6</number>
-			<text>Place used cleaning wipes into airlock.</text>
-		</parent_step>
-		<parent_step>
-			<number>7</number>
-			<text>Stow incubation bag in COL1_B2.</text>
-		</parent_step>
-		<parent_step>
-			<number>8</number>
-			<text>Repeat steps 1 - 7 for each sample site.</text>
-			<repeat_details>
-				<step_begin>1</step_begin>
-				<step_end>7</step_end>
-				<cycles>3</cycles>
-			</repeat_details>
-		</parent_step>
-		<parent_step>
+				<text>Add microbe number next to module and site number on incubation bag.</text>
+			</step>
+			<step>
+				<number>6</number>
+				<text>Clean sample site and analyzer</text>
+				<step>
+					<number>1</number>
+					<text>Using one side of cleaning wipe, thoroughly wipe down sample site, including all sites of site.</text>
+				</step>
+				<step>
+					<number>2</number>
+					<text>Fold cleaning wipe in half.</text>
+				</step>
+				<step>
+					<number>3</number>
+					<text>Use one side of cleaning wipe to thoroughly wipe down center of microbe analyzer.</text>
+				</step>
+			</step>
+			<step>
+				<number>7</number>
+				<text>Place used cleaning wipes into airlock.</text>
+			</step>
+			<step>
+				<number>8</number>
+				<text>Stow incubation bag in COL1_B2.</text>
+			</step>
+		</cycle>
+		<step>
 			<number>9</number>
 			<text>Stow reusable tools in their original locations</text>
-		</parent_step>
+		</step>
 	</steps>
 </procedure>

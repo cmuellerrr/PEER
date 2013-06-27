@@ -7,7 +7,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 /**
  * A layout to represent a procedure title page.  
@@ -37,11 +36,13 @@ public class TitlePage extends LinearLayout {
 		
 		TextView titleView = new TextView(context);
 		titleView.setText(number + " " + title);
+		titleView.setTextSize(40);
 		titleView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 		this.addView(titleView);
 		
 		TextView objView = new TextView(context);
 		objView.setText(objective);
+		objView.setTextSize(30);
 		objView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 		this.addView(objView);
 		

@@ -18,8 +18,11 @@ public class Step implements Serializable {
 	private static final long serialVersionUID = -4348295150944687945L;
 	private String number;
 	private String text;
+	private ExecNote execNote;
 	private List<Step> substeps;
 	private int substepIndex;
+	
+	
 	
 	/**
 	 * 
@@ -27,9 +30,30 @@ public class Step implements Serializable {
 	public Step(String number, String text, List<Step> substeps) {
 		this.number = number;
 		this.text = text;
+		this.execNote = null;
 		this.substeps = substeps;
 		this.substepIndex = 0;
 	}
+
+	
+	
+	/**
+	 * @return the execNote
+	 */
+	public ExecNote getExecNote() {
+		return execNote;
+	}
+
+
+
+	/**
+	 * @param execNote the execNote to set
+	 */
+	public void setExecNote(ExecNote execNote) {
+		this.execNote = execNote;
+	}
+
+
 
 	/**
 	 * Add the given step to the end of the procedure.
@@ -39,6 +63,8 @@ public class Step implements Serializable {
 	public void addSubstep(Step step) {
 		substeps.add(step);
 	}
+	
+	
 	
 	/**
 	 * Add the given step to the procedure at the given index.
@@ -53,6 +79,8 @@ public class Step implements Serializable {
 		}
 	}
 	
+	
+	
 	/**
 	 * @param index
 	 * @return the step at index
@@ -61,6 +89,8 @@ public class Step implements Serializable {
 		return substeps.get(index);
 	}
 	
+	
+	
 	/**
 	 * @return the number of steps
 	 */
@@ -68,6 +98,8 @@ public class Step implements Serializable {
 		return substeps.size();
 	}
 
+	
+	
 	/**
 	 * @return the number
 	 */
@@ -75,6 +107,8 @@ public class Step implements Serializable {
 		return number;
 	}
 
+	
+	
 	/**
 	 * @param number the number to set
 	 */
@@ -82,6 +116,8 @@ public class Step implements Serializable {
 		this.number = number;
 	}
 
+	
+	
 	/**
 	 * @return the text
 	 */
@@ -89,6 +125,8 @@ public class Step implements Serializable {
 		return text;
 	}
 
+	
+	
 	/**
 	 * @param text the text to set
 	 */

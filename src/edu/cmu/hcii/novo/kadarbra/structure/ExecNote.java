@@ -17,7 +17,10 @@ public class ExecNote implements Serializable {
 	 * Auto-Generated serial id
 	 */
 	private static final long serialVersionUID = -2878004998524413511L;
+	private String number;
 	private String text;
+	
+	
 	
 	/**
 	 * Create an execution note with the given text.
@@ -25,9 +28,30 @@ public class ExecNote implements Serializable {
 	 * TODO: These will probably need to have knowledge 
 	 * of what step they exist on.
 	 */
-	public ExecNote(String text) {
+	public ExecNote(String number, String text) {
+		this.number = number;
 		this.text = text;
 	}
+	
+	
+	
+	/**
+	 * @return the number
+	 */
+	public String getNumber() {
+		return number;
+	}
+
+
+
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+
 
 	/**
 	 * @return the text
@@ -36,6 +60,8 @@ public class ExecNote implements Serializable {
 		return text;
 	}
 
+	
+	
 	/**
 	 * @param text the text to set
 	 */

@@ -17,4 +17,16 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- Stretch text view horizontally, but wrap vertically -->
+    <style name="HorizontalStretch">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+    <!-- The styling of page titles -->
+    <style name="PageTitle" parent="HorizontalStretch">
+        <item name="android:textSize">40sp</item>
+    </style>
+    
+    
 </resources>
