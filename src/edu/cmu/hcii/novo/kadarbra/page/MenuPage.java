@@ -47,6 +47,7 @@ public class MenuPage extends Activity {
         
         initStowageButton();
         initNavigateButton();
+        initAnnotationButton();
 	}
 	
 	private void initStowageButton(){
@@ -78,7 +79,18 @@ public class MenuPage extends Activity {
 		});
 	}
 	
+	private void initAnnotationButton(){
+		Button annotationButton = (Button) findViewById(R.id.annotationButton);
+		annotationButton.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				setContentView(new AnnotationPage(getBaseContext()));
+			}
+			
+		});
+	}
+	
 	/**
 	 * For testing
 	 */
