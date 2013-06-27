@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
@@ -9,3 +10,16 @@
     <string name="title_stowage_notes">Stowage Notes</string>
 
 </resources>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">kadARbra</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_procedure">ProcedureActivity</string>
+    <string name="title_execution_notes">Execution Notes</string>
+    <string name="title_stowage_notes">Stowage Notes</string>
+
+</resources>
+>>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
