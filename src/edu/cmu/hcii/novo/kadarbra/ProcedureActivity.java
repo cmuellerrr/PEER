@@ -19,10 +19,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
-<<<<<<< HEAD
 import edu.cmu.hcii.novo.kadarbra.page.MenuPage;
-=======
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
@@ -33,7 +30,6 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
-<<<<<<< HEAD
 	public final static String PROCEDURE = "edu.cmu.hcii.novo.kadarbra.PROCEDURE";
 	public final static String CURRENT_STEP = "edu.cmu.hcii.novo.kadarbra.CURRENT_STEP";
 
@@ -41,8 +37,6 @@ public class ProcedureActivity extends Activity {
 	public final static int OPEN_MENU = 0; // startActivitForResult call identifier
 
 	private MainApp MainApp;
-=======
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
 	
 	private Procedure procedure;
 	private ViewPager viewPager;
@@ -59,11 +53,7 @@ public class ProcedureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-<<<<<<< HEAD
 		//MainApp = (MainApp)this.getApplicationContext();
-=======
-		mProcedureActivity = this;
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -175,13 +165,9 @@ public class ProcedureActivity extends Activity {
 				Log.v("viewPager","onPageSelected "+arg0);
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
 				/*if (!(viewPager.getChildAt(viewPager.getCurrentItem()).getClass() == StepPage.class)) {
-<<<<<<< HEAD
-				Log.v(TAG, "Removing breadcrumb");
-				breadcrumb.setVisibility(View.INVISIBLE);
-=======
+
 					Log.v(TAG, "Removing breadcrumb");
 					breadcrumb.setVisibility(View.INVISIBLE);
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
 				} else {
 					Log.v(TAG, "Removing breadcrumb");
 					breadcrumb.setVisibility(View.VISIBLE);
@@ -234,11 +220,6 @@ public class ProcedureActivity extends Activity {
 		int execNoteIndex = getExecNoteIndex(step.getNumber());
 		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
-		//if (parent != null) step.setNumber(parent.getNumber() + "." + step.getNumber());
-		
-		int execNoteIndex = getExecNoteIndex(step.getNumber());
-		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
-		
 		if (step.getNumSubsteps() > 0) {
 			for (int i = 0; i < step.getNumSubsteps(); i++) {
 				result.addAll(setupStepPage(step.getSubstep(i), step));
@@ -249,12 +230,7 @@ public class ProcedureActivity extends Activity {
 		
 		return result;
 	}
-	
-<<<<<<< HEAD
-=======
-	
-	
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
+
 	/**
 	 * Get the index of the execution note for the given step number.
 	 * If no execution note exists, return -1.
@@ -270,12 +246,6 @@ public class ProcedureActivity extends Activity {
 		
 		return -1;
 	}
-<<<<<<< HEAD
-
-=======
-	
-	
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
 	
 	// initalizes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
@@ -300,11 +270,7 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-<<<<<<< HEAD
         //edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
-=======
-        edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
         Log.v(TAG, "onResume");
 
         if (dataUpdateReceiver == null) 
@@ -344,13 +310,7 @@ public class ProcedureActivity extends Activity {
         //clearReferences();
         Log.v(TAG, "onDestroy");
     }
-<<<<<<< HEAD
     /*
-=======
-    
-    
-    
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
     private void clearReferences() {
     	Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
     	if (currActivity != null && currActivity.equals(this))
@@ -365,11 +325,8 @@ public class ProcedureActivity extends Activity {
     	@Override
         public void onReceive(Context context, Intent intent) {
         	Log.v(TAG, "on receive: " +intent.getAction());
-<<<<<<< HEAD
-            if (intent.getAction().equals("command")) {
-=======
-            if (intent.getAction().equals("command") && edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity()==mProcedureActivity) {
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
+
+        	if (intent.getAction().equals("command")) {
             	Bundle b = intent.getExtras();
             	String msg = b.getString("msg");
             	
@@ -386,7 +343,6 @@ public class ProcedureActivity extends Activity {
           
         }
     }
-<<<<<<< HEAD
     
 	
 	/**
@@ -416,11 +372,7 @@ public class ProcedureActivity extends Activity {
 		return index;
     	
     }
-=======
-   
-    
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
-    
+
     private void prevPage(){
     	if (viewPager.getCurrentItem()>0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);

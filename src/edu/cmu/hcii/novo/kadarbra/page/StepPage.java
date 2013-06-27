@@ -53,7 +53,6 @@ public class StepPage extends LinearLayout {
 		// TODO Auto-generated method stub	
 	}
 
-<<<<<<< HEAD
 	/**
 	 * 
 	 * @return step
@@ -69,10 +68,7 @@ public class StepPage extends LinearLayout {
 	public Step getStepParent(){
 		return parent;
 	}
-=======
-	
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
-	
+
 	/**
 	 * Sets up the execution notes to be displayed for this step.
 	 * If there is a parent step, show that one too.
@@ -101,8 +97,5 @@ public class StepPage extends LinearLayout {
 			this.addView(noteView);
 		}
 	}
-<<<<<<< HEAD
-	
-=======
->>>>>>> 79203f87352fca5faf8be084e09769bdcff1a318
+
 }
