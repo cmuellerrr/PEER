@@ -25,6 +25,7 @@ public class PageAdapter extends PagerAdapter {
 	public Object instantiateItem(View collection, int position) {
 		ViewGroup view = pages.get(position);
 		view.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT));
+		view.setTag(position);
 		((ViewPager) collection).addView(view,0);
 		
 		return view;
@@ -45,6 +46,10 @@ public class PageAdapter extends PagerAdapter {
 	public boolean isViewFromObject(View arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		return arg0 == ((View) arg1);
+	}
+	
+	public List<ViewGroup> getPages(){
+		return pages;
 	}
 
 }

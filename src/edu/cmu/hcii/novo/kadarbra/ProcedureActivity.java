@@ -13,9 +13,15 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
+import edu.cmu.hcii.novo.kadarbra.page.MenuPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
@@ -25,14 +31,21 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
+	public final static String PROCEDURE = "edu.cmu.hcii.novo.kadarbra.PROCEDURE";
+	public final static String CURRENT_STEP = "edu.cmu.hcii.novo.kadarbra.CURRENT_STEP";
+
+	public final static int PREPARE_PAGES = 3; // number of pages in prepare stage (before steps are shown)
+	public final static int OPEN_MENU = 0; // startActivitForResult call identifier
+
 	private MainApp MainApp;
 	
 	private Procedure procedure;
 	private ViewPager viewPager;
 	private Breadcrumb breadcrumb;
 	
-	private DataUpdateReceiver dataUpdateReceiver;
-	private ProcedureActivity mProcedureActivity;
+	private DataUpdateReceiver dataUpdateReceiver; 
+	
+	private List<Integer> procedureIndex;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +53,6 @@ public class ProcedureActivity extends Activity {
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		MainApp = (MainApp)this.getApplicationContext();
-		mProcedureActivity = this;
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -49,8 +61,78 @@ public class ProcedureActivity extends Activity {
 		
 		initViewPager(); // initializes ViewPager (the horizontal swiping UI element)
 		initBreadcrumb(); // initializes the breadcrumb (the step numbers at the top)
+		procedureIndex=getPageIndex();
+		
+		initMenuButton();
+		
 	}
+	
+	private void initMenuButton(){
+		Button menuButton = (Button) findViewById(R.id.menuButton);
+		menuButton.setOnClickListener(new OnClickListener(){
 
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getBaseContext(), MenuPage.class);
+		    	intent.putExtra(PROCEDURE, procedure);
+		    	
+		    	/**
+		    	 * Also passes highest level step to MenuPage
+		    	 * 
+		    	 * TODO: how to get highest level step needs to change
+		    	 */
+		    	if (viewPager.getCurrentItem()>=PREPARE_PAGES){
+			    	StepPage curStepPage = (StepPage) viewPager.findViewWithTag(viewPager.getCurrentItem());
+			    	Step curStep = curStepPage.getStep();
+			    	if (curStepPage.getStepParent() != null){
+			    		curStep = (Step) curStepPage.getStepParent();
+			    	}
+			    	//TextView tv = ((TextView) curStepPage.getChildAt(0)).getText().toString().substring(0,1)
+			    	int curStepNum = Integer.parseInt(curStep.getNumber().substring(0,1));
+			    	intent.putExtra(CURRENT_STEP, curStepNum-1);
+		    	}else
+		    		intent.putExtra(CURRENT_STEP, -1);
+		    	
+		    	startActivityForResult(intent, OPEN_MENU);
+		    	
+			}
+			
+		});
+	}
+	
+	/**
+	 * Called when child activity returns some result
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+				
+		/**
+		 * For messages sent by the menu
+		 */
+		if (requestCode == OPEN_MENU){
+			if (resultCode == Activity.RESULT_OK){
+				/**
+				 * For navigate commands
+				 */
+				if (data.getStringExtra("command").equals("navigate")){
+					final int navigate = data.getIntExtra("navigate",0);
+					Log.v(TAG,""+navigate);
+					
+					if (navigate != 0){
+						runOnUiThread(new Runnable() {
+		            	      public void run() { 
+		            	    	  int page = procedureIndex.get(navigate);
+		            	    	  viewPager.setCurrentItem(page,true);
+		            	      }
+		            	});
+					}
+					
+				}
+			}
+		}
+	}
 	
 	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
@@ -69,13 +151,11 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
 				//Log.v("viewPager","onPageScrollStateChanged");
-				
 			}
 
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
 				//Log.v("viewPager","onPageScrolled");
-				
 			}
 
 			@Override
@@ -103,6 +183,7 @@ public class ProcedureActivity extends Activity {
 		
 		for (int i = 0; i < procedure.getNumSteps(); i++){ // populates the StepPage array with dummy data
 			result.addAll(setupStepPage(procedure.getStep(i), null));
+
 		}
 		
 		return result;
@@ -129,6 +210,7 @@ public class ProcedureActivity extends Activity {
 				result.add(new StepPage(this, step, parent));
 			} else {
 				result.add(new StepPage(this, step));
+				
 			}
 		}
 		
@@ -154,7 +236,7 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        MainApp.setCurrentActivity(this);
+        //MainApp.setCurrentActivity(this);
         Log.v(TAG, "onResume");
 
         if (dataUpdateReceiver == null) 
@@ -167,7 +249,7 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onPause(){
     	super.onPause();
-    	clearReferences();
+    	//clearReferences();
     	Log.v(TAG, "onPause");
     	if (dataUpdateReceiver != null) 
     		unregisterReceiver(dataUpdateReceiver);
@@ -177,7 +259,7 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        clearReferences();
+        //clearReferences();
         Log.v(TAG, "onStop");
     }
     
@@ -185,22 +267,22 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        clearReferences();
+        //clearReferences();
         Log.v(TAG, "onDestroy");
     }
     
-    private void clearReferences() {
+    /*private void clearReferences() {
     	Activity currActivity = MainApp.getCurrentActivity();
     	if (currActivity != null && currActivity.equals(this))
     		MainApp.setCurrentActivity(null);
-    }
+    }*/
     
 	// Listens to broadcast messages
     private class DataUpdateReceiver extends BroadcastReceiver {
     	@Override
         public void onReceive(Context context, Intent intent) {
         	Log.v(TAG, "on receive: " +intent.getAction());
-            if (intent.getAction().equals("command") && MainApp.getCurrentActivity()==mProcedureActivity) {
+            if (intent.getAction().equals("command")) {
             	Bundle b = intent.getExtras();
             	String msg = b.getString("msg");
             	
@@ -217,7 +299,36 @@ public class ProcedureActivity extends Activity {
           
         }
     }
-   
+    
+	
+	/**
+	 * Gets index of pages, where each item in the returned list corresponds to a starting page of a step
+	 * @return pageIndex
+	 */ 
+    private ArrayList<Integer> getPageIndex(){
+    	ArrayList<Integer> index = new ArrayList<Integer>();
+    	List<Step> steps = procedure.getSteps();
+    	
+    	int stepCounter = 0;
+    	for (int i = 0; i < steps.size()+1; i++) {
+    		if (i==0){
+    			stepCounter += PREPARE_PAGES;
+    			index.add(stepCounter);
+    		}else{
+	    		Step s = steps.get(i-1);
+				int substeps = s.getNumSubsteps();
+				index.add(stepCounter);
+				if (substeps > 0)
+					stepCounter += substeps;
+				else
+					stepCounter++;
+    		}
+    	}
+    	
+		return index;
+    	
+    }
+    
     private void prevPage(){
     	if (viewPager.getCurrentItem()>0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);

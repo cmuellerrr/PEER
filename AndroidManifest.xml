@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name="edu.cmu.hcii.novo.kadarbra.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,16 +26,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+       
         <activity
-            android:name="edu.cmu.hcii.novo.kadarbra.ProcedureActivity"
+            android:name=".ProcedureActivity"
             android:label="@string/title_activity_procedure" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.cmu.hcii.novo.kadarbra.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
+        
+        <activity
+            android:name=".page.MenuPage"
+            android:theme="@android:style/Theme.Dialog"/>
+        
         <service android:name=".ConnectionService" />
         
-
     </application>
 
 </manifest>

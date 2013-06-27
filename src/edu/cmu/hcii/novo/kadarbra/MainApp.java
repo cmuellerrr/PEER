@@ -1,5 +1,6 @@
 package edu.cmu.hcii.novo.kadarbra;
 
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import android.app.Activity;
 import android.app.Application;
 import android.content.BroadcastReceiver;
@@ -15,6 +16,7 @@ public class MainApp extends Application{
 	private static Activity mCurrentActivity = null;
 	private DataUpdateReceiver dataUpdateReceiver; // receives broadcast messages from ConnectionService
 
+	private static Procedure current_procedure;
 	
     public void onCreate() {
         super.onCreate();
@@ -25,6 +27,22 @@ public class MainApp extends Application{
         registerReceiver(dataUpdateReceiver, intentFilter);
 	}
 	
+    /**
+     * Returns current procedure.
+     * @return current procedure
+     */
+    public static Procedure getCurrentProcedure(){
+    	return current_procedure;
+    }
+    
+    /**
+     * Sets current procedure
+     * @param curProcedure current procedure
+     */
+    public static void setCurrentProcedure(Procedure curProcedure){
+    	current_procedure = curProcedure;
+    }
+    
 	/**
 	 * Returns current activity.
 	 * @param mCurrentAct current activity

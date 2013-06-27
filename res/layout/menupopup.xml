@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/MenuPopUp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#111111"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
+ 	
+    <Button
+        android:id="@+id/navButton"
+        android:layout_alignParentTop="true"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="'Navigate'"
+        />
+
+    <Button
+        android:id="@+id/stowageButton"
+        android:layout_below="@id/navButton"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="'Stowage'"
+        />
+    
+</RelativeLayout >

@@ -50,4 +50,20 @@ public class StepPage extends LinearLayout {
 		// TODO Auto-generated method stub	
 	}
 
+	/**
+	 * 
+	 * @return step
+	 */
+	public Step getStep(){
+		return step;
+	}
+	
+	/**
+	 * 
+	 * @return parent
+	 */
+	public Step getStepParent(){
+		return parent;
+	}
+	
 }

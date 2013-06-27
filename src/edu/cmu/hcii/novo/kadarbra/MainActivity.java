@@ -34,16 +34,13 @@ public class MainActivity extends Activity {
 	private DataUpdateReceiver dataUpdateReceiver;
 	private ConnectionService mBoundService;
 	private boolean mIsBound;
-	
-	private MainActivity mMainActivity;
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		procedures = ProcedureFactory.getProcedures(this);
-		mMainActivity = this;
 
 		// to begin ConnectionService
 		if (!isMyServiceRunning())
@@ -94,7 +91,7 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
         Log.v(TAG, "onResume");
-        MainApp.setCurrentActivity(this);
+        //MainApp.setCurrentActivity(this);
         Log.v(TAG, "onResume");
        
         // sets up data update receiver for receiving broadcast messages from ConnectionService
@@ -108,7 +105,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onPause() {
     	super.onPause();
-    	clearReferences();
+    	//clearReferences();
     	Log.v(TAG, "onPause");
     	
         if (dataUpdateReceiver != null) 
@@ -119,7 +116,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        clearReferences();
+        //clearReferences();
         Log.v(TAG, "onStop");
     }
     
@@ -127,7 +124,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        clearReferences();
+        //clearReferences();
         Log.v(TAG, "onDestroy");
         doUnbindService();
     }
@@ -135,11 +132,11 @@ public class MainActivity extends Activity {
     /**
      * Helps keep track of current activity
      */
-    private void clearReferences(){
+    /*private void clearReferences(){
     	Activity currActivity = MainApp.getCurrentActivity();
     	if (currActivity != null && currActivity.equals(this))
     	MainApp.setCurrentActivity(null);
-    }
+    }*/
     
       
     // Called when a menu item is selected (starts the socket)
@@ -222,7 +219,7 @@ public class MainActivity extends Activity {
             @Override
             public void onReceive(Context context, Intent intent) {
               Log.v(TAG, "on receive");
-                if (intent.getAction().equals("command") && MainApp.getCurrentActivity()==mMainActivity) {
+                if (intent.getAction().equals("command")) {
                   Bundle b = intent.getExtras();
                   String msg = b.getString("msg");
                   
@@ -235,7 +232,7 @@ public class MainActivity extends Activity {
     		    	  Intent in = new Intent(procedureListView.getContext(), ProcedureActivity.class);
     		    	  in.putExtra(PROCEDURE, procedures.get(0));
     		    	  startActivity(in);
-    		    	  }
+    		      }
                   
               }
               
