@@ -28,6 +28,8 @@ import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
 import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
+import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
+import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
@@ -52,7 +54,7 @@ public class ProcedureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		MainApp = (MainApp)this.getApplicationContext();
+		//MainApp = (MainApp)this.getApplicationContext();
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -162,6 +164,13 @@ public class ProcedureActivity extends Activity {
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
+				/*if (!(viewPager.getChildAt(viewPager.getCurrentItem()).getClass() == StepPage.class)) {
+				Log.v(TAG, "Removing breadcrumb");
+				breadcrumb.setVisibility(View.INVISIBLE);
+				} else {
+					Log.v(TAG, "Removing breadcrumb");
+					breadcrumb.setVisibility(View.VISIBLE);
+				}*/
 			}
 			
 		});
@@ -190,8 +199,9 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	/**
-	 * Setup the given step as a list of step pages.  Recursively
-	 * loops through any substeps to get all children.
+	 * Setup the given step as a list of step pages.  First checks for
+	 * and sets any execution notes which may exist for the given step.
+	 * Recursively loops through any substeps to get all children.
 	 * 
 	 * TODO: redo how step pages get their parents. this is dumb
 	 * 
@@ -200,22 +210,38 @@ public class ProcedureActivity extends Activity {
 	 */
 	private List<ViewGroup> setupStepPage(Step step, Step parent) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
+		//if (parent != null) step.setNumber(parent.getNumber() + "." + step.getNumber());
+		
+		int execNoteIndex = getExecNoteIndex(step.getNumber());
+		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
 		if (step.getNumSubsteps() > 0) {
 			for (int i = 0; i < step.getNumSubsteps(); i++) {
 				result.addAll(setupStepPage(step.getSubstep(i), step));
 			}
 		} else {
-			if (parent != null) {
-				result.add(new StepPage(this, step, parent));
-			} else {
-				result.add(new StepPage(this, step));
-				
-			}
+			result.add(new StepPage(this, step, parent));
 		}
 		
 		return result;
 	}
+	
+	/**
+	 * Get the index of the execution note for the given step number.
+	 * If no execution note exists, return -1.
+	 * 
+	 * @param stepNumber the step number to check for notes
+	 * @return the index of the corresponding execution note
+	 */
+	private int getExecNoteIndex(String stepNumber) {
+		List<ExecNote> notes = procedure.getExecNotes();
+		for (int i = 0; i < notes.size(); i++) {
+			if (stepNumber.equals(notes.get(i).getNumber())) return i;
+		}
+		
+		return -1;
+	}
+
 	
 	// initalizes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
@@ -236,7 +262,7 @@ public class ProcedureActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        //MainApp.setCurrentActivity(this);
+        //edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
         Log.v(TAG, "onResume");
 
         if (dataUpdateReceiver == null) 
@@ -270,12 +296,13 @@ public class ProcedureActivity extends Activity {
         //clearReferences();
         Log.v(TAG, "onDestroy");
     }
-    
-    /*private void clearReferences() {
-    	Activity currActivity = MainApp.getCurrentActivity();
+    /*
+    private void clearReferences() {
+    	Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
     	if (currActivity != null && currActivity.equals(this))
-    		MainApp.setCurrentActivity(null);
-    }*/
+    		edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(null);
+    }
+    */
     
 	// Listens to broadcast messages
     private class DataUpdateReceiver extends BroadcastReceiver {

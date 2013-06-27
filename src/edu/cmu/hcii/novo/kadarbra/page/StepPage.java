@@ -66,4 +66,33 @@ public class StepPage extends LinearLayout {
 		return parent;
 	}
 	
+	/**
+	 * Sets up the execution notes to be displayed for this step.
+	 * If there is a parent step, show that one too.
+	 */
+	private void setupExecutionNotes() {
+		if (parent != null) setupExecutionNote(parent.getExecNote());
+		setupExecutionNote(step.getExecNote());
+	}
+	
+	
+	
+	/**
+	 * Add the given execution note to the step page.
+	 * 
+	 * @param note the note to display
+	 */
+	private void setupExecutionNote(ExecNote note) {
+		if (note != null) {
+			final LayoutInflater inflater = LayoutInflater.from(getContext());
+			
+			TextView title = (TextView) inflater.inflate(R.layout.execution_note_header, (ViewGroup) this.getParent(), false);
+			this.addView(title);
+
+			TextView noteView = (TextView) inflater.inflate(R.layout.execution_note_text, (ViewGroup) this.getParent(), false);
+			noteView.setText(note.getText());
+			this.addView(noteView);
+		}
+	}
+	
 }
