@@ -62,4 +62,21 @@ public class ExecNotesPage extends LinearLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+	/**
+	 * @return the execNotes
+	 */
+	public List<ExecNote> getExecNotes() {
+		return execNotes;
+	}
+
+
+
+	/**
+	 * @param execNotes the execNotes to set
+	 */
+	public void setExecNotes(List<ExecNote> execNotes) {
+		this.execNotes = execNotes;
+	}
 }

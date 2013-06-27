@@ -22,6 +22,8 @@ public class TitlePage extends LinearLayout {
 	private String objective;
 	private String duration;
 	
+	
+	
 	/**
 	 * @param context
 	 */
@@ -52,6 +54,8 @@ public class TitlePage extends LinearLayout {
 		this.addView(durView);
 	}
 
+	
+	
 	/**
 	 * @param context
 	 * @param attrs
@@ -61,4 +65,75 @@ public class TitlePage extends LinearLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
+	/**
+	 * @return the number
+	 */
+	public String getNumber() {
+		return number;
+	}
+
+	
+	
+	/**
+	 * @param number the number to set
+	 */
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	
+	
+	/**
+	 * @return the title
+	 */
+	public String getTitle() {
+		return title;
+	}
+
+	
+	
+	/**
+	 * @param title the title to set
+	 */
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	
+	
+	/**
+	 * @return the objective
+	 */
+	public String getObjective() {
+		return objective;
+	}
+
+	
+	
+	/**
+	 * @param objective the objective to set
+	 */
+	public void setObjective(String objective) {
+		this.objective = objective;
+	}
+
+	
+	
+	/**
+	 * @return the duration
+	 */
+	public String getDuration() {
+		return duration;
+	}
+
+	
+	
+	/**
+	 * @param duration the duration to set
+	 */
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
 }

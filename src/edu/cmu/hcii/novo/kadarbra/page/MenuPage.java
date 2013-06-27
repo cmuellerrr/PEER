@@ -4,18 +4,11 @@
 package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.app.Activity;
-import edu.cmu.hcii.novo.kadarbra.MainActivity;
-import edu.cmu.hcii.novo.kadarbra.MainApp;
-import edu.cmu.hcii.novo.kadarbra.ProcedureActivity;
-import edu.cmu.hcii.novo.kadarbra.R;
-import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,7 +16,10 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import edu.cmu.hcii.novo.kadarbra.MainActivity;
+import edu.cmu.hcii.novo.kadarbra.ProcedureActivity;
+import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 
 /**
  * A layout for a menu system.  Displays all available options.
@@ -33,7 +29,6 @@ import android.widget.RelativeLayout;
  */
 public class MenuPage extends Activity {
 	private String TAG ="MenuPage";
-	private MainApp MainApp;
 	private DataUpdateReceiver dataUpdateReceiver;	
 	
 	
@@ -48,9 +43,7 @@ public class MenuPage extends Activity {
 	    getWindow().setFlags(LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
 	    
 	    
-	    setContentView(R.layout.menupopup);        
-
-        MainApp = (MainApp) MenuPage.this.getApplication();   
+	    setContentView(R.layout.menupopup);
         
         initStowageButton();
         initNavigateButton();
@@ -143,7 +136,7 @@ public class MenuPage extends Activity {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals("command")) {
             	Bundle b = intent.getExtras();
-            	String msg = b.getString("msg");
+            	//String msg = b.getString("msg");
             	final int navigate = b.getInt("navigate");
 
             	//Log.v(TAG, "on receive: "+msg);

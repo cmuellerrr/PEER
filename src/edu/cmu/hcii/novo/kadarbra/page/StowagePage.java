@@ -116,4 +116,22 @@ public class StowagePage extends TableLayout {
 		header.addView(notesHeader);
 		return header;
 	}
+
+
+
+	/**
+	 * @return the stowageItems
+	 */
+	public List<StowageItem> getStowageItems() {
+		return stowageItems;
+	}
+
+
+
+	/**
+	 * @param stowageItems the stowageItems to set
+	 */
+	public void setStowageItems(List<StowageItem> stowageItems) {
+		this.stowageItems = stowageItems;
+	}
 }

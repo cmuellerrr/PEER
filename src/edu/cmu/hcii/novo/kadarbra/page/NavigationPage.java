@@ -5,7 +5,6 @@ package edu.cmu.hcii.novo.kadarbra.page;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -62,6 +61,8 @@ public class NavigationPage extends LinearLayout {
 		}
 	}
 
+	
+	
 	/**
 	 * @param context
 	 * @param attrs
@@ -71,4 +72,21 @@ public class NavigationPage extends LinearLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+	/**
+	 * @return the steps
+	 */
+	public List<Step> getSteps() {
+		return steps;
+	}
+
+
+
+	/**
+	 * @param steps the steps to set
+	 */
+	public void setSteps(List<Step> steps) {
+		this.steps = steps;
+	}
 }

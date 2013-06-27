@@ -35,8 +35,6 @@ public class ProcedureActivity extends Activity {
 
 	public final static int PREPARE_PAGES = 3; // number of pages in prepare stage (before steps are shown)
 	public final static int OPEN_MENU = 0; // startActivitForResult call identifier
-
-	private MainApp MainApp;
 	
 	private Procedure procedure;
 	private ViewPager viewPager;
@@ -53,7 +51,6 @@ public class ProcedureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		//MainApp = (MainApp)this.getApplicationContext();
 		
 		Intent intent = getIntent();
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
@@ -67,6 +64,8 @@ public class ProcedureActivity extends Activity {
 		initMenuButton();
 		
 	}
+	
+	
 	
 	private void initMenuButton(){
 		Button menuButton = (Button) findViewById(R.id.menuButton);
@@ -101,6 +100,8 @@ public class ProcedureActivity extends Activity {
 		});
 	}
 	
+	
+	
 	/**
 	 * Called when child activity returns some result
 	 */
@@ -134,6 +135,7 @@ public class ProcedureActivity extends Activity {
 			}
 		}
 	}
+	
 	
 	
 	// initializes ViewPager (the horizontal swiping UI element)
@@ -193,9 +195,8 @@ public class ProcedureActivity extends Activity {
 		
 		result.add(new ExecNotesPage(this, procedure.getExecNotes()));
 		
-		for (int i = 0; i < procedure.getNumSteps(); i++){ // populates the StepPage array with dummy data
+		for (int i = 0; i < procedure.getNumSteps(); i++){
 			result.addAll(setupStepPage(procedure.getStep(i), null));
-
 		}
 		
 		return result;
@@ -231,6 +232,8 @@ public class ProcedureActivity extends Activity {
 		return result;
 	}
 
+	
+	
 	/**
 	 * Get the index of the execution note for the given step number.
 	 * If no execution note exists, return -1.
@@ -246,6 +249,8 @@ public class ProcedureActivity extends Activity {
 		
 		return -1;
 	}
+	
+	
 	
 	// initalizes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
@@ -310,6 +315,9 @@ public class ProcedureActivity extends Activity {
         //clearReferences();
         Log.v(TAG, "onDestroy");
     }
+    
+    
+    
     /*
     private void clearReferences() {
     	Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
@@ -373,6 +381,8 @@ public class ProcedureActivity extends Activity {
     	
     }
 
+    
+    
     private void prevPage(){
     	if (viewPager.getCurrentItem()>0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
@@ -386,5 +396,4 @@ public class ProcedureActivity extends Activity {
     	if (viewPager.getCurrentItem()<viewPager.getChildCount());
     		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
     }
-
 }
