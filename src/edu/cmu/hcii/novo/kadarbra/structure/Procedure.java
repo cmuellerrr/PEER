@@ -29,7 +29,6 @@ public class Procedure implements Serializable {
 	private List<ExecNote> execNotes;
 	private List<StowageItem> stowageItems;
 	private List<Step> steps;
-	private int stepIndex;
 	
 	/**
 	 * Create a procedure object with the given properties.  The index is then set to
@@ -48,7 +47,6 @@ public class Procedure implements Serializable {
 		this.execNotes = new ArrayList<ExecNote>();
 		this.stowageItems = new ArrayList<StowageItem>();
 		this.steps = steps;
-		this.stepIndex = 0;
 	}
 	
 	/**
@@ -72,7 +70,6 @@ public class Procedure implements Serializable {
 		this.execNotes = execNotes;
 		this.stowageItems = stowageItems;
 		this.steps = steps;
-		this.stepIndex = 0;
 	}
 	
 	/**
@@ -93,7 +90,6 @@ public class Procedure implements Serializable {
 	public void addStepAt(int index, Step step) {
 		if (index <= steps.size()) {
 			steps.add(index, step);
-			if (index <= stepIndex) stepIndex++;
 		}
 	}
 	
@@ -224,19 +220,5 @@ public class Procedure implements Serializable {
 	 */
 	public int getNumSteps() {
 		return steps.size();
-	}
-
-	/**
-	 * @return the stepIndex
-	 */
-	public int getStepIndex() {
-		return stepIndex;
-	}
-
-	/**
-	 * @param stepIndex the stepIndex to set
-	 */
-	public void setStepIndex(int stepIndex) {
-		this.stepIndex = stepIndex;
 	}
 }

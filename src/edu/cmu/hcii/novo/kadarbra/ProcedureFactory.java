@@ -12,8 +12,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
 import android.util.Xml;
+import edu.cmu.hcii.novo.kadarbra.structure.Callout;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.Reference;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
@@ -412,7 +414,9 @@ public class ProcedureFactory {
 		
 		String number = null;
 	    String text = null;
+	    List<Callout> callouts = new ArrayList<Callout>();
 	    List<Step> substeps = new ArrayList<Step>();
+	    List<Reference> references = new ArrayList<Reference>();
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "step");
@@ -431,6 +435,12 @@ public class ProcedureFactory {
 	        } else if (tag.equals("text")) {
 	            text = readTag(parser, tag);
 	            
+	        } else if (tag.equals("callout")) {
+	            callouts.add(readCallout(parser));
+	            
+	        } else if (tag.equals("reference")) {
+	            references.add(readReference(parser));
+	            
 	        } else if (tag.equals("step")) {
 	            substeps.add(readStep(parser));
 	            
@@ -438,8 +448,122 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }
-	    return new Step(number, text, substeps);
+	    return new Step(number, text, callouts, references, substeps);
 	}
+	
+	
+	
+	/**
+	 * Parse and xml document to create a new Callout object.
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting Callout object
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static Callout readCallout(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing callout");
+		
+		Callout.CType type = null;
+	    String text = null;
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "callout");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("type")) {
+	            String t = readTag(parser, tag);
+
+	            if (t.equals("note")) {
+	            	type = Callout.CType.NOTE;
+	            	
+	            } else if (t.equals("warning")) {
+	            	type = Callout.CType.WARNING;
+	            	
+	            } else if (t.equals("caution")) {
+	            	type = Callout.CType.CAUTION;
+	            	
+	            }
+	        
+	        } else if (tag.equals("text")) {
+	            text = readTag(parser, tag);
+	            
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return new Callout(type, text);
+	}
+	
+	
+	
+	/**
+	 * Parse and xml document to create a new Callout object.
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting Callout object
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static Reference readReference(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing reference");
+		
+		Reference.RType type = null;
+	    String name = null;
+	    String description = null;
+	    String url = null;
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "reference");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("type")) {
+	            String t = readTag(parser, tag);
+
+	            if (t.equals("image")) {
+	            	type = Reference.RType.IMAGE;
+	            	
+	            } else if (t.equals("video")) {
+	            	type = Reference.RType.VIDEO;
+	            	
+	            } else if (t.equals("audio")) {
+	            	type = Reference.RType.AUDIO;
+	            	
+	            } else if (t.equals("table")) {
+	            	type = Reference.RType.TABLE;
+	            	
+	            }
+	        
+	        } else if (tag.equals("name")) {
+	            name = readTag(parser, tag);
+	            
+	        } else if (tag.equals("description")) {
+	            description = readTag(parser, tag);
+	            
+	        } else if (tag.equals("url")) {
+	            url = readTag(parser, tag);
+	            
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    return new Reference(type, name, description, url);
+	}
+	
 	
 	
 	private static List<Step> readCycle(XmlPullParser parser) throws XmlPullParserException, IOException {
