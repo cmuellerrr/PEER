@@ -84,6 +84,7 @@ public class StepPageScrollView extends ScrollView{
 		List<Integer> list = new ArrayList<Integer>();
 		int currentScroll = 0;
 		int currentChild = 0;
+		list.add(0);
 		
 		while (currentScroll < stepPage.getHeight() - viewHeight){			
 			// iterate through all children that are currently viewable
@@ -124,11 +125,13 @@ public class StepPageScrollView extends ScrollView{
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent e){
-		if (e.getAction() == MotionEvent.ACTION_DOWN){
-			if (current_scrollIndex < scrollIndex.size()){
-				smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
-				current_scrollIndex++;
-			}
+		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
+			current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
+			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
+			current_scrollIndex = Math.max(0, current_scrollIndex-1);
+			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+			
 		}
 		
 		
