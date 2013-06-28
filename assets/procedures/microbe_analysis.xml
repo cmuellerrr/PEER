@@ -172,12 +172,18 @@
 						<type>image</type>
 						<name>Figure 1</name>
 						<description>Incubation bag labeling and placement</description>
-						<link>link_to_image.png</link>
+						<url>test1.jpg</url>
 					</reference>
 				</step>
 				<step>
 					<number>2</number>
 					<text>Put on gloves.</text>
+					<reference>
+                        <type>video</type>
+                        <name>Video 1</name>
+                        <description>Put the damn gloves on</description>
+                        <url>test1.mp4</url>
+                    </reference>
 				</step>
 			</step>
 			<step>
@@ -198,7 +204,7 @@
 						<type>image</type>
 						<name>Figure 2</name>
 						<description>Correct motion for swabbing sample site</description>
-						<link>link_to_image.png</link>
+						<url>test2.png</url>
 					</reference>
 				</step>
 			</step>

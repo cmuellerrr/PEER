@@ -13,9 +13,11 @@ import android.content.res.AssetManager;
 import android.util.Log;
 import android.util.Xml;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
+import edu.cmu.hcii.novo.kadarbra.structure.Callout.CType;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
+import edu.cmu.hcii.novo.kadarbra.structure.Reference.RType;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
@@ -464,7 +466,7 @@ public class ProcedureFactory {
 	private static Callout readCallout(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing callout");
 		
-		Callout.CType type = null;
+		CType type = null;
 	    String text = null;
 	    
 	    //This is the tag we are looking for
@@ -482,13 +484,13 @@ public class ProcedureFactory {
 	            String t = readTag(parser, tag);
 
 	            if (t.equals("note")) {
-	            	type = Callout.CType.NOTE;
+	            	type = CType.NOTE;
 	            	
 	            } else if (t.equals("warning")) {
-	            	type = Callout.CType.WARNING;
+	            	type = CType.WARNING;
 	            	
 	            } else if (t.equals("caution")) {
-	            	type = Callout.CType.CAUTION;
+	            	type = CType.CAUTION;
 	            	
 	            }
 	        
@@ -515,7 +517,7 @@ public class ProcedureFactory {
 	private static Reference readReference(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing reference");
 		
-		Reference.RType type = null;
+		RType type = null;
 	    String name = null;
 	    String description = null;
 	    String url = null;
@@ -535,16 +537,16 @@ public class ProcedureFactory {
 	            String t = readTag(parser, tag);
 
 	            if (t.equals("image")) {
-	            	type = Reference.RType.IMAGE;
+	            	type = RType.IMAGE;
 	            	
 	            } else if (t.equals("video")) {
-	            	type = Reference.RType.VIDEO;
+	            	type = RType.VIDEO;
 	            	
 	            } else if (t.equals("audio")) {
-	            	type = Reference.RType.AUDIO;
+	            	type = RType.AUDIO;
 	            	
 	            } else if (t.equals("table")) {
-	            	type = Reference.RType.TABLE;
+	            	type = RType.TABLE;
 	            	
 	            }
 	        

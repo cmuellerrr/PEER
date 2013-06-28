@@ -5,6 +5,8 @@ package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
 
+import android.os.Environment;
+
 /**
  * A class representing reference objects.  Can be image, 
  * video, audio, or a table.
@@ -41,7 +43,9 @@ public class Reference implements Serializable {
 		this.type = type;
 		this.name = name;
 		this.description = description;
-		this.url = url;
+		
+		//TODO fix this.  where are we storing the media files?
+		this.url = Environment.getExternalStorageDirectory().toString() + "/" + url;
 	}
 
 
