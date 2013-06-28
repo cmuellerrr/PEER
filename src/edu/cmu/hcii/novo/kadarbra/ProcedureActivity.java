@@ -22,6 +22,7 @@ import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.MenuPage;
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
+import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
 import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
@@ -79,17 +80,19 @@ public class ProcedureActivity extends Activity {
 		    	/**
 		    	 * Also passes highest level step to MenuPage
 		    	 * 
-		    	 * TODO: how to get highest level step needs to change
+		    	 * TODO: how to get highest level step needs to change (use procedureIndex)
 		    	 */
 		    	if (viewPager.getCurrentItem()>=PREPARE_PAGES){
-			    	StepPage curStepPage = (StepPage) viewPager.findViewWithTag(viewPager.getCurrentItem());
-			    	Step curStep = curStepPage.getStep();
-			    	if (curStepPage.getStepParent() != null){
-			    		curStep = (Step) curStepPage.getStepParent();
-			    	}
+			    	//StepPage curStepPage = (StepPage) viewPager.findViewWithTag(viewPager.getCurrentItem());
+			    	//Step curStep = curStepPage.getStep();
+			    	//if (curStepPage.getStepParent() != null){
+			    	//	curStep = (Step) curStepPage.getStepParent();
+			    	//}
 			    	//TextView tv = ((TextView) curStepPage.getChildAt(0)).getText().toString().substring(0,1)
-			    	int curStepNum = Integer.parseInt(curStep.getNumber().substring(0,1));
-			    	intent.putExtra(CURRENT_STEP, curStepNum-1);
+			    	//int curStepNum = Integer.parseInt(curStep.getNumber().substring(0,1));
+			    	//intent.putExtra(CURRENT_STEP, curStepNum-1);
+		    	
+		    		intent.putExtra(CURRENT_STEP, -1);
 		    	}else
 		    		intent.putExtra(CURRENT_STEP, -1);
 		    	
@@ -107,7 +110,6 @@ public class ProcedureActivity extends Activity {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 				
 		/**
@@ -142,8 +144,11 @@ public class ProcedureActivity extends Activity {
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
 		List<ViewGroup> sp = setupPages();
+		List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
 		
-		PagerAdapter pagerAdapter = new PageAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
+		
+		PagerAdapter pagerAdapter = new PageAdapter(this, scrollViewPages); // the PagerAdapter is used to popuplate the ViewPager
+		
 		
 		viewPager.setAdapter(pagerAdapter);
 		viewPager.setCurrentItem(0);
@@ -180,6 +185,18 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	
+	/**
+	 * Puts procedure step pages within scroll views
+	 */
+	private List<ViewGroup> setupScrollViewPages(List<ViewGroup> stepPages){
+		List<ViewGroup> result = new ArrayList<ViewGroup>();
+		for (int i = 0; i < stepPages.size(); i++){
+			StepPageScrollView sv = new StepPageScrollView(getBaseContext(),stepPages.get(i));
+			result.add(sv);
+		}
+		
+		return result;
+	}
 	
 	/**
 	 * Setup the procedure steps as a list of step pages.
