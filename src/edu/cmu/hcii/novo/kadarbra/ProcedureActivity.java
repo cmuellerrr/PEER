@@ -144,10 +144,10 @@ public class ProcedureActivity extends Activity {
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
 		List<ViewGroup> sp = setupPages();
-		List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
+		//List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
 		
 		
-		PagerAdapter pagerAdapter = new PageAdapter(this, scrollViewPages); // the PagerAdapter is used to popuplate the ViewPager
+		PagerAdapter pagerAdapter = new PageAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
 		
 		
 		viewPager.setAdapter(pagerAdapter);

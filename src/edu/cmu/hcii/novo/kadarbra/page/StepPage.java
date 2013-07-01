@@ -1,10 +1,15 @@
 package edu.cmu.hcii.novo.kadarbra.page;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -193,10 +198,22 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupImageReference(Reference ref) {
 		Log.v(TAG, "Setting up image view: " + ref.getUrl());
-		final LayoutInflater inflater = LayoutInflater.from(getContext());
-		ImageView img = (ImageView) inflater.inflate(R.layout.reference_image, (ViewGroup) this.getParent(), false);
-		img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));
-		this.addView(img);
+		
+		try {
+			final LayoutInflater inflater = LayoutInflater.from(getContext());
+			ImageView img = (ImageView) inflater.inflate(R.layout.reference_image, (ViewGroup) this.getParent(), false);
+			
+			InputStream is = getContext().getAssets().open("procedures/references/" + ref.getUrl());
+			Drawable d = Drawable.createFromStream(is, null);
+	        img.setImageDrawable(d);
+	        
+	        //img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));
+			this.addView(img);
+			
+		} catch (IOException e) {
+			Log.e(TAG, "Error loading image", e);
+		}
+        
 	}
 	
 	
@@ -210,11 +227,21 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupVideoReference(Reference ref) {
 		Log.v(TAG, "Setting up video view: " + ref.getUrl());
+		
 		final LayoutInflater inflater = LayoutInflater.from(getContext());
 		VideoView vid = (VideoView) inflater.inflate(R.layout.reference_video, (ViewGroup) this.getParent(), false);
-		vid.setVideoURI(Uri.parse(ref.getUrl()));
+			
+		//TODO for some reason this fucking thing doesn't work.
+		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
+		vid.setVideoURI(Uri.parse(Environment.getExternalStorageDirectory().toString() + "/" + ref.getUrl()));
+			
 		vid.setMediaController(new MediaController(getContext()));
-		vid.start();
+		vid.setOnPreparedListener(new OnPreparedListener() {
+            public void onPrepared(MediaPlayer mp) {
+                mp.start();
+            }
+        });
+			
 		this.addView(vid);
 	}
 	
