@@ -19,20 +19,22 @@ public class Step implements Serializable {
 	private String number;
 	private String text;
 	private ExecNote execNote;
+	private List<Callout> callouts;
+	private List<Reference> references;
 	private List<Step> substeps;
-	private int substepIndex;
 	
 	
 	
 	/**
 	 * 
 	 */
-	public Step(String number, String text, List<Step> substeps) {
+	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<Step> substeps) {
 		this.number = number;
 		this.text = text;
 		this.execNote = null;
+		this.callouts = callouts;
+		this.references = references;
 		this.substeps = substeps;
-		this.substepIndex = 0;
 	}
 
 	
@@ -51,6 +53,42 @@ public class Step implements Serializable {
 	 */
 	public void setExecNote(ExecNote execNote) {
 		this.execNote = execNote;
+	}
+
+
+
+	/**
+	 * @return the callouts
+	 */
+	public List<Callout> getCallouts() {
+		return callouts;
+	}
+
+
+
+	/**
+	 * @param callouts the callouts to set
+	 */
+	public void setCallouts(List<Callout> callouts) {
+		this.callouts = callouts;
+	}
+
+
+
+	/**
+	 * @return the references
+	 */
+	public List<Reference> getReferences() {
+		return references;
+	}
+
+
+
+	/**
+	 * @param references the references to set
+	 */
+	public void setReferences(List<Reference> references) {
+		this.references = references;
 	}
 
 
@@ -75,7 +113,6 @@ public class Step implements Serializable {
 	public void addSubstepAt(int index, Step step) {
 		if (index <= substeps.size()) {
 			substeps.add(index, step);
-			if (index <= substepIndex) substepIndex ++;
 		}
 	}
 	
@@ -91,6 +128,24 @@ public class Step implements Serializable {
 	
 	
 	
+	/**
+	 * @return the substeps
+	 */
+	public List<Step> getSubsteps() {
+		return substeps;
+	}
+
+
+
+	/**
+	 * @param substeps the substeps to set
+	 */
+	public void setSubsteps(List<Step> substeps) {
+		this.substeps = substeps;
+	}
+
+
+
 	/**
 	 * @return the number of steps
 	 */
