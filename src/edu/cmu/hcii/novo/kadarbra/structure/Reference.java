@@ -6,6 +6,7 @@ package edu.cmu.hcii.novo.kadarbra.structure;
 import java.io.Serializable;
 
 import android.os.Environment;
+import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
  * A class representing reference objects.  Can be image, 
@@ -45,7 +46,7 @@ public class Reference implements Serializable {
 		this.description = description;
 		
 		//TODO fix this.  where are we storing the media files?
-		this.url = Environment.getExternalStorageDirectory().toString() + "/" + url;
+		this.url = Environment.getExternalStorageDirectory().toString() + R.string.reference_directory + url;
 	}
 
 
