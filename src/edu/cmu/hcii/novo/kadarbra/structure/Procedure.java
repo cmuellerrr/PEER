@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.view.ViewGroup;
+
 
 /**
  * A class to represent a procedure.  This will hold
@@ -29,7 +31,8 @@ public class Procedure implements Serializable {
 	private List<ExecNote> execNotes;
 	private List<StowageItem> stowageItems;
 	private List<Step> steps;
-	
+	private List<Step> stepsUnnested = new ArrayList<Step>();
+
 	/**
 	 * Create a procedure object with the given properties.  The index is then set to
 	 * 0.
@@ -47,6 +50,7 @@ public class Procedure implements Serializable {
 		this.execNotes = new ArrayList<ExecNote>();
 		this.stowageItems = new ArrayList<StowageItem>();
 		this.steps = steps;
+		generateStepsUnnested();
 	}
 	
 	/**
@@ -70,6 +74,7 @@ public class Procedure implements Serializable {
 		this.execNotes = execNotes;
 		this.stowageItems = stowageItems;
 		this.steps = steps;
+		generateStepsUnnested();
 	}
 	
 	/**
@@ -221,4 +226,39 @@ public class Procedure implements Serializable {
 	public int getNumSteps() {
 		return steps.size();
 	}
+	
+	
+	/**
+	 * @return the steps in a flat, unnested list
+	 */
+	public List<Step> getStepsUnnested(){
+		return stepsUnnested;
+	}
+	
+	/**
+	 * @return the steps in a flat list
+	 */
+	private void generateStepsUnnested(){
+		for (int i = 0; i < steps.size(); i++){
+			traverseSteps(steps.get(i));
+		}
+	}
+	
+	/**
+	 * traverses through all the steps to create an unnested list of steps and substeps
+	 * @param step current step
+	 */
+	private void traverseSteps(Step step){
+		if (step != null){
+			if (step.getNumSubsteps()==0)
+				stepsUnnested.add(step);
+			
+			for (int i = 0; i < step.getNumSubsteps(); i++){
+				traverseSteps(step.getSubstep(i));
+			}
+			
+		}else
+			return;
+	}
+	
 }

@@ -30,6 +30,12 @@
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent" />
 
+	<edu.cmu.hcii.novo.kadarbra.StepPreviewWidget 
+	android:id="@+id/stepPreviewWidget"	
+	android:layout_alignParentBottom="true"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"    
+	    />
 	
 
 </RelativeLayout>

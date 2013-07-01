@@ -40,7 +40,7 @@ public class ProcedureActivity extends Activity {
 	private Procedure procedure;
 	private ViewPager viewPager;
 	private Breadcrumb breadcrumb;
-	
+	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver; 
 	
 	private List<Integer> procedureIndex;
@@ -63,9 +63,14 @@ public class ProcedureActivity extends Activity {
 		procedureIndex=getPageIndex();
 		
 		initMenuButton();
-		
+		initStepPreviewWidget();
 	}
 	
+	private void initStepPreviewWidget(){
+		stepPreviewWidget = (StepPreviewWidget) findViewById(R.id.stepPreviewWidget);
+		stepPreviewWidget.setCurrentStep(procedure,0);
+
+	}
 	
 	
 	private void initMenuButton(){
@@ -144,10 +149,10 @@ public class ProcedureActivity extends Activity {
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
 		List<ViewGroup> sp = setupPages();
-		List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
+		//List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
 		
 		
-		PagerAdapter pagerAdapter = new PageAdapter(this, scrollViewPages); // the PagerAdapter is used to popuplate the ViewPager
+		PagerAdapter pagerAdapter = new PageAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
 		
 		
 		viewPager.setAdapter(pagerAdapter);
@@ -171,6 +176,8 @@ public class ProcedureActivity extends Activity {
 			public void onPageSelected(int arg0) {
 				Log.v("viewPager","onPageSelected "+arg0);
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
+				stepPreviewWidget.setCurrentStep(procedure,arg0);
+				
 				/*if (!(viewPager.getChildAt(viewPager.getCurrentItem()).getClass() == StepPage.class)) {
 
 					Log.v(TAG, "Removing breadcrumb");
