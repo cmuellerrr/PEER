@@ -84,20 +84,21 @@ public class ProcedureActivity extends Activity {
 		    	
 		    	/**
 		    	 * Also passes highest level step to MenuPage
-		    	 * 
-		    	 * TODO: how to get highest level step needs to change (use procedureIndex)
 		    	 */
 		    	if (viewPager.getCurrentItem()>=PREPARE_PAGES){
-			    	//StepPage curStepPage = (StepPage) viewPager.findViewWithTag(viewPager.getCurrentItem());
-			    	//Step curStep = curStepPage.getStep();
-			    	//if (curStepPage.getStepParent() != null){
-			    	//	curStep = (Step) curStepPage.getStepParent();
-			    	//}
-			    	//TextView tv = ((TextView) curStepPage.getChildAt(0)).getText().toString().substring(0,1)
-			    	//int curStepNum = Integer.parseInt(curStep.getNumber().substring(0,1));
-			    	//intent.putExtra(CURRENT_STEP, curStepNum-1);
-		    	
-		    		intent.putExtra(CURRENT_STEP, -1);
+		    		
+		    		// Iterates through the procedureIndex to see which higher level step section this current page is in
+		    		for (int i = 0; i < procedureIndex.size()-1; i++){
+		    			int page = procedureIndex.get(i);
+		    			int nextSectionStart = procedureIndex.get(i+1);
+			    		if (viewPager.getCurrentItem() >= page && 
+			    			viewPager.getCurrentItem() < nextSectionStart){
+			    			intent.putExtra(CURRENT_STEP, i-1);
+			    		}else if (viewPager.getCurrentItem() >= nextSectionStart){
+			    			intent.putExtra(CURRENT_STEP, i);
+			    		}
+			    	}
+		    		
 		    	}else
 		    		intent.putExtra(CURRENT_STEP, -1);
 		    	
