@@ -7,6 +7,5 @@
     <string name="title_activity_procedure">ProcedureActivity</string>
     <string name="title_execution_notes">Execution Notes</string>
     <string name="title_stowage_notes">Stowage Notes</string>
-    <string name="reference_directory">/</string>
 
 </resources>

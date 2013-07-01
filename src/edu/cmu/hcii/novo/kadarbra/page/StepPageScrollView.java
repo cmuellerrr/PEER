@@ -53,14 +53,14 @@ public class StepPageScrollView extends ScrollView{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.v(TAG,"onDraw - scrollY "+       this.getScrollY() + ", " + stepPage.getHeight());
+        //Log.v(TAG,"onDraw - scrollY "+       this.getScrollY() + ", " + stepPage.getHeight());
 
         for (int i = 0; i< stepPage.getChildCount(); i++){
         	Rect r = new Rect();
         	View stepItem = stepPage.getChildAt(i);
         	
         	stepItem.getGlobalVisibleRect(r);
-            Log.v(TAG,"onDraw - child:"+i+"  Rect -"+" top:"+stepItem.getTop()+" bot:"+stepItem.getBottom() + " height:"+stepItem.getHeight());
+            //Log.v(TAG,"onDraw - child:"+i+"  Rect -"+" top:"+stepItem.getTop()+" bot:"+stepItem.getBottom() + " height:"+stepItem.getHeight());
 
             
         	

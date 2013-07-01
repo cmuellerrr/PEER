@@ -192,6 +192,7 @@ public class StepPage extends LinearLayout {
 	 * @param ref the reference to render
 	 */
 	private void setupImageReference(Reference ref) {
+		Log.v(TAG, "Setting up image view: " + ref.getUrl());
 		final LayoutInflater inflater = LayoutInflater.from(getContext());
 		ImageView img = (ImageView) inflater.inflate(R.layout.reference_image, (ViewGroup) this.getParent(), false);
 		img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));

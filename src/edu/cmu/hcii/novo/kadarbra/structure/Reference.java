@@ -46,7 +46,7 @@ public class Reference implements Serializable {
 		this.description = description;
 		
 		//TODO fix this.  where are we storing the media files?
-		this.url = Environment.getExternalStorageDirectory().toString() + R.string.reference_directory + url;
+		this.url = Environment.getExternalStorageDirectory().toString() + "/" + url;
 	}
 
 
