@@ -416,6 +416,7 @@ public class ProcedureFactory {
 		
 		String number = null;
 	    String text = null;
+	    String consequent = null;
 	    List<Callout> callouts = new ArrayList<Callout>();
 	    List<Step> substeps = new ArrayList<Step>();
 	    List<Reference> references = new ArrayList<Reference>();
@@ -434,6 +435,9 @@ public class ProcedureFactory {
 	        if (tag.equals("number")) {
 	            number = readTag(parser, tag);
 	        
+	        } else if (tag.equals("consequent")) {
+	            consequent = readTag(parser, tag);
+	            
 	        } else if (tag.equals("text")) {
 	            text = readTag(parser, tag);
 	            
@@ -450,7 +454,11 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }
-	    return new Step(number, text, callouts, references, substeps);
+	    
+	    Step result = new Step(number, text, callouts, references, substeps);
+	    if (consequent != null) result.setConsequent(consequent);
+	
+	    return result;
 	}
 	
 	

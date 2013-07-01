@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,23 +42,49 @@ public class StepPage extends LinearLayout {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
+		Log.d(TAG, "Creating step page");
+		
 		this.step = step;
 		this.parent = parent;
 		
 		setupExecutionNotes();
 		setupCallouts();
 		
+		//setup the parent
 		if (parent != null) {
-			TextView parentView = new TextView(context);
+			Log.v(TAG, "Setting up parent info");
+			final TextView parentView = new TextView(context);
 			parentView.setText(parent.getNumber() + ": " + parent.getText());
 			parentView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 			this.addView(parentView);
 		}
 		
-		TextView subView = new TextView(context);
+		final TextView subView = new TextView(context);
 		subView.setText(step.getNumber() + ": " + step.getText());
 		subView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		this.addView(subView);
+		
+		//if it is a conditional
+		if (step.isConditional()) {
+			Log.v(TAG, "Setting up conditional consequent");
+			
+			final TextView conseqView = new TextView(context);
+			conseqView.setText(step.getConsequent());
+			conseqView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+			conseqView.setVisibility(INVISIBLE);
+			this.addView(conseqView);
+			
+			subView.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					//There's got to be a toggle somewhere...
+					if (conseqView.getVisibility() == VISIBLE){
+						conseqView.setVisibility(INVISIBLE);
+					} else {
+						conseqView.setVisibility(VISIBLE);
+					}
+				}
+			});
+		}
 		
 		setupReferences();
 	}
@@ -80,22 +107,8 @@ public class StepPage extends LinearLayout {
 		super.onLayout(changed,l,t,r,b);
 		// TODO Auto-generated method stub	
 	}
-
-	/**
-	 * 
-	 * @return step
-	 */
-	public Step getStep(){
-		return step;
-	}
 	
-	/**
-	 * 
-	 * @return parent
-	 */
-	public Step getStepParent(){
-		return parent;
-	}
+	
 
 	/**
 	 * Sets up the execution notes to be displayed for this step.
@@ -235,5 +248,25 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupTableReference(Reference ref) {
 		//TODO
+	}
+
+
+
+	/**
+	 * 
+	 * @return step
+	 */
+	public Step getStep(){
+		return step;
+	}
+
+
+
+	/**
+	 * 
+	 * @return parent
+	 */
+	public Step getStepParent(){
+		return parent;
 	}
 }

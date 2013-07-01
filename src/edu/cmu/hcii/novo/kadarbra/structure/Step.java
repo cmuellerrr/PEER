@@ -17,6 +17,7 @@ public class Step implements Serializable {
 	 */
 	private static final long serialVersionUID = -4348295150944687945L;
 	private String number;
+	private String consequent;
 	private String text;
 	private ExecNote execNote;
 	private List<Callout> callouts;
@@ -31,6 +32,7 @@ public class Step implements Serializable {
 	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<Step> substeps) {
 		this.number = number;
 		this.text = text;
+		this.consequent = "";
 		this.execNote = null;
 		this.callouts = callouts;
 		this.references = references;
@@ -165,6 +167,16 @@ public class Step implements Serializable {
 	
 	
 	/**
+	 * Return if the step has conditional logic
+	 * @return if the consequent is populated
+	 */
+	public boolean isConditional() {
+		return !(consequent == null || consequent.equals(""));
+	}
+	
+	
+	
+	/**
 	 * @param number the number to set
 	 */
 	public void setNumber(String number) {
@@ -173,6 +185,24 @@ public class Step implements Serializable {
 
 	
 	
+	/**
+	 * @return the consequent
+	 */
+	public String getConsequent() {
+		return consequent;
+	}
+
+
+
+	/**
+	 * @param consequent the consequent to set
+	 */
+	public void setConsequent(String consequent) {
+		this.consequent = consequent;
+	}
+
+
+
 	/**
 	 * @return the text
 	 */
