@@ -34,11 +34,6 @@ public class StepPageScrollView extends ScrollView{
 		this.stepPage = stepPageViewGroup;
 		setScrollbarFadingEnabled(false);	
 	}
-	
-	@Override
-	public void addView(View child){
-		
-	}
 
 	/**
 	 * 
