@@ -47,7 +47,11 @@ public class StepPage extends LinearLayout {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
-		Log.d(TAG, "Creating step page");
+		String fullNumber = (parent != null ? parent.getNumber() + "." : "")  + 
+				step.getNumber();
+		String cycleNumber = (step.getCycle() > 0 ? "Cycle " + step.getCycle() : "");
+		
+		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleNumber);
 		
 		this.step = step;
 		this.parent = parent;
@@ -55,23 +59,31 @@ public class StepPage extends LinearLayout {
 		setupExecutionNotes();
 		setupCallouts();
 		
+		//Add in an indicator if in a cycle
+		if (step.getCycle() > 0) {
+			final TextView cycleView = new TextView(context);
+			cycleView.setText(cycleNumber);
+			cycleView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+			this.addView(cycleView);
+		}
+		
 		//setup the parent
-		if (parent != null) {
-			Log.v(TAG, "Setting up parent info");
+		if (parent != null) {			
 			final TextView parentView = new TextView(context);
 			parentView.setText(parent.getNumber() + ": " + parent.getText());
 			parentView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 			this.addView(parentView);
 		}
 		
+		//Add the normal text
 		final TextView subView = new TextView(context);
-		subView.setText(step.getNumber() + ": " + step.getText());
+		subView.setText(fullNumber + ": " + step.getText());
 		subView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		this.addView(subView);
 		
 		//if it is a conditional
 		if (step.isConditional()) {
-			Log.v(TAG, "Setting up conditional consequent");
+			Log.v(TAG, "Step has conditional content");
 			
 			final TextView conseqView = new TextView(context);
 			conseqView.setText(step.getConsequent());
