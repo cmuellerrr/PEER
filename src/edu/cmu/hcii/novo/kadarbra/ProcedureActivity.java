@@ -35,7 +35,7 @@ public class ProcedureActivity extends Activity {
 	public final static String CURRENT_STEP = "edu.cmu.hcii.novo.kadarbra.CURRENT_STEP";
 
 	public final static int PREPARE_PAGES = 3; // number of pages in prepare stage (before steps are shown)
-	public final static int OPEN_MENU = 0; // startActivitForResult call identifier
+	public final static int OPEN_MENU = 0; // startActivityForResult call identifier
 	
 	private Procedure procedure;
 	private ViewPager viewPager;
@@ -79,7 +79,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getBaseContext(), MenuPage.class);
+				Intent intent = new Intent(ProcedureActivity.this, MenuPage.class);
 		    	intent.putExtra(PROCEDURE, procedure);
 		    	
 		    	/**
@@ -150,10 +150,10 @@ public class ProcedureActivity extends Activity {
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
 		List<ViewGroup> sp = setupPages();
-		//List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
+		List<ViewGroup> scrollViewPages = setupScrollViewPages(sp);
 		
 		
-		PagerAdapter pagerAdapter = new PageAdapter(this, sp); // the PagerAdapter is used to popuplate the ViewPager
+		PagerAdapter pagerAdapter = new PageAdapter(this, scrollViewPages); // the PagerAdapter is used to popuplate the ViewPager
 		
 		
 		viewPager.setAdapter(pagerAdapter);
@@ -199,7 +199,7 @@ public class ProcedureActivity extends Activity {
 	private List<ViewGroup> setupScrollViewPages(List<ViewGroup> stepPages){
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
 		for (int i = 0; i < stepPages.size(); i++){
-			StepPageScrollView sv = new StepPageScrollView(getBaseContext(),stepPages.get(i));
+			StepPageScrollView sv = new StepPageScrollView(this,stepPages.get(i));
 			result.add(sv);
 		}
 		
@@ -277,7 +277,7 @@ public class ProcedureActivity extends Activity {
 	
 	
 	
-	// initalizes the Breadcrumb (currently just step numbers)
+	// initializes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
 		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
 		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());

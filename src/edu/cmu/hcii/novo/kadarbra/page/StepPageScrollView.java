@@ -5,12 +5,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
+import android.widget.FrameLayout;
 
 public class StepPageScrollView extends ScrollView{
 	private String TAG = "StepPageScrollView";
@@ -31,7 +32,12 @@ public class StepPageScrollView extends ScrollView{
 		super(context);
 		this.addView(stepPageViewGroup);
 		this.stepPage = stepPageViewGroup;
-		setScrollbarFadingEnabled(false);
+		setScrollbarFadingEnabled(false);	
+	}
+	
+	@Override
+	public void addView(View child){
+		
 	}
 
 	/**
@@ -54,7 +60,7 @@ public class StepPageScrollView extends ScrollView{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //Log.v(TAG,"onDraw - scrollY "+       this.getScrollY() + ", " + stepPage.getHeight());
-
+/*
         for (int i = 0; i< stepPage.getChildCount(); i++){
         	Rect r = new Rect();
         	View stepItem = stepPage.getChildAt(i);
@@ -68,12 +74,11 @@ public class StepPageScrollView extends ScrollView{
             //Log.v(TAG,"onDraw - child:"+i+"  Rect -"+" top:"+r.top+" bot:"+r.bottom);
       	
         }
-     
+     */
         if (scrollIndex==null){
         	scrollIndex = getScrollIndex();
         	
         }
-        
     }
     
     /**
@@ -114,7 +119,7 @@ public class StepPageScrollView extends ScrollView{
 						}
 					}
 						
-				
+			
 			}
 					
 		}
@@ -123,14 +128,15 @@ public class StepPageScrollView extends ScrollView{
 		
 	}
 	
+	/*
 	@Override
 	public boolean onTouchEvent(MotionEvent e){
 		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
 			current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
-			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+			//smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
 			current_scrollIndex = Math.max(0, current_scrollIndex-1);
-			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+			//smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 			
 		}
 		
@@ -139,7 +145,7 @@ public class StepPageScrollView extends ScrollView{
 		return false;
 		
 	}
-	
+	*/
 	
 	
     

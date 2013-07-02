@@ -58,7 +58,7 @@ public class MenuPage extends Activity {
 			public void onClick(View v) {
 				Intent intent = getIntent();
 				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
-				setContentView(new StowagePage(getBaseContext(), procedure.getStowageItems()));
+				setContentView(new StowagePage(MenuPage.this, procedure.getStowageItems()));
 			}
 			
 		});
@@ -73,7 +73,7 @@ public class MenuPage extends Activity {
 				Intent intent = getIntent();
 				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
 				int curStep = (Integer) intent.getSerializableExtra(ProcedureActivity.CURRENT_STEP);
-				setContentView(new NavigationPage(getBaseContext(), procedure.getSteps(), curStep));
+				setContentView(new NavigationPage(MenuPage.this, procedure.getSteps(), curStep));
 			}
 			
 		});
@@ -85,7 +85,7 @@ public class MenuPage extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				setContentView(new AnnotationPage(getBaseContext()));
+				setContentView(new AnnotationPage(MenuPage.this));
 			}
 			
 		});

@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,23 +47,61 @@ public class StepPage extends LinearLayout {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
+		String fullNumber = (parent != null ? parent.getNumber() + "." : "")  + 
+				step.getNumber();
+		String cycleNumber = (step.getCycle() > 0 ? "Cycle " + step.getCycle() : "");
+		
+		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleNumber);
+		
 		this.step = step;
 		this.parent = parent;
 		
 		setupExecutionNotes();
 		setupCallouts();
 		
-		if (parent != null) {
-			TextView parentView = new TextView(context);
+		//Add in an indicator if in a cycle
+		if (step.getCycle() > 0) {
+			final TextView cycleView = new TextView(context);
+			cycleView.setText(cycleNumber);
+			cycleView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+			this.addView(cycleView);
+		}
+		
+		//setup the parent
+		if (parent != null) {			
+			final TextView parentView = new TextView(context);
 			parentView.setText(parent.getNumber() + ": " + parent.getText());
 			parentView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 			this.addView(parentView);
 		}
 		
-		TextView subView = new TextView(context);
-		subView.setText(step.getNumber() + ": " + step.getText());
+		//Add the normal text
+		final TextView subView = new TextView(context);
+		subView.setText(fullNumber + ": " + step.getText());
 		subView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		this.addView(subView);
+		
+		//if it is a conditional
+		if (step.isConditional()) {
+			Log.v(TAG, "Step has conditional content");
+			
+			final TextView conseqView = new TextView(context);
+			conseqView.setText(step.getConsequent());
+			conseqView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+			conseqView.setVisibility(INVISIBLE);
+			this.addView(conseqView);
+			
+			subView.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					//There's got to be a toggle somewhere...
+					if (conseqView.getVisibility() == VISIBLE){
+						conseqView.setVisibility(INVISIBLE);
+					} else {
+						conseqView.setVisibility(VISIBLE);
+					}
+				}
+			});
+		}
 		
 		setupReferences();
 	}
@@ -84,22 +123,6 @@ public class StepPage extends LinearLayout {
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed,l,t,r,b);
 		// TODO Auto-generated method stub	
-	}
-
-	/**
-	 * 
-	 * @return step
-	 */
-	public Step getStep(){
-		return step;
-	}
-	
-	/**
-	 * 
-	 * @return parent
-	 */
-	public Step getStepParent(){
-		return parent;
 	}
 
 	/**
@@ -230,19 +253,22 @@ public class StepPage extends LinearLayout {
 		
 		final LayoutInflater inflater = LayoutInflater.from(getContext());
 		VideoView vid = (VideoView) inflater.inflate(R.layout.reference_video, (ViewGroup) this.getParent(), false);
-			
+		
 		//TODO for some reason this fucking thing doesn't work.
 		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
 		vid.setVideoURI(Uri.parse(Environment.getExternalStorageDirectory().toString() + "/" + ref.getUrl()));
-			
+
 		vid.setMediaController(new MediaController(getContext()));
+
 		vid.setOnPreparedListener(new OnPreparedListener() {
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
             }
         });
 			
+		
 		this.addView(vid);
+		
 	}
 	
 	
@@ -264,4 +290,22 @@ public class StepPage extends LinearLayout {
 	private void setupTableReference(Reference ref) {
 		//TODO
 	}
+	
+	/**
+	 * 
+	 * @return step
+	 */
+	public Step getStep(){
+		return step;
+	}
+	
+	/**
+	 * 
+	 * @return parent
+	 */
+	public Step getStepParent(){
+		return parent;
+	}
 }
+
+
