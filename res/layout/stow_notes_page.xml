@@ -6,16 +6,57 @@
     
     <TextView android:id="@+id/stowNotesTitle"
         style="@style/HorizontalStretch"
-        android:textSize="35sp" 
+        android:textSize="35sp"
+        android:layout_marginBottom="20dp"
         android:text="@string/stow_notes_title">
     </TextView>
     
-    <LinearLayout android:id="@+id/exNotesList"
+    <LinearLayout android:id="@+id/stowNotesList"
         android:layout_width="match_parent"
         android:layout_height="fill_parent" 
         android:orientation="vertical" >
         
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+            
+            <TextView android:id="@+id/binCodeHeader"
+		        style="@style/StowageNoteHeader"
+		        android:layout_weight="1"
+		        android:text="@string/header_bin_code">
+		    </TextView>
+		    
+            <TextView android:id="@+id/itemHeader"
+                style="@style/StowageNoteHeader"
+                android:layout_weight="1"
+                android:text="@string/header_item">
+            </TextView>
+            
+            <TextView android:id="@+id/quantityHeader"
+                style="@style/StowageNoteHeader"
+                android:layout_weight="1"
+                android:text="@string/header_quantity">
+            </TextView>
+            
+            <TextView android:id="@+id/itemCodeHeader"
+                style="@style/StowageNoteHeader"
+                android:layout_weight="1"
+                android:text="@string/header_item_code">
+            </TextView>
+            
+            <TextView android:id="@+id/notesHeader"
+                style="@style/StowageNoteHeader"
+                android:layout_weight="1"
+                android:text="@string/header_notes">
+            </TextView>
+            
+            <TextView android:id="@+id/imageHeader"
+                style="@style/StowageNoteHeader"
+                android:layout_weight="1"
+                android:text="@string/header_image">
+            </TextView>
+        </LinearLayout>
     </LinearLayout>
     
-
 </LinearLayout>

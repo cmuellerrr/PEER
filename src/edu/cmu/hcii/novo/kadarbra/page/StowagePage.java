@@ -8,11 +8,14 @@ import java.util.List;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
 /**
@@ -36,40 +39,29 @@ public class StowagePage extends TableLayout {
 		
 		this.stowageItems = stowageItems;
 		
-		final LayoutInflater inflater = LayoutInflater.from(context);
-		TextView title = (TextView) inflater.inflate(R.layout.title_stowage_notes, (ViewGroup) this.getParent(), false);
-
-		this.addView(title);
-		
-		this.addView(getHeaderRow(context));
+		LayoutInflater inflater = LayoutInflater.from(context);
+        View page = (View)inflater.inflate(R.layout.stow_notes_page, null);
+        
+        LinearLayout notesList = (LinearLayout) page.findViewById(R.id.stowNotesList);
 		
 		for (int i = 0; i < stowageItems.size(); i++) {
 			StowageItem s = stowageItems.get(i);
 			
-			TableRow newRow = new TableRow(context);
 			
-			TextView bin = new TextView(context);
-		    bin.setText(s.getBinCode());
-		    
-		    TextView item = new TextView(context);
-		    item.setText(s.getName());
-		    
-		    TextView quant = new TextView(context);
-		    quant.setText(String.valueOf(s.getQuantity()));
-		    
-		    TextView code = new TextView(context);
-		    code.setText(s.getItemCode());
-		    
-		    TextView notes = new TextView(context);
-		    notes.setText(s.getName());
-		    
-		    newRow.addView(bin);
-		    newRow.addView(item);
-		    newRow.addView(quant);
-		    newRow.addView(code);
-		    newRow.addView(notes);
-		    this.addView(newRow);
+			View newNote = (View) inflater.inflate(R.layout.stow_note, null);
+			
+			((TextView)newNote.findViewById(R.id.stowNoteBinCode)).setText(s.getBinCode());
+			((TextView)newNote.findViewById(R.id.stowNoteItem)).setText(s.getName());
+			((TextView)newNote.findViewById(R.id.stowNoteQuantity)).setText(String.valueOf(s.getQuantity()));
+			((TextView)newNote.findViewById(R.id.stowNoteItemCode)).setText(s.getItemCode());
+			((TextView)newNote.findViewById(R.id.stowNoteNotes)).setText(s.getText());
+			
+			//TODO need to add image
+			
+			notesList.addView(newNote);
 		}
+		
+		this.addView(page);
 	}
 
 	
