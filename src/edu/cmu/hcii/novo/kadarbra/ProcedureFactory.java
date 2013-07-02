@@ -48,14 +48,16 @@ public class ProcedureFactory {
 			Log.v(TAG, procs.length + " file(s) to parse");
 			
 			for (String proc : procs) {
-	    		try {
-	    			Log.d(TAG, "Parsing " + proc);
-
-	    			InputStream in = assMan.open("procedures/" + proc);
-	    			results.add(getProcedure(in));
-	    		} catch (Exception e) {
-	    			Log.e(TAG, "Error parsing procedure", e);
-	    		}
+				if (proc.endsWith(".xml")) {
+		    		try {
+		    			Log.d(TAG, "Parsing " + proc);
+	
+		    			InputStream in = assMan.open("procedures/" + proc);
+		    			results.add(getProcedure(in));
+		    		} catch (Exception e) {
+		    			Log.e(TAG, "Error parsing procedure", e);
+		    		}
+				}
 	    	}
 			
 		} catch (IOException e) {
@@ -416,6 +418,7 @@ public class ProcedureFactory {
 		
 		String number = null;
 	    String text = null;
+	    String consequent = null;
 	    List<Callout> callouts = new ArrayList<Callout>();
 	    List<Step> substeps = new ArrayList<Step>();
 	    List<Reference> references = new ArrayList<Reference>();
@@ -434,6 +437,9 @@ public class ProcedureFactory {
 	        if (tag.equals("number")) {
 	            number = readTag(parser, tag);
 	        
+	        } else if (tag.equals("consequent")) {
+	            consequent = readTag(parser, tag);
+	            
 	        } else if (tag.equals("text")) {
 	            text = readTag(parser, tag);
 	            
@@ -450,7 +456,11 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }
-	    return new Step(number, text, callouts, references, substeps);
+	    
+	    Step result = new Step(number, text, callouts, references, substeps);
+	    if (consequent != null) result.setConsequent(consequent);
+	
+	    return result;
 	}
 	
 	
@@ -568,6 +578,15 @@ public class ProcedureFactory {
 	
 	
 	
+	/**
+	 * Parse and xml document to create a new cycle of steps.  A cycle is 
+	 * really just a linear list of the same steps being repeated.
+	 * 
+	 * @param parser the xml to parse
+	 * @return the resulting list of steps
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static List<Step> readCycle(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing cycle");
 		
@@ -595,14 +614,18 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }
-	    Log.v(TAG, "adding steps " + repetitions + " times");
 	    
+	    Log.v(TAG, "Adding steps for " + repetitions + " cycles");
 	    List<Step> result = new ArrayList<Step>();
 	    
 	    for (int i = 0; i < repetitions; i++) {
-	    	result.addAll(new ArrayList<Step>(steps));
+	    	for (int j = 0; j < steps.size(); j++) {
+	    		Step newStep = new Step(steps.get(j));
+	    		newStep.setCycle(i+1);
+	    		result.add(newStep);
+	    	}
 	    }
-	    
+
 	    return result;
 	}
 	

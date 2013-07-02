@@ -4,6 +4,7 @@
 package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,10 +17,12 @@ public class Step implements Serializable {
 	 * Auto-Generated serial id
 	 */
 	private static final long serialVersionUID = -4348295150944687945L;
+	private int cycle;
 	private String number;
+	private String consequent;
 	private String text;
 	private ExecNote execNote;
-	private List<Callout> callouts;
+	private List<Callout> callouts; 
 	private List<Reference> references;
 	private List<Step> substeps;
 	
@@ -29,12 +32,35 @@ public class Step implements Serializable {
 	 * 
 	 */
 	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<Step> substeps) {
+		this.cycle = 0;
 		this.number = number;
 		this.text = text;
+		this.consequent = "";
 		this.execNote = null;
 		this.callouts = callouts;
 		this.references = references;
 		this.substeps = substeps;
+	}
+	
+	
+	
+	/**
+	 * 
+	 */
+	public Step(Step s) {
+		this.cycle = s.getCycle();
+		this.number = s.getNumber();
+		this.text = s.getText();
+		this.consequent = s.getConsequent();
+		this.execNote = s.getExecNote();
+		this.callouts = s.getCallouts();
+		this.references = s.getReferences();
+		this.substeps = new ArrayList<Step>();
+		
+		List<Step> subs = s.getSubsteps();
+		for (int i = 0; i < subs.size(); i++) {
+			substeps.add(new Step(subs.get(i)));
+		}
 	}
 
 	
@@ -156,6 +182,27 @@ public class Step implements Serializable {
 	
 	
 	/**
+	 * @return the cycle
+	 */
+	public int getCycle() {
+		return cycle;
+	}
+
+
+
+	/**
+	 * @param cycle the cycle to set
+	 */
+	public void setCycle(int cycle) {
+		this.cycle = cycle;
+		for (int i = 0; i < substeps.size(); i++) {
+			substeps.get(i).setCycle(cycle);
+		}
+	}
+
+
+
+	/**
 	 * @return the number
 	 */
 	public String getNumber() {
@@ -173,6 +220,34 @@ public class Step implements Serializable {
 
 	
 	
+	/**
+	 * Return if the step has conditional logic
+	 * @return if the consequent is populated
+	 */
+	public boolean isConditional() {
+		return !(consequent == null || consequent.equals(""));
+	}
+
+
+
+	/**
+	 * @return the consequent
+	 */
+	public String getConsequent() {
+		return consequent;
+	}
+
+
+
+	/**
+	 * @param consequent the consequent to set
+	 */
+	public void setConsequent(String consequent) {
+		this.consequent = consequent;
+	}
+
+
+
 	/**
 	 * @return the text
 	 */
