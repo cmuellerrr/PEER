@@ -307,5 +307,3 @@ public class StepPage extends LinearLayout {
 		return parent;
 	}
 }
-
-
