@@ -11,7 +11,11 @@
     <string name="title_duration">Duration</string>
     
     
-    <string name="title_execution_notes">Execution Notes</string>
-    <string name="title_stowage_notes">Stowage Notes</string>
+    <!-- Execution Notes -->
+    <string name="ex_notes_title">Execution Notes</string>
+    <string name="ex_notes_aside">Execution notes will display again on their respective steps.</string>
+    
+    <!-- Stowage Notes -->
+    <string name="stow_notes_title">Stowage Notes</string>
 
 </resources>
