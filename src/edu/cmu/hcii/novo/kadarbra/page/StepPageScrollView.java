@@ -123,15 +123,15 @@ public class StepPageScrollView extends ScrollView{
 		
 	}
 	
-	/*
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent e){
 		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
 			current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
-			//smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
 			current_scrollIndex = Math.max(0, current_scrollIndex-1);
-			//smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 			
 		}
 		
@@ -140,7 +140,7 @@ public class StepPageScrollView extends ScrollView{
 		return false;
 		
 	}
-	*/
+	
 	
 	
     
