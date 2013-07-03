@@ -6,7 +6,7 @@
     android:layout_marginTop="20dp" >
     
     <VideoView android:id="@+id/referenceVideo"
-        style="@style/Reference" >
+        style="@style/Center" >
     </VideoView>
     
     <TextView android:id="@+id/referenceCaption"

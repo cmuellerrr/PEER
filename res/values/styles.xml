@@ -51,14 +51,22 @@
         <item name="android:textSize">25sp</item>
     </style>
     
-    <style name="Reference">
+    <style name="Center">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
     </style>
     
-    <style name="ReferenceCaption" parent="Reference">
+    <style name="ReferenceCaption" parent="Center">
         <item name="android:textSize">15sp</item>
+    </style>
+    
+    <style name="AlertTitle" parent="Center">
+        <item name="android:textSize">15sp</item>
+    </style>
+    
+    <style name="AlertText" parent="Center">
+        <item name="android:textSize">12sp</item>
     </style>
     
 </resources>

@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginTop="20dp"
     android:layout_marginBottom="20dp"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@drawable/border_line" >
     
     <TextView
         android:id="@+id/exNotesTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/ex_note_title"
-        android:textSize="20sp" >
+        style="@style/AlertTitle"
+        android:text="@string/ex_note_title" >
 
     </TextView>
     
     <TextView android:id="@+id/exNoteText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="15sp"  >
+        style="@style/AlertText"  >
     </TextView>
 </LinearLayout>
