@@ -2,17 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
     
-    <TextView android:id="@+id/exNotesTitle"
-        style="@style/HorizontalStretch"
-        android:textSize="20sp" 
-        android:text="@string/ex_notes_title">
+    <TextView android:id="@+id/exNoteNumber"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:textSize="25sp"  >
     </TextView>
     
     <TextView android:id="@+id/exNoteText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="15sp"  >
+        android:layout_weight="1"
+        android:textSize="25sp"  >
     </TextView>
 </LinearLayout>

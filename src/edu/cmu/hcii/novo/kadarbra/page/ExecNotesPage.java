@@ -43,7 +43,7 @@ public class ExecNotesPage extends LinearLayout {
 		for (int i = 0; i < execNotes.size(); i++) {
 			ExecNote curNote = execNotes.get(i);
 			
-			View newNote = (View) inflater.inflate(R.layout.ex_note, null);
+			View newNote = (View) inflater.inflate(R.layout.ex_note_overall, null);
 			
 			((TextView)newNote.findViewById(R.id.exNoteNumber)).setText("Step " + curNote.getNumber());
 			((TextView)newNote.findViewById(R.id.exNoteText)).setText(curNote.getText());
