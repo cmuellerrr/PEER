@@ -242,7 +242,11 @@ public class ProcedureActivity extends Activity {
 	private List<ViewGroup> setupStepPage(Step step, Step parent) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
 		
-		int execNoteIndex = getExecNoteIndex(step.getNumber());
+		//TODO This won't work for more than 2 levels
+		String fullStepNumber = (parent != null ? parent.getNumber() + "." : "")  + 
+				step.getNumber();
+		
+		int execNoteIndex = getExecNoteIndex(fullStepNumber);
 		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
 		//If there are substeps, don't add the parent step, only the children

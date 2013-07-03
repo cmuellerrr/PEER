@@ -57,19 +57,18 @@ public class StepPage extends LinearLayout {
 		this.step = step;
 		this.parent = parent;
 		
-		setupExecutionNotes();
-		setupCallouts();
-		
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.step_page, null);
         
-		//Add in an indicator if in a cycle
+		
+        //Add in an indicator if in a cycle
 		if (step.getCycle() > 0) {
 			((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
 			
 		} else {
 			((ViewManager)page).removeView(page.findViewById(R.id.stepCycleNumber));
 		}
+		
 		
 		//setup the parent
 		if (parent != null) {
@@ -78,6 +77,11 @@ public class StepPage extends LinearLayout {
 		} else {
 			((ViewManager)page).removeView(page.findViewById(R.id.stepParentStep));
 		}
+		
+		
+		setupExecutionNotes();
+		setupCallouts();
+		
 		
 		//Add the normal text
 		final TextView stepView = ((TextView)page.findViewById(R.id.stepStepText));
@@ -151,6 +155,7 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupExecutionNote(ExecNote note) {
 		if (note != null) {
+			Log.i(TAG, "Setting up execution note");
 			LayoutInflater inflater = LayoutInflater.from(getContext());
 	        View noteView = (View)inflater.inflate(R.layout.ex_note, null);
 	        
