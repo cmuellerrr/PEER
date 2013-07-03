@@ -18,7 +18,7 @@ import edu.cmu.hcii.novo.kadarbra.R;
  * @author Chris
  *
  */
-public class TitlePage extends LinearLayout {
+public class CoverPage extends LinearLayout {
 
 	private String number;
 	private String title;
@@ -30,7 +30,7 @@ public class TitlePage extends LinearLayout {
 	/**
 	 * @param context
 	 */
-	public TitlePage(Context context, String number, String title, String objective, String duration) {
+	public CoverPage(Context context, String number, String title, String objective, String duration) {
 		super(context);
 		
 		this.number = number;
@@ -39,7 +39,7 @@ public class TitlePage extends LinearLayout {
 		this.duration = duration;
 
 		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.title_page, null);
+        View page = (View)inflater.inflate(R.layout.cover_page, null);
         
         ((TextView)page.findViewById(R.id.procedureName)).setText(number + " " + title);
         ((TextView)page.findViewById(R.id.objective)).setText(objective);
@@ -54,7 +54,7 @@ public class TitlePage extends LinearLayout {
 	 * @param context
 	 * @param attrs
 	 */
-	public TitlePage(Context context, AttributeSet attrs) {
+	public CoverPage(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
