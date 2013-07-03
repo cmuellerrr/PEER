@@ -8,7 +8,7 @@ import java.util.List;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -32,23 +32,26 @@ public class ExecNotesPage extends LinearLayout {
 	 */
 	public ExecNotesPage(Context context, List<ExecNote> execNotes) {
 		super(context);
-		this.setOrientation(VERTICAL);
 		
 		this.execNotes = execNotes;
 		
-		final LayoutInflater inflater = LayoutInflater.from(context);
-		TextView title = (TextView) inflater.inflate(R.layout.title_execution_notes, (ViewGroup) this.getParent(), false);
-		
-		this.addView(title);
+		LayoutInflater inflater = LayoutInflater.from(context);
+        View page = (View)inflater.inflate(R.layout.ex_notes_page, null);
+        
+        LinearLayout notesList = (LinearLayout) page.findViewById(R.id.exNotesList);
 
 		for (int i = 0; i < execNotes.size(); i++) {
 			ExecNote curNote = execNotes.get(i);
 			
-			TextView temp = new TextView(context);			
-			temp.setText(curNote.getNumber() + ": " + curNote.getText());
-			temp.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-			this.addView(temp);
+			View newNote = (View) inflater.inflate(R.layout.ex_note_overall, null);
+			
+			((TextView)newNote.findViewById(R.id.exNoteNumber)).setText("Step " + curNote.getNumber());
+			((TextView)newNote.findViewById(R.id.exNoteText)).setText(curNote.getText());
+			
+			notesList.addView(newNote);
 		}
+		
+		this.addView(page);
 	}
 
 	

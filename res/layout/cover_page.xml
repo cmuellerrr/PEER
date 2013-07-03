@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView android:id="@+id/procedureName"
+        style="@style/HorizontalStretch"
+        android:textSize="35sp"
+        android:layout_marginBottom="20dp" >
+    </TextView>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+            
+            <TextView android:id="@+id/objectiveTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:text="@string/title_objective" >
+            </TextView>
+            
+            <TextView android:id="@+id/objective"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:textSize="20sp"
+                android:width="0dip" >
+            </TextView>
+        </LinearLayout>
+        
+    
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+            
+            <TextView android:id="@+id/durationTitle"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:textSize="25sp"
+	            android:text="@string/title_duration" >
+            </TextView>
+            
+            <TextView  android:id="@+id/duration"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:textSize="20sp"
+                android:width="0dip" >
+            </TextView>
+        </LinearLayout>
+        
+    </LinearLayout>
+
+</LinearLayout>

@@ -18,13 +18,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.MenuPage;
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
-import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
@@ -214,7 +214,7 @@ public class ProcedureActivity extends Activity {
 	private List<ViewGroup> setupPages() {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
 		
-		result.add(new TitlePage(this, procedure.getNumber(), procedure.getTitle(), procedure.getObjective(), procedure.getDuration()));
+		result.add(new CoverPage(this, procedure.getNumber(), procedure.getTitle(), procedure.getObjective(), procedure.getDuration()));
 		
 		result.add(new StowagePage(this, procedure.getStowageItems()));
 		
@@ -241,11 +241,15 @@ public class ProcedureActivity extends Activity {
 	 */
 	private List<ViewGroup> setupStepPage(Step step, Step parent) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
-		//if (parent != null) step.setNumber(parent.getNumber() + "." + step.getNumber());
 		
-		int execNoteIndex = getExecNoteIndex(step.getNumber());
+		//TODO This won't work for more than 2 levels
+		String fullStepNumber = (parent != null ? parent.getNumber() + "." : "")  + 
+				step.getNumber();
+		
+		int execNoteIndex = getExecNoteIndex(fullStepNumber);
 		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
+		//If there are substeps, don't add the parent step, only the children
 		if (step.getNumSubsteps() > 0) {
 			for (int i = 0; i < step.getNumSubsteps(); i++) {
 				result.addAll(setupStepPage(step.getSubstep(i), step));

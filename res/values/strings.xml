@@ -5,7 +5,23 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_procedure">ProcedureActivity</string>
-    <string name="title_execution_notes">Execution Notes</string>
-    <string name="title_stowage_notes">Stowage Notes</string>
+    
+    <!-- Title Page -->
+    <string name="title_objective">Objective</string>
+    <string name="title_duration">Duration</string>
+    
+    <!-- Execution Notes -->
+    <string name="ex_notes_title">Execution Notes</string>
+    <string name="ex_notes_aside">Execution notes will display again on their respective steps.</string>
+    <string name="ex_note_title">Execution Note</string>
+    
+    <!-- Stowage Notes -->
+    <string name="stow_notes_title">Stowage Notes</string>
+    <string name="header_bin_code">BIN CODE</string>
+    <string name="header_item">ITEM</string>
+    <string name="header_quantity">QTY</string>
+    <string name="header_item_code">CODE</string>
+    <string name="header_notes">NOTES</string>
+    <string name="header_image">IMAGE</string>
 
 </resources>

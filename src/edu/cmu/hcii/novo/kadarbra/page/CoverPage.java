@@ -5,8 +5,11 @@ package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
  * A layout to represent a procedure title page.  
@@ -15,7 +18,7 @@ import android.widget.TextView;
  * @author Chris
  *
  */
-public class TitlePage extends LinearLayout {
+public class CoverPage extends LinearLayout {
 
 	private String number;
 	private String title;
@@ -27,31 +30,22 @@ public class TitlePage extends LinearLayout {
 	/**
 	 * @param context
 	 */
-	public TitlePage(Context context, String number, String title, String objective, String duration) {
+	public CoverPage(Context context, String number, String title, String objective, String duration) {
 		super(context);
-		this.setOrientation(VERTICAL);
-
+		
 		this.number = number;
 		this.title = title;
 		this.objective = objective;
 		this.duration = duration;
-		
-		TextView titleView = new TextView(context);
-		titleView.setText(number + " " + title);
-		titleView.setTextSize(40);
-		titleView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		this.addView(titleView);
-		
-		TextView objView = new TextView(context);
-		objView.setText(objective);
-		objView.setTextSize(30);
-		objView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		this.addView(objView);
-		
-		TextView durView = new TextView(context);
-		durView.setText(duration);
-		durView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		this.addView(durView);
+
+		LayoutInflater inflater = LayoutInflater.from(context);
+        View page = (View)inflater.inflate(R.layout.cover_page, null);
+        
+        ((TextView)page.findViewById(R.id.procedureName)).setText(number + " " + title);
+        ((TextView)page.findViewById(R.id.objective)).setText(objective);
+        ((TextView)page.findViewById(R.id.duration)).setText(duration);
+        
+		this.addView(page);
 	}
 
 	
@@ -60,7 +54,7 @@ public class TitlePage extends LinearLayout {
 	 * @param context
 	 * @param attrs
 	 */
-	public TitlePage(Context context, AttributeSet attrs) {
+	public CoverPage(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}

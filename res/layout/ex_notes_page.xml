@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <TextView android:id="@+id/exNotesTitle"
+        style="@style/HorizontalStretch"
+        android:textSize="35sp" 
+        android:text="@string/ex_notes_title">
+    </TextView>
+    
+    <TextView android:id="@+id/exNotesAside"
+        style="@style/HorizontalStretch"
+        android:textSize="15sp"
+        android:layout_marginBottom="20dp" 
+        android:text="@string/ex_notes_aside">
+    </TextView>
+    
+    <LinearLayout android:id="@+id/exNotesList"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent" 
+        android:orientation="vertical" >
+        
+    </LinearLayout>
+</LinearLayout>
