@@ -14,7 +14,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
+import edu.cmu.hcii.novo.kadarbra.structure.Callout.CType;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference.RType;
@@ -171,6 +171,14 @@ public class StepPage extends LinearLayout {
 	 * Setup the step's callouts
 	 */
 	private void setupCallouts() {
+		//TODO repeating code
+		if (parent != null) {
+			List<Callout> pcalls = parent.getCallouts();
+			for (int i = 0; i < pcalls.size(); i++) {
+				setupCallout(pcalls.get(i));
+			}
+		}
+		
 		List<Callout> calls = step.getCallouts();
 		for (int i = 0; i < calls.size(); i++) {
 			setupCallout(calls.get(i));
@@ -185,9 +193,34 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupCallout(Callout call) {
 		if (call != null) {
-			//TODO
-			//setup conditional header
-			//setup text
+			Log.i(TAG, "Setting up callout");
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+	        View callView = (View)inflater.inflate(R.layout.callout, null);
+	        
+	        String typeName = "";
+	        
+	        switch(call.getType()) {
+	        	case NOTE:
+	        		typeName = "NOTE";
+	        		break;
+	        	
+	        	case WARNING:
+	        		typeName = "WARNING";
+	        		break;
+	        		
+	        	case CAUTION:
+	        		typeName = "CAUTION";
+	        		break;
+	        		
+	        	default:
+	        		break;
+	        }
+	        
+	        
+	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
+	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());
+
+			this.addView(callView);
 		}
 	}
 	
