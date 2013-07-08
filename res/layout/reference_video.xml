@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<VideoView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/video"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#0000" >
+    android:orientation="vertical"
+    android:layout_marginTop="20dp" >
     
-
-</VideoView>
+    <VideoView android:id="@+id/referenceVideo"
+        style="@style/Center" 
+        android:layout_width="400dp" 
+        android:layout_height="300dp" >
+    </VideoView>
+    
+    <TextView android:id="@+id/referenceCaption"
+        style="@style/ReferenceCaption" >
+    </TextView>
+    
+</LinearLayout>

@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
+import edu.cmu.hcii.novo.kadarbra.structure.Callout.CType;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference.RType;
@@ -49,49 +50,52 @@ public class StepPage extends LinearLayout {
 		
 		String fullNumber = (parent != null ? parent.getNumber() + "." : "")  + 
 				step.getNumber();
-		String cycleNumber = (step.getCycle() > 0 ? "Cycle " + step.getCycle() : "");
+		String cycleLabel = (step.getCycle() > 0 ? "Cycle " + step.getCycle() : "");
 		
-		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleNumber);
+		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleLabel);
 		
 		this.step = step;
 		this.parent = parent;
 		
-		setupExecutionNotes();
-		setupCallouts();
+		LayoutInflater inflater = LayoutInflater.from(context);
+        View page = (View)inflater.inflate(R.layout.step_page, null);
+        
 		
 		//Add in an indicator if in a cycle
 		if (step.getCycle() > 0) {
-			final TextView cycleView = new TextView(context);
-			cycleView.setText(cycleNumber);
-			cycleView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-			this.addView(cycleView);
+			((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
+			
+		} else {
+			((ViewManager)page).removeView(page.findViewById(R.id.stepCycleNumber));
 		}
 		
 		//setup the parent
 		if (parent != null) {			
-			final TextView parentView = new TextView(context);
-			parentView.setText(parent.getNumber() + ": " + parent.getText());
-			parentView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-			this.addView(parentView);
+			((TextView)page.findViewById(R.id.stepParentStep)).setText(parent.getNumber() + ": " + parent.getText());
+			
+		} else {
+			((ViewManager)page).removeView(page.findViewById(R.id.stepParentStep));
 		}
 		
+		
+		setupExecutionNotes();
+		setupCallouts();
+		
+		
 		//Add the normal text
-		final TextView subView = new TextView(context);
-		subView.setText(fullNumber + ": " + step.getText());
-		subView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-		this.addView(subView);
+		final TextView stepView = ((TextView)page.findViewById(R.id.stepStepText));
+		stepView.setText(fullNumber + ": " + step.getText());
+
 		
 		//if it is a conditional
 		if (step.isConditional()) {
 			Log.v(TAG, "Step has conditional content");
 			
-			final TextView conseqView = new TextView(context);
+			final TextView conseqView = ((TextView)page.findViewById(R.id.stepConsequent));
 			conseqView.setText(step.getConsequent());
-			conseqView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 			conseqView.setVisibility(INVISIBLE);
-			this.addView(conseqView);
 			
-			subView.setOnClickListener(new OnClickListener() {
+			stepView.setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					//There's got to be a toggle somewhere...
 					if (conseqView.getVisibility() == VISIBLE){
@@ -101,7 +105,12 @@ public class StepPage extends LinearLayout {
 					}
 				}
 			});
+			
+		} else {
+			((ViewManager)page).removeView(page.findViewById(R.id.stepConsequent));
 		}
+		
+		this.addView(page);
 		
 		setupReferences();
 	}
@@ -143,13 +152,12 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupExecutionNote(ExecNote note) {
 		if (note != null) {
-			final LayoutInflater inflater = LayoutInflater.from(getContext());
+			Log.i(TAG, "Setting up execution note");
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+	        View noteView = (View)inflater.inflate(R.layout.ex_note, null);
 			
-			TextView title = (TextView) inflater.inflate(R.layout.execution_note_header, (ViewGroup) this.getParent(), false);
-			this.addView(title);
+	        ((TextView)noteView.findViewById(R.id.exNoteText)).setText(note.getText());
 
-			TextView noteView = (TextView) inflater.inflate(R.layout.execution_note_text, (ViewGroup) this.getParent(), false);
-			noteView.setText(note.getText());
 			this.addView(noteView);
 		}
 	}
@@ -160,6 +168,14 @@ public class StepPage extends LinearLayout {
 	 * Setup the step's callouts
 	 */
 	private void setupCallouts() {
+		//TODO repeating code
+		if (parent != null) {
+			List<Callout> pcalls = parent.getCallouts();
+			for (int i = 0; i < pcalls.size(); i++) {
+				setupCallout(pcalls.get(i));
+			}
+		}
+		
 		List<Callout> calls = step.getCallouts();
 		for (int i = 0; i < calls.size(); i++) {
 			setupCallout(calls.get(i));
@@ -174,9 +190,34 @@ public class StepPage extends LinearLayout {
 	 */
 	private void setupCallout(Callout call) {
 		if (call != null) {
-			//TODO
-			//setup conditional header
-			//setup text
+			Log.i(TAG, "Setting up callout");
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+	        View callView = (View)inflater.inflate(R.layout.callout, null);
+	        
+	        String typeName = "";
+	        
+	        switch(call.getType()) {
+	        	case NOTE:
+	        		typeName = "NOTE";
+	        		break;
+	        	
+	        	case WARNING:
+	        		typeName = "WARNING";
+	        		break;
+	        		
+	        	case CAUTION:
+	        		typeName = "CAUTION";
+	        		break;
+	        		
+	        	default:
+	        		break;
+	        }
+	        
+	        
+	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
+	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());
+
+			this.addView(callView);
 		}
 	}
 	
@@ -223,15 +264,17 @@ public class StepPage extends LinearLayout {
 		Log.v(TAG, "Setting up image view: " + ref.getUrl());
 		
 		try {
-			final LayoutInflater inflater = LayoutInflater.from(getContext());
-			ImageView img = (ImageView) inflater.inflate(R.layout.reference_image, (ViewGroup) this.getParent(), false);
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+	        View reference = (View)inflater.inflate(R.layout.reference_image, null);
 			
 			InputStream is = getContext().getAssets().open("procedures/references/" + ref.getUrl());
 			Drawable d = Drawable.createFromStream(is, null);
-	        img.setImageDrawable(d);
-	        
+			((ImageView)reference.findViewById(R.id.referenceImage)).setImageDrawable(d);
 	        //img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));
-			this.addView(img);
+	
+			((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
+	        
+	        this.addView(reference);
 			
 		} catch (IOException e) {
 			Log.e(TAG, "Error loading image", e);
@@ -251,8 +294,10 @@ public class StepPage extends LinearLayout {
 	private void setupVideoReference(Reference ref) {
 		Log.v(TAG, "Setting up video view: " + ref.getUrl());
 		
-		final LayoutInflater inflater = LayoutInflater.from(getContext());
-		VideoView vid = (VideoView) inflater.inflate(R.layout.reference_video, (ViewGroup) this.getParent(), false);
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+        View reference = (View)inflater.inflate(R.layout.reference_video, null);
+		
+        VideoView vid = ((VideoView)reference.findViewById(R.id.referenceVideo));
 		
 		//TODO for some reason this fucking thing doesn't work.
 		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
@@ -267,7 +312,9 @@ public class StepPage extends LinearLayout {
         });
 			
 		
-		this.addView(vid);
+		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
+			
+		this.addView(reference);
 		
 	}
 	

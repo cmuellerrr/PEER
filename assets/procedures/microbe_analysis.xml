@@ -196,7 +196,7 @@
 				<text>Collect microbe samples</text>
 				<callout>
 					<type>caution</type>
-					<text>Caution: Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
+					<text>Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
 				</callout>
 				<step>
 					<number>1</number>

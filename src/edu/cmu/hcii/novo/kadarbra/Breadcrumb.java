@@ -26,7 +26,7 @@ public class Breadcrumb extends View{
 	private void init(){
 		p = new Paint();
 		p.setColor(Color.CYAN);
-		p.setTextSize(50f);
+		p.setTextSize(20f);
 		
 	}
 	
@@ -44,7 +44,7 @@ public class Breadcrumb extends View{
 	// draws stuff on the view
 	@Override
 	public void onDraw(Canvas c){	
-		c.drawText(curStep+"/"+totalSteps, 50, 50, p);
+		c.drawText(curStep+"/"+totalSteps, 0, 20, p);
 	}
 	
 }

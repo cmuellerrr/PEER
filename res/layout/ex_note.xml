@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical" 
+    android:background="@drawable/border_line" >
+    
+    <TextView
+        android:id="@+id/exNotesTitle"
+        style="@style/AlertTitle"
+        android:text="@string/ex_note_title" >
+
+    </TextView>
+    
+    <TextView android:id="@+id/exNoteText"
+        style="@style/AlertText"  >
+    </TextView>
+</LinearLayout>

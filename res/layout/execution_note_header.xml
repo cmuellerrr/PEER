@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/HorizontalStretch"
-    android:textSize="20sp"  
-    android:text="@string/title_execution_notes" >
-    
-
-</TextView>
