@@ -61,11 +61,22 @@ public class MessageHandler {
 	 * @return command
 	 */
 	private static String handleCommand(String content){
-		if (content.equals("1")){
-			return "Back";
-		}else if (content.equals("2")){
-			return "Next";
+		if (content.equals("back")){
+			return "back";
+		}else if (content.equals("next")){
+			return "next";
+		}else if (content.equals("up")){
+			return "up";
+		}else if (content.equals("down")){
+			return "down";
+		}else if (content.equals("menu")){
+			return "menu";
+		}else if (content.equals("navigate")){
+			return "navigate";
+		}else if (content.equals("stowage")){
+			return "stowage";
 		}
+		
 		return "";
 	}
 	

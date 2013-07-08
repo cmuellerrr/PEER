@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.FrameLayout;
 
@@ -127,21 +128,30 @@ public class StepPageScrollView extends ScrollView{
 	@Override
 	public boolean onTouchEvent(MotionEvent e){
 		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
-			current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
-			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+			scrollUp();
 		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
-			current_scrollIndex = Math.max(0, current_scrollIndex-1);
-			smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
-			
+			scrollDown();
 		}
-		
 		
 		//smoothScrollTo(0, 200);
 		return false;
 		
 	}
 	
+	/**
+	 * Scrolls down
+	 */
+	public void scrollDown(){
+		current_scrollIndex = Math.max(0, current_scrollIndex-1);
+		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+	}
 	
-	
+	/**
+	 * Scrolls up
+	 */
+	public void scrollUp(){
+		current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
+		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+	}
     
 }

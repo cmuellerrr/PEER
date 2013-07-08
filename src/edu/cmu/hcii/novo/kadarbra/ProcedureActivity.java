@@ -24,7 +24,7 @@ import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
-import edu.cmu.hcii.novo.kadarbra.page.TitlePage;
+import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
@@ -79,31 +79,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ProcedureActivity.this, MenuPage.class);
-		    	intent.putExtra(PROCEDURE, procedure);
-		    	
-		    	/**
-		    	 * Also passes highest level step to MenuPage
-		    	 */
-		    	if (viewPager.getCurrentItem()>=PREPARE_PAGES){
-		    		
-		    		// Iterates through the procedureIndex to see which higher level step section this current page is in
-		    		for (int i = 0; i < procedureIndex.size()-1; i++){
-		    			int page = procedureIndex.get(i);
-		    			int nextSectionStart = procedureIndex.get(i+1);
-			    		if (viewPager.getCurrentItem() >= page && 
-			    			viewPager.getCurrentItem() < nextSectionStart){
-			    			intent.putExtra(CURRENT_STEP, i-1);
-			    		}else if (viewPager.getCurrentItem() >= nextSectionStart){
-			    			intent.putExtra(CURRENT_STEP, i);
-			    		}
-			    	}
-		    		
-		    	}else
-		    		intent.putExtra(CURRENT_STEP, -1);
-		    	
-		    	startActivityForResult(intent, OPEN_MENU);
-		    	
+				menu();
 			}
 			
 		});
@@ -214,7 +190,7 @@ public class ProcedureActivity extends Activity {
 	private List<ViewGroup> setupPages() {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
 		
-		result.add(new TitlePage(this, procedure.getNumber(), procedure.getTitle(), procedure.getObjective(), procedure.getDuration()));
+		result.add(new CoverPage(this, procedure.getNumber(), procedure.getTitle(), procedure.getObjective(), procedure.getDuration()));
 		
 		result.add(new StowagePage(this, procedure.getStowageItems()));
 		
@@ -241,11 +217,15 @@ public class ProcedureActivity extends Activity {
 	 */
 	private List<ViewGroup> setupStepPage(Step step, Step parent) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
-		//if (parent != null) step.setNumber(parent.getNumber() + "." + step.getNumber());
 		
-		int execNoteIndex = getExecNoteIndex(step.getNumber());
+		//TODO This won't work for more than 2 levels
+		String fullStepNumber = (parent != null ? parent.getNumber() + "." : "")  + 
+				step.getNumber();
+		
+		int execNoteIndex = getExecNoteIndex(fullStepNumber);
 		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 		
+		//If there are substeps, don't add the parent step, only the children
 		if (step.getNumSubsteps() > 0) {
 			for (int i = 0; i < step.getNumSubsteps(); i++) {
 				result.addAll(setupStepPage(step.getSubstep(i), step));
@@ -364,13 +344,7 @@ public class ProcedureActivity extends Activity {
             	String msg = b.getString("msg");
             	
             	Log.v(TAG, msg);
-            	
-            	// For testing test input 
-            	if (msg.equals("Back")){
-            		prevPage();
-            	}else if (msg.equals("Next")){
-            		nextPage();
-            	}
+            	handleCommand(msg);
             	
           }
           
@@ -406,8 +380,27 @@ public class ProcedureActivity extends Activity {
     	
     }
 
-    
-    
+    /**
+     * All commands are handled here
+     * @param command 
+     */
+    private void handleCommand(String command){
+    	if (command.equals("back")){
+    		prevPage();
+    	}else if (command.equals("next")){
+    		nextPage();
+    	}else if (command.equals("down")){
+    		scrollDown();
+    	}else if (command.equals("up")){
+    		scrollUp();
+    	}else if (command.equals("menu")){
+    		menu();
+    	}
+    }
+	    
+	/**
+	 * Goes to previous page in viewPager    
+	 */
     private void prevPage(){
     	if (viewPager.getCurrentItem()>0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
@@ -415,10 +408,56 @@ public class ProcedureActivity extends Activity {
     		finish();
     }
     
-    
-    
+    /**
+     * Goes to next page in viewPager
+     */
     private void nextPage(){
     	if (viewPager.getCurrentItem()<viewPager.getChildCount());
     		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
     }
+    
+    /**
+     * Scrolls the current StepPageScrollView down
+     */
+    private void scrollDown(){
+    	((StepPageScrollView)(viewPager.findViewWithTag(viewPager.getCurrentItem()))).scrollDown();
+    }
+
+    /**
+     * Scrolls the current StepPageScrollView up
+     */
+    private void scrollUp(){
+    	((StepPageScrollView)(viewPager.findViewWithTag(viewPager.getCurrentItem()))).scrollUp();
+    }
+    
+    /**
+     * Opens the menu
+     */
+    private void menu(){
+    	Intent intent = new Intent(ProcedureActivity.this, MenuPage.class);
+    	intent.putExtra(PROCEDURE, procedure);
+    	
+    	/**
+    	 * Also passes highest level step to MenuPage
+    	 */
+    	if (viewPager.getCurrentItem()>=PREPARE_PAGES){
+    		
+    		// Iterates through the procedureIndex to see which higher level step section this current page is in
+    		for (int i = 0; i < procedureIndex.size()-1; i++){
+    			int page = procedureIndex.get(i);
+    			int nextSectionStart = procedureIndex.get(i+1);
+	    		if (viewPager.getCurrentItem() >= page && 
+	    			viewPager.getCurrentItem() < nextSectionStart){
+	    			intent.putExtra(CURRENT_STEP, i-1);
+	    		}else if (viewPager.getCurrentItem() >= nextSectionStart){
+	    			intent.putExtra(CURRENT_STEP, i);
+	    		}
+	    	}
+    		
+    	}else
+    		intent.putExtra(CURRENT_STEP, -1);
+    	
+    	startActivityForResult(intent, OPEN_MENU);
+    }
+
 }
