@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
+import android.media.MediaPlayer.OnVideoSizeChangedListener;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.AttributeSet;
@@ -22,7 +23,6 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
-import edu.cmu.hcii.novo.kadarbra.structure.Callout.CType;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference.RType;
@@ -297,17 +297,28 @@ public class StepPage extends LinearLayout {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
         View reference = (View)inflater.inflate(R.layout.reference_video, null);
 		
-        VideoView vid = ((VideoView)reference.findViewById(R.id.referenceVideo));
+        final VideoView vid = ((VideoView)reference.findViewById(R.id.referenceVideo));
 		
 		//TODO for some reason this fucking thing doesn't work.
 		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
 		vid.setVideoURI(Uri.parse(Environment.getExternalStorageDirectory().toString() + "/" + ref.getUrl()));
 
-		vid.setMediaController(new MediaController(getContext()));
-
 		vid.setOnPreparedListener(new OnPreparedListener() {
             public void onPrepared(MediaPlayer mp) {
-                mp.start();
+            	mp.setOnVideoSizeChangedListener(new OnVideoSizeChangedListener() { 
+                    @Override
+                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+                          /*
+                           *  add media controller and set its position
+                           *  TODO this still isn't laying where we want it
+                           */
+                          MediaController mc = new MediaController(getContext());
+                          vid.setMediaController(mc);
+                          mc.setAnchorView(vid);
+                    }
+                });
+            	
+            	mp.start();
             }
         });
 			

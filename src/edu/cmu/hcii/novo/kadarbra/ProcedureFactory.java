@@ -625,6 +625,9 @@ public class ProcedureFactory {
 	    		result.add(newStep);
 	    	}
 	    }
+	    
+	    //Remove the last step because we don't want to show it for the last cycle
+	    //result.remove(result.size()-1);
 
 	    return result;
 	}
