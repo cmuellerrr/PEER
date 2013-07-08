@@ -460,4 +460,3 @@ public class ProcedureActivity extends Activity {
     	startActivityForResult(intent, OPEN_MENU);
     }
 }
-}
