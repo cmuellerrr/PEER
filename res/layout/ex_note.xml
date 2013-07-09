@@ -8,7 +8,7 @@
     android:background="@drawable/border_line" >
     
     <TextView
-        android:id="@+id/exNotesTitle"
+        android:id="@+id/exNoteTitle"
         style="@style/AlertTitle"
         android:text="@string/ex_note_title" >
 

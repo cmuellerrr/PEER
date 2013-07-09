@@ -7,36 +7,72 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ProcedureActivity" >
-	
+    
     <edu.cmu.hcii.novo.kadarbra.Breadcrumb
-    android:id="@+id/breadcrumb"	
-	android:layout_width="fill_parent"
-	android:layout_height="25dp"
-	android:layout_alignParentTop="true"
-	  />
-    
-    <Button
-        android:id="@+id/menuButton"
+        android:id="@+id/breadcrumb"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
-        android:text="'Menu'"
-        android:textSize="12sp"
-        />
+        android:layout_toRightOf="@+id/menu_group" />
     
-	<android.support.v4.view.ViewPager
-	android:id="@+id/viewpager"	
-	android:layout_below="@id/breadcrumb"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignBottom="@+id/stepPreviewWidget"
+        android:layout_alignLeft="@+id/stepPreviewWidget"
+        android:layout_below="@id/breadcrumb" />
 
-	<edu.cmu.hcii.novo.kadarbra.StepPreviewWidget 
-	android:id="@+id/stepPreviewWidget"	
-	android:layout_alignParentBottom="true"
-	android:layout_width="fill_parent"
-	android:layout_height="wrap_content"    
-	    />
-	
+    <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget 
+        android:id="@+id/stepPreviewWidget" 
+        android:layout_alignParentBottom="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+    
+    <LinearLayout
+        android:id="@+id/menu_group"
+        android:layout_width="150dp"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/menuTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:text="MENU" />
+        
+        <Button
+            android:id="@+id/navButton"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:text="&apos;NAVIGATE&apos;" />
+    
+        <Button
+            android:id="@+id/stowageButton"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:text="&apos;STOWAGE&apos;"/>
+        
+        <Button
+            android:id="@+id/annotationButton"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:text="&apos;ANNOTATIONS&apos;"/>
+        
+        <Button
+            android:id="@+id/groundButton"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:text="&apos;GROUND&apos;" />
 
+    </LinearLayout>
+    
+    
+        
 </RelativeLayout>

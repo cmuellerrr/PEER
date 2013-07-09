@@ -17,21 +17,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.MenuPage;
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
-import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
-	public final static String PROCEDURE = "edu.cmu.hcii.novo.kadarbra.PROCEDURE";
 	public final static String CURRENT_STEP = "edu.cmu.hcii.novo.kadarbra.CURRENT_STEP";
 
 	public final static int PREPARE_PAGES = 3; // number of pages in prepare stage (before steps are shown)
@@ -41,7 +44,9 @@ public class ProcedureActivity extends Activity {
 	private ViewPager viewPager;
 	private Breadcrumb breadcrumb;
 	private StepPreviewWidget stepPreviewWidget;
-	private DataUpdateReceiver dataUpdateReceiver; 
+	private DataUpdateReceiver dataUpdateReceiver;
+	
+	private Animation[] menuAnimations;
 	
 	private List<Integer> procedureIndex;
 	
@@ -62,7 +67,7 @@ public class ProcedureActivity extends Activity {
 		initBreadcrumb(); // initializes the breadcrumb (the step numbers at the top)
 		procedureIndex=getPageIndex();
 		
-		initMenuButton();
+		initMenu();
 		initStepPreviewWidget();
 	}
 	
@@ -73,8 +78,8 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	
-	private void initMenuButton(){
-		Button menuButton = (Button) findViewById(R.id.menuButton);
+	private void initMenu(){
+		/*Button menuButton = (Button) findViewById(R.id.menuButton);
 		menuButton.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -82,7 +87,59 @@ public class ProcedureActivity extends Activity {
 				menu();
 			}
 			
-		});
+		});*/
+		
+		menuAnimations = new Animation[8];
+		
+		for (int i = 0; i < 4; i++) {
+			menuAnimations[i] = AnimationUtils.loadAnimation(this, R.anim.menu_enter);
+			menuAnimations[i].setStartOffset(i*100);			
+			menuAnimations[i+4] = AnimationUtils.loadAnimation(this, R.anim.menu_exit);
+			menuAnimations[i+4].setStartOffset(i*100);
+		}
+		
+		 TextView menu = (TextView) findViewById(R.id.menuTitle);
+		 menu.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Button overviewButton = (Button) findViewById(R.id.navButton);
+				Button stowButton = (Button) findViewById(R.id.stowageButton);
+				Button annotateButton = (Button) findViewById(R.id.annotationButton);
+				Button groundButton = (Button) findViewById(R.id.groundButton);
+				
+				if (overviewButton.getVisibility() == View.VISIBLE) {
+					overviewButton.startAnimation(menuAnimations[4]);
+					overviewButton.setVisibility(View.GONE);
+					
+					stowButton.startAnimation(menuAnimations[5]);
+					stowButton.setVisibility(View.GONE);
+					
+					annotateButton.startAnimation(menuAnimations[6]);
+					annotateButton.setVisibility(View.GONE);
+
+					groundButton.startAnimation(menuAnimations[7]);
+					groundButton.setVisibility(View.GONE);
+				} else {
+					overviewButton.startAnimation(menuAnimations[0]);
+					overviewButton.setVisibility(View.VISIBLE);
+					
+					stowButton.startAnimation(menuAnimations[1]);
+					stowButton.setVisibility(View.VISIBLE);
+					
+					annotateButton.startAnimation(menuAnimations[2]);
+					annotateButton.setVisibility(View.VISIBLE);
+					
+					groundButton.startAnimation(menuAnimations[3]);
+					groundButton.setVisibility(View.VISIBLE);
+				}
+			}
+			 
+		 });
+		
+		initStowageButton();
+        initNavigateButton();
+        initAnnotationButton();
 	}
 	
 	
@@ -435,7 +492,7 @@ public class ProcedureActivity extends Activity {
      */
     private void menu(){
     	Intent intent = new Intent(ProcedureActivity.this, MenuPage.class);
-    	intent.putExtra(PROCEDURE, procedure);
+    	intent.putExtra(MainActivity.PROCEDURE, procedure);
     	
     	/**
     	 * Also passes highest level step to MenuPage
@@ -459,4 +516,46 @@ public class ProcedureActivity extends Activity {
     	
     	startActivityForResult(intent, OPEN_MENU);
     }
+    
+    
+    private void initStowageButton(){
+		Button stowageButton = (Button) findViewById(R.id.stowageButton);
+		stowageButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = getIntent();
+				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
+				//setContentView(new StowagePage(MenuPage.this, procedure.getStowageItems()));
+			}
+			
+		});
+	}
+	
+	private void initNavigateButton(){
+		Button navButton = (Button) findViewById(R.id.navButton);
+		navButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = getIntent();
+				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
+				int curStep = (Integer) intent.getSerializableExtra(CURRENT_STEP);
+				//setContentView(new NavigationPage(MenuPage.this, procedure.getSteps(), curStep));
+			}
+			
+		});
+	}
+	
+	private void initAnnotationButton(){
+		Button annotationButton = (Button) findViewById(R.id.annotationButton);
+		annotationButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//setContentView(new AnnotationPage(MenuPage.this));
+			}
+			
+		});
+	}
 }
