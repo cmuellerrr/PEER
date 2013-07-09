@@ -46,6 +46,7 @@ public class ProcedureActivity extends Activity {
 	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver;
 	
+	private final int MENU_ANIMS = 5;
 	private Animation[] menuAnimations;
 	
 	private List<Integer> procedureIndex;
@@ -89,13 +90,22 @@ public class ProcedureActivity extends Activity {
 			
 		});*/
 		
-		menuAnimations = new Animation[8];
+		menuAnimations = new Animation[MENU_ANIMS * 2];
 		
-		for (int i = 0; i < 4; i++) {
+		//Setup animations for the menu background
+		menuAnimations[0] = AnimationUtils.loadAnimation(this, R.anim.menu_enter);			
+		long duration = menuAnimations[0].getDuration();
+		long itemOffset = 50;
+		
+		menuAnimations[MENU_ANIMS] = AnimationUtils.loadAnimation(this, R.anim.menu_exit);
+		menuAnimations[MENU_ANIMS].setStartOffset(duration + (itemOffset * 3));
+				
+		//Setup the animations for the menu items
+		for (int i = 1; i < MENU_ANIMS; i++) {
 			menuAnimations[i] = AnimationUtils.loadAnimation(this, R.anim.menu_enter);
-			menuAnimations[i].setStartOffset(i*100);			
-			menuAnimations[i+4] = AnimationUtils.loadAnimation(this, R.anim.menu_exit);
-			menuAnimations[i+4].setStartOffset(i*100);
+			menuAnimations[i].setStartOffset((i * itemOffset) + duration);
+			menuAnimations[i+MENU_ANIMS] = AnimationUtils.loadAnimation(this, R.anim.menu_exit);
+			menuAnimations[i+MENU_ANIMS].setStartOffset((MENU_ANIMS - i) * itemOffset);
 		}
 		
 		 TextView menu = (TextView) findViewById(R.id.menuTitle);
@@ -103,36 +113,34 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				View bg = (View) findViewById(R.id.menuContainer);
 				Button overviewButton = (Button) findViewById(R.id.navButton);
 				Button stowButton = (Button) findViewById(R.id.stowageButton);
 				Button annotateButton = (Button) findViewById(R.id.annotationButton);
 				Button groundButton = (Button) findViewById(R.id.groundButton);
 				
+				int indexOffset = 0;
+				int vis = View.VISIBLE;
+				
 				if (overviewButton.getVisibility() == View.VISIBLE) {
-					overviewButton.startAnimation(menuAnimations[4]);
-					overviewButton.setVisibility(View.GONE);
-					
-					stowButton.startAnimation(menuAnimations[5]);
-					stowButton.setVisibility(View.GONE);
-					
-					annotateButton.startAnimation(menuAnimations[6]);
-					annotateButton.setVisibility(View.GONE);
-
-					groundButton.startAnimation(menuAnimations[7]);
-					groundButton.setVisibility(View.GONE);
-				} else {
-					overviewButton.startAnimation(menuAnimations[0]);
-					overviewButton.setVisibility(View.VISIBLE);
-					
-					stowButton.startAnimation(menuAnimations[1]);
-					stowButton.setVisibility(View.VISIBLE);
-					
-					annotateButton.startAnimation(menuAnimations[2]);
-					annotateButton.setVisibility(View.VISIBLE);
-					
-					groundButton.startAnimation(menuAnimations[3]);
-					groundButton.setVisibility(View.VISIBLE);
+					indexOffset = MENU_ANIMS;
+					vis = View.GONE;
 				}
+				
+				bg.startAnimation(menuAnimations[0 + indexOffset]);
+				bg.setVisibility(vis);
+				
+				overviewButton.startAnimation(menuAnimations[1 + indexOffset]);
+				overviewButton.setVisibility(vis);
+					
+				stowButton.startAnimation(menuAnimations[2 + indexOffset]);
+				stowButton.setVisibility(vis);
+					
+				annotateButton.startAnimation(menuAnimations[3 + indexOffset]);
+				annotateButton.setVisibility(vis);
+					
+				groundButton.startAnimation(menuAnimations[4 + indexOffset]);
+				groundButton.setVisibility(vis);
 			}
 			 
 		 });
