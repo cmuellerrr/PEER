@@ -69,4 +69,19 @@
         <item name="android:textSize">12sp</item>
     </style>
     
+    <style name="MenuItem" >
+        <item name="android:background">@drawable/menu_item_bg</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:textColor">#fffcda4f</item>
+    </style>
+    
+    <style name="MenuDrawer" >
+        <item name="android:background">@drawable/menu_background</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+    
 </resources>

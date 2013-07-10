@@ -1,7 +1,9 @@
 package edu.cmu.hcii.novo.kadarbra;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -21,10 +23,12 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.MenuPage;
+import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
 import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
@@ -46,11 +50,13 @@ public class ProcedureActivity extends Activity {
 	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver;
 	
-	private final int MENU_ANIMS = 5;
-	private Animation[] menuAnimations;
-	
 	private List<Integer> procedureIndex;
 	
+	private Map<String, Animation> menuAnimations;
+	private final String openTag = "_open";
+	private final String closeTag = "_close";
+	private final String cascadeTag = "_cascade";
+	private final int delay = 50;
 	
 	
 	@Override
@@ -79,68 +85,34 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	
-	private void initMenu(){
-		/*Button menuButton = (Button) findViewById(R.id.menuButton);
-		menuButton.setOnClickListener(new OnClickListener(){
+	
+	/**
+	 * Initialize the menu.  Setup the animations along with the onclick method
+	 * for the menu text.
+	 */
+	private void initMenu(){		
+		initMenuAnimations();
+		
+		TextView menu = (TextView) findViewById(R.id.menuTitle);
+		menu.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {
-				menu();
-			}
-			
-		});*/
-		
-		menuAnimations = new Animation[MENU_ANIMS * 2];
-		
-		//Setup animations for the menu background
-		menuAnimations[0] = AnimationUtils.loadAnimation(this, R.anim.menu_enter);			
-		long duration = menuAnimations[0].getDuration();
-		long itemOffset = 50;
-		
-		menuAnimations[MENU_ANIMS] = AnimationUtils.loadAnimation(this, R.anim.menu_exit);
-		menuAnimations[MENU_ANIMS].setStartOffset(duration + (itemOffset * 3));
+			public void onClick(View v) {			
+				View drawer = (View) findViewById(R.id.menuDrawer);
 				
-		//Setup the animations for the menu items
-		for (int i = 1; i < MENU_ANIMS; i++) {
-			menuAnimations[i] = AnimationUtils.loadAnimation(this, R.anim.menu_enter);
-			menuAnimations[i].setStartOffset((i * itemOffset) + duration);
-			menuAnimations[i+MENU_ANIMS] = AnimationUtils.loadAnimation(this, R.anim.menu_exit);
-			menuAnimations[i+MENU_ANIMS].setStartOffset((MENU_ANIMS - i) * itemOffset);
-		}
-		
-		 TextView menu = (TextView) findViewById(R.id.menuTitle);
-		 menu.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				View bg = (View) findViewById(R.id.menuContainer);
-				Button overviewButton = (Button) findViewById(R.id.navButton);
-				Button stowButton = (Button) findViewById(R.id.stowageButton);
-				Button annotateButton = (Button) findViewById(R.id.annotationButton);
-				Button groundButton = (Button) findViewById(R.id.groundButton);
-				
-				int indexOffset = 0;
-				int vis = View.VISIBLE;
-				
-				if (overviewButton.getVisibility() == View.VISIBLE) {
-					indexOffset = MENU_ANIMS;
-					vis = View.GONE;
+				if (drawer.getVisibility() == View.VISIBLE) {
+					closeMenu();
+					
+				} else {
+					View bg = (View) findViewById(R.id.menuBackground);
+					
+					if (bg.getVisibility() == View.VISIBLE) {
+						closeMenu();
+					} else {
+						openMenu();
+					}
+					
 				}
-				
-				bg.startAnimation(menuAnimations[0 + indexOffset]);
-				bg.setVisibility(vis);
-				
-				overviewButton.startAnimation(menuAnimations[1 + indexOffset]);
-				overviewButton.setVisibility(vis);
-					
-				stowButton.startAnimation(menuAnimations[2 + indexOffset]);
-				stowButton.setVisibility(vis);
-					
-				annotateButton.startAnimation(menuAnimations[3 + indexOffset]);
-				annotateButton.setVisibility(vis);
-					
-				groundButton.startAnimation(menuAnimations[4 + indexOffset]);
-				groundButton.setVisibility(vis);
 			}
 			 
 		 });
@@ -148,6 +120,174 @@ public class ProcedureActivity extends Activity {
 		initStowageButton();
         initNavigateButton();
         initAnnotationButton();
+	}
+	
+	
+	/**
+	 * Initialize the menu animations.  All animations are stored in a private
+	 * map.  The key convention is:
+	 *     id + (_enter | _exit | _exit_cascade)
+	 */
+	private void initMenuAnimations() {
+		menuAnimations = new HashMap<String, Animation>();		
+		
+		int curId = -1;
+		
+		//Menu background animations
+		curId = findViewById(R.id.menuBackground).getId();
+		addMenuAnimation(curId + openTag, R.anim.menu_enter, 0, new AnimationListener() {
+
+			@Override
+			public void onAnimationEnd(Animation arg0) {
+				//Open the menu.  Run each menu item's open animation and set their visibility to VISIBLE.
+				runMenuItemAnimations(openTag, View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation arg0) {}
+
+			@Override
+			public void onAnimationStart(Animation arg0) {}
+			
+		});
+		addMenuAnimation(curId + closeTag, R.anim.menu_exit, 0, null);
+		
+		//Menu button animations
+		curId = findViewById(R.id.navButton).getId();
+		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay, null);
+		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay*4, new AnimationListener() {
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				//Start the menu background's close animation
+				View bg = (View) findViewById(R.id.menuBackground);
+				
+				bg.startAnimation(menuAnimations.get(bg.getId() + closeTag));
+				bg.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {}
+
+			@Override
+			public void onAnimationStart(Animation animation) {}
+			
+		});
+		
+		curId = findViewById(R.id.stowageButton).getId();
+		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay*2, null);
+		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay*3, null);
+		
+		curId = findViewById(R.id.annotationButton).getId();
+		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay*3, null);
+		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay*2, null);
+		
+		curId = findViewById(R.id.groundButton).getId();
+		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay*4, null);
+		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay, null);
+		
+		//Drawer animations
+		curId = findViewById(R.id.menuDrawer).getId();
+		addMenuAnimation(curId + openTag, R.anim.menu_drawer_enter, 0, null);
+		addMenuAnimation(curId + closeTag, R.anim.menu_drawer_exit, 0, null);
+		addMenuAnimation(curId + closeTag + cascadeTag, R.anim.menu_drawer_exit, 0, new AnimationListener() {
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				//Run each menu item's close animation and set their visibility to GONE.
+				runMenuItemAnimations(closeTag, View.GONE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {}
+
+			@Override
+			public void onAnimationStart(Animation animation) {}
+			
+		});
+	}
+	
+	
+	
+	/**
+	 * Open the menu.  Run the menu background's open animation and set
+	 * it's visibility to VISIBLE.  This automatically opens the itmes.
+	 */
+	private void openMenu() {
+		View bg = (View) findViewById(R.id.menuBackground);
+		
+		bg.startAnimation(menuAnimations.get(bg.getId() + openTag));
+		bg.setVisibility(View.VISIBLE);
+	}
+	
+	
+	
+	/**
+	 * Close the menu.  If the drawer is open, close it via it's cascading close.  
+	 * Otherwise, run each item's close animation and set their visibility to GONE.
+	 * Then make sure to make all buttons unselected.
+	 */
+	private void closeMenu() {
+		View drawer = (View) findViewById(R.id.menuDrawer);
+		
+		if (drawer.getVisibility() == View.VISIBLE) {
+			drawer.startAnimation(menuAnimations.get(drawer.getId() + closeTag + cascadeTag));
+			drawer.setVisibility(View.GONE);
+			
+		} else {
+			runMenuItemAnimations(closeTag, View.GONE);
+		}
+		
+		findViewById(R.id.navButton).setSelected(false);
+		findViewById(R.id.stowageButton).setSelected(false);
+		findViewById(R.id.annotationButton).setSelected(false);
+		findViewById(R.id.groundButton).setSelected(false);
+	}
+	
+	
+	
+	/**
+	 * Run each menu item's animation via the given tag.  Then set their visibility
+	 * to that which was given.
+	 * 
+	 * @param tag
+	 * @param visibility
+	 */
+	private void runMenuItemAnimations(String tag, int visibility) {
+		Button overviewButton = (Button) findViewById(R.id.navButton);
+		Button stowButton = (Button) findViewById(R.id.stowageButton);
+		Button annotateButton = (Button) findViewById(R.id.annotationButton);
+		Button groundButton = (Button) findViewById(R.id.groundButton);
+		
+		overviewButton.startAnimation(menuAnimations.get(overviewButton.getId() + tag));
+		overviewButton.setVisibility(visibility);
+		
+		stowButton.startAnimation(menuAnimations.get(stowButton.getId() + tag));
+		stowButton.setVisibility(visibility);
+		
+		annotateButton.startAnimation(menuAnimations.get(annotateButton.getId() + tag));
+		annotateButton.setVisibility(visibility);
+		
+		groundButton.startAnimation(menuAnimations.get(groundButton.getId() + tag));
+		groundButton.setVisibility(visibility);
+	}
+	
+	
+	
+	/**
+	 * Add an animation to the global animation map.  First inflate the animation then set the
+	 * given parameters.  Then add it with the given key to the map.
+	 * 
+	 * @param key
+	 * @param animationId
+	 * @param delay
+	 * @param listener
+	 */
+	private void addMenuAnimation(String key, int animationId, int delay, AnimationListener listener) {
+		Animation anim = AnimationUtils.loadAnimation(this, animationId);
+		anim.setStartOffset(delay);
+		if (listener != null) anim.setAnimationListener(listener);
+		menuAnimations.put(key, anim);
 	}
 	
 	
@@ -505,26 +645,33 @@ public class ProcedureActivity extends Activity {
     	/**
     	 * Also passes highest level step to MenuPage
     	 */
-    	if (viewPager.getCurrentItem()>=PREPARE_PAGES){
+    	intent.putExtra(CURRENT_STEP, getCurrentStep());
+    	
+    	startActivityForResult(intent, OPEN_MENU);
+    }
+    
+    
+    private int getCurrentStep() {
+    	if (viewPager.getCurrentItem()>=PREPARE_PAGES) {
     		
     		// Iterates through the procedureIndex to see which higher level step section this current page is in
     		for (int i = 0; i < procedureIndex.size()-1; i++){
     			int page = procedureIndex.get(i);
     			int nextSectionStart = procedureIndex.get(i+1);
-	    		if (viewPager.getCurrentItem() >= page && 
-	    			viewPager.getCurrentItem() < nextSectionStart){
-	    			intent.putExtra(CURRENT_STEP, i-1);
-	    		}else if (viewPager.getCurrentItem() >= nextSectionStart){
-	    			intent.putExtra(CURRENT_STEP, i);
+	    		
+    			if (viewPager.getCurrentItem() >= page && 
+	    			viewPager.getCurrentItem() < nextSectionStart) {
+	    			return i-1;
+	    		
+    			} else if (viewPager.getCurrentItem() >= nextSectionStart) {
+	    			return i;
 	    		}
 	    	}
     		
-    	}else
-    		intent.putExtra(CURRENT_STEP, -1);
-    	
-    	startActivityForResult(intent, OPEN_MENU);
+    	} 
+
+    	return -1;
     }
-    
     
     private void initStowageButton(){
 		Button stowageButton = (Button) findViewById(R.id.stowageButton);
@@ -535,21 +682,47 @@ public class ProcedureActivity extends Activity {
 				Intent intent = getIntent();
 				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
 				//setContentView(new StowagePage(MenuPage.this, procedure.getStowageItems()));
+				//inflate a new stowage page and animate it out from the left
 			}
 			
 		});
 	}
 	
 	private void initNavigateButton(){
-		Button navButton = (Button) findViewById(R.id.navButton);
-		navButton.setOnClickListener(new OnClickListener(){
+		findViewById(R.id.navButton).setOnClickListener(new OnClickListener(){
 
 			@Override
-			public void onClick(View v) {
-				Intent intent = getIntent();
-				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
-				int curStep = (Integer) intent.getSerializableExtra(CURRENT_STEP);
-				//setContentView(new NavigationPage(MenuPage.this, procedure.getSteps(), curStep));
+			public void onClick(View v) {			
+				//if v is active, do nothing
+				//else
+				//  get the drawer
+				//  if shown, 
+				//    close it 
+				//  remove the current child
+				//  add the new one
+				//  open it
+				FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
+
+				if (v.isSelected()) {
+					//close the drawer
+					drawer.startAnimation(menuAnimations.get(drawer.getId() + closeTag));
+					drawer.setVisibility(View.GONE);
+					((Button)v).setSelected(false);
+				} else {					
+					((Button)v).setSelected(true);
+					if (drawer.getVisibility() != View.GONE){
+						//close the drawer
+						drawer.startAnimation(menuAnimations.get(drawer.getId() + closeTag));
+						drawer.setVisibility(View.GONE);
+					}
+					
+					drawer.removeAllViews();
+					drawer.addView(new NavigationPage(v.getContext(), procedure.getSteps(), getCurrentStep()));
+					
+					//open the drawer
+					drawer.startAnimation(menuAnimations.get(drawer.getId() + openTag));
+					drawer.setVisibility(View.VISIBLE);
+				}
 			}
 			
 		});

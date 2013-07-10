@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/procedureLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -29,13 +30,21 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
     
+    <FrameLayout
+        android:id="@+id/menuDrawer"
+        style="@style/MenuDrawer"
+        android:layout_below="@id/breadcrumb"
+        android:layout_toRightOf="@id/menu_group"
+        android:visibility="gone" >
+    </FrameLayout>
+    
     <RelativeLayout
         android:id="@+id/menu_group"
         android:layout_width="150dp"
         android:layout_height="fill_parent" >
 
         <View
-            android:id="@+id/menuContainer"
+            android:id="@+id/menuBackground"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/menuTitle"
@@ -53,8 +62,7 @@
         
         <Button
             android:id="@+id/navButton"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            style="@style/MenuItem"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="75dp"
             android:text="@string/menu_overview"
@@ -62,8 +70,7 @@
         
         <Button
             android:id="@+id/stowageButton"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            style="@style/MenuItem"
             android:layout_below="@id/navButton"
             android:layout_centerHorizontal="true"
             android:text="@string/menu_stowage"
@@ -71,22 +78,22 @@
 
         <Button
             android:id="@+id/annotationButton"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            style="@style/MenuItem"
             android:layout_below="@id/stowageButton"
             android:layout_centerHorizontal="true"
-            android:text="@string/menu_annotation"
+            android:text="@string/menu_annotations"
             android:visibility="gone" />
 
         <Button
             android:id="@+id/groundButton"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            style="@style/MenuItem"
             android:layout_below="@id/annotationButton"
             android:layout_centerHorizontal="true"
             android:text="@string/menu_ground"
             android:visibility="gone" />
 
     </RelativeLayout>
-        
+    
+    
+    
 </RelativeLayout>

@@ -26,9 +26,9 @@
     
     <!-- Menu -->
     <string name="menu_title">MENU</string>
-    <string name="menu_overview">\'OVERVIEW\'</string>
-    <string name="menu_stowage">\'STOWAGE\'</string>
-    <string name="menu_annotations">\'ANNOTATIONS\'</string>
-    <string name="menu_ground">\'GROUND\'</string>
+    <string name="menu_overview">OVERVIEW</string>
+    <string name="menu_stowage">STOWAGE</string>
+    <string name="menu_annotations">ANNOTATIONS</string>
+    <string name="menu_ground">GROUND</string>
     
 </resources>
