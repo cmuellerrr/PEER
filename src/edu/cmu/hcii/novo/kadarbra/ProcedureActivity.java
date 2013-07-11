@@ -580,23 +580,35 @@ public class ProcedureActivity extends Activity {
 
 
 	/**
-     * All commands are handled here
+     * All commands are handled here.
+     * 
+     * Convention: 
+     * 		"msg" - the command to be run
+     * 		"step" - if the command is "navigate", it is the
+     * 				 index of the step to navigate to.
+     * 
      * @param command 
      */
     private void handleCommand(Bundle extras){
     	String command = extras.getString("msg");
+    	
     	if (command != null) {
     		Log.v(TAG, "Command: " + command);
 	    	if (command.equals("back")) {
 	    		prevPage();
+	    		
 	    	} else if (command.equals("next")) {
 	    		nextPage();
+	    		
 	    	} else if (command.equals("down")) {
 	    		scrollDown();
+	    		
 	    	} else if (command.equals("up")) {
 	    		scrollUp();
+	    		
 	    	} else if (command.equals("navigate")) {
 	    		jumpToStep(extras.getInt("step"));
+	    		
 	    	} else if (command.equals("menu")) {
 	    		openMenu();
 	    	}
@@ -654,7 +666,7 @@ public class ProcedureActivity extends Activity {
      * @param stepIndex
      */
     private void jumpToStep(int index) {
-    	if (index != 0) {
+    	if (index >= 0) {
     		final int i = index;
     		runOnUiThread(new Runnable() {
     			public void run() { 
