@@ -74,10 +74,10 @@ public class ProcedureActivity extends Activity {
 		
 		setContentView(R.layout.activity_procedure);
 		
-		initBreadcrumb();
 		initStepPreviewWidget();
 		initMenu();
 		initViewPager();
+		initBreadcrumb();
 		
 		procedureIndex = getPageIndex();
 	}
@@ -604,7 +604,7 @@ public class ProcedureActivity extends Activity {
     private class DataUpdateReceiver extends BroadcastReceiver {
     	@Override
         public void onReceive(Context context, Intent intent) {
-        	Log.v(TAG, "on receive: " +intent.getAction());
+        	Log.d(TAG, "on receive: " +intent.getAction());
 
         	if (intent.getAction().equals("command")) {
             	Bundle b = intent.getExtras();
@@ -612,7 +612,6 @@ public class ProcedureActivity extends Activity {
             	
             	Log.v(TAG, msg);
             	handleCommand(msg);
-            	
           }
           
         }
