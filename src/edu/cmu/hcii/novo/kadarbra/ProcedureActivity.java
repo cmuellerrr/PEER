@@ -55,11 +55,11 @@ public class ProcedureActivity extends Activity {
 	
 	private Map<String, Animation> menuAnimations;
 	private View drawerContent;
-	private final String openTag = "_open";
-	private final String closeTag = "_close";
-	private final String cycleTag = "_cycle";
-	private final String cascadeTag = "_cascade";
-	private final int delay = 50;
+	private static final String TAG_OPEN = "_open";
+	private static final String TAG_CLOSE = "_close";
+	private static final String TAG_CYCLE = "_cycle";
+	private static final String TAG_CASCADE = "_cascade";
+	private static final int ANIM_DELAY = 50;
 	
 	
 	
@@ -80,41 +80,6 @@ public class ProcedureActivity extends Activity {
 		initBreadcrumb();
 		
 		stepIndices = getPageIndices();
-	}
-	
-	
-	
-	/**
-	 * Called when child activity returns some result
-	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-				
-		/**
-		 * For messages sent by the menu
-		 */
-		if (requestCode == OPEN_MENU){
-			if (resultCode == Activity.RESULT_OK){
-				/**
-				 * For navigate commands
-				 */
-				if (data.getStringExtra("command").equals("navigate")){
-					final int navigate = data.getIntExtra("navigate",0);
-					Log.v(TAG,""+navigate);
-					
-					if (navigate != 0){
-						runOnUiThread(new Runnable() {
-		            	      public void run() { 
-		            	    	  int page = stepIndices.get(navigate);
-		            	    	  viewPager.setCurrentItem(page,true);
-		            	      }
-		            	});
-					}
-					
-				}
-			}
-		}
 	}
 
 	
@@ -243,12 +208,12 @@ public class ProcedureActivity extends Activity {
 		
 		//Menu background animations
 		curId = findViewById(R.id.menuBackground).getId();
-		addMenuAnimation(curId + openTag, R.anim.menu_enter, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 0, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation arg0) {
 				//Open the menu.  Run each menu item's open animation and set their visibility to VISIBLE.
-				runMenuItemAnimations(openTag, View.VISIBLE);
+				runMenuItemAnimations(TAG_OPEN, View.VISIBLE);
 			}
 
 			@Override
@@ -258,19 +223,19 @@ public class ProcedureActivity extends Activity {
 			public void onAnimationStart(Animation arg0) {}
 			
 		});
-		addMenuAnimation(curId + closeTag, R.anim.menu_exit, 0, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, 0, null);
 		
 		//Menu button animations
 		curId = findViewById(R.id.navButton).getId();
-		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay, null);
-		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay*4, new AnimationListener() {
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*4, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				//Start the menu background's close animation
 				View bg = (View) findViewById(R.id.menuBackground);
 				
-				bg.startAnimation(menuAnimations.get(bg.getId() + closeTag));
+				bg.startAnimation(menuAnimations.get(bg.getId() + TAG_CLOSE));
 				bg.setVisibility(View.GONE);
 			}
 
@@ -283,20 +248,20 @@ public class ProcedureActivity extends Activity {
 		});
 		
 		curId = findViewById(R.id.stowageButton).getId();
-		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay*2, null);
-		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay*3, null);
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*2, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*3, null);
 		
 		curId = findViewById(R.id.annotationButton).getId();
-		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay*3, null);
-		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay*2, null);
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*3, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*2, null);
 		
 		curId = findViewById(R.id.groundButton).getId();
-		addMenuAnimation(curId + openTag, R.anim.menu_enter, delay*4, null);
-		addMenuAnimation(curId + closeTag, R.anim.menu_exit, delay, null);
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*4, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY, null);
 		
 		//Drawer animations
 		curId = findViewById(R.id.menuDrawer).getId();
-		addMenuAnimation(curId + openTag, R.anim.menu_drawer_enter, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_drawer_enter, 0, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {}
@@ -313,7 +278,7 @@ public class ProcedureActivity extends Activity {
 			}
 			
 		});
-		addMenuAnimation(curId + closeTag, R.anim.menu_drawer_exit, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_drawer_exit, 0, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
@@ -328,13 +293,13 @@ public class ProcedureActivity extends Activity {
 			public void onAnimationStart(Animation animation) {}
 			
 		});
-		addMenuAnimation(curId + cycleTag, R.anim.menu_drawer_exit, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_CYCLE, R.anim.menu_drawer_exit, 0, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
 				drawer.removeAllViews();
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + openTag));
+				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
 			}
 
 			@Override
@@ -344,14 +309,14 @@ public class ProcedureActivity extends Activity {
 			public void onAnimationStart(Animation animation) {}
 			
 		});
-		addMenuAnimation(curId + closeTag + cascadeTag, R.anim.menu_drawer_exit, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_CLOSE + TAG_CASCADE, R.anim.menu_drawer_exit, 0, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
 				drawer.removeAllViews();
 				//Run each menu item's close animation and set their visibility to GONE.
-				runMenuItemAnimations(closeTag, View.GONE);
+				runMenuItemAnimations(TAG_CLOSE, View.GONE);
 			}
 
 			@Override
@@ -390,7 +355,7 @@ public class ProcedureActivity extends Activity {
 	private void openMenu() {
 		View bg = (View) findViewById(R.id.menuBackground);
 		
-		bg.startAnimation(menuAnimations.get(bg.getId() + openTag));
+		bg.startAnimation(menuAnimations.get(bg.getId() + TAG_OPEN));
 		bg.setVisibility(View.VISIBLE);
 	}
 	
@@ -405,11 +370,11 @@ public class ProcedureActivity extends Activity {
 		View drawer = (View) findViewById(R.id.menuDrawer);
 		
 		if (drawer.getVisibility() == View.VISIBLE) {
-			drawer.startAnimation(menuAnimations.get(drawer.getId() + closeTag + cascadeTag));
+			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE + TAG_CASCADE));
 			drawer.setVisibility(View.GONE);
 			
 		} else {
-			runMenuItemAnimations(closeTag, View.GONE);
+			runMenuItemAnimations(TAG_CLOSE, View.GONE);
 		}
 		
 		clearMenuSelection();
@@ -607,8 +572,7 @@ public class ProcedureActivity extends Activity {
 	    	Log.d(TAG, "Received action: " + intent.getAction());
 	
 	    	if (intent.getAction().equals("command")) {
-	        	Bundle b = intent.getExtras();
-	        	handleCommand(b.getString("msg"));
+	        	handleCommand(intent.getExtras());
 	    	}
 	    }
 	}
@@ -619,7 +583,8 @@ public class ProcedureActivity extends Activity {
      * All commands are handled here
      * @param command 
      */
-    private void handleCommand(String command){
+    private void handleCommand(Bundle extras){
+    	String command = extras.getString("msg");
     	if (command != null) {
     		Log.v(TAG, "Command: " + command);
 	    	if (command.equals("back")) {
@@ -630,6 +595,8 @@ public class ProcedureActivity extends Activity {
 	    		scrollDown();
 	    	} else if (command.equals("up")) {
 	    		scrollUp();
+	    	} else if (command.equals("navigate")) {
+	    		jumpToStep(extras.getInt("step"));
 	    	} else if (command.equals("menu")) {
 	    		openMenu();
 	    	}
@@ -642,7 +609,7 @@ public class ProcedureActivity extends Activity {
 	 * Goes to previous page in viewPager    
 	 */
     private void prevPage(){
-    	if (viewPager.getCurrentItem()>0)
+    	if (viewPager.getCurrentItem() > 0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
     	else
     		finish();
@@ -679,6 +646,28 @@ public class ProcedureActivity extends Activity {
     
     
     /**
+     * Jump to the step at the given index.  Looks up the page
+     * to jump to based on the stepIndices list.
+     * 
+     * TODO: should it be in the UI thread?  What about other methods?
+     * 
+     * @param stepIndex
+     */
+    private void jumpToStep(int index) {
+    	if (index != 0) {
+    		final int i = index;
+    		runOnUiThread(new Runnable() {
+    			public void run() { 
+    				closeMenu();
+    	    		viewPager.setCurrentItem(stepIndices.get(i), true);
+      	      	}
+    		});
+    	}
+    }
+    
+    
+    
+    /**
 	 * The onclick method for all menu buttons.  Handles the drawer movment and 
 	 * population.
 	 * 
@@ -689,7 +678,7 @@ public class ProcedureActivity extends Activity {
 		
 		//If I hit the same menu button
 		if (v.isSelected()) {
-			drawer.startAnimation(menuAnimations.get(drawer.getId() + closeTag));
+			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE));
 			drawer.setVisibility(View.GONE);
 			v.setSelected(false);
 		} else {
@@ -714,12 +703,12 @@ public class ProcedureActivity extends Activity {
 			//If the drawer is open for another menu
 			if (drawer.getVisibility() != View.GONE) {
 				//change drawer
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + cycleTag));
+				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
 				clearMenuSelection();
 		    //If the drawer is closed
 			} else {
 				//open the drawer
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + openTag));
+				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
 				drawer.setVisibility(View.VISIBLE);
 			}
 		    

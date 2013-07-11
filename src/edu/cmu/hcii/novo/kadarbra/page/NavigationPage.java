@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,7 +35,7 @@ public class NavigationPage extends LinearLayout {
 		this.steps = steps;
 
 		for (int i = 0; i < steps.size(); i++) {
-			final int stepNum = i+1;
+			final int stepNum = i;
 			Step s = steps.get(i);
 			
 			TextView newStep = new TextView(context);
@@ -50,7 +49,8 @@ public class NavigationPage extends LinearLayout {
 				@Override
 				public void onClick(View arg0) {
 					Intent intent = new Intent("command");
-					intent.putExtra("navigate", stepNum);
+					intent.putExtra("msg", "navigate");
+					intent.putExtra("step", stepNum);
 					context.sendBroadcast(intent);
 				}
 				
