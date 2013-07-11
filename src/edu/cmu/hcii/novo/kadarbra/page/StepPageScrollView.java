@@ -5,14 +5,11 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.ListView;
 import android.widget.ScrollView;
-import android.widget.FrameLayout;
 
 public class StepPageScrollView extends ScrollView{
 	private String TAG = "StepPageScrollView";
@@ -36,6 +33,19 @@ public class StepPageScrollView extends ScrollView{
 		setScrollbarFadingEnabled(false);	
 	}
 
+	
+	
+	/**
+	 * @param context
+	 * @param attrs
+	 */
+	public StepPageScrollView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
 	/**
 	 * 
 	 */
@@ -49,6 +59,7 @@ public class StepPageScrollView extends ScrollView{
     }
     
    
+    
     /**
      * 
      */
@@ -76,6 +87,8 @@ public class StepPageScrollView extends ScrollView{
         	
         }
     }
+    
+    
     
     /**
      * gets scroll indexes
@@ -125,6 +138,7 @@ public class StepPageScrollView extends ScrollView{
 	}
 	
 	
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent e){
 		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
@@ -138,6 +152,8 @@ public class StepPageScrollView extends ScrollView{
 		
 	}
 	
+	
+	
 	/**
 	 * Scrolls down
 	 */
@@ -146,6 +162,8 @@ public class StepPageScrollView extends ScrollView{
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 	}
 	
+	
+	
 	/**
 	 * Scrolls up
 	 */
@@ -153,5 +171,4 @@ public class StepPageScrollView extends ScrollView{
 		current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 	}
-    
 }

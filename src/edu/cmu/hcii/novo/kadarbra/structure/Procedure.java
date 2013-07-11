@@ -7,8 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.view.ViewGroup;
-
 
 /**
  * A class to represent a procedure.  This will hold

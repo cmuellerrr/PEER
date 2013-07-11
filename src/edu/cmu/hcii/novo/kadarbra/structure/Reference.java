@@ -5,8 +5,6 @@ package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
 
-import android.os.Environment;
-
 /**
  * A class representing reference objects.  Can be image, 
  * video, audio, or a table.

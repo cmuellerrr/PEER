@@ -51,7 +51,7 @@ public class ProcedureActivity extends Activity {
 	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver;
 	
-	private List<Integer> procedureIndex;
+	private List<Integer> stepIndices;
 	
 	private Map<String, Animation> menuAnimations;
 	private View drawerContent;
@@ -79,7 +79,7 @@ public class ProcedureActivity extends Activity {
 		initViewPager();
 		initBreadcrumb();
 		
-		procedureIndex = getPageIndex();
+		stepIndices = getPageIndices();
 	}
 	
 	
@@ -106,7 +106,7 @@ public class ProcedureActivity extends Activity {
 					if (navigate != 0){
 						runOnUiThread(new Runnable() {
 		            	      public void run() { 
-		            	    	  int page = procedureIndex.get(navigate);
+		            	    	  int page = stepIndices.get(navigate);
 		            	    	  viewPager.setCurrentItem(page,true);
 		            	      }
 		            	});
@@ -592,130 +592,52 @@ public class ProcedureActivity extends Activity {
     		edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(null);
     }
     */
-    
-    
-    
+	
+	
+	
 	/**
 	 * Listens to broadcast messages
 	 *  
 	 * @author Chris
 	 *
 	 */
-    private class DataUpdateReceiver extends BroadcastReceiver {
-    	@Override
-        public void onReceive(Context context, Intent intent) {
-        	Log.d(TAG, "on receive: " +intent.getAction());
-
-        	if (intent.getAction().equals("command")) {
-            	Bundle b = intent.getExtras();
-            	String msg = b.getString("msg");
-            	
-            	Log.v(TAG, msg);
-            	handleCommand(msg);
-          }
-          
-        }
-    }
-    
-    
+	private class DataUpdateReceiver extends BroadcastReceiver {
+		@Override
+	    public void onReceive(Context context, Intent intent) {
+	    	Log.d(TAG, "Received action: " + intent.getAction());
 	
-	/**
-	 * Get the index of the execution note for the given step number.
-	 * If no execution note exists, return -1.
-	 * 
-	 * @param stepNumber the step number to check for notes
-	 * @return the index of the corresponding execution note
-	 */
-	private int getExecNoteIndex(String stepNumber) {
-		List<ExecNote> notes = procedure.getExecNotes();
-		for (int i = 0; i < notes.size(); i++) {
-			if (stepNumber.equals(notes.get(i).getNumber())) return i;
-		}
-		
-		return -1;
-	}
-
-	
-	
-	/**
-	 * Gets index of pages, where each item in the returned list corresponds to a starting page of a step
-	 * @return pageIndex
-	 */ 
-    private ArrayList<Integer> getPageIndex(){
-    	ArrayList<Integer> index = new ArrayList<Integer>();
-    	List<Step> steps = procedure.getSteps();
-    	
-    	int stepCounter = 0;
-    	for (int i = 0; i < steps.size()+1; i++) {
-    		if (i==0){
-    			stepCounter += PREPARE_PAGES;
-    			index.add(stepCounter);
-    		}else{
-	    		Step s = steps.get(i-1);
-				int substeps = s.getNumSubsteps();
-				index.add(stepCounter);
-				if (substeps > 0)
-					stepCounter += substeps;
-				else
-					stepCounter++;
-    		}
-    	}
-    	
-		return index;
-    	
-    }
-    
-    
-
-    /**
-	 * Get the index of the procedure step currently being viewed.
-	 * 
-	 * @return the index of the current procedure step
-	 */
-	private int getCurrentStep() {
-		if (viewPager.getCurrentItem()>=PREPARE_PAGES) {
-			
-			// Iterates through the procedureIndex to see which higher level step section this current page is in
-			for (int i = 0; i < procedureIndex.size()-1; i++){
-				int page = procedureIndex.get(i);
-				int nextSectionStart = procedureIndex.get(i+1);
-	    		
-				if (viewPager.getCurrentItem() >= page && 
-	    			viewPager.getCurrentItem() < nextSectionStart) {
-	    			return i-1;
-	    		
-				} else if (viewPager.getCurrentItem() >= nextSectionStart) {
-	    			return i;
-	    		}
+	    	if (intent.getAction().equals("command")) {
+	        	Bundle b = intent.getExtras();
+	        	handleCommand(b.getString("msg"));
 	    	}
-			
-		} 
-	
-		return -1;
+	    }
 	}
 
-	
-	
+
+
 	/**
      * All commands are handled here
      * @param command 
      */
     private void handleCommand(String command){
-    	if (command.equals("back")) {
-    		prevPage();
-    	} else if (command.equals("next")) {
-    		nextPage();
-    	} else if (command.equals("down")) {
-    		scrollDown();
-    	} else if (command.equals("up")) {
-    		scrollUp();
-    	} else if (command.equals("menu")) {
-    		openMenu();
+    	if (command != null) {
+    		Log.v(TAG, "Command: " + command);
+	    	if (command.equals("back")) {
+	    		prevPage();
+	    	} else if (command.equals("next")) {
+	    		nextPage();
+	    	} else if (command.equals("down")) {
+	    		scrollDown();
+	    	} else if (command.equals("up")) {
+	    		scrollUp();
+	    	} else if (command.equals("menu")) {
+	    		openMenu();
+	    	}
     	}
     }
-	    
-    
-    
+	
+	
+	
 	/**
 	 * Goes to previous page in viewPager    
 	 */
@@ -803,5 +725,94 @@ public class ProcedureActivity extends Activity {
 		    
 			v.setSelected(true);
 		}
+	}
+
+
+
+	/*
+	private void clearReferences() {
+		Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
+		if (currActivity != null && currActivity.equals(this))
+			edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(null);
+	}
+	*/
+	
+	
+	
+	/**
+	 * Get the index of the execution note for the given step number.
+	 * If no execution note exists, return -1.
+	 * 
+	 * @param stepNumber the step number to check for notes
+	 * @return the index of the corresponding execution note
+	 */
+	private int getExecNoteIndex(String stepNumber) {
+		List<ExecNote> notes = procedure.getExecNotes();
+		for (int i = 0; i < notes.size(); i++) {
+			if (stepNumber.equals(notes.get(i).getNumber())) return i;
+		}
+		
+		return -1;
+	}
+
+
+
+	/**
+	 * Returns a list of page indices.  The list represents the overall index
+	 * of where a step ends in regards to their substeps.  This is needed
+	 * to move between the viewpager's flattened list of steps and the actual 
+	 * nested structure of the procedure object.
+	 * 
+	 * For example, say step one has 3 substeps.  In terms of the viewpager, 
+	 * step one spans three indices.  So the integer at index 1 in the list
+	 * being returned by this method would provide the viewpager index of the 
+	 * last substep of step 1 PLUS ONE.  So any viewpager index between that 
+	 * value (exclusive) and the one at index 0 in the list returned by this 
+	 * method would (inclusive) be a part of step 1.
+	 * 
+	 * The value at index 0 represents the end of the prepare stage.
+	 * 
+	 * @return
+	 */ 
+	private List<Integer> getPageIndices(){
+		List<Integer> result = new ArrayList<Integer>();
+		List<Step> steps = procedure.getSteps();
+
+		result.add(PREPARE_PAGES);
+		
+		for (int i = 0; i < steps.size(); i++) {
+			int substeps = steps.get(i).getNumSubsteps();
+			int delta = substeps > 0 ? substeps : 1;
+			result.add(result.get(result.size()-1) + delta);
+		}
+		
+		return result;
+	}
+
+
+
+	/**
+	 * Get the overall parent step of the one currently being viewed.
+	 * Move through the stepIndices list to see where the currently
+	 * viewed page lies in terms of the overall procedure data structure.
+	 * 
+	 * This is needed to move from the linear indexing of the viewpager 
+	 * and the nested structure of the procedure object.
+	 * 
+	 * Subtract 1 from the result because the stepIndices list contains 
+	 * a value for the prepare stage.
+	 * 
+	 * @return 
+	 */
+	private int getCurrentStep() {
+		int curIndex = viewPager.getCurrentItem();
+
+		if (viewPager.getCurrentItem() >= PREPARE_PAGES) {
+			for (int i = 0; i < stepIndices.size(); i++) {
+				if (curIndex < stepIndices.get(i)) return i-1;
+	    	}
+		} 
+	
+		return -1;
 	}
 }

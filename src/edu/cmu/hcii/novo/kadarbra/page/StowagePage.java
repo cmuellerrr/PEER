@@ -9,13 +9,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
-import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
 /**
@@ -73,40 +70,6 @@ public class StowagePage extends TableLayout {
 	public StowagePage(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
-	}
-
-	
-	
-	/**
-	 * Set up the header row for the stowage page.
-	 * 
-	 * @param context
-	 * @return the header row
-	 */
-	private static TableRow getHeaderRow(Context context) {
-		TableRow header = new TableRow(context);
-		
-		TextView binHeader = new TextView(context);
-		binHeader.setText("Bin Code");
-	
-		TextView itemHeader = new TextView(context);
-		itemHeader.setText("Item");
-		
-		TextView qtyHeader = new TextView(context);
-		qtyHeader.setText("Qty");
-		
-		TextView codeHeader = new TextView(context);
-		codeHeader.setText("Code");
-		
-		TextView notesHeader = new TextView(context);
-		notesHeader.setText("Notes");
-		
-		header.addView(binHeader);
-		header.addView(itemHeader);
-		header.addView(qtyHeader);
-		header.addView(codeHeader);
-		header.addView(notesHeader);
-		return header;
 	}
 
 

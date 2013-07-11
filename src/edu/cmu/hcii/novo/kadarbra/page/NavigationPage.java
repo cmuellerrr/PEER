@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,31 +34,29 @@ public class NavigationPage extends LinearLayout {
 		this.setOrientation(VERTICAL);
 		
 		this.steps = steps;
-		
+
 		for (int i = 0; i < steps.size(); i++) {
 			final int stepNum = i+1;
 			Step s = steps.get(i);
+			
 			TextView newStep = new TextView(context);
 			newStep.setText(s.getNumber() + " " + s.getText());
 			newStep.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
-			if (i == current_step)
-				newStep.setTextColor(Color.CYAN);			
+			
+			if (i == current_step) newStep.setTextColor(Color.CYAN);			
 			
 			newStep.setOnClickListener(new OnClickListener(){
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
 					Intent intent = new Intent("command");
-					intent.putExtra("navigate",stepNum);
+					intent.putExtra("navigate", stepNum);
 					context.sendBroadcast(intent);
 				}
 				
 			});
 			
-			
 			this.addView(newStep);
-			
 		}
 	}
 
