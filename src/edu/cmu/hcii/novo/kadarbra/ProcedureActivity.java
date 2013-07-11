@@ -62,6 +62,7 @@ public class ProcedureActivity extends Activity {
 	private final int delay = 50;
 	
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,18 +74,124 @@ public class ProcedureActivity extends Activity {
 		
 		setContentView(R.layout.activity_procedure);
 		
-		initViewPager(); // initializes ViewPager (the horizontal swiping UI element)
-		initBreadcrumb(); // initializes the breadcrumb (the step numbers at the top)
-		procedureIndex=getPageIndex();
-		
-		initMenu();
+		initBreadcrumb();
 		initStepPreviewWidget();
+		initMenu();
+		initViewPager();
+		
+		procedureIndex = getPageIndex();
 	}
 	
+	
+	
+	/**
+	 * Called when child activity returns some result
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+				
+		/**
+		 * For messages sent by the menu
+		 */
+		if (requestCode == OPEN_MENU){
+			if (resultCode == Activity.RESULT_OK){
+				/**
+				 * For navigate commands
+				 */
+				if (data.getStringExtra("command").equals("navigate")){
+					final int navigate = data.getIntExtra("navigate",0);
+					Log.v(TAG,""+navigate);
+					
+					if (navigate != 0){
+						runOnUiThread(new Runnable() {
+		            	      public void run() { 
+		            	    	  int page = procedureIndex.get(navigate);
+		            	    	  viewPager.setCurrentItem(page,true);
+		            	      }
+		            	});
+					}
+					
+				}
+			}
+		}
+	}
+
+	
+	
+	// The activity is about to become visible.
+	@Override
+	protected void onStart() {
+	    super.onStart();
+	    Log.v(TAG, "onStart");   
+	}
+
+	
+	
+	// The activity has become visible (it is now "resumed").
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    //edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
+	    Log.v(TAG, "onResume");
+	
+	    if (dataUpdateReceiver == null) 
+	    	dataUpdateReceiver = new DataUpdateReceiver();
+	    IntentFilter intentFilter = new IntentFilter("command");
+	    registerReceiver(dataUpdateReceiver, intentFilter);
+	}
+
+	
+	
+	// The activity is paused
+	@Override
+	protected void onPause(){
+		super.onPause();
+		//clearReferences();
+		Log.v(TAG, "onPause");
+		if (dataUpdateReceiver != null) 
+			unregisterReceiver(dataUpdateReceiver);
+	}
+
+	
+	
+	// The activity is no longer visible (it is now "stopped")
+	@Override
+	protected void onStop() {
+	    super.onStop();
+	    //clearReferences();
+	    Log.v(TAG, "onStop");
+	}
+	
+	
+
+	// The activity is about to be destroyed.
+	@Override
+	protected void onDestroy() {
+	    super.onDestroy();
+	    //clearReferences();
+	    Log.v(TAG, "onDestroy");
+	}
+
+	
+	
+	// initializes the Breadcrumb (currently just step numbers)
+	private void initBreadcrumb(){
+		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
+		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
+		breadcrumb.setCurrentStep(1);
+		//breadcrumb.setVisibility(View.INVISIBLE);
+	}
+
+	
+	
+	/**
+	 * Setup the step preview widget.  The thing at the bottom that shows
+	 * the previous and next steps.
+	 */
 	private void initStepPreviewWidget(){
 		stepPreviewWidget = (StepPreviewWidget) findViewById(R.id.stepPreviewWidget);
 		stepPreviewWidget.setCurrentStep(procedure,0);
-
 	}
 	
 	
@@ -121,6 +228,7 @@ public class ProcedureActivity extends Activity {
 			 
 		 });
 	}
+	
 	
 	
 	/**
@@ -258,6 +366,24 @@ public class ProcedureActivity extends Activity {
 	
 	
 	/**
+	 * Add an animation to the global animation map.  First inflate the animation then set the
+	 * given parameters.  Then add it with the given key to the map.
+	 * 
+	 * @param key
+	 * @param animationId
+	 * @param delay
+	 * @param listener
+	 */
+	private void addMenuAnimation(String key, int animationId, int delay, AnimationListener listener) {
+		Animation anim = AnimationUtils.loadAnimation(this, animationId);
+		anim.setStartOffset(delay);
+		if (listener != null) anim.setAnimationListener(listener);
+		menuAnimations.put(key, anim);
+	}
+
+	
+	
+	/**
 	 * Open the menu.  Run the menu background's open animation and set
 	 * it's visibility to VISIBLE.  This automatically opens the itmes.
 	 */
@@ -320,59 +446,26 @@ public class ProcedureActivity extends Activity {
 	
 	
 	/**
-	 * Add an animation to the global animation map.  First inflate the animation then set the
-	 * given parameters.  Then add it with the given key to the map.
+	 * Clears all menu items of their selection values.  Used to keep
+	 * the state correct.
 	 * 
-	 * @param key
-	 * @param animationId
-	 * @param delay
-	 * @param listener
+	 * TODO: Maybe switch these to a set of radio buttons or toggle buttons
 	 */
-	private void addMenuAnimation(String key, int animationId, int delay, AnimationListener listener) {
-		Animation anim = AnimationUtils.loadAnimation(this, animationId);
-		anim.setStartOffset(delay);
-		if (listener != null) anim.setAnimationListener(listener);
-		menuAnimations.put(key, anim);
+	private void clearMenuSelection() {
+		Log.v(TAG, "Clearing all selections");
+		
+		findViewById(R.id.navButton).setSelected(false);
+		findViewById(R.id.stowageButton).setSelected(false);
+		findViewById(R.id.annotationButton).setSelected(false);
+		findViewById(R.id.groundButton).setSelected(false);
 	}
-	
+
 	
 	
 	/**
-	 * Called when child activity returns some result
+	 * Initialize the view pager.  This is the central ui element that 
+	 * allows swiping between step pages.
 	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-				
-		/**
-		 * For messages sent by the menu
-		 */
-		if (requestCode == OPEN_MENU){
-			if (resultCode == Activity.RESULT_OK){
-				/**
-				 * For navigate commands
-				 */
-				if (data.getStringExtra("command").equals("navigate")){
-					final int navigate = data.getIntExtra("navigate",0);
-					Log.v(TAG,""+navigate);
-					
-					if (navigate != 0){
-						runOnUiThread(new Runnable() {
-		            	      public void run() { 
-		            	    	  int page = procedureIndex.get(navigate);
-		            	    	  viewPager.setCurrentItem(page,true);
-		            	      }
-		            	});
-					}
-					
-				}
-			}
-		}
-	}
-	
-	
-	
-	// initializes ViewPager (the horizontal swiping UI element)
 	private void initViewPager(){
 		viewPager = (ViewPager) findViewById(R.id.viewpager);	// gets the ViewPager UI object from its XML id
 		List<ViewGroup> sp = setupPages();
@@ -419,6 +512,7 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	
+	
 	/**
 	 * Puts procedure step pages within scroll views
 	 */
@@ -431,6 +525,8 @@ public class ProcedureActivity extends Activity {
 		
 		return result;
 	}
+	
+	
 	
 	/**
 	 * Setup the procedure steps as a list of step pages.
@@ -488,91 +584,7 @@ public class ProcedureActivity extends Activity {
 	}
 
 	
-	
-	/**
-	 * Get the index of the execution note for the given step number.
-	 * If no execution note exists, return -1.
-	 * 
-	 * @param stepNumber the step number to check for notes
-	 * @return the index of the corresponding execution note
-	 */
-	private int getExecNoteIndex(String stepNumber) {
-		List<ExecNote> notes = procedure.getExecNotes();
-		for (int i = 0; i < notes.size(); i++) {
-			if (stepNumber.equals(notes.get(i).getNumber())) return i;
-		}
-		
-		return -1;
-	}
-	
-	
-	
-	// initializes the Breadcrumb (currently just step numbers)
-	private void initBreadcrumb(){
-		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
-		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
-		breadcrumb.setCurrentStep(1);
-		//breadcrumb.setVisibility(View.INVISIBLE);
-	}
-	
-	
-	
-	// The activity is about to become visible.
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.v(TAG, "onStart");   
-    }
-	
-    
-    
-    // The activity has become visible (it is now "resumed").
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
-        Log.v(TAG, "onResume");
 
-        if (dataUpdateReceiver == null) 
-        	dataUpdateReceiver = new DataUpdateReceiver();
-        IntentFilter intentFilter = new IntentFilter("command");
-        registerReceiver(dataUpdateReceiver, intentFilter);
-    }
-    
-    
-    
-    // The activity is paused
-    @Override
-    protected void onPause(){
-    	super.onPause();
-    	//clearReferences();
-    	Log.v(TAG, "onPause");
-    	if (dataUpdateReceiver != null) 
-    		unregisterReceiver(dataUpdateReceiver);
-    }
-    
-    
-    
-    // The activity is no longer visible (it is now "stopped")
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //clearReferences();
-        Log.v(TAG, "onStop");
-    }
-    
-    
-    
-    // The activity is about to be destroyed.
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //clearReferences();
-        Log.v(TAG, "onDestroy");
-    }
-    
-    
-    
     /*
     private void clearReferences() {
     	Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
@@ -583,7 +595,12 @@ public class ProcedureActivity extends Activity {
     
     
     
-	// Listens to broadcast messages
+	/**
+	 * Listens to broadcast messages
+	 *  
+	 * @author Chris
+	 *
+	 */
     private class DataUpdateReceiver extends BroadcastReceiver {
     	@Override
         public void onReceive(Context context, Intent intent) {
@@ -601,6 +618,25 @@ public class ProcedureActivity extends Activity {
         }
     }
     
+    
+	
+	/**
+	 * Get the index of the execution note for the given step number.
+	 * If no execution note exists, return -1.
+	 * 
+	 * @param stepNumber the step number to check for notes
+	 * @return the index of the corresponding execution note
+	 */
+	private int getExecNoteIndex(String stepNumber) {
+		List<ExecNote> notes = procedure.getExecNotes();
+		for (int i = 0; i < notes.size(); i++) {
+			if (stepNumber.equals(notes.get(i).getNumber())) return i;
+		}
+		
+		return -1;
+	}
+
+	
 	
 	/**
 	 * Gets index of pages, where each item in the returned list corresponds to a starting page of a step
@@ -629,25 +665,58 @@ public class ProcedureActivity extends Activity {
 		return index;
     	
     }
+    
+    
 
     /**
+	 * Get the index of the procedure step currently being viewed.
+	 * 
+	 * @return the index of the current procedure step
+	 */
+	private int getCurrentStep() {
+		if (viewPager.getCurrentItem()>=PREPARE_PAGES) {
+			
+			// Iterates through the procedureIndex to see which higher level step section this current page is in
+			for (int i = 0; i < procedureIndex.size()-1; i++){
+				int page = procedureIndex.get(i);
+				int nextSectionStart = procedureIndex.get(i+1);
+	    		
+				if (viewPager.getCurrentItem() >= page && 
+	    			viewPager.getCurrentItem() < nextSectionStart) {
+	    			return i-1;
+	    		
+				} else if (viewPager.getCurrentItem() >= nextSectionStart) {
+	    			return i;
+	    		}
+	    	}
+			
+		} 
+	
+		return -1;
+	}
+
+	
+	
+	/**
      * All commands are handled here
      * @param command 
      */
     private void handleCommand(String command){
-    	if (command.equals("back")){
+    	if (command.equals("back")) {
     		prevPage();
-    	}else if (command.equals("next")){
+    	} else if (command.equals("next")) {
     		nextPage();
-    	}else if (command.equals("down")){
+    	} else if (command.equals("down")) {
     		scrollDown();
-    	}else if (command.equals("up")){
+    	} else if (command.equals("up")) {
     		scrollUp();
-    	}else if (command.equals("menu")){
+    	} else if (command.equals("menu")) {
     		openMenu();
     	}
     }
 	    
+    
+    
 	/**
 	 * Goes to previous page in viewPager    
 	 */
@@ -658,6 +727,8 @@ public class ProcedureActivity extends Activity {
     		finish();
     }
     
+    
+    
     /**
      * Goes to next page in viewPager
      */
@@ -666,6 +737,8 @@ public class ProcedureActivity extends Activity {
     		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
     }
     
+    
+    
     /**
      * Scrolls the current StepPageScrollView down
      */
@@ -673,6 +746,8 @@ public class ProcedureActivity extends Activity {
     	((StepPageScrollView)(viewPager.findViewWithTag(viewPager.getCurrentItem()))).scrollDown();
     }
 
+    
+    
     /**
      * Scrolls the current StepPageScrollView up
      */
@@ -683,51 +758,20 @@ public class ProcedureActivity extends Activity {
     
     
     /**
-     * Get the index of the procedure step currently being viewed.
-     * 
-     * @return the index of the current procedure step
-     */
-    private int getCurrentStep() {
-    	if (viewPager.getCurrentItem()>=PREPARE_PAGES) {
-    		
-    		// Iterates through the procedureIndex to see which higher level step section this current page is in
-    		for (int i = 0; i < procedureIndex.size()-1; i++){
-    			int page = procedureIndex.get(i);
-    			int nextSectionStart = procedureIndex.get(i+1);
-	    		
-    			if (viewPager.getCurrentItem() >= page && 
-	    			viewPager.getCurrentItem() < nextSectionStart) {
-	    			return i-1;
-	    		
-    			} else if (viewPager.getCurrentItem() >= nextSectionStart) {
-	    			return i;
-	    		}
-	    	}
-    		
-    	} 
-
-    	return -1;
-    }
-
-    
-    
-    /**
-     * The onclick method for all menu buttons.  Handles the drawer movment and 
-     * population.
-     * 
-     * @param v
-     */
-    public void handleDrawer(View v) {
-    	FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
-    	
-    	//If I hit the same menu button
+	 * The onclick method for all menu buttons.  Handles the drawer movment and 
+	 * population.
+	 * 
+	 * @param v
+	 */
+	public void menuSelect(View v) {
+		FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
+		
+		//If I hit the same menu button
 		if (v.isSelected()) {
-			Log.i(TAG, "Item is currently selected");
 			drawer.startAnimation(menuAnimations.get(drawer.getId() + closeTag));
 			drawer.setVisibility(View.GONE);
 			v.setSelected(false);
-		} else {								
-			Log.i(TAG, "Item is not selected");
+		} else {
 			
 			//Setup the new menu content
 			switch (v.getId()) {
@@ -748,37 +792,17 @@ public class ProcedureActivity extends Activity {
 			
 			//If the drawer is open for another menu
 			if (drawer.getVisibility() != View.GONE) {
-				Log.i(TAG, "Switching drawers");
 				//change drawer
 				drawer.startAnimation(menuAnimations.get(drawer.getId() + cycleTag));
 				clearMenuSelection();
 		    //If the drawer is closed
 			} else {
-				Log.i(TAG, "Opening new drawer");
 				//open the drawer
 				drawer.startAnimation(menuAnimations.get(drawer.getId() + openTag));
 				drawer.setVisibility(View.VISIBLE);
 			}
 		    
-			Log.i(TAG, "Selecting item");
 			v.setSelected(true);
 		}
-    }
-    
-    
-    
-    /**
-     * Clears all menu items of their selection values.  Used to keep
-     * the state correct.
-     * 
-     * TODO: Maybe switch this to a set of radio buttons or toggle buttons
-     */
-    private void clearMenuSelection() {
-    	Log.i(TAG, "Clearing all selections");
-    	
-    	findViewById(R.id.navButton).setSelected(false);
-		findViewById(R.id.stowageButton).setSelected(false);
-		findViewById(R.id.annotationButton).setSelected(false);
-		findViewById(R.id.groundButton).setSelected(false);
-    }
+	}
 }
