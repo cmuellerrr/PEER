@@ -35,7 +35,7 @@
         style="@style/MenuDrawer"
         android:layout_below="@id/breadcrumb"
         android:layout_toRightOf="@id/menu_group"
-        android:visibility="gone" >
+        android:visibility="visible" >
     </FrameLayout>
     
     <RelativeLayout
@@ -49,15 +49,14 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/menuTitle"
             android:background="@drawable/menu_background"
-            android:visibility="gone" />
+            android:visibility="visible" />
         
         <TextView
             android:id="@+id/menuTitle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
             android:text="@string/menu_title" />
         
         <Button
