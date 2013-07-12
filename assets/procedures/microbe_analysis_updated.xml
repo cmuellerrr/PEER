@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <!--
 This procedure is the updated version to "Microbe Analysis."
-Currently missing handling for conditionals and for input (7/11)
+Currently missing handling for input (7/11)
 Items that need to be fixed indicated with in-line comments.
 Last edit: Kristina, 7/11
 -->
@@ -165,11 +165,6 @@ Last edit: Kristina, 7/11
 	</procedure_notes>
 	<steps>
 	    <step>
-	        <number>0</number>
-	        <text>If something special is happening</text>
-	        <consequent>Do a whole bunch of crazy shit.</consequent>
-	    </step>
-	    <step>
             <number>1</number>
             <text>Put on gloves</text>
         </step>
@@ -238,35 +233,17 @@ Last edit: Kristina, 7/11
 				</step>
 			</step>
 			<step>
-			<!--Not sure how you'd like conditionals formatted; for now, they're simply nested.-->
 				<number>4</number>
 				<text>Handle Air Filter</text>
 				<step>
 					<number>1</number>
 					<text>If air filter microbe test resulted in a microbe level of 500 or over...</text>
-					<step>
-						<number>1</number>
-						<text>Remove filter from wall.</text>
-					</step>
-					<step>
-						<number>2</number>
-						<text>Place filter into refuse bag.</text>
-					</step>
-					<step>
-						<number>3</number>
-						<text>Draw an X on a piece of blue tape and place it above the filter site to mark it for future replacement.</text>
-					</step>
+					<consequent>4.1.1 Remove filter from wall./n4.1.2 Place filter into refuse bag./n4.1.3 Draw an X on a piece of blue tape and place it above the filter site to mark it for future replacement.</consequent></step>
 				</step>
 				<step>
 					<number>2</number>
 					<text>If air filter microbe test resulted in a microbe level below 500,</text>
-					<step>
-						<number>1</number>
-						<text>Wipe down all sides of filter with cleaning wipe.</text>
-					</step>
-					<step>
-						<number>2</number>
-						<text>Place cleaning wipe into refuse bag.</text>
+					<consequent>4.2.1 Wipe down all sides of filter with cleaning wipe./n4.2.2 Place cleaning wipe into refuse bag.</consequent>
 					</step>
 				</step>
 			</step>
