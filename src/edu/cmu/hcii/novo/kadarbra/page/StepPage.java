@@ -31,6 +31,7 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
 public class StepPage extends LinearLayout {
 	private static final String TAG = "StepPage";
 	
+	private int cycle;
 	private Step parent;
 	private Step step;
 	
@@ -44,25 +45,24 @@ public class StepPage extends LinearLayout {
 	 * @param step
 	 * @param parent
 	 */
-	public StepPage(Context context, Step step, Step parent) {
+	public StepPage(Context context, Step step, Step parent, int cycle) {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
-		String fullNumber = (parent != null ? parent.getNumber() + "." : "")  + 
-				step.getNumber();
-		String cycleLabel = (step.getCycle() > 0 ? "Cycle " + step.getCycle() : "");
+		String cycleLabel = (cycle > 0 ? "Cycle " + cycle : "");
 		
-		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleLabel);
+		Log.d(TAG, "Setting up step page " + step.getNumber() + " " + cycleLabel);
 		
 		this.step = step;
 		this.parent = parent;
+		this.cycle = 0;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.step_page, null);
         
 		
 		//Add in an indicator if in a cycle
-		if (step.getCycle() > 0) {
+		if (cycle > 0) {
 			((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
 			
 		} else {
@@ -84,7 +84,7 @@ public class StepPage extends LinearLayout {
 		
 		//Add the normal text
 		final TextView stepView = ((TextView)page.findViewById(R.id.stepStepText));
-		stepView.setText(fullNumber + ": " + step.getText());
+		stepView.setText(step.getNumber() + ": " + step.getText());
 
 		
 		//if it is a conditional
@@ -349,6 +349,8 @@ public class StepPage extends LinearLayout {
 		//TODO
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @return step
@@ -357,11 +359,24 @@ public class StepPage extends LinearLayout {
 		return step;
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @return parent
 	 */
 	public Step getStepParent(){
 		return parent;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * 
+	 * @return cycle
+	 */
+	public int getCycle() {
+		return cycle;
 	}
 }

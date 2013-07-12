@@ -73,7 +73,7 @@ public class MenuPage extends Activity {
 				Intent intent = getIntent();
 				Procedure procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
 				int curStep = (Integer) intent.getSerializableExtra(ProcedureActivity.CURRENT_STEP);
-				setContentView(new NavigationPage(MenuPage.this, procedure.getSteps(), curStep));
+				setContentView(new NavigationPage(MenuPage.this, procedure.getChildren(), curStep));
 			}
 			
 		});

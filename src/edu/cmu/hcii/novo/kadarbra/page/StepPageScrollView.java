@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 
 public class StepPageScrollView extends ScrollView{
 	private String TAG = "StepPageScrollView";
+	
 	private int viewWidth;
 	private int viewHeight;
 	private ViewGroup stepPage;

@@ -14,8 +14,10 @@ import android.util.Log;
 import android.util.Xml;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout.CType;
+import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference.RType;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
@@ -114,7 +116,7 @@ public class ProcedureFactory {
 		String duration = null;	
 		List<ExecNote> execNotes = null;
 		List<StowageItem> stowageItems = null;
-		List<Step> steps = null;		
+		List<ProcedureItem> children = null;		
 		
 		//This is the tag we are looking for
 	    parser.require(XmlPullParser.START_TAG, ns, "procedure");
@@ -152,13 +154,13 @@ public class ProcedureFactory {
 	        	stowageItems = readStowageNotes(parser);
 	        	
 	    	} else if (tag.equals("steps")) {
-	            steps = readSteps(parser);
+	            children = readSteps(parser);
 	            
 	        } else {
 	            skip(parser);
 	        }
 	    }  
-	    return new Procedure(section, title, objective, duration, execNotes, stowageItems, steps);
+	    return new Procedure(section, title, objective, duration, execNotes, stowageItems, children);
 	}
 	
 	
@@ -374,10 +376,10 @@ public class ProcedureFactory {
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static List<Step> readSteps(XmlPullParser parser) throws XmlPullParserException, IOException {
+	private static List<ProcedureItem> readSteps(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing steps");
 		
-	    List<Step> steps = new ArrayList<Step>();
+	    List<ProcedureItem> steps = new ArrayList<ProcedureItem>();
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "steps");
@@ -394,7 +396,7 @@ public class ProcedureFactory {
 	        	steps.add(readStep(parser));
 	        	
 	        } else if (tag.equals("cycle")) {
-	        	steps.addAll(readCycle(parser));
+	        	steps.add(readCycle(parser));
 	        	
 	        } else {
 	            skip(parser);
@@ -420,7 +422,7 @@ public class ProcedureFactory {
 	    String text = null;
 	    String consequent = null;
 	    List<Callout> callouts = new ArrayList<Callout>();
-	    List<Step> substeps = new ArrayList<Step>();
+	    List<ProcedureItem> children = new ArrayList<ProcedureItem>();
 	    List<Reference> references = new ArrayList<Reference>();
 	    
 	    //This is the tag we are looking for
@@ -450,14 +452,17 @@ public class ProcedureFactory {
 	            references.add(readReference(parser));
 	            
 	        } else if (tag.equals("step")) {
-	            substeps.add(readStep(parser));
+	            children.add(readStep(parser));
+	            
+	        } else if (tag.equals("cycle")) {
+	            children.add(readCycle(parser));
 	            
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    
-	    Step result = new Step(number, text, callouts, references, substeps);
+	    Step result = new Step(number, text, callouts, references, children);
 	    if (consequent != null) result.setConsequent(consequent);
 	
 	    return result;
@@ -587,11 +592,11 @@ public class ProcedureFactory {
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static List<Step> readCycle(XmlPullParser parser) throws XmlPullParserException, IOException {
+	private static Cycle readCycle(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing cycle");
 		
 		int repetitions = 0;
-	    List<Step> steps = new ArrayList<Step>();
+	    List<ProcedureItem> children = new ArrayList<ProcedureItem>();
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "cycle");
@@ -608,28 +613,17 @@ public class ProcedureFactory {
 	        	repetitions = Integer.parseInt(readTag(parser, tag));
 	        	
 	        } else if (tag.equals("step")) {
-	        	steps.add(readStep(parser));
+	        	children.add(readStep(parser));
+	        	
+	        } else if (tag.equals("cycle")) {
+	        	children.add(readCycle(parser));
 	        	
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    
-	    Log.v(TAG, "Adding steps for " + repetitions + " cycles");
-	    List<Step> result = new ArrayList<Step>();
-	    
-	    for (int i = 0; i < repetitions; i++) {
-	    	for (int j = 0; j < steps.size(); j++) {
-	    		Step newStep = new Step(steps.get(j));
-	    		newStep.setCycle(i+1);
-	    		result.add(newStep);
-	    	}
-	    }
-	    
-	    //Remove the last step because we don't want to show it for the last cycle
-	    //result.remove(result.size()-1);
-
-	    return result;
+	    return new Cycle(repetitions, children);
 	}
 	
 	

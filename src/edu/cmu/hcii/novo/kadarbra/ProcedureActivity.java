@@ -27,6 +27,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
+import edu.cmu.hcii.novo.kadarbra.page.CycleSelectPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
@@ -34,8 +35,10 @@ import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
+import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
@@ -51,7 +54,7 @@ public class ProcedureActivity extends Activity {
 	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver;
 	
-	private List<Integer> stepIndices;
+	private List<StepIndex> stepIndices;
 	
 	private Map<String, Animation> menuAnimations;
 	private View drawerContent;
@@ -507,8 +510,8 @@ public class ProcedureActivity extends Activity {
 		
 		result.add(new ExecNotesPage(this, procedure.getExecNotes()));
 		
-		for (int i = 0; i < procedure.getNumSteps(); i++){
-			result.addAll(setupStepPage(procedure.getStep(i), null));
+		for (int i = 0; i < procedure.getNumChildren(); i++){
+			result.addAll(setupStepPage(procedure.getChildAt(i), null, 0));
 		}
 		
 		return result;
@@ -526,28 +529,49 @@ public class ProcedureActivity extends Activity {
 	 * @param step
 	 * @return
 	 */
-	private List<ViewGroup> setupStepPage(Step step, Step parent) {
+	private List<ViewGroup> setupStepPage(ProcedureItem item, ProcedureItem parent, int cycleNum) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
-		
-		//TODO This won't work for more than 2 levels
-		String fullStepNumber = (parent != null ? parent.getNumber() + "." : "")  + 
-				step.getNumber();
-		
-		int execNoteIndex = getExecNoteIndex(fullStepNumber);
-		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
-		
-		//If there are substeps, don't add the parent step, only the children
-		if (step.getNumSubsteps() > 0) {
-			for (int i = 0; i < step.getNumSubsteps(); i++) {
-				result.addAll(setupStepPage(step.getSubstep(i), step));
+
+		//If a cycle
+		if (item.isCycle()) {
+			Cycle c = (Cycle) item;
+			//Add all the reps
+			for (int i = 0; i < c.getReps(); i++) {
+				//Add the steps for each rep
+				for (int j = 0; j < c.getNumChildren(); j++) {
+					//setup the child - parent = null
+					result.addAll(setupStepPage(c.getChild(j), null, i+1));
+				}
 			}
+			
+		//If a step	
 		} else {
-			result.add(new StepPage(this, step, parent));
+			Step s = (Step) item;
+			Step p = parent == null ? null : (Step) parent;
+			
+			//Setup the execution note for this step
+			//TODO This won't work for more than 2 levels
+			String fullStepNumber = (p != null ? p.getNumber() + "." : "")  + s.getNumber();
+			int execNoteIndex = getExecNoteIndex(fullStepNumber);
+			if (execNoteIndex > -1) s.setExecNote(procedure.getExecNotes().get(execNoteIndex));
+			
+			//If a parent step
+			if (s.getNumChildren() > 0) {
+				for (int i = 0; i < s.getNumChildren(); i++) {
+					//setup the child
+					result.addAll(setupStepPage(s.getChild(i), s, cycleNum));
+				}
+			
+			//Its a leaf step
+			} else {				
+				//setup the step
+				result.add(new StepPage(this, s, p, cycleNum));
+			}
 		}
 		
 		return result;
 	}
-
+	
 	
 
     /*
@@ -586,6 +610,8 @@ public class ProcedureActivity extends Activity {
      * 		"msg" - the command to be run
      * 		"step" - if the command is "navigate", it is the
      * 				 index of the step to navigate to.
+     * 		"reps" - if the step is in a cycle
+     * 		"occurrence" - which occurrence of a step to navigate to
      * 
      * @param command 
      */
@@ -607,7 +633,17 @@ public class ProcedureActivity extends Activity {
 	    		scrollUp();
 	    		
 	    	} else if (command.equals("navigate")) {
-	    		jumpToStep(extras.getInt("step"));
+	    		Log.i(TAG, "Extras: " + extras.toString());
+	    		if (extras.containsKey("reps")) {
+	    			//bring up another menu
+	    			//pass in the step #
+	    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
+	    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
+	    		} else {
+	    			//By default, get the first occurrence
+	    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
+		    		jumpToStep(extras.getInt("step"), occ);
+	    		}	    		
 	    		
 	    	} else if (command.equals("menu")) {
 	    		openMenu();
@@ -664,14 +700,16 @@ public class ProcedureActivity extends Activity {
      * TODO: should it be in the UI thread?  What about other methods?
      * 
      * @param stepIndex
+     * @param occurence
      */
-    private void jumpToStep(int index) {
-    	if (index >= 0) {
-    		final int i = index;
+    private void jumpToStep(int step, int occurrence) {
+    	if (step >= 0) {
+    		final int index = getPageIndex(step, occurrence);
+    		
     		runOnUiThread(new Runnable() {
     			public void run() { 
     				closeMenu();
-    	    		viewPager.setCurrentItem(stepIndices.get(i), true);
+    				viewPager.setCurrentItem(index, true);
       	      	}
     		});
     	}
@@ -698,7 +736,7 @@ public class ProcedureActivity extends Activity {
 			//Setup the new menu content
 			switch (v.getId()) {
 				case R.id.navButton :
-					drawerContent = new NavigationPage(v.getContext(), procedure.getSteps(), getCurrentStep());
+					drawerContent = new NavigationPage(v.getContext(), procedure.getChildren(), getCurrentStep());
 					break;
 				case R.id.stowageButton:
 					drawerContent = new StowagePage(v.getContext(), procedure.getStowageItems());
@@ -760,38 +798,84 @@ public class ProcedureActivity extends Activity {
 
 	/**
 	 * Returns a list of page indices.  The list represents the overall index
-	 * of where a step ends in regards to their substeps.  This is needed
+	 * of where a step starts (inclusive) in regards to their substeps.  This is needed
 	 * to move between the viewpager's flattened list of steps and the actual 
 	 * nested structure of the procedure object.
 	 * 
-	 * For example, say step one has 3 substeps.  In terms of the viewpager, 
-	 * step one spans three indices.  So the integer at index 1 in the list
-	 * being returned by this method would provide the viewpager index of the 
-	 * last substep of step 1 PLUS ONE.  So any viewpager index between that 
-	 * value (exclusive) and the one at index 0 in the list returned by this 
-	 * method would (inclusive) be a part of step 1.
+	 * Because of cycles, we will have to check for the number of occurrences of 
+	 * a natural index later on when searching this list.
 	 * 
-	 * The value at index 0 represents the end of the prepare stage.
 	 * 
 	 * @return
 	 */ 
-	private List<Integer> getPageIndices(){
-		List<Integer> result = new ArrayList<Integer>();
-		List<Step> steps = procedure.getSteps();
+	private List<StepIndex> getPageIndices(){
+		List<StepIndex> result = new ArrayList<StepIndex>();
+		List<ProcedureItem> steps = procedure.getChildren();
 
-		result.add(PREPARE_PAGES);
+		int stepNumber = 0;
+		int curIndex = PREPARE_PAGES;
 		
 		for (int i = 0; i < steps.size(); i++) {
-			int substeps = steps.get(i).getNumSubsteps();
-			int delta = substeps > 0 ? substeps : 1;
-			result.add(result.get(result.size()-1) + delta);
+			
+			if (steps.get(i).isCycle()) {
+				Cycle c = (Cycle) steps.get(i);
+				
+				//Assuming that there are only steps within a cycle
+				for (int j = 0; j < c.getReps(); j++) {					
+					//We need to keep our place outside of the cycle
+					int repStepNumber = stepNumber;
+					
+					for (int k = 0; k < c.getNumChildren(); k++) {						
+						result.add(new StepIndex(++repStepNumber, curIndex));
+						
+						int substeps = c.getChild(k).getNumChildren();
+						curIndex += substeps > 0 ? substeps : 1;
+					}
+					
+					//Account for the steps in the cycle
+					if (j == c.getReps() - 1) stepNumber = repStepNumber;
+				}
+								
+			} else {				
+				result.add(new StepIndex(++stepNumber, curIndex));
+				
+				int substeps = steps.get(i).getNumChildren();
+				curIndex += substeps > 0 ? substeps : 1;
+			}			
 		}
 		
+		Log.v(TAG, "Step Index: " + result.toString());
 		return result;
 	}
 
 
 
+	/**
+	 * Search the pageIndices list for the given occurrence 
+	 * of the given step.  Then return the flat upper bound of
+	 * that step.  
+	 * 
+	 * Remember, the indices list is 1 based and contains the 
+	 * the inclusive start index of that step.
+	 * 
+	 * @param step
+	 * @param occurrence
+	 * @return
+	 */
+	private int getPageIndex(int step, int occurrence) {
+		int counter = 0;
+		for (int i = 0; i < stepIndices.size(); i++) {
+			if (stepIndices.get(i).getNaturalIndex() == step) {
+				counter++;
+				if (counter == occurrence) return stepIndices.get(i).getFlatIndex();
+			}
+		}
+		
+		return 0;
+	}
+	
+	
+	
 	/**
 	 * Get the overall parent step of the one currently being viewed.
 	 * Move through the stepIndices list to see where the currently
@@ -800,8 +884,7 @@ public class ProcedureActivity extends Activity {
 	 * This is needed to move from the linear indexing of the viewpager 
 	 * and the nested structure of the procedure object.
 	 * 
-	 * Subtract 1 from the result because the stepIndices list contains 
-	 * a value for the prepare stage.
+	 * Remember, the step number returned is 1 based.
 	 * 
 	 * @return 
 	 */
@@ -810,10 +893,50 @@ public class ProcedureActivity extends Activity {
 
 		if (viewPager.getCurrentItem() >= PREPARE_PAGES) {
 			for (int i = 0; i < stepIndices.size(); i++) {
-				if (curIndex < stepIndices.get(i)) return i-1;
+				StepIndex si = stepIndices.get(i);
+				
+				if (curIndex >= si.getFlatIndex()) {
+					//If if the last index
+					if (i == stepIndices.size()-1) return si.getNaturalIndex();
+					//If between this index and the start of the next one
+					if (curIndex < stepIndices.get(i+1).getFlatIndex()) return si.getNaturalIndex();
+				}				
 	    	}
 		} 
 	
 		return -1;
 	}
+	
+	
+	
+	/**
+	 * A private class for keeping track of step indexes.
+	 * A pretty basic tuple class.
+	 * 
+	 * @author Chris
+	 *
+	 */
+	private class StepIndex {
+		private int naturalIndex;
+		private int flatIndex;
+		
+		public StepIndex(int naturalIndex, int flatIndex) {
+			this.naturalIndex = naturalIndex;
+			this.flatIndex = flatIndex;
+		}
+		
+		public int getNaturalIndex() {
+			return naturalIndex;
+		}
+		
+		public int getFlatIndex() {
+			return flatIndex;
+		}
+		
+		public String toString() {
+			return "<" + naturalIndex + "," + flatIndex + ">";
+		}
+	}
 }
+
+

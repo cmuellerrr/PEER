@@ -4,63 +4,39 @@
 package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Chris
  *
  */
-public class Step implements Serializable {
+public class Step implements ProcedureItem, Serializable {
 	
 	/**
 	 * Auto-Generated serial id
 	 */
 	private static final long serialVersionUID = -4348295150944687945L;
-	private int cycle;
 	private String number;
 	private String consequent;
 	private String text;
 	private ExecNote execNote;
 	private List<Callout> callouts; 
 	private List<Reference> references;
-	private List<Step> substeps;
+	private List<ProcedureItem> children;
 	
 	
 	
 	/**
 	 * 
 	 */
-	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<Step> substeps) {
-		this.cycle = 0;
+	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<ProcedureItem> children) {
 		this.number = number;
 		this.text = text;
 		this.consequent = "";
 		this.execNote = null;
 		this.callouts = callouts;
 		this.references = references;
-		this.substeps = substeps;
-	}
-	
-	
-	
-	/**
-	 * 
-	 */
-	public Step(Step s) {
-		this.cycle = s.getCycle();
-		this.number = s.getNumber();
-		this.text = s.getText();
-		this.consequent = s.getConsequent();
-		this.execNote = s.getExecNote();
-		this.callouts = s.getCallouts();
-		this.references = s.getReferences();
-		this.substeps = new ArrayList<Step>();
-		
-		List<Step> subs = s.getSubsteps();
-		for (int i = 0; i < subs.size(); i++) {
-			substeps.add(new Step(subs.get(i)));
-		}
+		this.children = children;
 	}
 
 	
@@ -124,22 +100,8 @@ public class Step implements Serializable {
 	 * 
 	 * @param step the step to add
 	 */
-	public void addSubstep(Step step) {
-		substeps.add(step);
-	}
-	
-	
-	
-	/**
-	 * Add the given step to the procedure at the given index.
-	 * 
-	 * @param index the location to put the step
-	 * @param step the step to add
-	 */
-	public void addSubstepAt(int index, Step step) {
-		if (index <= substeps.size()) {
-			substeps.add(index, step);
-		}
+	public void addChild(ProcedureItem child) {
+		children.add(child);
 	}
 	
 	
@@ -148,60 +110,53 @@ public class Step implements Serializable {
 	 * @param index
 	 * @return the step at index
 	 */
-	public Step getSubstep(int index) {
-		return substeps.get(index);
+	public ProcedureItem getChild(int index) {
+		return children.get(index);
 	}
 	
 	
 	
 	/**
-	 * @return the substeps
+	 * @return the children
 	 */
-	public List<Step> getSubsteps() {
-		return substeps;
+	public List<ProcedureItem> getChildren() {
+		return children;
 	}
 
 
 
 	/**
-	 * @param substeps the substeps to set
+	 * @param children the children to set
 	 */
-	public void setSubsteps(List<Step> substeps) {
-		this.substeps = substeps;
+	public void setChildren(List<ProcedureItem> children) {
+		this.children = children;
 	}
 
 
 
 	/**
-	 * @return the number of steps
+	 * @return the number of children
 	 */
-	public int getNumSubsteps() {
-		return substeps.size();
-	}
-
-	
-	
-	/**
-	 * @return the cycle
-	 */
-	public int getCycle() {
-		return cycle;
+	public int getNumChildren() {
+		
+		return children.size();
 	}
 
 
 
 	/**
-	 * @param cycle the cycle to set
+	 * @return the deep number of children
 	 */
-	public void setCycle(int cycle) {
-		this.cycle = cycle;
-		for (int i = 0; i < substeps.size(); i++) {
-			substeps.get(i).setCycle(cycle);
+	public int getNumChildrenDeep() {
+		int result = children.size();
+		for (int i = 0; i < children.size(); i++) {
+			result += children.get(i).getNumChildrenDeep();
 		}
+		return result;
 	}
-
-
-
+	
+	
+	
 	/**
 	 * @return the number
 	 */
@@ -262,5 +217,12 @@ public class Step implements Serializable {
 	 */
 	public void setText(String text) {
 		this.text = text;
+	}
+
+
+
+	@Override
+	public boolean isCycle() {
+		return false;
 	}
 }
