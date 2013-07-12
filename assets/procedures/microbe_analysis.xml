@@ -166,7 +166,7 @@
 				<number>2</number>
 				<text>Prepare for sample collection</text>
 				<step>
-					<number>1</number>
+					<number>2.1</number>
 					<text>Label incubation bags with sharpei and tape. Bags should be labeled with module and number of sample site used, as in Figure 1.</text>
 					<reference>
 						<type>image</type>
@@ -176,7 +176,7 @@
 					</reference>
 				</step>
 				<step>
-					<number>2</number>
+					<number>2.2</number>
 					<text>Put on gloves.</text>
 					<reference>
                         <type>video</type>
@@ -194,11 +194,11 @@
 					<text>Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
 				</callout>
 				<step>
-					<number>1</number>
+					<number>3.1</number>
 					<text>Remove swab from Ziploc bag.</text>
 				</step>
 				<step>
-					<number>2</number>
+					<number>3.2</number>
 					<text>Swipe front face of selected sampling site in zigzag motion as indicated in Figure 2.</text>
 					<reference>
 						<type>image</type>
@@ -212,23 +212,23 @@
 				<number>4</number>
 				<text>Analyze microbe samples</text>
 				<step>
-					<number>1</number>
+					<number>4.1</number>
 					<text>Insert tip of swab into microbe analyzer.</text>
 				</step>
 				<step>
-					<number>2</number>
+					<number>4.2</number>
 					<text>Allow microbe analyzer between 15-20 seconds to complete.</text>
 				</step>
 				<step>
-					<number>3</number>
+					<number>4.3</number>
 					<text>Remove swab from microbe analyzer.</text>
 				</step>
 				<step>
-					<number>4</number>
+					<number>4.4</number>
 					<text>Place swab into incubation bag.</text>
 				</step>
 				<step>
-					<number>5</number>
+					<number>4.5</number>
 					<text>Record the resulting microbe level (Figure 3).</text>
 					<reference>
 						<type>table</type>
@@ -263,15 +263,15 @@
 				<number>6</number>
 				<text>Clean sample site and analyzer</text>
 				<step>
-					<number>1</number>
+					<number>6.1</number>
 					<text>Using one side of cleaning wipe, thoroughly wipe down sample site, including all sites of site.</text>
 				</step>
 				<step>
-					<number>2</number>
+					<number>6.2</number>
 					<text>Fold cleaning wipe in half.</text>
 				</step>
 				<step>
-					<number>3</number>
+					<number>6.3</number>
 					<text>Use one side of cleaning wipe to thoroughly wipe down center of microbe analyzer.</text>
 				</step>
 			</step>

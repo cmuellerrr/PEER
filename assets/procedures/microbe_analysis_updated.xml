@@ -150,14 +150,14 @@ Last edit: Kristina, 7/11
 						<primary_site>9553</primary_site>
 						<secondary_site>7689</secondary_site>
 						<step_association>2.1</step_association>
-						<repetition>1</repitition>
+						<repetition>1</repetition>
 					</item>
 					<item>
 						<module>Columbus</module>
 						<primary_site>9101</primary_site>
 						<secondary_site>3689</secondary_site>
 						<step_association>2.1</step_association>
-						<repetition>2</repitition>
+						<repetition>2</repetition>
 					</item>
 				</table_content>
 			</reference>
@@ -174,11 +174,11 @@ Last edit: Kristina, 7/11
 				<number>2</number>
 				<text>Collect Microbe Sample</text>
 				<step>
-					<number>1</number>
+					<number>2.1</number>
 					<text>Remove swab from Ziploc bag.</text>
 				</step>
 				<step>
-					<number>2</number>
+					<number>2.2</number>
 					<callout>
 						<type>caution</type>
 						<text>Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
@@ -196,12 +196,12 @@ Last edit: Kristina, 7/11
 				<number>3</number>
 				<text>Analyze Microbe Sample</text>
 				<step>
-					<number>1</number>
+					<number>3.1</number>
 					<text>Insert tip of swab into microbe analyzer for 15-20 seconds.</text>
 				</step>
 				<step>
 				<!--For this step, don't we need some bit in the XML about input?-->
-					<number>2</number>
+					<number>3.2</number>
 					<text>Record the resulting microbe level reading (Table 1).</text>
 					<reference>
 						<type>table</type>
@@ -228,7 +228,7 @@ Last edit: Kristina, 7/11
 					</reference>
 				</step>
 				<step>
-					<number>3</number>
+					<number>3.3</number>
 					<text>Place swab into refuse bag.</text>
 				</step>
 			</step>
@@ -236,15 +236,20 @@ Last edit: Kristina, 7/11
 				<number>4</number>
 				<text>Handle Air Filter</text>
 				<step>
-					<number>1</number>
+					<number>4.1</number>
 					<text>If air filter microbe test resulted in a microbe level of 500 or over...</text>
-					<consequent>4.1.1 Remove filter from wall./n4.1.2 Place filter into refuse bag./n4.1.3 Draw an X on a piece of blue tape and place it above the filter site to mark it for future replacement.</consequent></step>
+					<consequent>4.1.1 Remove filter from wall.
+
+4.1.2 Place filter into refuse bag.
+
+4.1.3 Draw an X on a piece of blue tape and place it above the filter site to mark it for future replacement.</consequent>
 				</step>
 				<step>
-					<number>2</number>
+					<number>4.2</number>
 					<text>If air filter microbe test resulted in a microbe level below 500,</text>
-					<consequent>4.2.1 Wipe down all sides of filter with cleaning wipe./n4.2.2 Place cleaning wipe into refuse bag.</consequent>
-					</step>
+					<consequent>4.2.1 Wipe down all sides of filter with cleaning wipe.
+
+4.2.2 Place cleaning wipe into refuse bag.</consequent>
 				</step>
 			</step>
 		</cycle>
@@ -252,15 +257,15 @@ Last edit: Kristina, 7/11
 			<number>5</number>
 			<text>Clean Up</text>
 			<step>
-				<number>1</number>
+				<number>5.1</number>
 				<text>Using cleaning wipe, thoroughly wipe down microbe analyzer used.</text>
 			</step>
 			<step>
-				<number>2</number>
+				<number>5.2</number>
 				<text>Place cleaning wipes into refuse bag.</text>
 			</step>
 			<step>
-				<number>3</number>
+				<number>5.3</number>
 				<text>Remove gloves and place them into refuse bag.</text>
 			</step>
 		</step>
