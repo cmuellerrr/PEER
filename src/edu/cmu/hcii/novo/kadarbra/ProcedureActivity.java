@@ -24,9 +24,11 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
+import edu.cmu.hcii.novo.kadarbra.page.CycleSelectPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
@@ -609,6 +611,8 @@ public class ProcedureActivity extends Activity {
      * 		"msg" - the command to be run
      * 		"step" - if the command is "navigate", it is the
      * 				 index of the step to navigate to.
+     * 		"reps" - if the step is in a cycle
+     * 		"occurrence" - which occurrence of a step to navigate to
      * 
      * @param command 
      */
@@ -630,12 +634,16 @@ public class ProcedureActivity extends Activity {
 	    		scrollUp();
 	    		
 	    	} else if (command.equals("navigate")) {
-	    		//get cycle and cycle size
-	    		//if has reps
-	    		//bring up another menu
-	    		//otherwise, jump to step occurrence #
-	    		
-	    		jumpToStep(extras.getInt("step"), 1);
+	    		if (extras.containsKey("reps")) {
+	    			//bring up another menu
+	    			//pass in the step #
+	    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
+	    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
+	    		} else {
+	    			//By default, get the first occurrence
+	    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 0;
+		    		jumpToStep(extras.getInt("step"), occ);
+	    		}	    		
 	    		
 	    	} else if (command.equals("menu")) {
 	    		openMenu();
