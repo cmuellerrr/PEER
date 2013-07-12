@@ -44,13 +44,13 @@ public class StepPage extends LinearLayout {
 	 * @param step
 	 * @param parent
 	 */
-	public StepPage(Context context, Step step, Step parent) {
+	public StepPage(Context context, Step step, Step parent, int cycle) {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
 		String fullNumber = (parent != null ? parent.getNumber() + "." : "")  + 
 				step.getNumber();
-		String cycleLabel = (step.getCycle() > 0 ? "Cycle " + step.getCycle() : "");
+		String cycleLabel = (cycle > 0 ? "Cycle " + cycle : "");
 		
 		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleLabel);
 		
@@ -62,7 +62,7 @@ public class StepPage extends LinearLayout {
         
 		
 		//Add in an indicator if in a cycle
-		if (step.getCycle() > 0) {
+		if (cycle > 0) {
 			((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
 			
 		} else {

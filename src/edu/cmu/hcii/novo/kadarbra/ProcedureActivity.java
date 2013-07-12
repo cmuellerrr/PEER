@@ -34,8 +34,10 @@ import edu.cmu.hcii.novo.kadarbra.page.PageAdapter;
 import edu.cmu.hcii.novo.kadarbra.page.StepPage;
 import edu.cmu.hcii.novo.kadarbra.page.StepPageScrollView;
 import edu.cmu.hcii.novo.kadarbra.page.StowagePage;
+import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
+import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class ProcedureActivity extends Activity {
@@ -507,8 +509,8 @@ public class ProcedureActivity extends Activity {
 		
 		result.add(new ExecNotesPage(this, procedure.getExecNotes()));
 		
-		for (int i = 0; i < procedure.getNumSteps(); i++){
-			result.addAll(setupStepPage(procedure.getStep(i), null));
+		for (int i = 0; i < procedure.getNumChildren(); i++){
+			result.addAll(setupStepPage(procedure.getChildAt(i), null, 0));
 		}
 		
 		return result;
@@ -526,28 +528,49 @@ public class ProcedureActivity extends Activity {
 	 * @param step
 	 * @return
 	 */
-	private List<ViewGroup> setupStepPage(Step step, Step parent) {
+	private List<ViewGroup> setupStepPage(ProcedureItem item, ProcedureItem parent, int cycleNum) {
 		List<ViewGroup> result = new ArrayList<ViewGroup>();
-		
-		//TODO This won't work for more than 2 levels
-		String fullStepNumber = (parent != null ? parent.getNumber() + "." : "")  + 
-				step.getNumber();
-		
-		int execNoteIndex = getExecNoteIndex(fullStepNumber);
-		if (execNoteIndex > -1) step.setExecNote(procedure.getExecNotes().get(execNoteIndex));
-		
-		//If there are substeps, don't add the parent step, only the children
-		if (step.getNumSubsteps() > 0) {
-			for (int i = 0; i < step.getNumSubsteps(); i++) {
-				result.addAll(setupStepPage(step.getSubstep(i), step));
+
+		//If a cycle
+		if (item.isCycle()) {
+			Cycle c = (Cycle) item;
+			//Add all the reps
+			for (int i = 0; i < c.getReps(); i++) {
+				//Add the steps for each rep
+				for (int j = 0; j < c.getNumChildren(); j++) {
+					//setup the child - parent = null
+					result.addAll(setupStepPage(c.getChild(j), null, i+1));
+				}
 			}
+			
+		//If a step	
 		} else {
-			result.add(new StepPage(this, step, parent));
+			Step s = (Step) item;
+			Step p = parent == null ? null : (Step) parent;
+			
+			//Setup the execution note for this step
+			//TODO This won't work for more than 2 levels
+			String fullStepNumber = (p != null ? p.getNumber() + "." : "")  + s.getNumber();
+			int execNoteIndex = getExecNoteIndex(fullStepNumber);
+			if (execNoteIndex > -1) s.setExecNote(procedure.getExecNotes().get(execNoteIndex));
+			
+			//If a parent step
+			if (s.getNumChildren() > 0) {
+				for (int i = 0; i < s.getNumChildren(); i++) {
+					//setup the child
+					result.addAll(setupStepPage(s.getChild(i), s, cycleNum));
+				}
+			
+			//Its a leaf step
+			} else {				
+				//setup the step
+				result.add(new StepPage(this, s, p, cycleNum));
+			}
 		}
 		
 		return result;
 	}
-
+	
 	
 
     /*
@@ -698,7 +721,7 @@ public class ProcedureActivity extends Activity {
 			//Setup the new menu content
 			switch (v.getId()) {
 				case R.id.navButton :
-					drawerContent = new NavigationPage(v.getContext(), procedure.getSteps(), getCurrentStep());
+					drawerContent = new NavigationPage(v.getContext(), procedure.getChildren(), getCurrentStep());
 					break;
 				case R.id.stowageButton:
 					drawerContent = new StowagePage(v.getContext(), procedure.getStowageItems());
@@ -777,12 +800,12 @@ public class ProcedureActivity extends Activity {
 	 */ 
 	private List<Integer> getPageIndices(){
 		List<Integer> result = new ArrayList<Integer>();
-		List<Step> steps = procedure.getSteps();
+		List<ProcedureItem> steps = procedure.getChildren();
 
 		result.add(PREPARE_PAGES);
 		
 		for (int i = 0; i < steps.size(); i++) {
-			int substeps = steps.get(i).getNumSubsteps();
+			int substeps = steps.get(i).getNumChildren();
 			int delta = substeps > 0 ? substeps : 1;
 			result.add(result.get(result.size()-1) + delta);
 		}

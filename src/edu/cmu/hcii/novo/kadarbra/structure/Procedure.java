@@ -28,7 +28,7 @@ public class Procedure implements Serializable {
 	private String duration;
 	private List<ExecNote> execNotes;
 	private List<StowageItem> stowageItems;
-	private List<Step> steps;
+	private List<ProcedureItem> children;
 	private List<Step> stepsUnnested = new ArrayList<Step>();
 
 	/**
@@ -38,16 +38,16 @@ public class Procedure implements Serializable {
 	 * @param title
 	 * @param objective
 	 * @param duration
-	 * @param steps
+	 * @param children
 	 */
-	public Procedure(String number, String title, String objective, String duration, List<Step> steps) {
+	public Procedure(String number, String title, String objective, String duration, List<ProcedureItem> children) {
 		this.number = number;
 		this.title = title;
 		this.objective = objective;
 		this.duration = duration;
 		this.execNotes = new ArrayList<ExecNote>();
 		this.stowageItems = new ArrayList<StowageItem>();
-		this.steps = steps;
+		this.children = children;
 		generateStepsUnnested();
 	}
 	
@@ -61,40 +61,21 @@ public class Procedure implements Serializable {
 	 * @param duration
 	 * @param execNotes
 	 * @param stowageItems
-	 * @param steps
+	 * @param children
 	 */
 	public Procedure(String number, String title, String objective, String duration, 
-			List<ExecNote> execNotes, List<StowageItem> stowageItems, List<Step> steps) {
+			List<ExecNote> execNotes, List<StowageItem> stowageItems, List<ProcedureItem> children) {
 		this.number = number;
 		this.title = title;
 		this.objective = objective;
 		this.duration = duration;
 		this.execNotes = execNotes;
 		this.stowageItems = stowageItems;
-		this.steps = steps;
+		this.children = children;
 		generateStepsUnnested();
 	}
 	
-	/**
-	 * Add the given step to the end of the procedure.
-	 * 
-	 * @param step the step to add
-	 */
-	public void addStep(Step step) {
-		steps.add(step);
-	}
 	
-	/**
-	 * Add the given step to the procedure at the given index.
-	 * 
-	 * @param index the location to put the step
-	 * @param step the step to add
-	 */
-	public void addStepAt(int index, Step step) {
-		if (index <= steps.size()) {
-			steps.add(index, step);
-		}
-	}
 	
 	/**
 	 * @return the number
@@ -102,6 +83,8 @@ public class Procedure implements Serializable {
 	public String getNumber() {
 		return number;
 	}
+	
+	
 
 	/**
 	 * @param number the number to set
@@ -110,6 +93,8 @@ public class Procedure implements Serializable {
 		this.number = number;
 	}
 
+	
+	
 	/**
 	 * @return the title
 	 */
@@ -117,12 +102,16 @@ public class Procedure implements Serializable {
 		return title;
 	}
 
+	
+	
 	/**
 	 * @param title the title to set
 	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	
 
 	/**
 	 * @return the objective
@@ -130,6 +119,8 @@ public class Procedure implements Serializable {
 	public String getObjective() {
 		return objective;
 	}
+	
+	
 
 	/**
 	 * @param objective the objective to set
@@ -137,6 +128,8 @@ public class Procedure implements Serializable {
 	public void setObjective(String objective) {
 		this.objective = objective;
 	}
+	
+	
 
 	/**
 	 * @return the duration
@@ -145,6 +138,8 @@ public class Procedure implements Serializable {
 		return duration;
 	}
 
+	
+	
 	/**
 	 * @param duration the duration to set
 	 */
@@ -152,6 +147,8 @@ public class Procedure implements Serializable {
 		this.duration = duration;
 	}
 
+	
+	
 	/**
 	 * @return the execNotes
 	 */
@@ -159,6 +156,8 @@ public class Procedure implements Serializable {
 		return execNotes;
 	}
 
+	
+	
 	/**
 	 * @param execNotes the execNotes to set
 	 */
@@ -166,6 +165,8 @@ public class Procedure implements Serializable {
 		this.execNotes = execNotes;
 	}
 
+	
+	
 	/**
 	 * 
 	 * @return the number of execution notes
@@ -174,6 +175,8 @@ public class Procedure implements Serializable {
 		return execNotes.size();
 	}
 
+	
+	
 	/**
 	 * @return the stowageItems
 	 */
@@ -181,6 +184,8 @@ public class Procedure implements Serializable {
 		return stowageItems;
 	}
 
+	
+	
 	/**
 	 * @param stowageItems the stowageItems to set
 	 */
@@ -188,6 +193,8 @@ public class Procedure implements Serializable {
 		this.stowageItems = stowageItems;
 	}
 
+	
+	
 	/**
 	 * 
 	 * @return the number of stowage items
@@ -196,34 +203,43 @@ public class Procedure implements Serializable {
 		return stowageItems.size();
 	}
 
+	
+	
 	/**
 	 * @param index
 	 * @return the step at index
 	 */
-	public Step getStep(int index) {
-		return steps.get(index);
+	public ProcedureItem getChildAt(int index) {
+		return children.get(index);
 	}
 
+	
+	
 	/**
 	 * @return the steps
 	 */
-	public List<Step> getSteps() {
-		return steps;
+	public List<ProcedureItem> getChildren() {
+		return children;
 	}
 
+	
+	
 	/**
 	 * @param steps the steps to set
 	 */
-	public void setSteps(List<Step> steps) {
-		this.steps = steps;
+	public void setChildren(List<ProcedureItem> children) {
+		this.children = children;
 	}
 
+	
+	
 	/**
 	 * @return the number of steps
 	 */
-	public int getNumSteps() {
-		return steps.size();
+	public int getNumChildren() {
+		return children.size();
 	}
+	
 	
 	
 	/**
@@ -233,29 +249,41 @@ public class Procedure implements Serializable {
 		return stepsUnnested;
 	}
 	
+	
+	
 	/**
 	 * @return the steps in a flat list
 	 */
 	private void generateStepsUnnested(){
-		for (int i = 0; i < steps.size(); i++){
-			traverseSteps(steps.get(i));
+		for (int i = 0; i < children.size(); i++){
+			traverseSteps(children.get(i));
 		}
 	}
+	
+	
 	
 	/**
 	 * traverses through all the steps to create an unnested list of steps and substeps
 	 * @param step current step
 	 */
-	private void traverseSteps(Step step){
-		if (step != null){
-			if (step.getNumSubsteps()==0)
-				stepsUnnested.add(step);
-			
-			for (int i = 0; i < step.getNumSubsteps(); i++){
-				traverseSteps(step.getSubstep(i));
+	private void traverseSteps(ProcedureItem child){
+		if (child != null){
+			if (child.isCycle()) {
+				int reps = ((Cycle) child).getReps();
+				for (int i = 0; i < reps; i++) {
+					for (int j = 0; j < child.getNumChildren(); j++){
+						traverseSteps(child.getChild(j));
+					}
+				}
+			} else {
+				if (child.getNumChildren() == 0)
+					stepsUnnested.add((Step)child);
+				
+				for (int i = 0; i < child.getNumChildren(); i++){
+					traverseSteps(child.getChild(i));
+				}
 			}
-			
-		}else
+		} else
 			return;
 	}
 	
