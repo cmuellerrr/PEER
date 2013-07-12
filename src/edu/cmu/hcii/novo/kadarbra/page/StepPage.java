@@ -48,11 +48,9 @@ public class StepPage extends LinearLayout {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
-		String fullNumber = (parent != null ? parent.getNumber() + "." : "")  + 
-				step.getNumber();
 		String cycleLabel = (cycle > 0 ? "Cycle " + cycle : "");
 		
-		Log.d(TAG, "Setting up step page " + fullNumber + " " + cycleLabel);
+		Log.d(TAG, "Setting up step page " + step.getNumber() + " " + cycleLabel);
 		
 		this.step = step;
 		this.parent = parent;
@@ -84,7 +82,7 @@ public class StepPage extends LinearLayout {
 		
 		//Add the normal text
 		final TextView stepView = ((TextView)page.findViewById(R.id.stepStepText));
-		stepView.setText(fullNumber + ": " + step.getText());
+		stepView.setText(step.getNumber() + ": " + step.getText());
 
 		
 		//if it is a conditional
