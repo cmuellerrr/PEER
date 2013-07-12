@@ -53,7 +53,7 @@ public class ProcedureActivity extends Activity {
 	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver;
 	
-	private List<Integer> stepIndices;
+	private List<StepIndex> stepIndices;
 	
 	private Map<String, Animation> menuAnimations;
 	private View drawerContent;
@@ -630,7 +630,12 @@ public class ProcedureActivity extends Activity {
 	    		scrollUp();
 	    		
 	    	} else if (command.equals("navigate")) {
-	    		jumpToStep(extras.getInt("step"));
+	    		//get cycle and cycle size
+	    		//if has reps
+	    		//bring up another menu
+	    		//otherwise, jump to step occurrence #
+	    		
+	    		jumpToStep(extras.getInt("step"), 1);
 	    		
 	    	} else if (command.equals("menu")) {
 	    		openMenu();
@@ -687,14 +692,16 @@ public class ProcedureActivity extends Activity {
      * TODO: should it be in the UI thread?  What about other methods?
      * 
      * @param stepIndex
+     * @param occurence
      */
-    private void jumpToStep(int index) {
-    	if (index >= 0) {
-    		final int i = index;
+    private void jumpToStep(int step, int occurrence) {
+    	if (step >= 0) {
+    		final int index = getPageIndex(step, occurrence);
+    		
     		runOnUiThread(new Runnable() {
     			public void run() { 
     				closeMenu();
-    	    		viewPager.setCurrentItem(stepIndices.get(i), true);
+    				viewPager.setCurrentItem(index, true);
       	      	}
     		});
     	}
@@ -788,26 +795,56 @@ public class ProcedureActivity extends Activity {
 	 * nested structure of the procedure object.
 	 * 
 	 * For example, say step one has 3 substeps.  In terms of the viewpager, 
-	 * step one spans three indices.  So the integer at index 1 in the list
-	 * being returned by this method would provide the viewpager index of the 
-	 * last substep of step 1 PLUS ONE.  So any viewpager index between that 
-	 * value (exclusive) and the one at index 0 in the list returned by this 
-	 * method would (inclusive) be a part of step 1.
+	 * step one spans three indices.  So the resulting StepIndex object's naturaIndex 
+	 * will be 1 and the flattedUpperBound will the index of the last substep
+	 * of step 1 PLUS ONE.  So any viewpager index between the flattenedUpperBound (exclusive) 
+	 * and that of the StepIndex previous to it in the list returned by this method (inclusive)
+	 * would be a part of step 1.
+	 * 
+	 * Because of cycles, we will have to check for the number of occurrences of 
+	 * a natural index later on when searching this list.
 	 * 
 	 * The value at index 0 represents the end of the prepare stage.
 	 * 
 	 * @return
 	 */ 
-	private List<Integer> getPageIndices(){
-		List<Integer> result = new ArrayList<Integer>();
+	private List<StepIndex> getPageIndices(){
+		List<StepIndex> result = new ArrayList<StepIndex>();
 		List<ProcedureItem> steps = procedure.getChildren();
 
-		result.add(PREPARE_PAGES);
+		result.add(new StepIndex(0, PREPARE_PAGES));
 		
+		int stepNumber = 1;
 		for (int i = 0; i < steps.size(); i++) {
-			int substeps = steps.get(i).getNumChildren();
-			int delta = substeps > 0 ? substeps : 1;
-			result.add(result.get(result.size()-1) + delta);
+			if (steps.get(i).isCycle()) {
+				Cycle c = (Cycle) steps.get(i);
+				
+				//Assuming that there are only steps within a cycle
+				for (int j = 0; j < c.getReps(); j++) {
+					//We need to keep our place outside of the cycle
+					int repStepNumber = stepNumber;
+					
+					for (int k = 0; k < c.getNumChildren(); k++) {
+						int substeps = c.getChild(k).getNumChildren();
+						int delta = substeps > 0 ? substeps : 1;
+						int previous = result.get(result.size()-1).getFlatUpperBound();
+						
+						result.add(new StepIndex(repStepNumber, previous + delta));
+						repStepNumber++;
+					}
+					
+					//Account for the steps in the cycle
+					if (j == c.getReps() - 1) stepNumber = repStepNumber;
+				}
+				
+			} else {
+				int substeps = steps.get(i).getNumChildren();
+				int delta = substeps > 0 ? substeps : 1;
+				int previous = result.get(result.size()-1).getFlatUpperBound();
+				
+				result.add(new StepIndex(stepNumber, previous + delta));
+				stepNumber++;
+			}			
 		}
 		
 		return result;
@@ -815,6 +852,36 @@ public class ProcedureActivity extends Activity {
 
 
 
+	/**
+	 * Search the pageIndices list for the given occurrence 
+	 * of the given step.  Then return the flat upper bound of
+	 * that step.  
+	 * 
+	 * Remember, the indices list is 0 based starting
+	 * with the prep steps and contains the the exlusive upper 
+	 * bound index of that step.  So searching for actual procedure
+	 * step 1, which will be index 0, will result in the flat
+	 * upper bound of the prep stages (which is the beginning of 
+	 * step 1).
+	 * 
+	 * @param step
+	 * @param occurrence
+	 * @return
+	 */
+	private int getPageIndex(int step, int occurrence) {
+		int counter = 0;
+		for (int i = 0; i < stepIndices.size(); i++) {
+			if (stepIndices.get(i).getNaturalIndex() == step) {
+				counter++;
+				if (counter == occurrence) return stepIndices.get(i).getFlatUpperBound();
+			}
+		}
+		
+		return 0;
+	}
+	
+	
+	
 	/**
 	 * Get the overall parent step of the one currently being viewed.
 	 * Move through the stepIndices list to see where the currently
@@ -833,10 +900,31 @@ public class ProcedureActivity extends Activity {
 
 		if (viewPager.getCurrentItem() >= PREPARE_PAGES) {
 			for (int i = 0; i < stepIndices.size(); i++) {
-				if (curIndex < stepIndices.get(i)) return i-1;
+				StepIndex si = stepIndices.get(i);
+				if (curIndex < si.getFlatUpperBound()) return si.getNaturalIndex()-1;
 	    	}
 		} 
 	
 		return -1;
 	}
+	
+	private class StepIndex {
+		private int naturalIndex;
+		private int flatUpperBound;
+		
+		public StepIndex(int naturalIndex, int flatUpperBound) {
+			this.naturalIndex = naturalIndex;
+			this.flatUpperBound = flatUpperBound;
+		}
+		
+		public int getNaturalIndex() {
+			return naturalIndex;
+		}
+		
+		public int getFlatUpperBound() {
+			return flatUpperBound;
+		}
+	}
 }
+
+

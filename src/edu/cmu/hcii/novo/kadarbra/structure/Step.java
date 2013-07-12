@@ -117,7 +117,7 @@ public class Step implements ProcedureItem, Serializable {
 	
 	
 	/**
-	 * @return the substeps
+	 * @return the children
 	 */
 	public List<ProcedureItem> getChildren() {
 		return children;
@@ -126,7 +126,7 @@ public class Step implements ProcedureItem, Serializable {
 
 
 	/**
-	 * @param children the substeps to set
+	 * @param children the children to set
 	 */
 	public void setChildren(List<ProcedureItem> children) {
 		this.children = children;
@@ -135,14 +135,28 @@ public class Step implements ProcedureItem, Serializable {
 
 
 	/**
-	 * @return the number of steps
+	 * @return the number of children
 	 */
 	public int getNumChildren() {
+		
 		return children.size();
 	}
 
 
 
+	/**
+	 * @return the deep number of children
+	 */
+	public int getNumChildrenDeep() {
+		int result = children.size();
+		for (int i = 0; i < children.size(); i++) {
+			result += children.get(i).getNumChildrenDeep();
+		}
+		return result;
+	}
+	
+	
+	
 	/**
 	 * @return the number
 	 */

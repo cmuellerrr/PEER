@@ -24,6 +24,8 @@ public interface ProcedureItem {
 	
 	public int getNumChildren();
 	
+	public int getNumChildrenDeep();
+	
 	//Oh god I hate myself for this one
 	public boolean isCycle();
 }

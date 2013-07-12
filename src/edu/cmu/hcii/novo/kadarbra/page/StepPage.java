@@ -31,6 +31,7 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
 public class StepPage extends LinearLayout {
 	private static final String TAG = "StepPage";
 	
+	private int cycle;
 	private Step parent;
 	private Step step;
 	
@@ -54,6 +55,7 @@ public class StepPage extends LinearLayout {
 		
 		this.step = step;
 		this.parent = parent;
+		this.cycle = 0;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.step_page, null);
@@ -347,6 +349,8 @@ public class StepPage extends LinearLayout {
 		//TODO
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @return step
@@ -355,11 +359,24 @@ public class StepPage extends LinearLayout {
 		return step;
 	}
 	
+	
+	
 	/**
 	 * 
 	 * @return parent
 	 */
 	public Step getStepParent(){
 		return parent;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * 
+	 * @return cycle
+	 */
+	public int getCycle() {
+		return cycle;
 	}
 }

@@ -78,8 +78,21 @@ public class Cycle implements ProcedureItem, Serializable {
 		return children.size();
 	}
 
+	
+	
+	/**
+	 * @return the deep number of children
+	 */
+	public int getNumChildrenDeep() {
+		int result = children.size();
+		for (int i = 0; i < children.size(); i++) {
+			result += children.get(i).getNumChildrenDeep();
+		}
+		return result;
+	}
 
-
+	
+	
 	/**
 	 * @return the reps
 	 */

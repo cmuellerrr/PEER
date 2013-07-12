@@ -43,7 +43,7 @@ public class NavigationPage extends LinearLayout {
 				Cycle c = (Cycle)steps.get(i);
 				for (int j = 0; j < c.getNumChildren(); j++) {
 					//TODO this will break on cycles within cycles
-					addCycleStep(i+j, (Step) c.getChild(j), c.getReps(), c.getNumChildren());
+					addCycleStep(i+j, (Step) c.getChild(j), c.getReps());
 				}
 				
 				//TODO add cycle marker
@@ -82,13 +82,13 @@ public class NavigationPage extends LinearLayout {
 		
 		newStep.setOnClickListener(new OnClickListener(){
 
+			//The step number sent will be 0 indexed.
+			//So step 1 will send over the index of 0.
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent("command");
 				intent.putExtra("msg", "navigate");
 				intent.putExtra("step", index);
-				intent.putExtra("reps", 1);
-				intent.putExtra("cycle_size", 0);
 				getContext().sendBroadcast(intent);
 			}
 			
@@ -108,7 +108,7 @@ public class NavigationPage extends LinearLayout {
 	 * @param s
 	 * @param reps
 	 */
-	private void addCycleStep(final int index, Step s, final int reps, final int size) {		
+	private void addCycleStep(final int index, Step s, final int reps) {		
 		TextView newStep = new TextView(getContext());
 		newStep.setText(s.getNumber() + " " + s.getText() + " -- X" + reps);
 		newStep.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
@@ -117,13 +117,14 @@ public class NavigationPage extends LinearLayout {
 		
 		newStep.setOnClickListener(new OnClickListener(){
 
+			//The step number sent will be 0 indexed.
+			//So step 1 will send over the index of 0.
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent("command");
 				intent.putExtra("msg", "navigate");
 				intent.putExtra("step", index);
 				intent.putExtra("reps", reps);
-				intent.putExtra("cycle_size", size);
 				getContext().sendBroadcast(intent);
 			}
 			
