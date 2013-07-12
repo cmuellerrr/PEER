@@ -7,8 +7,8 @@
     <string name="title_activity_procedure">ProcedureActivity</string>
     
     <!-- Title Page -->
-    <string name="title_objective">Objective</string>
-    <string name="title_duration">Duration</string>
+    <string name="title_objective">OBJECTIVE</string>
+    <string name="title_duration">DURATION</string>
     
     <!-- Execution Notes -->
     <string name="ex_notes_title">Execution Notes</string>

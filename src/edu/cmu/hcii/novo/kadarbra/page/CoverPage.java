@@ -3,11 +3,13 @@
  */
 package edu.cmu.hcii.novo.kadarbra.page;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
 
@@ -18,7 +20,7 @@ import edu.cmu.hcii.novo.kadarbra.R;
  * @author Chris
  *
  */
-public class CoverPage extends LinearLayout {
+public class CoverPage extends FrameLayout {
 
 	private String number;
 	private String title;
@@ -41,7 +43,7 @@ public class CoverPage extends LinearLayout {
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.cover_page, null);
         
-        ((TextView)page.findViewById(R.id.procedureName)).setText(number + " " + title);
+        ((TextView)page.findViewById(R.id.procedureName)).setText(title.toUpperCase());
         ((TextView)page.findViewById(R.id.objective)).setText(objective);
         ((TextView)page.findViewById(R.id.duration)).setText(duration);
         
@@ -130,4 +132,5 @@ public class CoverPage extends LinearLayout {
 	public void setDuration(String duration) {
 		this.duration = duration;
 	}
+	
 }

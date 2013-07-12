@@ -23,6 +23,24 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     
+    <!-- Cover Page -->
+    
+    <style name="CoverTitle" parent="HorizontalStretch">
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginBottom">25dp</item>
+    </style>
+    
+    <style name="CoverSubTitle" parent="HorizontalStretch">
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:textColor">#ff207d94</item>
+    </style>
+    
+    <style name="CoverText">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+    </style>
     
     <style name="StowageNoteCell">
         <item name="android:layout_width">match_parent</item>
