@@ -634,6 +634,7 @@ public class ProcedureActivity extends Activity {
 	    		scrollUp();
 	    		
 	    	} else if (command.equals("navigate")) {
+	    		Log.i(TAG, "Extras: " + extras.toString());
 	    		if (extras.containsKey("reps")) {
 	    			//bring up another menu
 	    			//pass in the step #
@@ -641,7 +642,7 @@ public class ProcedureActivity extends Activity {
 	    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
 	    		} else {
 	    			//By default, get the first occurrence
-	    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 0;
+	    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
 		    		jumpToStep(extras.getInt("step"), occ);
 	    		}	    		
 	    		
@@ -798,21 +799,13 @@ public class ProcedureActivity extends Activity {
 
 	/**
 	 * Returns a list of page indices.  The list represents the overall index
-	 * of where a step ends in regards to their substeps.  This is needed
+	 * of where a step starts (inclusive) in regards to their substeps.  This is needed
 	 * to move between the viewpager's flattened list of steps and the actual 
 	 * nested structure of the procedure object.
-	 * 
-	 * For example, say step one has 3 substeps.  In terms of the viewpager, 
-	 * step one spans three indices.  So the resulting StepIndex object's naturaIndex 
-	 * will be 1 and the flattedUpperBound will the index of the last substep
-	 * of step 1 PLUS ONE.  So any viewpager index between the flattenedUpperBound (exclusive) 
-	 * and that of the StepIndex previous to it in the list returned by this method (inclusive)
-	 * would be a part of step 1.
 	 * 
 	 * Because of cycles, we will have to check for the number of occurrences of 
 	 * a natural index later on when searching this list.
 	 * 
-	 * The value at index 0 represents the end of the prepare stage.
 	 * 
 	 * @return
 	 */ 
@@ -820,41 +813,39 @@ public class ProcedureActivity extends Activity {
 		List<StepIndex> result = new ArrayList<StepIndex>();
 		List<ProcedureItem> steps = procedure.getChildren();
 
-		result.add(new StepIndex(0, PREPARE_PAGES));
+		int stepNumber = 0;
+		int curIndex = PREPARE_PAGES;
 		
-		int stepNumber = 1;
 		for (int i = 0; i < steps.size(); i++) {
+			
 			if (steps.get(i).isCycle()) {
 				Cycle c = (Cycle) steps.get(i);
 				
 				//Assuming that there are only steps within a cycle
-				for (int j = 0; j < c.getReps(); j++) {
+				for (int j = 0; j < c.getReps(); j++) {					
 					//We need to keep our place outside of the cycle
 					int repStepNumber = stepNumber;
 					
-					for (int k = 0; k < c.getNumChildren(); k++) {
-						int substeps = c.getChild(k).getNumChildren();
-						int delta = substeps > 0 ? substeps : 1;
-						int previous = result.get(result.size()-1).getFlatUpperBound();
+					for (int k = 0; k < c.getNumChildren(); k++) {						
+						result.add(new StepIndex(++repStepNumber, curIndex));
 						
-						result.add(new StepIndex(repStepNumber, previous + delta));
-						repStepNumber++;
+						int substeps = c.getChild(k).getNumChildren();
+						curIndex += substeps > 0 ? substeps : 1;
 					}
 					
 					//Account for the steps in the cycle
 					if (j == c.getReps() - 1) stepNumber = repStepNumber;
 				}
+								
+			} else {				
+				result.add(new StepIndex(++stepNumber, curIndex));
 				
-			} else {
 				int substeps = steps.get(i).getNumChildren();
-				int delta = substeps > 0 ? substeps : 1;
-				int previous = result.get(result.size()-1).getFlatUpperBound();
-				
-				result.add(new StepIndex(stepNumber, previous + delta));
-				stepNumber++;
+				curIndex += substeps > 0 ? substeps : 1;
 			}			
 		}
 		
+		Log.i(TAG, "Step Index: " + result.toString());
 		return result;
 	}
 
@@ -865,12 +856,8 @@ public class ProcedureActivity extends Activity {
 	 * of the given step.  Then return the flat upper bound of
 	 * that step.  
 	 * 
-	 * Remember, the indices list is 0 based starting
-	 * with the prep steps and contains the the exlusive upper 
-	 * bound index of that step.  So searching for actual procedure
-	 * step 1, which will be index 0, will result in the flat
-	 * upper bound of the prep stages (which is the beginning of 
-	 * step 1).
+	 * Remember, the indices list is 1 based and contains the 
+	 * the inclusive start index of that step.
 	 * 
 	 * @param step
 	 * @param occurrence
@@ -881,7 +868,7 @@ public class ProcedureActivity extends Activity {
 		for (int i = 0; i < stepIndices.size(); i++) {
 			if (stepIndices.get(i).getNaturalIndex() == step) {
 				counter++;
-				if (counter == occurrence) return stepIndices.get(i).getFlatUpperBound();
+				if (counter == occurrence) return stepIndices.get(i).getFlatIndex();
 			}
 		}
 		
@@ -898,8 +885,7 @@ public class ProcedureActivity extends Activity {
 	 * This is needed to move from the linear indexing of the viewpager 
 	 * and the nested structure of the procedure object.
 	 * 
-	 * Subtract 1 from the result because the stepIndices list contains 
-	 * a value for the prepare stage.
+	 * Remember, the step number returned is 1 based.
 	 * 
 	 * @return 
 	 */
@@ -909,28 +895,47 @@ public class ProcedureActivity extends Activity {
 		if (viewPager.getCurrentItem() >= PREPARE_PAGES) {
 			for (int i = 0; i < stepIndices.size(); i++) {
 				StepIndex si = stepIndices.get(i);
-				if (curIndex < si.getFlatUpperBound()) return si.getNaturalIndex()-1;
+				
+				if (curIndex >= si.getFlatIndex()) {
+					//If if the last index
+					if (i == stepIndices.size()-1) return si.getNaturalIndex();
+					//If between this index and the start of the next one
+					if (curIndex < stepIndices.get(i+1).getFlatIndex()) return si.getNaturalIndex();
+				}				
 	    	}
 		} 
 	
 		return -1;
 	}
 	
+	
+	
+	/**
+	 * A private class for keeping track of step indexes.
+	 * A pretty basic tuple class.
+	 * 
+	 * @author Chris
+	 *
+	 */
 	private class StepIndex {
 		private int naturalIndex;
-		private int flatUpperBound;
+		private int flatIndex;
 		
-		public StepIndex(int naturalIndex, int flatUpperBound) {
+		public StepIndex(int naturalIndex, int flatIndex) {
 			this.naturalIndex = naturalIndex;
-			this.flatUpperBound = flatUpperBound;
+			this.flatIndex = flatIndex;
 		}
 		
 		public int getNaturalIndex() {
 			return naturalIndex;
 		}
 		
-		public int getFlatUpperBound() {
-			return flatUpperBound;
+		public int getFlatIndex() {
+			return flatIndex;
+		}
+		
+		public String toString() {
+			return "<" + naturalIndex + "," + flatIndex + ">";
 		}
 	}
 }

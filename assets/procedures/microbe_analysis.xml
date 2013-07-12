@@ -157,11 +157,6 @@
 	</procedure_notes>
 	<steps>
 	    <step>
-	        <number>0</number>
-	        <text>If something special is happening</text>
-	        <consequent>Do a whole bunch of crazy shit.</consequent>
-	    </step>
-	    <step>
             <number>1</number>
             <text>Perform steps 2 - 8 for each sample site.</text>
         </step>

@@ -38,18 +38,22 @@ public class NavigationPage extends LinearLayout {
 		this.steps = steps;
 		this.current = current;
 
+		//The list is 1 based
+		int stepNumber = 1;
 		for (int i = 0; i < steps.size(); i++) {			
 			if (steps.get(i).isCycle()) {
 				Cycle c = (Cycle)steps.get(i);
 				for (int j = 0; j < c.getNumChildren(); j++) {
 					//TODO this will break on cycles within cycles
-					addCycleStep(i+j, (Step) c.getChild(j), c.getReps());
+					addCycleStep(stepNumber, (Step) c.getChild(j), c.getReps());
+					stepNumber++;
 				}
 				
 				//TODO add cycle marker
 				
 			} else {
-				addStep(i, (Step) steps.get(i));
+				addStep(stepNumber, (Step) steps.get(i));
+				stepNumber++;
 			}
 		}
 	}

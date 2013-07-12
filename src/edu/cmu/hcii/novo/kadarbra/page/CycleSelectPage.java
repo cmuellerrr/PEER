@@ -8,11 +8,9 @@ import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
@@ -34,19 +32,14 @@ public class CycleSelectPage extends LinearLayout {
 		this.step = step;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.cycle_select_page, null);
-        ViewGroup container = (ViewGroup)page.findViewById(R.id.cycleContainer);
+        ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_select_page, null);
         
         for (int i = 0; i < reps; i++) {
         	final int rep = i+1;
         	final int s = step;
         	
-        	//TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);
-        	//newItem.setText("Cycle " + rep);
-        	
-        	TextView newItem = new TextView(getContext());
+        	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
         	newItem.setText("Cycle " + (i+1));
-        	newItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
         	newItem.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -60,9 +53,8 @@ public class CycleSelectPage extends LinearLayout {
         		
         	});
         	
-        	container.addView(newItem);
+        	page.addView(newItem);
         }
-        
         this.addView(page);
 	}
 	

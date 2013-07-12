@@ -6,15 +6,9 @@
     android:background="#ff000000">
     
     <TextView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/cycleSelectTitle"
+        style="@style/CycleSelectTitle"
         android:text="@string/cycle_select_title" />"
     
-    <LinearLayout 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cycleContainer"
-        android:orientation="horizontal">
-        
-    </LinearLayout>
+    
 </LinearLayout>
