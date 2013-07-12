@@ -24,6 +24,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
@@ -275,7 +276,7 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onAnimationStart(Animation animation) {
 				if (drawerContent != null) {
-					((FrameLayout)findViewById(R.id.menuDrawer)).addView(drawerContent);
+					((ScrollView)findViewById(R.id.menuDrawer)).addView(drawerContent);
 					drawerContent = null;
 				}
 			}
