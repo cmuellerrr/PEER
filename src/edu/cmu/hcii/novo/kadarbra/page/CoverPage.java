@@ -3,8 +3,6 @@
  */
 package edu.cmu.hcii.novo.kadarbra.page;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;

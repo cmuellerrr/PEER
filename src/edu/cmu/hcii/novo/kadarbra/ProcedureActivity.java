@@ -551,9 +551,7 @@ public class ProcedureActivity extends Activity {
 			Step p = parent == null ? null : (Step) parent;
 			
 			//Setup the execution note for this step
-			//TODO This won't work for more than 2 levels
-			String fullStepNumber = (p != null ? p.getNumber() + "." : "")  + s.getNumber();
-			int execNoteIndex = getExecNoteIndex(fullStepNumber);
+			int execNoteIndex = getExecNoteIndex(s.getNumber());
 			if (execNoteIndex > -1) s.setExecNote(procedure.getExecNotes().get(execNoteIndex));
 			
 			//If a parent step

@@ -14,15 +14,15 @@ Last edit: Kristina, 7/11
 	<duration>15 Minutes</duration>
 	<execution_notes>
 		<note>
-			<step>2</step>
-			<substep>2</substep>
-			<text>Instead of testing JEM site 8224, test Node 3 site 9553.</text>
-		</note>
-		<note>
-			<step>5</step>
-			<substep>1</substep>
-			<text>Do not perform this step.</text>
-		</note>
+            <step>2</step>
+            <substep>2</substep>
+            <text>Instead of testing JEM site 8224, test Node 3 site 9553.</text>
+        </note>
+        <note>
+            <step>5</step>
+            <substep>1</substep>
+            <text>Do not perform this step.</text>
+        </note>
 	</execution_notes>
 	<stowage_notes>
 		<note>

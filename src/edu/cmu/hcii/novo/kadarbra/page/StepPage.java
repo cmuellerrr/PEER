@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -154,9 +155,11 @@ public class StepPage extends LinearLayout {
 		if (note != null) {
 			Log.i(TAG, "Setting up execution note");
 			LayoutInflater inflater = LayoutInflater.from(getContext());
-	        View noteView = (View)inflater.inflate(R.layout.ex_note, null);
+	        View noteView = (View)inflater.inflate(R.layout.callout, null);
 			
-	        ((TextView)noteView.findViewById(R.id.exNoteText)).setText(note.getText());
+	        ((ViewGroup)noteView.findViewById(R.id.calloutHeader)).setBackgroundColor(0xFFFFFFFF);
+	        ((TextView)noteView.findViewById(R.id.calloutTitle)).setText(R.string.ex_note_title);
+	        ((TextView)noteView.findViewById(R.id.calloutText)).setText(note.getText());
 
 			this.addView(noteView);
 		}
@@ -195,25 +198,29 @@ public class StepPage extends LinearLayout {
 	        View callView = (View)inflater.inflate(R.layout.callout, null);
 	        
 	        String typeName = "";
+	        int bgColor = 0xFF000000;
 	        
 	        switch(call.getType()) {
 	        	case NOTE:
 	        		typeName = "NOTE";
+	        		bgColor = 0xFFAAAAAA;
 	        		break;
 	        	
-	        	case WARNING:
-	        		typeName = "WARNING";
-	        		break;
-	        		
 	        	case CAUTION:
 	        		typeName = "CAUTION";
+	        		bgColor = 0xFFFFF000;
 	        		break;
+	        		
+	        	case WARNING:
+	        		typeName = "WARNING";
+	        		bgColor = 0xFFFF0000;
+	        		break;	        	
 	        		
 	        	default:
 	        		break;
 	        }
 	        
-	        
+	        ((ViewGroup)callView.findViewById(R.id.calloutHeader)).setBackgroundColor(bgColor);
 	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
 	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());
 

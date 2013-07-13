@@ -23,7 +23,15 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     
+    <style name="Center">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    
+    
     <!-- Cover Page -->
+    
     
     <style name="CoverTitle" parent="HorizontalStretch">
         <item name="android:textSize">25sp</item>
@@ -42,6 +50,10 @@
         <item name="android:textSize">20sp</item>
     </style>
     
+    
+    <!-- Stowage Notes -->
+    
+    
     <style name="StowageNoteCell">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -51,6 +63,29 @@
     <style name="StowageNoteHeader" parent="StowageNoteCell">
         <item name="android:textStyle">bold</item>
     </style>
+    
+    
+    <!-- Execution Notes -->
+    
+    
+    <style name="ExecutionNotesTitle" parent="HorizontalStretch">
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+    
+    <style name="ExecutionNotesSubTitle" parent="HorizontalStretch">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+    
+    <style name="ExecutionNotesText" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    
+    <!-- Steps -->
     
     
     <style name="StepCycle" parent="HorizontalStretch">
@@ -69,23 +104,29 @@
         <item name="android:textSize">25sp</item>
     </style>
     
-    <style name="Center">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-    
     <style name="ReferenceCaption" parent="Center">
         <item name="android:textSize">15sp</item>
     </style>
     
-    <style name="AlertTitle" parent="Center">
+    
+    <!-- Callouts (ex notes, notes/cautions/warnings) -->
+    
+    
+    <style name="CalloutTitle" parent="Center">
         <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#ff000000</item>
     </style>
     
-    <style name="AlertText" parent="Center">
+    <style name="CalloutText" parent="Center">
         <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
     </style>
+    
+    
+    <!-- Menu -->
+    
     
     <style name="MenuItem" >
         <item name="android:background">@drawable/menu_item_bg</item>

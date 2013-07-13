@@ -5,15 +5,12 @@
     android:orientation="vertical" >
     
     <TextView android:id="@+id/exNotesTitle"
-        style="@style/HorizontalStretch"
-        android:textSize="35sp" 
+        style="@style/ExecutionNotesTitle" 
         android:text="@string/ex_notes_title">
     </TextView>
     
     <TextView android:id="@+id/exNotesAside"
-        style="@style/HorizontalStretch"
-        android:textSize="15sp"
-        android:layout_marginBottom="20dp" 
+        style="@style/ExecutionNotesSubTitle"
         android:text="@string/ex_notes_aside">
     </TextView>
     
