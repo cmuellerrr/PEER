@@ -1,22 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
     <TextView android:id="@+id/stepCycleNumber"
         style="@style/StepCycle" >
-    </TextView>
+    </TextView>   
     
-    <TextView android:id="@+id/stepParentStep"
-        style="@style/StepParentStep" >
-    </TextView>
+    <LinearLayout android:id="@+id/parentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <TextView
+            android:id="@+id/parentNumber"
+            style="@style/ParentStep"
+            android:layout_gravity="right"
+            android:layout_weight="8" />
+        
+        <TextView android:id="@+id/parentText"
+            style="@style/ParentStep"
+            android:layout_weight="1" />
+        
+    </LinearLayout>
     
-    <TextView android:id="@+id/stepStepText"
-        style="@style/StepStepText" >
-    </TextView>
+    <LinearLayout android:id="@+id/stepContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        
+        <TextView android:id="@+id/stepNumber"
+            style="@style/Step"
+            android:layout_gravity="right"
+            android:layout_weight="8" />
     
-    <TextView android:id="@+id/stepConsequent"
-        style="@style/StepConsequent" >
-    </TextView>
+        <LinearLayout android:id="@+id/stepTextContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1" >
+
+            <TextView android:id="@+id/stepText"
+                style="@style/Step" />
+            
+            <LinearLayout android:id="@+id/consequentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                
+                <TextView android:id="@+id/consequentTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fffcda4f"
+                    android:textSize="25sp"
+                    android:text="@string/cond_title_hidden" />
+                
+                <TextView android:id="@+id/consequentText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+                
+            </LinearLayout>
+            
+    
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

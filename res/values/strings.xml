@@ -33,4 +33,8 @@
     
     <string name="cycle_select_title">Which cycle?</string>
     
+    <!-- Conditionals -->
+    <string name="cond_title_hidden">EXPAND</string>
+    <string name="cond_title_shown">COLLAPSE</string>
+    
 </resources>

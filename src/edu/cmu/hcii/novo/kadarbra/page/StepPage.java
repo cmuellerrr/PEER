@@ -60,7 +60,6 @@ public class StepPage extends LinearLayout {
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.step_page, null);
-        
 		
 		//Add in an indicator if in a cycle
 		if (cycle > 0) {
@@ -72,43 +71,46 @@ public class StepPage extends LinearLayout {
 		
 		//setup the parent
 		if (parent != null) {			
-			((TextView)page.findViewById(R.id.stepParentStep)).setText(parent.getNumber() + ": " + parent.getText());
-			
+			((TextView)page.findViewById(R.id.parentNumber)).setText(parent.getNumber());
+			((TextView)page.findViewById(R.id.parentText)).setText(parent.getText());
 		} else {
-			((ViewManager)page).removeView(page.findViewById(R.id.stepParentStep));
+			((ViewGroup)page).removeView(page.findViewById(R.id.parentContainer));
 		}
+
 		
-		
-		setupExecutionNotes();
-		setupCallouts();
+		//Add callout elements
+		ViewGroup cont = ((ViewGroup)page.findViewById(R.id.stepTextContainer));
+		setupExecutionNotes(cont);
+		setupCallouts(cont);
 		
 		
 		//Add the normal text
-		final TextView stepView = ((TextView)page.findViewById(R.id.stepStepText));
-		stepView.setText(step.getNumber() + ": " + step.getText());
+		((TextView)page.findViewById(R.id.stepNumber)).setText(step.getNumber());
+		((TextView)page.findViewById(R.id.stepText)).setText(step.getText());
 
 		
 		//if it is a conditional
 		if (step.isConditional()) {
 			Log.v(TAG, "Step has conditional content");
 			
-			final TextView conseqView = ((TextView)page.findViewById(R.id.stepConsequent));
-			conseqView.setText(step.getConsequent());
-			conseqView.setVisibility(INVISIBLE);
+			final TextView consText = ((TextView)page.findViewById(R.id.consequentText));
+			consText.setText(step.getConsequent());
 			
-			stepView.setOnClickListener(new OnClickListener() {
+			page.findViewById(R.id.consequentTitle).setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
-					//There's got to be a toggle somewhere...
-					if (conseqView.getVisibility() == VISIBLE){
-						conseqView.setVisibility(INVISIBLE);
+					//TODO make this a toggle?
+					if (consText.getVisibility() == VISIBLE) {
+						consText.setVisibility(GONE);
+						((TextView)v).setText(R.string.cond_title_hidden);
 					} else {
-						conseqView.setVisibility(VISIBLE);
+						consText.setVisibility(VISIBLE);
+						((TextView)v).setText(R.string.cond_title_shown);
 					}
 				}
 			});
 			
 		} else {
-			((ViewManager)page).removeView(page.findViewById(R.id.stepConsequent));
+			((ViewGroup) page.findViewById(R.id.stepTextContainer)).removeView(page.findViewById(R.id.consequentContainer));
 		}
 		
 		this.addView(page);
@@ -139,9 +141,9 @@ public class StepPage extends LinearLayout {
 	 * Sets up the execution notes to be displayed for this step.
 	 * If there is a parent step, show that one too.
 	 */
-	private void setupExecutionNotes() {
-		if (parent != null) setupExecutionNote(parent.getExecNote());
-		setupExecutionNote(step.getExecNote());
+	private void setupExecutionNotes(ViewGroup container) {
+		if (parent != null) setupExecutionNote(container, parent.getExecNote());
+		setupExecutionNote(container, step.getExecNote());
 	}
 	
 	
@@ -151,7 +153,7 @@ public class StepPage extends LinearLayout {
 	 * 
 	 * @param note the note to display
 	 */
-	private void setupExecutionNote(ExecNote note) {
+	private void setupExecutionNote(ViewGroup container, ExecNote note) {
 		if (note != null) {
 			Log.i(TAG, "Setting up execution note");
 			LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -161,7 +163,7 @@ public class StepPage extends LinearLayout {
 	        ((TextView)noteView.findViewById(R.id.calloutTitle)).setText(R.string.ex_note_title);
 	        ((TextView)noteView.findViewById(R.id.calloutText)).setText(note.getText());
 
-			this.addView(noteView);
+			container.addView(noteView, 0);
 		}
 	}
 	
@@ -170,18 +172,18 @@ public class StepPage extends LinearLayout {
 	/**
 	 * Setup the step's callouts
 	 */
-	private void setupCallouts() {
+	private void setupCallouts(ViewGroup container) {
 		//TODO repeating code
 		if (parent != null) {
 			List<Callout> pcalls = parent.getCallouts();
 			for (int i = 0; i < pcalls.size(); i++) {
-				setupCallout(pcalls.get(i));
+				setupCallout(container, pcalls.get(i));
 			}
 		}
 		
 		List<Callout> calls = step.getCallouts();
 		for (int i = 0; i < calls.size(); i++) {
-			setupCallout(calls.get(i));
+			setupCallout(container, calls.get(i));
 		}
 	}
 	
@@ -191,7 +193,7 @@ public class StepPage extends LinearLayout {
 	 * Add the given callout object to the step
 	 * @param call the callout to render
 	 */
-	private void setupCallout(Callout call) {
+	private void setupCallout(ViewGroup container, Callout call) {
 		if (call != null) {
 			Log.i(TAG, "Setting up callout");
 			LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -224,7 +226,7 @@ public class StepPage extends LinearLayout {
 	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
 	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());
 
-			this.addView(callView);
+			container.addView(callView, 0);
 		}
 	}
 	
