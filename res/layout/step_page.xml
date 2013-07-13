@@ -36,7 +36,7 @@
             android:layout_height="1dp"
             android:layout_below="@id/parentText"
             android:layout_toRightOf="@+id/parentNumber"
-            android:paddingLeft="20dp"
+            android:layout_marginLeft="20dp"
             android:background="#FFA4ECE8" />
         
     </RelativeLayout>

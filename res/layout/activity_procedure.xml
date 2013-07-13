@@ -12,7 +12,7 @@
     <edu.cmu.hcii.novo.kadarbra.Breadcrumb
         android:id="@+id/breadcrumb"
         android:layout_width="fill_parent"
-        android:layout_height="25dp"
+        android:layout_height="21dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/menu_group" />
     
@@ -24,11 +24,11 @@
         android:layout_alignLeft="@+id/stepPreviewWidget"
         android:layout_below="@id/breadcrumb" />
 
-    <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget 
-        android:id="@+id/stepPreviewWidget" 
-        android:layout_alignParentBottom="true"
+    <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget
+        android:id="@+id/stepPreviewWidget"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="82dp"
+        android:layout_alignParentBottom="true" />
     
     <ScrollView
         android:id="@+id/menuDrawer"
@@ -57,16 +57,17 @@
         <TextView
             android:id="@+id/menuTitle"
             android:layout_width="wrap_content"
-            android:layout_height="25dp"
+            android:layout_height="21dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="@string/menu_title" />
+            android:text="@string/menu_title"
+            android:textColor="#fffcda4f" />
         
         <Button
             android:id="@+id/navButton"
             style="@style/MenuItem"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="50dp"
             android:text="@string/menu_overview"
             android:visibility="gone" />
         

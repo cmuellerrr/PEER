@@ -1,41 +1,28 @@
 package edu.cmu.hcii.novo.kadarbra;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class StepPreviewWidget extends LinearLayout{
-	private TextView leftText;
-	private TextView rightText;	
-	private static int LAYOUT_HEIGHT = 70;	// height of widget
+
 	
 	
 	public StepPreviewWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context);
+		
+		LayoutInflater inflater = LayoutInflater.from(context);
+        View page = (View)inflater.inflate(R.layout.preview, null);
+
+        this.addView(page);
 	}
 	
-	/**
-	 * Initializes TextViews
-	 * @param context
-	 */
-	private void init(Context context){
-		leftText = new TextView(context);
-		rightText = new TextView(context);
-		
-		leftText.setLayoutParams(new LayoutParams(0, LAYOUT_HEIGHT, 1));
-		rightText.setLayoutParams(new LayoutParams(0, LAYOUT_HEIGHT, 1));
-		
-		leftText.setBackgroundColor(Color.DKGRAY);
-		rightText.setBackgroundColor(Color.GRAY);
-		
-		addView(leftText);
-		addView(rightText);
-	}
+	
 	
 	/**
 	 * 
@@ -43,8 +30,8 @@ public class StepPreviewWidget extends LinearLayout{
 	 * @param step current page within ViewPager
 	 */
 	public void setCurrentStep(Procedure procedure, int step){
-		setStepText(procedure, step-1, leftText);
-		setStepText(procedure, step+1, rightText);
+		setStepText(procedure, step-1, (TextView)findViewById(R.id.leftText));
+		setStepText(procedure, step+1, (TextView)findViewById(R.id.rightText));
 	}
 	
 	/**
