@@ -31,7 +31,7 @@ public class StepPreviewWidget extends LinearLayout{
 		rightText.setLayoutParams(new LayoutParams(0, LAYOUT_HEIGHT, 1));
 		
 		leftText.setBackgroundColor(Color.DKGRAY);
-		rightText.setBackgroundColor(Color.GRAY);	
+		rightText.setBackgroundColor(Color.GRAY);
 		
 		addView(leftText);
 		addView(rightText);

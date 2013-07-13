@@ -15,8 +15,26 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:textColor">#FFFFFFFF</item>
     </style>
-
+    
+    <style name="HeaderText">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+    </style>
+    
+    <style name="BodyText">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+    </style>
+    
+    <style name="CalloutHeaderText">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#FF222222</item>
+    </style>
+    
+    
+    
     <!-- Stretch text view horizontally, but wrap vertically -->
     <style name="HorizontalStretch">
         <item name="android:layout_width">fill_parent</item>
@@ -41,7 +59,7 @@
     <style name="CoverSubTitle" parent="HorizontalStretch">
         <item name="android:textSize">25sp</item>
         <item name="android:layout_marginBottom">15dp</item>
-        <item name="android:textColor">#ff207d94</item>
+        <item name="android:textColor">#FFA4ECE8</item>
     </style>
     
     <style name="CoverText">
@@ -104,15 +122,15 @@
     
     
     <style name="StepCycle" parent="HorizontalStretch">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
     
     <style name="ParentStep" parent="HorizontalStretch">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
     </style>
     
     <style name="Step" parent="HorizontalStretch">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">26sp</item>
     </style>
     
     <style name="ReferenceCaption" parent="Center">

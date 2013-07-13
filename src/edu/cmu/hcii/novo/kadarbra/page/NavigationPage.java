@@ -82,7 +82,7 @@ public class NavigationPage extends LinearLayout {
 		newStep.setText(s.getNumber() + " " + s.getText());
 		newStep.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
 		
-		if (index == current) newStep.setTextColor(Color.CYAN);			
+		if (index == current) newStep.setTextColor(0xffA4ECE8);			
 		
 		newStep.setOnClickListener(new OnClickListener(){
 

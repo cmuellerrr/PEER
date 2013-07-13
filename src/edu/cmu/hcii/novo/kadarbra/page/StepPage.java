@@ -72,7 +72,7 @@ public class StepPage extends LinearLayout {
 		//setup the parent
 		if (parent != null) {			
 			((TextView)page.findViewById(R.id.parentNumber)).setText(parent.getNumber());
-			((TextView)page.findViewById(R.id.parentText)).setText(parent.getText());
+			((TextView)page.findViewById(R.id.parentText)).setText(parent.getText().toUpperCase());
 		} else {
 			((ViewGroup)page).removeView(page.findViewById(R.id.parentContainer));
 		}
