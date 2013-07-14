@@ -56,12 +56,6 @@
     
     <!-- Cover Page -->
     
-    
-    <style name="CoverTitle" parent="HorizontalStretch">
-        <item name="android:textSize">25sp</item>
-        <item name="android:layout_marginBottom">25dp</item>
-    </style>
-    
     <style name="CoverSubTitle" parent="HorizontalStretch">
         <item name="android:textSize">25sp</item>
         <item name="android:layout_marginBottom">15dp</item>
@@ -99,11 +93,14 @@
         <item name="android:shadowDy">2</item>
     </style>
     
+    <style name="TableCell" >
+        <item name="android:padding">10dp</item>
+    </style>
     
     <!-- Stowage Notes -->
     
     
-    <style name="StowageNoteCell">
+    <style name="StowageNoteCell" parent="TableCell">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">15sp</item>

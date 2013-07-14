@@ -5,49 +5,43 @@
     android:orientation="vertical" >
     
     <TextView android:id="@+id/procedureName"
-        style="@style/CoverTitle" />
-    
-    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="36sp"
+        android:layout_marginTop="63dp"
+        android:layout_marginBottom="63dp" />
+    
+    <TableLayout
+        android:layout_width="729dp"
         android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
+        style="@style/Table" >
         
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="40dp"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+        <TableRow
+            style="@style/TableHeaderRow" >
             
             <TextView android:id="@+id/objectiveTitle"
-                style="@style/CoverSubTitle"
-                android:text="@string/title_objective" >
-            </TextView>
-            
-            <TextView android:id="@+id/objective"
-                style="@style/CoverText"
-                android:width="0dip" >
-            </TextView>
-        </LinearLayout>
-    
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:layout_weight="2" >
+                style="@style/TableHeader"
+                android:textSize="28sp"
+                android:text="@string/title_objective" />
             
             <TextView android:id="@+id/durationTitle"
-	            style="@style/CoverSubTitle"
-	            android:text="@string/title_duration" >
-            </TextView>
+                style="@style/TableHeader"
+                android:textSize="28sp"
+                android:text="@string/title_duration" />
             
-            <TextView  android:id="@+id/duration"
-                style="@style/CoverText"
-                android:width="0dip" >
-            </TextView>
-        </LinearLayout>
+        </TableRow>
         
-    </LinearLayout>
-
+        <TableRow >
+            
+            <TextView android:id="@+id/objective"
+                style="@style/TableCell"
+                android:textSize="20sp"
+                android:width="450dp" />
+                
+            <TextView  android:id="@+id/duration"
+                style="@style/TableCell"
+                android:textSize="20sp" />
+            
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
