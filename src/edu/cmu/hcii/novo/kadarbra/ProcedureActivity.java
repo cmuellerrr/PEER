@@ -286,8 +286,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
-				drawer.removeAllViews();
+				((ScrollView)findViewById(R.id.menuDrawer)).removeAllViews();
 			}
 
 			@Override
@@ -301,7 +300,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
+				ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
 				drawer.removeAllViews();
 				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
 			}
@@ -317,8 +316,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
-				drawer.removeAllViews();
+				((ScrollView)findViewById(R.id.menuDrawer)).removeAllViews();
 				//Run each menu item's close animation and set their visibility to GONE.
 				runMenuItemAnimations(TAG_CLOSE, View.GONE);
 			}
@@ -636,8 +634,9 @@ public class ProcedureActivity extends Activity {
 	    		if (extras.containsKey("reps")) {
 	    			//bring up another menu
 	    			//pass in the step #
-	    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
-	    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
+	    			ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+	    			drawer.removeAllViews();
+	    			drawer.addView(new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
 	    		} else {
 	    			//By default, get the first occurrence
 	    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
