@@ -97,6 +97,7 @@
         <item name="android:padding">10dp</item>
     </style>
     
+    
     <!-- Stowage Notes -->
     
     
@@ -115,18 +116,15 @@
     
     
     <style name="ExecutionNotesTitle" parent="HorizontalStretch">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:layout_marginBottom">10dp</item>
     </style>
     
     <style name="ExecutionNotesSubTitle" parent="HorizontalStretch">
-        <item name="android:textSize">15sp</item>
-        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     <style name="ExecutionNotesText" >
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">20sp</item>
     </style>
     
