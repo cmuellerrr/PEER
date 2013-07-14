@@ -50,7 +50,7 @@
     <style name="Center">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center|center_vertical</item>
     </style>
     
     
@@ -75,6 +75,31 @@
     </style>
     
     
+    <!-- Tables -->
+    
+    <style name="Table">
+        <item name="android:background">@drawable/border_blue</item>
+        <item name="android:shrinkColumns">*</item>  
+        <item name="android:stretchColumns">*</item>
+    </style>
+    
+    <style name="TableHeaderRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/dot_bg_blue</item>
+    </style>
+    
+    <style name="TableHeader" parent="Center" >
+        <item name="android:layout_gravity">center|center_vertical</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:shadowColor">#ff000000</item>  
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:shadowDx">1</item>  
+        <item name="android:shadowDy">2</item>
+    </style>
+    
+    
     <!-- Stowage Notes -->
     
     
@@ -84,8 +109,8 @@
         <item name="android:textSize">15sp</item>
     </style>
     
-    <style name="StowageNoteHeader" parent="StowageNoteCell">
-        <item name="android:textStyle">bold</item>
+    <style name="StowageNoteHeader" parent="TableHeader" >
+        <item name="android:textSize">18sp</item>
     </style>
     
     
@@ -112,10 +137,8 @@
     <!-- Callouts (ex notes, notes/cautions/warnings) -->
     
     
-    <style name="CalloutTitle" parent="Center">
+    <style name="CalloutTitle" parent="TableHeader">
         <item name="android:textSize">28sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#ffffffff</item>
     </style>
     
     <style name="CalloutText" parent="Center">

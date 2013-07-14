@@ -39,12 +39,11 @@ public class StowagePage extends TableLayout {
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.stow_notes_page, null);
         
-        LinearLayout notesList = (LinearLayout) page.findViewById(R.id.stowNotesList);
+        TableLayout notesList = (TableLayout) page.findViewById(R.id.stowNotesList);
 		
 		for (int i = 0; i < stowageItems.size(); i++) {
 			StowageItem s = stowageItems.get(i);
-			
-			
+						
 			View newNote = (View) inflater.inflate(R.layout.stow_note, null);
 			
 			((TextView)newNote.findViewById(R.id.stowNoteBinCode)).setText(s.getBinCode());
@@ -54,7 +53,6 @@ public class StowagePage extends TableLayout {
 			((TextView)newNote.findViewById(R.id.stowNoteNotes)).setText(s.getText());
 			
 			//TODO need to add image
-			
 			notesList.addView(newNote);
 		}
 		

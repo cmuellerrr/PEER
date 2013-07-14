@@ -16,7 +16,7 @@
         
 	    <TextView
 	        android:id="@+id/calloutTitle"
-	        style="@style/CalloutTitle" />
+	        style="@style/CalloutTitle" />"
 
     </FrameLayout>
     

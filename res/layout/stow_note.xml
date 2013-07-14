@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal" 
+    android:layout_height="wrap_content"
     android:layout_marginBottom="5dp">
     
     <TextView android:id="@+id/stowNoteBinCode"
-        style="@style/StowageNoteCell"
-        android:layout_weight="1" >
-    </TextView>
+        style="@style/StowageNoteCell" />
     
     <TextView android:id="@+id/stowNoteItem"
-        style="@style/StowageNoteCell"
-        android:layout_weight="1" >
-    </TextView>
+        style="@style/StowageNoteCell" />
     
     <TextView android:id="@+id/stowNoteQuantity"
-        style="@style/StowageNoteCell"
-        android:layout_weight="1" >
-    </TextView>
+        style="@style/StowageNoteCell" />
     
     <TextView android:id="@+id/stowNoteItemCode"
-        style="@style/StowageNoteCell"
-        android:layout_weight="1" >
-    </TextView>
+        style="@style/StowageNoteCell" />
     
     <TextView android:id="@+id/stowNoteNotes"
-        style="@style/StowageNoteCell"
-        android:layout_weight="1" >
-    </TextView>
+        style="@style/StowageNoteCell" />
     
     <ImageView android:id="@+id/stowNoteImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
-    </ImageView>
-</LinearLayout>
+        android:layout_weight="1" />
+</TableRow>

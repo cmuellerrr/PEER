@@ -11,52 +11,38 @@
         android:text="@string/stow_notes_title">
     </TextView>
     
-    <LinearLayout android:id="@+id/stowNotesList"
+    <TableLayout android:id="@+id/stowNotesList"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" 
-        android:orientation="vertical" >
+        android:layout_height="fill_parent"
+        style="@style/Table" >
         
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" >
+        <TableRow
+            style="@style/TableHeaderRow" >
             
             <TextView android:id="@+id/binCodeHeader"
 		        style="@style/StowageNoteHeader"
-		        android:layout_weight="1"
-		        android:text="@string/header_bin_code">
-		    </TextView>
+		        android:text="@string/header_bin_code" />
 		    
             <TextView android:id="@+id/itemHeader"
                 style="@style/StowageNoteHeader"
-                android:layout_weight="1"
-                android:text="@string/header_item">
-            </TextView>
+                android:text="@string/header_item" />
             
             <TextView android:id="@+id/quantityHeader"
                 style="@style/StowageNoteHeader"
-                android:layout_weight="1"
-                android:text="@string/header_quantity">
-            </TextView>
+                android:text="@string/header_quantity" />
             
             <TextView android:id="@+id/itemCodeHeader"
                 style="@style/StowageNoteHeader"
-                android:layout_weight="1"
-                android:text="@string/header_item_code">
-            </TextView>
+                android:text="@string/header_item_code" />
             
             <TextView android:id="@+id/notesHeader"
                 style="@style/StowageNoteHeader"
-                android:layout_weight="1"
-                android:text="@string/header_notes">
-            </TextView>
+                android:text="@string/header_notes" />
             
             <TextView android:id="@+id/imageHeader"
                 style="@style/StowageNoteHeader"
-                android:layout_weight="1"
-                android:text="@string/header_image">
-            </TextView>
-        </LinearLayout>
-    </LinearLayout>
-    
+                android:text="@string/header_image" />
+            
+        </TableRow>
+    </TableLayout>
 </LinearLayout>
