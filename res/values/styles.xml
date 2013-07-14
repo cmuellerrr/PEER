@@ -47,7 +47,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
     
-    <style name="Center">
+    <style name="CenterText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center|center_vertical</item>
@@ -83,7 +83,7 @@
         <item name="android:background">@drawable/dot_bg_blue</item>
     </style>
     
-    <style name="TableHeader" parent="Center" >
+    <style name="TableHeader" parent="CenterText" >
         <item name="android:layout_gravity">center|center_vertical</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">#ffffffff</item>
@@ -136,7 +136,7 @@
         <item name="android:textSize">28sp</item>
     </style>
     
-    <style name="CalloutText" parent="Center">
+    <style name="CalloutText" parent="CenterText">
         <item name="android:textSize">26sp</item>
         <item name="android:padding">30dp</item>
     </style>
@@ -157,7 +157,15 @@
         <item name="android:textSize">26sp</item>
     </style>
     
-    <style name="ReferenceCaption" parent="Center">
+    <style name="Reference">
+        <item name="android:layout_width">800dp</item>
+        <item name="android:layout_height">600dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    
+    <style name="ReferenceCaption" parent="CenterText">
+        <item name="android:layout_gravity">center</item>
         <item name="android:textSize">15sp</item>
     </style>
         
@@ -181,11 +189,11 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
     
-    <style name="CycleSelectTitle" parent="Center">
+    <style name="CycleSelectTitle" parent="CenterText">
         <item name="android:textSize">25sp</item>
     </style>
     
-    <style name="CycleSelectItem" parent="Center">
+    <style name="CycleSelectItem" parent="CenterText">
         <item name="android:textSize">25sp</item>
     </style>
     

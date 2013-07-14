@@ -4,13 +4,9 @@
     android:orientation="vertical"
     android:layout_marginTop="20dp" xmlns:android="http://schemas.android.com/apk/res/android">
     
-    
-    
     <VideoView
-	        android:id="@+id/referenceVideo"
-	        style="@style/Center"
-	        android:layout_width="400dp"
-	        android:layout_height="300dp" /> 
+	    android:id="@+id/referenceVideo"
+	    style="@style/Reference" /> 
     
     <TextView android:id="@+id/referenceCaption"
         style="@style/ReferenceCaption" >
