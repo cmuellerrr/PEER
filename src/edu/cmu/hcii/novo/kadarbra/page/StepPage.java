@@ -159,7 +159,6 @@ public class StepPage extends LinearLayout {
 			LayoutInflater inflater = LayoutInflater.from(getContext());
 	        View noteView = (View)inflater.inflate(R.layout.callout, null);
 			
-	        ((ViewGroup)noteView.findViewById(R.id.calloutHeader)).setBackgroundColor(0xFFFFFFFF);
 	        ((TextView)noteView.findViewById(R.id.calloutTitle)).setText(R.string.ex_note_title);
 	        ((TextView)noteView.findViewById(R.id.calloutText)).setText(note.getText());
 
@@ -200,29 +199,34 @@ public class StepPage extends LinearLayout {
 	        View callView = (View)inflater.inflate(R.layout.callout, null);
 	        
 	        String typeName = "";
-	        int bgColor = 0xFF000000;
+	        int bg = 0;
+	        int border = 0;
 	        
 	        switch(call.getType()) {
 	        	case NOTE:
 	        		typeName = "NOTE";
-	        		bgColor = 0xFFAAAAAA;
+	        		bg = R.drawable.dot_bg_white;
+	        		border = R.drawable.border_white;
 	        		break;
 	        	
 	        	case CAUTION:
 	        		typeName = "CAUTION";
-	        		bgColor = 0xFFFFF000;
+	        		bg = R.drawable.dot_bg_yellow;
+	        		border = R.drawable.border_yellow;
 	        		break;
 	        		
 	        	case WARNING:
 	        		typeName = "WARNING";
-	        		bgColor = 0xFFFF0000;
+	        		bg = R.drawable.dot_bg_red;
+	        		border = R.drawable.border_red;
 	        		break;	        	
 	        		
 	        	default:
 	        		break;
 	        }
 	        
-	        ((ViewGroup)callView.findViewById(R.id.calloutHeader)).setBackgroundColor(bgColor);
+	        ((ViewGroup)callView.findViewById(R.id.calloutContainer)).setBackgroundResource(border);
+	        ((ViewGroup)callView.findViewById(R.id.calloutHeader)).setBackgroundResource(bg);
 	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
 	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());
 
