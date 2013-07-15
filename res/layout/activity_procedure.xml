@@ -47,18 +47,26 @@
 
     </ScrollView>
     
+    <View
+        android:layout_width="6dp"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/stepPreviewWidget"
+        android:layout_alignLeft="@+id/menu_group"
+        android:layout_below="@+id/breadcrumb"
+        android:background="@color/main" />
+    
     <RelativeLayout
         android:id="@+id/menu_group"
         android:layout_width="222dp"
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget" >
-
+        
         <View
             android:id="@+id/menuBackground"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/menuTitle"
-            android:background="@drawable/drawer_background"
+            android:background="@drawable/menu_background"
             android:visibility="gone" />
         
         <TextView
@@ -100,7 +108,5 @@
             android:text="@string/menu_ground" />
 
     </RelativeLayout>
-    
-    
     
 </RelativeLayout>
