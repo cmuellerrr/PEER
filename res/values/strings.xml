@@ -33,6 +33,8 @@
     
     <string name="cycle_select_title">WHICH CYCLE?</string>
     
+    <string name="calling_ground">Speaking with ground</string>
+    
     <!-- Conditionals -->
     <string name="cond_title_hidden">[+] EXPAND</string>
     <string name="cond_title_shown">[-] COLLAPSE</string>

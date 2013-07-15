@@ -3,8 +3,11 @@
  */
 package edu.cmu.hcii.novo.kadarbra.page;
 
+import edu.cmu.hcii.novo.kadarbra.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,14 +23,10 @@ public class GroundPage extends LinearLayout {
 	public GroundPage(Context context) {
 		super(context);
 		
+		LayoutInflater inflater = LayoutInflater.from(context);
+        View page = (View)inflater.inflate(R.layout.call_ground, null);
 		
-		TextView temp = new TextView(context);
-		temp.setText("This feature is not yet implemented");
-		temp.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
-		
-		this.addView(temp);
-				
-
+		this.addView(page);
 	}
 
 	
