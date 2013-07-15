@@ -3,13 +3,12 @@
  */
 package edu.cmu.hcii.novo.kadarbra.page;
 
-import edu.cmu.hcii.novo.kadarbra.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
  * @author Chris
@@ -23,10 +22,9 @@ public class GroundPage extends LinearLayout {
 	public GroundPage(Context context) {
 		super(context);
 		
-		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.call_ground, null);
+		LayoutInflater.from(context).inflate(R.layout.call_ground, this);
 		
-		this.addView(page);
+		this.setGravity(Gravity.CENTER);
 	}
 
 	

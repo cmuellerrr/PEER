@@ -59,7 +59,7 @@ public class StepPage extends LinearLayout {
 		this.cycle = 0;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.step_page, null);
+        View page = (View)inflater.inflate(R.layout.step_page, this);
 		
 		//Add in an indicator if in a cycle
 		if (cycle > 0) {
@@ -112,9 +112,7 @@ public class StepPage extends LinearLayout {
 		} else {
 			((ViewGroup) page.findViewById(R.id.stepTextContainer)).removeView(page.findViewById(R.id.consequentContainer));
 		}
-		
-		this.addView(page);
-		
+				
 		setupReferences();
 	}
 	

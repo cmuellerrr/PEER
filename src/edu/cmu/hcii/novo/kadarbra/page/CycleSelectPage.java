@@ -6,6 +6,7 @@ package edu.cmu.hcii.novo.kadarbra.page;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class CycleSelectPage extends LinearLayout {
         	page.addView(newItem);
         }
         this.addView(page);
+        this.setGravity(Gravity.CENTER);
 	}
 	
 	

@@ -39,13 +39,11 @@ public class CoverPage extends FrameLayout {
 		this.duration = duration;
 
 		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.cover_page, null);
+        View page = (View)inflater.inflate(R.layout.cover_page, this);
         
         ((TextView)page.findViewById(R.id.procedureName)).setText(title.toUpperCase());
         ((TextView)page.findViewById(R.id.objective)).setText(objective);
         ((TextView)page.findViewById(R.id.duration)).setText(duration);
-        
-		this.addView(page);
 	}
 
 	
