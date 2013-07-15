@@ -9,6 +9,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ProcedureActivity" >
     
+    <edu.cmu.hcii.novo.kadarbra.AudioFeedbackView
+        android:id="@+id/audioFeedbackView"
+        android:layout_width="150dp"
+        android:layout_height="70dp" 
+        android:layout_alignParentBottom="true"
+    	android:layout_centerHorizontal="true"
+ 	/>
+    
     <edu.cmu.hcii.novo.kadarbra.Breadcrumb
         android:id="@+id/breadcrumb"
         android:layout_width="fill_parent"
@@ -39,6 +47,7 @@
         android:visibility="gone" >
 
     </ScrollView>
+    
     
     <RelativeLayout
         android:id="@+id/menu_group"
@@ -93,9 +102,10 @@
             android:layout_centerHorizontal="true"
             android:text="@string/menu_ground"
             android:visibility="gone" />
-
+        
     </RelativeLayout>
     
+
     
     
 </RelativeLayout>

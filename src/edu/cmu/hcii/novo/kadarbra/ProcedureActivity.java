@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.AudioFeedbackView.AudioFeedbackThread;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.CycleSelectPage;
@@ -54,6 +55,8 @@ public class ProcedureActivity extends Activity {
 	private Breadcrumb breadcrumb;
 	private StepPreviewWidget stepPreviewWidget;
 	private DataUpdateReceiver dataUpdateReceiver;
+	private AudioFeedbackView audioFeedbackView;
+	private AudioFeedbackThread audioFeedbackThread;
 	
 	private List<StepIndex> stepIndices;
 	
@@ -82,6 +85,7 @@ public class ProcedureActivity extends Activity {
 		initMenu();
 		initViewPager();
 		initBreadcrumb();
+		initAudioFeedbackView();
 		
 		stepIndices = getPageIndices();
 	}
@@ -106,7 +110,10 @@ public class ProcedureActivity extends Activity {
 	
 	    if (dataUpdateReceiver == null) 
 	    	dataUpdateReceiver = new DataUpdateReceiver();
-	    IntentFilter intentFilter = new IntentFilter("command");
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MessageHandler.MSG_TYPE_COMMAND);
+        intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_LEVEL);
+        intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_BUSY);    
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	}
 
@@ -142,7 +149,14 @@ public class ProcedureActivity extends Activity {
 	    Log.v(TAG, "onDestroy");
 	}
 
-	
+	/**
+	 *  initalizes audio feedback view and drawing thread
+	 */
+	private void initAudioFeedbackView(){
+        audioFeedbackView = (AudioFeedbackView) findViewById(R.id.audioFeedbackView);
+        audioFeedbackView.bringToFront();
+        audioFeedbackThread = audioFeedbackView.getThread();
+	}
 	
 	// initializes the Breadcrumb (currently just step numbers)
 	private void initBreadcrumb(){
@@ -350,7 +364,14 @@ public class ProcedureActivity extends Activity {
 		menuAnimations.put(key, anim);
 	}
 
-	
+	/**
+	 * Gets whether the menu is opened
+	 * @return
+	 */
+	private boolean getMenuVisibility(){
+		View bg = (View) findViewById(R.id.menuBackground);
+		return (bg.getVisibility() == View.VISIBLE);
+	}
 	
 	/**
 	 * Open the menu.  Run the menu background's open animation and set
@@ -596,8 +617,14 @@ public class ProcedureActivity extends Activity {
 	    public void onReceive(Context context, Intent intent) {
 	    	Log.d(TAG, "Received action: " + intent.getAction());
 	
-	    	if (intent.getAction().equals("command")) {
-	        	handleCommand(intent.getExtras());
+	    	if (intent.getAction().equals(MessageHandler.MSG_TYPE_COMMAND)) {
+        		handleCommand(intent.getExtras());
+	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_LEVEL)){
+	    		float rms = Float.parseFloat(intent.getExtras().getString("msg"));
+	    		audioFeedbackView.updateAudioFeedbackView(rms);
+	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_BUSY)){
+	    		boolean busyState = Boolean.parseBoolean(intent.getExtras().getString("msg"));
+	    		audioFeedbackThread.setBusy(busyState);
 	    	}
 	    }
 	}
@@ -617,38 +644,104 @@ public class ProcedureActivity extends Activity {
      * @param command 
      */
     private void handleCommand(Bundle extras){
-    	String command = extras.getString("msg");
+    	int command = extras.getInt("msg");
     	
-    	if (command != null) {
+    	if (command != MessageHandler.COMMAND_NOT_FOUND) {
     		Log.v(TAG, "Command: " + command);
-	    	if (command.equals("back")) {
-	    		prevPage();
-	    		
-	    	} else if (command.equals("next")) {
-	    		nextPage();
-	    		
-	    	} else if (command.equals("down")) {
-	    		scrollDown();
-	    		
-	    	} else if (command.equals("up")) {
-	    		scrollUp();
-	    		
-	    	} else if (command.equals("navigate")) {
-	    		Log.i(TAG, "Extras: " + extras.toString());
-	    		if (extras.containsKey("reps")) {
-	    			//bring up another menu
-	    			//pass in the step #
-	    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
-	    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
-	    		} else {
-	    			//By default, get the first occurrence
-	    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
-		    		jumpToStep(extras.getInt("step"), occ);
-	    		}	    		
-	    		
-	    	} else if (command.equals("menu")) {
-	    		openMenu();
-	    	}
+    		audioFeedbackThread.setBusy(false);
+    		if (command == MessageHandler.COMMAND_CONFIRMATION){
+    			audioFeedbackThread.setState(audioFeedbackView.STATE_ACTIVE);
+    		}
+    		
+        	if (audioFeedbackThread.getCurState()==(audioFeedbackView.STATE_ACTIVE)){
+        		Log.v(TAG, "Command_READY: " + command);
+        		
+        		// if the menu is not currently open
+        		if (!getMenuVisibility()){	
+		    		if (command == MessageHandler.COMMAND_BACK) {
+		    			prevPage();
+			    	} else if (command == MessageHandler.COMMAND_NEXT) {
+			    		nextPage();
+			    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
+			    		scrollDown();
+			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+			    		scrollUp();
+			    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
+			    		String stepString = extras.getString("str");
+	
+			    		int step;
+			    		try{
+			    			step = Integer.parseInt(stepString);
+			    		}catch(NumberFormatException e){
+			    			step = -1;
+			    		}
+			    		if (step >= 0){
+			    			jumpToStep(step,1);
+			    		}
+			    		Log.v("go to step","go to step"+step);
+			    		/*Log.i(TAG, "Extras: " + extras.toString());
+			    		if (extras.containsKey("reps")) {
+			    			//bring up another menu
+			    			//pass in the step #
+			    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
+			    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
+			    		} else {
+			    			//By default, get the first occurrence
+			    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
+				    		jumpToStep(extras.getInt("step"), occ);
+			    		}	    		
+			    		*/
+			    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
+			    		openMenu();
+			    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
+			    		closeMenu();
+			    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
+			    		menuSelect(findViewById(R.id.navButton));
+			    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
+			    		menuSelect(findViewById(R.id.stowageButton));
+			    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
+			    		menuSelect(findViewById(R.id.annotationButton));
+			    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
+			    		menuSelect(findViewById(R.id.groundButton));
+			    	} 
+		    		
+		    		
+		    	// if the menu is currently open	
+        		}else if (getMenuVisibility()){
+        			if (command == MessageHandler.COMMAND_BACK) {
+		    			closeMenu();
+			    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
+			    		String stepString = extras.getString("str");
+	
+			    		int step;
+			    		try{
+			    			step = Integer.parseInt(stepString);
+			    		}catch(NumberFormatException e){
+			    			step = -1;
+			    		}
+			    		if (step >= 0){
+			    			jumpToStep(step,1);
+			    		}
+			    		Log.v("go to step","go to step"+step);
+			    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
+			    		// TODO: scrolling through menu frames
+			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+			    		// TODO: scrolling through menu frames
+			    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
+			    		closeMenu();
+			    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
+			    		closeMenu();
+			    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
+			    		menuSelect(findViewById(R.id.navButton));
+			    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
+			    		menuSelect(findViewById(R.id.stowageButton));
+			    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
+			    		menuSelect(findViewById(R.id.annotationButton));
+			    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
+			    		menuSelect(findViewById(R.id.groundButton));
+			    	} 
+        		}
+        	}
     	}
     }
 	
@@ -680,7 +773,8 @@ public class ProcedureActivity extends Activity {
      * Scrolls the current StepPageScrollView down
      */
     private void scrollDown(){
-    	((StepPageScrollView)(viewPager.findViewWithTag(viewPager.getCurrentItem()))).scrollDown();
+        StepPageScrollView curPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+    	curPage.scrollDown();
     }
 
     
@@ -689,7 +783,8 @@ public class ProcedureActivity extends Activity {
      * Scrolls the current StepPageScrollView up
      */
     private void scrollUp(){
-    	((StepPageScrollView)(viewPager.findViewWithTag(viewPager.getCurrentItem()))).scrollUp();
+        StepPageScrollView curPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+    	curPage.scrollUp();
     }
     
     

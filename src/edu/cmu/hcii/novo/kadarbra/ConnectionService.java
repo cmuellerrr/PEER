@@ -167,8 +167,8 @@ public class ConnectionService extends Service {
 		              
 	            	  String line = streamIn.readLine();
 	            	  if (line!=null){ 
-	            		  Log.v("SERVER",line);
-	            		  MessageHandler.parseMsg(mConnectionService,line);
+	            		  //Log.v(TAG,line);
+	            		  MessageHandler.parseMsg(ConnectionService.this, line);
 	                      done = line.equals(".bye");
 	            	  }
 	               }
@@ -231,9 +231,9 @@ public class ConnectionService extends Service {
     }    
     
 	//sends a broadcast message to be read by other classes
-	/*private void sendBroadcastMsg(String msg){
-        Intent intent = new Intent("connection");
+	private void sendBroadcastMsg(String msg){
+        Intent intent = new Intent("command");
         intent.putExtra("msg", msg);
         sendBroadcast(intent);
-	}*/
+	}
 }
