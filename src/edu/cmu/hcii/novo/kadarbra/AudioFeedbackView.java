@@ -39,6 +39,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		
 		private Paint pBar;			// paint of bars
 		private Paint pThreshold; 	// paint of threshold marker
+		private Paint pActive; 		// paint of active items
 
 		
 		private int levels[] = new int[NUMBER_OF_BARS];					// pixel heights of bars (if directly corresponding the noise level)
@@ -198,6 +199,10 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 			//pBar.setMaskFilter(new BlurMaskFilter(10, Blur.NORMAL));
 			//p.setShadowLayer(70, 0, 0, Color.CYAN);
 			
+			pActive = new Paint();
+			pActive.setColor(Color.parseColor("#FCDA4F"));
+			pActive.setStyle(Style.FILL);
+
 			pThreshold = new Paint();
 			pThreshold.setColor(Color.parseColor("#FCDA4F"));
 			pThreshold.setStrokeWidth(2.0f);
@@ -293,9 +298,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
         
         
     	private void drawBusy(Canvas c, float startAlpha, float endAlpha, int animationFrames){
-    		Paint p = new Paint();
-    		p.setColor(Color.parseColor("#FCDA4F"));
-    		p.setStyle(Style.FILL);
+    		Paint p = new Paint(pActive);
     		
     		float alpha = startAlpha;
     		if (busyDrawCounter < animationFrames/2){
@@ -317,12 +320,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * 
     	 */
         private void drawMicThresholdAnimation(Canvas c){
-        	Paint p = new Paint();
-        	p.setColor(Color.parseColor("#FCDA4F"));
-    		p.setStyle(Style.FILL);
-        	
         	levelThresholdPercent = Math.max(getThresholdLinePercent(), 0);
-        	drawMicActive(c, 1f-levelThresholdPercent, p);
+        	drawMicActive(c, 1f-levelThresholdPercent, pActive);
 
         	lastDrawTime = System.currentTimeMillis();
         	
@@ -357,6 +356,10 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 
     	}
     	
+    	/**
+    	 * Calculates the amount that the threshold visualizer (microphone) should be filled up
+    	 * @return
+    	 */
     	private float getThresholdLinePercent(){
     		return 1 - (((System.currentTimeMillis() - lastMessageTime) / ((float)COMMANDS_TIMEOUT_DURATION)));
     	}
