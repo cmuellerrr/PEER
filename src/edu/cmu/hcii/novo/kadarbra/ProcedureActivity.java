@@ -177,21 +177,13 @@ public class ProcedureActivity extends Activity {
 		menu.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v) {			
-				View drawer = (View) findViewById(R.id.menuDrawer);
-				
-				if (drawer.getVisibility() == View.VISIBLE) {
+			public void onClick(View v) {
+				if (v.isSelected()) {
 					closeMenu();
-					
-				} else {
-					View bg = (View) findViewById(R.id.menuBackground);
-					
-					if (bg.getVisibility() == View.VISIBLE) {
-						closeMenu();
-					} else {
-						openMenu();
-					}
-					
+					v.setSelected(false);
+				} else  {
+					openMenu();
+					v.setSelected(true);
 				}
 			}
 			 

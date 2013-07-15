@@ -14,7 +14,7 @@
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#FFA4ECE8" />
+        android:background="@color/main" />
     
     <TextView android:id="@+id/exNotesTitle"
         style="@style/ExecutionNotesTitle" 

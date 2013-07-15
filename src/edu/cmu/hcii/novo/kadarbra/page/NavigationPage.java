@@ -92,7 +92,7 @@ public class NavigationPage extends LinearLayout {
 		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
 		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText());
 		
-		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(0xffA4ECE8);
+		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(getResources().getColor(R.color.main));
 		
 		newStep.setOnClickListener(new OnClickListener(){
 
@@ -129,7 +129,7 @@ public class NavigationPage extends LinearLayout {
 		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
 		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText() + " -- X" + reps);
 		
-		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(0xffA4ECE8);
+		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(getResources().getColor(R.color.main));
 		
 		newStep.setOnClickListener(new OnClickListener(){
 

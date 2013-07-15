@@ -37,7 +37,7 @@
             android:layout_below="@id/parentText"
             android:layout_toRightOf="@+id/parentNumber"
             android:layout_marginLeft="20dp"
-            android:background="#FFA4ECE8" />
+            android:background="@color/main" />
         
     </RelativeLayout>
     
@@ -73,7 +73,7 @@
                 <TextView android:id="@+id/consequentTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#fffcda4f"
+                    android:textColor="@color/highlight"
                     android:textSize="20sp"
                     android:text="@string/cond_title_hidden" />
                 

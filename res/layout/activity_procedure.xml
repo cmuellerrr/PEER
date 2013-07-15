@@ -69,7 +69,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="29sp"
             android:text="@string/menu_title"
-            android:textColor="#fffcda4f" />
+            android:textColor="@color/menu_item" />
         
         <Button
             android:id="@+id/navButton"

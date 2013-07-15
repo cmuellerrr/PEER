@@ -22,6 +22,7 @@
     <style name="ScrollView" parent ="@android:style/Widget.ScrollView">
         <item name="android:scrollbarStyle">outsideInset</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb</item>
+        <item name="android:scrollbarSize">20dp</item>
     </style>
     
     <style name="HeaderText">
@@ -59,7 +60,7 @@
     <style name="CoverSubTitle" parent="HorizontalStretch">
         <item name="android:textSize">25sp</item>
         <item name="android:layout_marginBottom">15dp</item>
-        <item name="android:textColor">#FFA4ECE8</item>
+        <item name="android:textColor">@color/main</item>
     </style>
     
     <style name="CoverText">
@@ -180,7 +181,7 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:layout_marginTop">30dp</item>
         <item name="android:paddingLeft">40dp</item>
-        <item name="android:textColor">#fffcda4f</item>
+        <item name="android:textColor">@color/menu_item</item>
         <item name="android:textSize">20sp</item>
         <item name="android:onClick">menuSelect</item>
         <item name="android:visibility">gone</item>
@@ -188,12 +189,12 @@
     
     <style name="CycleSelectTitle" parent="CenterText">
         <item name="android:textSize">28sp</item>
-        <item name="android:textColor">#FFA4ECE8</item>
+        <item name="android:textColor">@color/main</item>
     </style>
     
     <style name="CycleSelectItem" parent="CenterText">
         <item name="android:textSize">28sp</item>
-        <item name="android:textColor">#fffcda4f</item>
+        <item name="android:textColor">@color/highlight</item>
     </style>
     
 </resources>
