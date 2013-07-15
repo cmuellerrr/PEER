@@ -14,7 +14,8 @@
     <TableLayout android:id="@+id/stowNotesList"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        style="@style/Table" >
+        style="@style/Table" 
+        android:shrinkColumns="1,4" >
         
         <TableRow
             style="@style/TableHeaderRow" >

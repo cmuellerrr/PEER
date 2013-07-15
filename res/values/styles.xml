@@ -91,6 +91,7 @@
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">1</item>  
         <item name="android:shadowDy">2</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     <style name="TableCell" >
@@ -177,7 +178,7 @@
         <item name="android:background">@drawable/menu_item_bg</item>
         <item name="android:layout_width">188dp</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginTop">30dp</item>
         <item name="android:paddingLeft">40dp</item>
         <item name="android:textColor">#fffcda4f</item>
         <item name="android:textSize">20sp</item>
