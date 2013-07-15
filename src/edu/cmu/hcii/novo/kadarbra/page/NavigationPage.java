@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
@@ -46,16 +47,11 @@ public class NavigationPage extends LinearLayout {
 		for (int i = 0; i < steps.size(); i++) {
 			if (steps.get(i).isCycle()) {
 				Cycle c = (Cycle)steps.get(i);
-				for (int j = 0; j < c.getNumChildren(); j++) {
-					//TODO this will break on cycles within cycles
-					addCycleStep(stepNumber, (Step) c.getChild(j), c.getReps());
-					stepNumber++;
-				}
-				
-				//TODO add cycle marker
+				this.addView(getCycle(stepNumber, c));
+				stepNumber += c.getNumChildren();
 				
 			} else {
-				addStep(stepNumber, (Step) steps.get(i));
+				this.addView(getStep(stepNumber, (Step) steps.get(i), 1));
 				stepNumber++;
 			}
 		}
@@ -85,49 +81,18 @@ public class NavigationPage extends LinearLayout {
 	 * @param index
 	 * @param s
 	 */
-	private void addStep(final int index, Step s) {
+	private ViewGroup getStep(final int index, Step s, final int reps) {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		ViewGroup newStep = (ViewGroup) inflater.inflate(R.layout.nav_item, null);
 		
 		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
 		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText());
 		
-		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(getResources().getColor(R.color.main));
-		
-		newStep.setOnClickListener(new OnClickListener(){
-
-			//The step number sent will be 0 indexed.
-			//So step 1 will send over the index of 0.
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent("command");
-				intent.putExtra("msg", "navigate");
-				intent.putExtra("step", index);
-				getContext().sendBroadcast(intent);
-			}
-			
-		});
-		
-		this.addView(newStep);
-	}
-	
-	
-	
-	/**
-	 * Add a step within a cycle.  The main difference here is that it needs to 
-	 * show how many repeditions and have a different click behavior.
-	 * 
-	 * @param context
-	 * @param index
-	 * @param s
-	 * @param reps
-	 */
-	private void addCycleStep(final int index, Step s, final int reps) {				
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		ViewGroup newStep = (ViewGroup) inflater.inflate(R.layout.nav_item, null);
-		
-		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
-		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText() + " -- X" + reps);
+		if (reps < 2) {
+			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			params.setMargins(60, 0, 0, 0);
+			newStep.setLayoutParams(params);
+		}
 		
 		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(getResources().getColor(R.color.main));
 		
@@ -146,8 +111,26 @@ public class NavigationPage extends LinearLayout {
 			
 		});
 		
-		this.addView(newStep);
+		return newStep;
 	}
+	
+	
+	private ViewGroup getCycle(int index, Cycle c) {
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		ViewGroup newCycle = (ViewGroup) inflater.inflate(R.layout.nav_item_cycle, null);
+		
+		((TextView)newCycle.findViewById(R.id.navCycleCount)).setText("x" + c.getReps());		
+		ViewGroup steps = (ViewGroup) newCycle.findViewById(R.id.navCycleSteps);
+		
+		for (int j = 0; j < c.getNumChildren(); j++) {
+			//TODO this will break on cycles within cycles
+			steps.addView(getStep(index, (Step) c.getChild(j), c.getReps()));
+			index++;
+		}
+		
+		return newCycle;
+	}
+	
 	
 	
 	/**

@@ -413,6 +413,7 @@ public class ProcedureActivity extends Activity {
 	private void clearMenuSelection() {
 		Log.v(TAG, "Clearing all selections");
 		
+		findViewById(R.id.menuTitle).setSelected(false);
 		findViewById(R.id.navButton).setSelected(false);
 		findViewById(R.id.stowageButton).setSelected(false);
 		findViewById(R.id.annotationButton).setSelected(false);
@@ -623,7 +624,7 @@ public class ProcedureActivity extends Activity {
 	    		
 	    	} else if (command.equals("navigate")) {
 	    		Log.i(TAG, "Extras: " + extras.toString());
-	    		if (extras.containsKey("reps")) {
+	    		if (extras.getInt("reps") > 1) {
 	    			//bring up another menu
 	    			//pass in the step #
 	    			ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
