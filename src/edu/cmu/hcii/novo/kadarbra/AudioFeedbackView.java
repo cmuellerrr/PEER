@@ -3,13 +3,18 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.BlurMaskFilter.Blur;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.SweepGradient;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -39,6 +44,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private int levels[] = new int[NUMBER_OF_BARS];					// pixel heights of bars (if directly corresponding the noise level)
 		private int drawnLevels[] = new int[NUMBER_OF_BARS];			// pixel heights of bars (when actually drawn - this is different from the above for making animations smoother)
 		public float levelThreshold = 0;								// pixel height of level threshold line
+		public float levelThresholdPercent = 0;							// percent of level threshold line
+
 		private float[] drawnLevelSpeeds = new float[NUMBER_OF_BARS];	// pixel heights of bars (if directly corresponding the noise level)
 		private int randomLevelIndex;
 
@@ -46,6 +53,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private long lastFrameTime;
 		private long lastDrawTime;
 		private long lastRandomizeTime;
+		
+		private int busyDrawCounter;
 		
         /** Handle to the surface manager object we interact with */
         private SurfaceHolder mSurfaceHolder;
@@ -123,6 +132,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          */
         public void refreshThresholdLine(){
     		levelThreshold = viewHeight;
+    		levelThresholdPercent = 1;
     		lastMessageTime = System.currentTimeMillis();
         }
         
@@ -134,6 +144,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	public void setBusy(boolean busyState){
     		busy = busyState;
     		refreshThresholdLine();
+    		busyDrawCounter = 0;
     	}
     	
     	/**
@@ -152,19 +163,27 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 			c.drawColor(Color.BLACK);
 			//Log.v("hello","hello");
 			
+			
 			if (busy){
-				drawBusy(c);
+				drawMicInactive(c);
+				drawBusy(c,0.15f,0.7f,40);
 			}else{
-				if (state == STATE_INACTIVE){
-					drawInactive(c);
-				}else if (state == STATE_ACTIVE)
-					drawThresholdLine(c);
-
 				if (shift)
 					drawAudioBars(c);
 				else
 					drawAudioBarsVert(c);
+				drawMicInactive(c);
 			}
+			
+			if (!busy){
+				if (state == STATE_INACTIVE){
+					drawInactive(c);
+				}else if (state == STATE_ACTIVE){
+					drawMicThresholdAnimation(c);
+					//drawThresholdLine(c);
+				}
+			}
+			//drawBusy(c,0.15f,0.7f,40);
 		}
 		
 		/**
@@ -202,16 +221,115 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         
-        private void drawInactive(Canvas c){
-        	c.drawColor(Color.GRAY);
+        /**
+         * Draws the inactive microphone 
+         *
+         * @param c
+         */
+        private void drawMicInactive(Canvas c){
+        	Resources res = getContext().getResources();
+        	Bitmap micInactive = BitmapFactory.decodeResource(res, R.drawable.mic_inactive);
+
+        	Bitmap micInactive_Scaled = scaleImageRelativeToViewHeight(micInactive,0.8f);
+        	
+        	int left = viewWidth/2-micInactive_Scaled.getWidth()/2;
+        	int top = viewHeight/2-micInactive_Scaled.getHeight()/2;
+        	
+        	int right = viewWidth/2+micInactive_Scaled.getWidth()/2;
+        	int bottom = viewHeight/2+micInactive_Scaled.getHeight()/2;
+        	
+        	c.drawBitmap(micInactive_Scaled, left, top, null);
         }
         
-    	private void drawBusy(Canvas c){
-    		Paint paint = new Paint();
-    		paint.setShader(new SweepGradient(viewWidth/2, viewHeight/2, Color.YELLOW, Color.BLACK));
-//    		c.rotate(System.currentTimeMillis()/2%360,viewWidth/2,viewHeight/2);	
-    		c.drawCircle(viewWidth/2, viewHeight/2, 50, paint);						
+        /**
+         * Draws the active microphone 
+         *
+         * @param c
+         * @param clippingProportion % of the microphone that is not filled in
+         */
+        private void drawMicActive(Canvas c, float clippingProportion, Paint paint){
+        	Resources res = getContext().getResources();
+        	Bitmap micActive = BitmapFactory.decodeResource(res, R.drawable.mic_active);
+
+        	Bitmap micActive_Scaled = scaleImageRelativeToViewHeight(micActive,0.8f);
+        	
+        	int left = viewWidth/2-micActive_Scaled.getWidth()/2;
+        	int top = viewHeight/2-micActive_Scaled.getHeight()/2;
+        	
+        	int right = viewWidth/2+micActive_Scaled.getWidth()/2;
+        	int bottom = viewHeight/2+micActive_Scaled.getHeight()/2;
+
+        	c.clipRect(left, top + (clippingProportion * micActive_Scaled.getHeight()), right, bottom);
+        	
+        	c.drawBitmap(micActive_Scaled, left, top, paint);
+        }
+        
+        
+        /**
+         * Scales image relative to the view height
+         * 
+         * @param bm input bitmap
+         * @param scale height of returned bitmap relative to view height
+         * @return scaled bitmap
+         */
+        private Bitmap scaleImageRelativeToViewHeight(Bitmap bm, float scale){
+        	
+        	int micWidth = bm.getWidth();
+        	int micHeight = bm.getHeight();
+        	
+        	int scaledHeight = (int) (viewHeight * scale);
+        	int scaledWidth = (int)((1.0f*micWidth)/(1.0f*micHeight) * scaledHeight);
+        	
+        	Bitmap scaledImg = Bitmap.createScaledBitmap(bm, scaledWidth, scaledHeight, false);
+
+        	return scaledImg;
+   
+        }
+        
+        
+        private void drawInactive(Canvas c){
+        	//c.drawColor(Color.GRAY);
+        }
+        
+        
+    	private void drawBusy(Canvas c, float startAlpha, float endAlpha, int animationFrames){
+    		Paint p = new Paint();
+    		p.setColor(Color.parseColor("#FCDA4F"));
+    		p.setStyle(Style.FILL);
+    		
+    		float alpha = startAlpha;
+    		if (busyDrawCounter < animationFrames/2){
+    			alpha = startAlpha + (endAlpha-startAlpha)/(animationFrames) * busyDrawCounter; 
+    		}else if (busyDrawCounter >= animationFrames/2){
+    			alpha = endAlpha - (endAlpha-startAlpha)/(animationFrames) * (busyDrawCounter - animationFrames/2);     			
+    		}
+    		busyDrawCounter++;
+    		if (busyDrawCounter >= animationFrames){
+    			busyDrawCounter = 0;
+    		}
+    		    		
+    		p.setAlpha((int) (255*alpha));
+    		drawMicActive(c, 0, p);
     	}
+    	
+
+    	/**
+    	 * 
+    	 */
+        private void drawMicThresholdAnimation(Canvas c){
+        	Paint p = new Paint();
+        	p.setColor(Color.parseColor("#FCDA4F"));
+    		p.setStyle(Style.FILL);
+        	
+        	levelThresholdPercent = Math.max(getThresholdLinePercent(), 0);
+        	drawMicActive(c, 1f-levelThresholdPercent, p);
+
+        	lastDrawTime = System.currentTimeMillis();
+        	
+        	if (levelThresholdPercent <= 0){
+        		setState(STATE_INACTIVE);
+        	}
+        }
     	
     	/**
     	 * Draws the threshold line
@@ -228,7 +346,6 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     		levelThreshold = Math.max(levelThreshold, 0);
     		
     		c.drawLine(0, viewHeight-levelThreshold, viewWidth, viewHeight-levelThreshold, pThreshold);
-
     		//c.drawRect(0, viewHeight-levelThreshold, viewWidth, viewHeight, pThreshold);
 
     		lastDrawTime = System.currentTimeMillis();
@@ -238,6 +355,10 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     			setState(STATE_INACTIVE);
     		}
 
+    	}
+    	
+    	private float getThresholdLinePercent(){
+    		return 1 - (((System.currentTimeMillis() - lastMessageTime) / ((float)COMMANDS_TIMEOUT_DURATION)));
     	}
     	
     	/**

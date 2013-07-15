@@ -745,16 +745,15 @@ public class ProcedureActivity extends Activity {
     	}
     }
 	
-	
-	
+    
 	/**
 	 * Goes to previous page in viewPager    
 	 */
     private void prevPage(){
     	if (viewPager.getCurrentItem() > 0)
     		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
-    	else
-    		finish();
+    	//else
+    	//	finish();
     }
     
     
