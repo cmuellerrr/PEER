@@ -331,6 +331,7 @@ public class ProcedureFactory {
 		String itemCode = null;
 		String binCode = null;
 		String text = null;
+		String url = null;
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "item");
@@ -358,11 +359,14 @@ public class ProcedureFactory {
 	        } else if (tag.equals("text")) {
 	        	text = readTag(parser, tag);
 	        	
+	        } else if (tag.equals("url")) {
+	        	url = readTag(parser, tag);
+	        	
 	        } else {
 	            skip(parser);
 	        }
 	    }
-	    return new StowageItem(name, quantity, itemCode, binCode, text);
+	    return new StowageItem(name, quantity, itemCode, binCode, text, url);
 	}
 	
 	

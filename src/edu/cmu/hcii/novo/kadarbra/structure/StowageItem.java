@@ -24,6 +24,7 @@ public class StowageItem implements Serializable {
 	private String itemCode;
 	private String binCode;
 	private String text;
+	private String url;
 	
 	/**
 	 * Create a stowage item with the given parameters
@@ -35,12 +36,13 @@ public class StowageItem implements Serializable {
 	 * @param text
 	 */
 	public StowageItem(String  name, int quantity, String itemCode, String binCode,
-			String text) {
+			String text, String url) {
 		this.name = name;
 		this.quantity = quantity;
 		this.itemCode = itemCode;
 		this.binCode = binCode;
 		this.text = text;
+		this.url = url;
 	}
 	
 	/**
@@ -57,6 +59,7 @@ public class StowageItem implements Serializable {
 		
 		this.quantity = 1;
 		this.text = "";
+		this.url = "";
 	}
 
 	/**
@@ -127,5 +130,19 @@ public class StowageItem implements Serializable {
 	 */
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

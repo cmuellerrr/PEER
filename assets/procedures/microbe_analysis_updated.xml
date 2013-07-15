@@ -33,6 +33,7 @@ Last edit: Kristina, 7/11
 				<item_code>732C</item_code>
 				<bin_code>JEM1_A7</bin_code>
 				<text>Two swabs inside Ziploc</text>
+				<url>ziplock.jpg</url>
 			</item>
 		</note>
 		<note>
@@ -43,6 +44,7 @@ Last edit: Kristina, 7/11
 				<item_code>173D</item_code>
 				<bin_code>JEM1_A7</bin_code>
 				<text>Remove two from package</text>
+				<url>wipes.jpg</url>
 			</item>
 		</note>
 		<note>
@@ -53,6 +55,7 @@ Last edit: Kristina, 7/11
 				<item_code></item_code>
 				<bin_code>USL1_C5</bin_code>
 				<text>Remove three from package</text>
+				<url>bag.jpg</url>
 			</item>
 		</note>
 		<note>
@@ -62,6 +65,7 @@ Last edit: Kristina, 7/11
 				<quantity>1</quantity>
 				<item_code>376A</item_code>
 				<bin_code>USL1_C5</bin_code>
+				<url>gloves.jpg</url>
 			</item>
 		</note>
 		<note>
@@ -71,6 +75,7 @@ Last edit: Kristina, 7/11
 				<quantity>1</quantity>
 				<item_code>899B</item_code>
 				<bin_code>USL1_C5</bin_code>
+				<url>tape.jpg</url>
 			</item>
 		</note>
 		<note>
@@ -79,6 +84,7 @@ Last edit: Kristina, 7/11
 				<name>Sharpie</name>
 				<item_code>143B</item_code>
 				<bin_code>COL1_B2</bin_code>
+				<url>sharpie.jpg</url>
 			</item>
 		</note>
 		<note>
@@ -91,6 +97,7 @@ Last edit: Kristina, 7/11
 				<item_code>857A</item_code>
 				<bin_code>COL1_B4</bin_code>
 				<text>Use microbe analyzers in order listed</text>
+				<url>analyzer.jpg</url>
 			</item>
 		</note>
 	</stowage_notes>
@@ -188,7 +195,7 @@ Last edit: Kristina, 7/11
                         <type>video</type>
                         <name>Video 1</name>
                         <description>Correct swabbing motion</description>
-                        <url>test1.mp4</url>
+                        <url>Video_1.mp4</url>
                     </reference>
 				</step>
 			</step>

@@ -3,13 +3,16 @@
  */
 package edu.cmu.hcii.novo.kadarbra.page;
 
+import java.io.InputStream;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -23,7 +26,7 @@ import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
  *
  */
 public class StowagePage extends TableLayout {
-
+	private static final String TAG = "StowagePage";
 	private List<StowageItem> stowageItems;
 	
 	
@@ -52,7 +55,15 @@ public class StowagePage extends TableLayout {
 			((TextView)newNote.findViewById(R.id.stowNoteItemCode)).setText(s.getItemCode());
 			((TextView)newNote.findViewById(R.id.stowNoteNotes)).setText(s.getText());
 			
-			//TODO need to add image
+			try {
+				InputStream is = getContext().getAssets().open("procedures/references/" + s.getUrl());
+				Drawable d = Drawable.createFromStream(is, null);
+				((ImageView)newNote.findViewById(R.id.stowNoteImage)).setImageDrawable(d);
+				
+			} catch(Exception e) {
+				Log.e(TAG, "Error adding reference image to stowage note", e);
+			}
+			
 			notesList.addView(newNote);
 		}
 		
