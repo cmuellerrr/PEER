@@ -41,7 +41,7 @@
         android:layout_below="@id/breadcrumb"
         android:layout_toRightOf="@id/menu_group"
         android:padding="10dp"
-        android:visibility="visible" >
+        android:visibility="gone" >
 
     </ScrollView>
     
@@ -57,7 +57,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@+id/menuTitle"
             android:background="@drawable/drawer_background"
-            android:visibility="visible" />
+            android:visibility="gone" />
         
         <TextView
             android:id="@+id/menuTitle"

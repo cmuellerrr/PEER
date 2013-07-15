@@ -39,7 +39,7 @@ public class CycleSelectPage extends LinearLayout {
         	final int s = step;
         	
         	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
-        	newItem.setText("Cycle " + (i+1));
+        	newItem.setText("CYCLE " + (i+1));
         	newItem.setOnClickListener(new OnClickListener() {
 
 				@Override

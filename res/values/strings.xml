@@ -31,7 +31,7 @@
     <string name="menu_annotations">ANNOTATIONS</string>
     <string name="menu_ground">GROUND</string>
     
-    <string name="cycle_select_title">Which cycle?</string>
+    <string name="cycle_select_title">WHICH CYCLE?</string>
     
     <!-- Conditionals -->
     <string name="cond_title_hidden">[+] EXPAND</string>

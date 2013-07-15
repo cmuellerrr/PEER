@@ -7,11 +7,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
@@ -40,7 +42,7 @@ public class NavigationPage extends LinearLayout {
 
 		//The list is 1 based
 		int stepNumber = 1;
-		for (int i = 0; i < steps.size(); i++) {			
+		for (int i = 0; i < steps.size(); i++) {
 			if (steps.get(i).isCycle()) {
 				Cycle c = (Cycle)steps.get(i);
 				for (int j = 0; j < c.getNumChildren(); j++) {
@@ -73,16 +75,21 @@ public class NavigationPage extends LinearLayout {
 	
 	/**
 	 * Add a basic step
+	 * 
+	 * TODO combine this with addCycleStep
+	 * 
 	 * @param context
 	 * @param index
 	 * @param s
 	 */
 	private void addStep(final int index, Step s) {
-		TextView newStep = new TextView(getContext());
-		newStep.setText(s.getNumber() + " " + s.getText());
-		newStep.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		ViewGroup newStep = (ViewGroup) inflater.inflate(R.layout.nav_item, null);
 		
-		if (index == current) newStep.setTextColor(0xffA4ECE8);			
+		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
+		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText());
+		
+		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(0xffA4ECE8);
 		
 		newStep.setOnClickListener(new OnClickListener(){
 
@@ -112,12 +119,14 @@ public class NavigationPage extends LinearLayout {
 	 * @param s
 	 * @param reps
 	 */
-	private void addCycleStep(final int index, Step s, final int reps) {		
-		TextView newStep = new TextView(getContext());
-		newStep.setText(s.getNumber() + " " + s.getText() + " -- X" + reps);
-		newStep.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT));
+	private void addCycleStep(final int index, Step s, final int reps) {				
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		ViewGroup newStep = (ViewGroup) inflater.inflate(R.layout.nav_item, null);
 		
-		if (index == current) newStep.setTextColor(Color.CYAN);			
+		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
+		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText() + " -- X" + reps);
+		
+		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(0xffA4ECE8);
 		
 		newStep.setOnClickListener(new OnClickListener(){
 

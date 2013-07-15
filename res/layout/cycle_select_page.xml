@@ -11,5 +11,11 @@
         style="@style/CycleSelectTitle"
         android:text="@string/cycle_select_title" />"
     
+    <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#FFA4ECE8" />
     
 </LinearLayout>

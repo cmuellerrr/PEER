@@ -182,15 +182,17 @@
         <item name="android:textColor">#fffcda4f</item>
         <item name="android:textSize">20sp</item>
         <item name="android:onClick">menuSelect</item>
-        <item name="android:visibility">visible</item>
+        <item name="android:visibility">gone</item>
     </style>
     
     <style name="CycleSelectTitle" parent="CenterText">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#FFA4ECE8</item>
     </style>
     
     <style name="CycleSelectItem" parent="CenterText">
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">#fffcda4f</item>
     </style>
     
 </resources>
