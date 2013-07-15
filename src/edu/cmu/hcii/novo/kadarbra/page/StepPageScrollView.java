@@ -32,6 +32,7 @@ public class StepPageScrollView extends ScrollView{
 		this.addView(stepPageViewGroup);
 		this.stepPage = stepPageViewGroup;
 		setScrollbarFadingEnabled(false);
+		this.setPadding(0, 0, 20, 0);
 	}
 
 	

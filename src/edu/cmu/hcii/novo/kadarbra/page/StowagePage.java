@@ -11,9 +11,10 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
@@ -40,33 +41,34 @@ public class StowagePage extends TableLayout {
 		this.stowageItems = stowageItems;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.stow_notes_page, null);
+        ViewGroup page = (ViewGroup)inflater.inflate(R.layout.stow_notes_page, null);
         
-        TableLayout notesList = (TableLayout) page.findViewById(R.id.stowNotesList);
+        TableLayout table = (TableLayout)inflater.inflate(R.layout.stow_notes_table, null);
 		
 		for (int i = 0; i < stowageItems.size(); i++) {
 			StowageItem s = stowageItems.get(i);
 						
-			View newNote = (View) inflater.inflate(R.layout.stow_note, null);
+			TableRow row = (TableRow) inflater.inflate(R.layout.stow_note, null);
 			
-			((TextView)newNote.findViewById(R.id.stowNoteBinCode)).setText(s.getBinCode());
-			((TextView)newNote.findViewById(R.id.stowNoteItem)).setText(s.getName());
-			((TextView)newNote.findViewById(R.id.stowNoteQuantity)).setText(String.valueOf(s.getQuantity()));
-			((TextView)newNote.findViewById(R.id.stowNoteItemCode)).setText(s.getItemCode());
-			((TextView)newNote.findViewById(R.id.stowNoteNotes)).setText(s.getText());
+			((TextView)row.findViewById(R.id.stowNoteBinCode)).setText(s.getBinCode());
+			((TextView)row.findViewById(R.id.stowNoteItem)).setText(s.getName());
+			((TextView)row.findViewById(R.id.stowNoteQuantity)).setText(String.valueOf(s.getQuantity()));
+			((TextView)row.findViewById(R.id.stowNoteItemCode)).setText(s.getItemCode());
+			((TextView)row.findViewById(R.id.stowNoteNotes)).setText(s.getText());
 			
 			try {
 				InputStream is = getContext().getAssets().open("procedures/references/" + s.getUrl());
 				Drawable d = Drawable.createFromStream(is, null);
-				((ImageView)newNote.findViewById(R.id.stowNoteImage)).setImageDrawable(d);
+				((ImageView)row.findViewById(R.id.stowNoteImage)).setImageDrawable(d);
 				
 			} catch(Exception e) {
 				Log.e(TAG, "Error adding reference image to stowage note", e);
 			}
 			
-			notesList.addView(newNote);
+			table.addView(row);
 		}
 		
+		page.addView(table);
 		this.addView(page);
 	}
 

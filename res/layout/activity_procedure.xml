@@ -25,7 +25,7 @@
         android:layout_below="@id/breadcrumb"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="80dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="10dp" />
 
     <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget
         android:id="@+id/stepPreviewWidget"
