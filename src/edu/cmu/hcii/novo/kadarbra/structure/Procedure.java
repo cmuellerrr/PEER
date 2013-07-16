@@ -5,7 +5,9 @@ package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -27,7 +29,7 @@ public class Procedure implements Serializable {
 	private String objective;
 	private String duration;
 	private List<ExecNote> execNotes;
-	private List<StowageItem> stowageItems;
+	private Map<String, List<StowageItem>> stowageItems;
 	private List<ProcedureItem> children;
 	private List<Step> stepsUnnested = new ArrayList<Step>();
 
@@ -46,7 +48,7 @@ public class Procedure implements Serializable {
 		this.objective = objective;
 		this.duration = duration;
 		this.execNotes = new ArrayList<ExecNote>();
-		this.stowageItems = new ArrayList<StowageItem>();
+		this.stowageItems = new HashMap<String, List<StowageItem>>();
 		this.children = children;
 		generateStepsUnnested();
 	}
@@ -64,7 +66,7 @@ public class Procedure implements Serializable {
 	 * @param children
 	 */
 	public Procedure(String number, String title, String objective, String duration, 
-			List<ExecNote> execNotes, List<StowageItem> stowageItems, List<ProcedureItem> children) {
+			List<ExecNote> execNotes, Map<String, List<StowageItem>> stowageItems, List<ProcedureItem> children) {
 		this.number = number;
 		this.title = title;
 		this.objective = objective;
@@ -180,7 +182,7 @@ public class Procedure implements Serializable {
 	/**
 	 * @return the stowageItems
 	 */
-	public List<StowageItem> getStowageItems() {
+	public Map<String, List<StowageItem>> getStowageItems() {
 		return stowageItems;
 	}
 
@@ -189,18 +191,8 @@ public class Procedure implements Serializable {
 	/**
 	 * @param stowageItems the stowageItems to set
 	 */
-	public void setStowageItems(List<StowageItem> stowageItems) {
+	public void setStowageItems(Map<String, List<StowageItem>> stowageItems) {
 		this.stowageItems = stowageItems;
-	}
-
-	
-	
-	/**
-	 * 
-	 * @return the number of stowage items
-	 */
-	public int getNumStowageItems() {
-		return stowageItems.size();
 	}
 
 	

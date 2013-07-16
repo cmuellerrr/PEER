@@ -1,36 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    style="@style/Table" 
-    android:shrinkColumns="1,4" >
-        
-    <TableRow
-        style="@style/TableHeaderRow" >
-          
-        <TextView android:id="@+id/binCodeHeader"
-            style="@style/StowageNoteHeader"
-            android:text="@string/header_bin_code" />
-            
-        <TextView android:id="@+id/itemHeader"
-            style="@style/StowageNoteHeader"
-            android:text="@string/header_item" />
-           
-        <TextView android:id="@+id/quantityHeader"
-            style="@style/StowageNoteHeader"
-            android:text="@string/header_quantity" />
-            
-        <TextView android:id="@+id/itemCodeHeader"
-            style="@style/StowageNoteHeader"
-            android:text="@string/header_item_code" />
-            
-        <TextView android:id="@+id/notesHeader"
-            style="@style/StowageNoteHeader"
-            android:text="@string/header_notes" />
-            
-        <TextView android:id="@+id/imageHeader"
-            style="@style/StowageNoteHeader"
-            android:text="@string/header_image" />
-            
-    </TableRow>
-</TableLayout>
+    android:layout_height="wrap_content" 
+    android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp" >
+    
+    <TextView android:id="@+id/stow_table_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textSize="26sp" 
+        android:layout_marginBottom="20dp" />"
+    
+	<TableLayout android:id="@+id/stow_table"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    style="@style/Table" 
+	    android:shrinkColumns="1,4" >
+	        
+	    <TableRow
+	        style="@style/TableHeaderRow" >
+	          
+	        <TextView android:id="@+id/binCodeHeader"
+	            style="@style/StowageNoteHeader"
+	            android:text="@string/header_bin_code" />
+	            
+	        <TextView android:id="@+id/itemHeader"
+	            style="@style/StowageNoteHeader"
+	            android:text="@string/header_item" />
+	           
+	        <TextView android:id="@+id/quantityHeader"
+	            style="@style/StowageNoteHeader"
+	            android:text="@string/header_quantity" />
+	            
+	        <TextView android:id="@+id/itemCodeHeader"
+	            style="@style/StowageNoteHeader"
+	            android:text="@string/header_item_code" />
+	            
+	        <TextView android:id="@+id/notesHeader"
+	            style="@style/StowageNoteHeader"
+	            android:text="@string/header_notes" />
+	            
+	        <TextView android:id="@+id/imageHeader"
+	            style="@style/StowageNoteHeader"
+	            android:text="@string/header_image" />
+	            
+	    </TableRow>
+	</TableLayout>
+</LinearLayout>

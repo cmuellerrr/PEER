@@ -5,6 +5,7 @@ package edu.cmu.hcii.novo.kadarbra.page;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,14 +30,14 @@ import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
  */
 public class StowagePage extends TableLayout {
 	private static final String TAG = "StowagePage";
-	private List<StowageItem> stowageItems;
+	private Map<String, List<StowageItem>> stowageItems;
 	
 	
 	
 	/**
 	 * @param context
 	 */
-	public StowagePage(Context context, List<StowageItem> stowageItems) {
+	public StowagePage(Context context, Map<String, List<StowageItem>> stowageItems) {
 		super(context);
 		
 		this.stowageItems = stowageItems;
@@ -43,10 +45,36 @@ public class StowagePage extends TableLayout {
 		LayoutInflater inflater = LayoutInflater.from(context);
         ViewGroup page = (ViewGroup)inflater.inflate(R.layout.stow_notes_page, null);
         
-        TableLayout table = (TableLayout)inflater.inflate(R.layout.stow_notes_table, null);
+        for (String key : stowageItems.keySet()) {
+        	page.addView(setupStowageTable(key, stowageItems.get(key)));
+        }
 		
-		for (int i = 0; i < stowageItems.size(); i++) {
-			StowageItem s = stowageItems.get(i);
+		this.addView(page);
+	}
+
+	
+	
+	/**
+	 * @param context
+	 * @param attrs
+	 */
+	public StowagePage(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO Auto-generated constructor stub
+	}
+
+	
+	
+	private ViewGroup setupStowageTable(String module, List<StowageItem> items) {
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		LinearLayout container = (LinearLayout)inflater.inflate(R.layout.stow_notes_table, null);
+		TableLayout table = (TableLayout)container.findViewById(R.id.stow_table);
+		
+		//set table title
+		((TextView)container.findViewById(R.id.stow_table_title)).setText(module);
+		
+		for (int i = 0; i < items.size(); i++) {
+			StowageItem s = items.get(i);
 						
 			TableRow row = (TableRow) inflater.inflate(R.layout.stow_note, null);
 			
@@ -68,27 +96,14 @@ public class StowagePage extends TableLayout {
 			table.addView(row);
 		}
 		
-		page.addView(table);
-		this.addView(page);
+		return container;
 	}
-
-	
-	
-	/**
-	 * @param context
-	 * @param attrs
-	 */
-	public StowagePage(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		// TODO Auto-generated constructor stub
-	}
-
 
 
 	/**
 	 * @return the stowageItems
 	 */
-	public List<StowageItem> getStowageItems() {
+	public Map<String, List<StowageItem>> getStowageItems() {
 		return stowageItems;
 	}
 
@@ -97,7 +112,7 @@ public class StowagePage extends TableLayout {
 	/**
 	 * @param stowageItems the stowageItems to set
 	 */
-	public void setStowageItems(List<StowageItem> stowageItems) {
+	public void setStowageItems(Map<String, List<StowageItem>> stowageItems) {
 		this.stowageItems = stowageItems;
 	}
 }

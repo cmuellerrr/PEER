@@ -3,7 +3,9 @@ package edu.cmu.hcii.novo.kadarbra;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -115,7 +117,7 @@ public class ProcedureFactory {
 		String objective = null;
 		String duration = null;	
 		List<ExecNote> execNotes = null;
-		List<StowageItem> stowageItems = null;
+		Map<String, List<StowageItem>> stowageItems = null;
 		List<ProcedureItem> children = null;		
 		
 		//This is the tag we are looking for
@@ -252,10 +254,10 @@ public class ProcedureFactory {
 	 * @throws XmlPullParserException
 	 * @throws IOException
 	 */
-	private static List<StowageItem> readStowageNotes(XmlPullParser parser) throws XmlPullParserException, IOException {
+	private static Map<String, List<StowageItem>> readStowageNotes(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing stowage notes");
 		
-		List<StowageItem> stowageItems = new ArrayList<StowageItem>();
+		Map<String, List<StowageItem>> stowageItems = new HashMap<String, List<StowageItem>>();
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "stowage_notes");
@@ -268,49 +270,20 @@ public class ProcedureFactory {
 	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (tag.equals("note")) {
-	        	stowageItems.add(readStowageNote(parser));
+	        if (tag.equals("item")) {
+	        	StowageItem newItem = readStowageItem(parser);
+	        	String module = newItem.getModule();
+	        	
+	        	if (!stowageItems.containsKey(module)) {
+	        		stowageItems.put(module, new ArrayList<StowageItem>());
+	        	}
+	        	
+	        	stowageItems.get(module).add(newItem);
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    return stowageItems;
-	}
-	
-	
-	
-	/**
-	 * Parse xml for a stowage note
-	 * 
-	 * @param parser the xml to parse
-	 * @return the resulting stowage item from the note
-	 * @throws XmlPullParserException
-	 * @throws IOException
-	 */
-	private static StowageItem readStowageNote(XmlPullParser parser) throws XmlPullParserException, IOException {
-		Log.d(TAG, "Parsing stowage note");
-		
-		StowageItem item = null;
-	    
-	    //This is the tag we are looking for
-  		parser.require(XmlPullParser.START_TAG, ns, "note");
-	    
-	    //Until we get to the closing tag
-	    while (parser.next() != XmlPullParser.END_TAG) {
-	        if (parser.getEventType() != XmlPullParser.START_TAG) {
-	            continue;
-	        }
-	        String tag = parser.getName();
-	        
-	        //Get the attributes
-	        if (tag.equals("item")) {
-	        	item = readStowageItem(parser);
-	        	
-	        } else {
-	            skip(parser);
-	        }
-	    }
-	    return item;
 	}
 	
 	
@@ -326,6 +299,7 @@ public class ProcedureFactory {
 	private static StowageItem readStowageItem(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.v(TAG, "Parsing stowage item");
 		
+		String module = null;
 		String name = null;
 		int quantity = 0;
 		String itemCode = null;
@@ -344,7 +318,10 @@ public class ProcedureFactory {
 	        String tag = parser.getName();
 	        
 	        //Get the attributes
-	        if (tag.equals("name")) {
+	        if (tag.equals("module")) {
+	        	module = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("name")) {
 	        	name = readTag(parser, tag);
 	        	
 	        } else if (tag.equals("quantity")) {
@@ -366,7 +343,7 @@ public class ProcedureFactory {
 	            skip(parser);
 	        }
 	    }
-	    return new StowageItem(name, quantity, itemCode, binCode, text, url);
+	    return new StowageItem(module, name, quantity, itemCode, binCode, text, url);
 	}
 	
 	

@@ -19,72 +19,58 @@
 		</note>
 	</execution_notes>
 	<stowage_notes>
-		<note>
-			<location>JEM - Microbe Analysis Ziplog Bag (732C - JEM1_A7)</location>
-			<item>
-				<name>Swab</name>
-				<quantity>3</quantity>
-				<item_code>Any</item_code>
-				<bin_code>JEM1_A7</bin_code>
-				<text>Inside Ziploc</text>
-			</item>
-		</note>
-		<note>
-			<location>USL</location>
-			<item>
-				<name>Cleaning wipes</name>
-				<quantity>3</quantity>
-				<item_code>173D</item_code>
-				<bin_code>USL1_C5</bin_code>
-				<text>Remove three from package</text>
-			</item>
-		</note>
-		<note>
-			<location>USL</location>
-			<item>
-				<name>Incubation bags</name>
-				<quantity>3</quantity>
-				<item_code>679C</item_code>
-				<bin_code>USL1_C5</bin_code>
-				<text>Remove three from package</text>
-			</item>
-		</note>
-		<note>
-			<location>USL</location>
-			<item>
-				<name>Gloves</name>
-				<item_code>376A</item_code>
-				<bin_code>USL1_C5</bin_code>
-			</item>
-		</note>
-		<note>
-			<location>COL</location>
-			<item>
-				<name>Blue tape</name>
-				<item_code>899B</item_code>
-				<bin_code>COL1_B2</bin_code>
-			</item>
-		</note>
-		<note>
-			<location>COL</location>
-			<item>
-				<name>Sharpie</name>
-				<item_code>143B</item_code>
-				<bin_code>COL1_B2</bin_code>
-			</item>
-		</note>
-		<note>
-			<location>COL</location>
-			<item>
-				<name>Microbe analyzer</name>
-				<quantity>3</quantity>
-				<item_code>261B</item_code>
-				<item_code>463B</item_code>
-				<item_code>857A</item_code>
-				<bin_code>COL1_B4</bin_code>
-				<text>User microbe analyzers in order listed</text>
-			</item>
-		</note>
+		<item>
+			<module>JEM</module>
+			<name>Swab</name>
+			<quantity>3</quantity>
+			<item_code>Any</item_code>
+			<bin_code>JEM1_A7</bin_code>
+			<text>Inside Ziploc</text>
+		</item>
+		<item>
+		    <module>USL</module>
+			<name>Cleaning wipes</name>
+			<quantity>3</quantity>
+			<item_code>173D</item_code>
+			<bin_code>USL1_C5</bin_code>
+			<text>Remove three from package</text>
+		</item>
+		<item>
+		    <module>USL</module>
+			<name>Incubation bags</name>
+			<quantity>3</quantity>
+			<item_code>679C</item_code>
+			<bin_code>USL1_C5</bin_code>
+			<text>Remove three from package</text>
+		</item>
+		<item>
+		    <module>USL</module>
+			<name>Gloves</name>
+			<item_code>376A</item_code>
+			<bin_code>USL1_C5</bin_code>
+		</item>
+		<item>
+		    <module>COL</module>
+			<name>Blue tape</name>
+			<item_code>899B</item_code>
+			<bin_code>COL1_B2</bin_code>
+		</item>
+		<item>
+		    <module>COL</module>
+			<name>Sharpie</name>
+			<item_code>143B</item_code>
+			<bin_code>COL1_B2</bin_code>
+		</item>
+		<item>
+		    <module>COL</module>
+			<name>Microbe analyzer</name>
+			<quantity>3</quantity>
+			<item_code>261B</item_code>
+			<item_code>463B</item_code>
+			<item_code>857A</item_code>
+			<bin_code>COL1_B4</bin_code>
+			<text>User microbe analyzers in order listed</text>
+		</item>
 	</stowage_notes>
 	<ops_notes>
 		<note>

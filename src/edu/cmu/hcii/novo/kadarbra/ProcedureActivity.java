@@ -29,7 +29,6 @@ import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.AudioFeedbackView.AudioFeedbackThread;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
-import edu.cmu.hcii.novo.kadarbra.page.CycleSelectPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;

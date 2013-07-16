@@ -18,7 +18,7 @@ public class StowageItem implements Serializable {
 	 * Auto-Generated serial id
 	 */
 	private static final long serialVersionUID = -5599609840863259369L;
-	//TODO location?
+	private String module;
 	private String name;
 	private int quantity;
 	private String itemCode;
@@ -35,8 +35,9 @@ public class StowageItem implements Serializable {
 	 * @param binCode
 	 * @param text
 	 */
-	public StowageItem(String  name, int quantity, String itemCode, String binCode,
+	public StowageItem(String module, String name, int quantity, String itemCode, String binCode,
 			String text, String url) {
+		this.module = module;
 		this.name = name;
 		this.quantity = quantity;
 		this.itemCode = itemCode;
@@ -45,22 +46,25 @@ public class StowageItem implements Serializable {
 		this.url = url;
 	}
 	
+	
+
 	/**
-	 * Create a stowage item with the given parameters
-	 * 
-	 * @param name
-	 * @param itemCode
-	 * @param binCode
+	 * @return the module
 	 */
-	public StowageItem(String name, String itemCode, String binCode) {
-		this.name = name;
-		this.itemCode = itemCode;
-		this.binCode = binCode;
-		
-		this.quantity = 1;
-		this.text = "";
-		this.url = "";
+	public String getModule() {
+		return module;
 	}
+
+
+
+	/**
+	 * @param module the module to set
+	 */
+	public void setModule(String module) {
+		this.module = module;
+	}
+
+
 
 	/**
 	 * @return the name
