@@ -5,16 +5,12 @@ import java.util.Random;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BlurMaskFilter;
-import android.graphics.BlurMaskFilter.Blur;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
-import android.graphics.SweepGradient;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -291,14 +287,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
    
         }
         
-        
+        /**
+         * Draws an indicator for when the view is in the inactive state
+         * @param c
+         */
         private void drawInactive(Canvas c){
         	//c.drawColor(Color.GRAY);
         }
         
-        
+        /**
+         * Draws the busy animation when the speech recognizer is processing speech
+         * Fades in/out the fill inside the microphone
+         * 
+         * @param c
+         * @param startAlpha starting alpha value
+         * @param endAlpha ending alpha value
+         * @param animationFrames duration of animation
+         */
     	private void drawBusy(Canvas c, float startAlpha, float endAlpha, int animationFrames){
     		Paint p = new Paint(pActive);
+    		p.setColor(Color.parseColor("#a4ece8"));
     		
     		float alpha = startAlpha;
     		if (busyDrawCounter < animationFrames/2){
