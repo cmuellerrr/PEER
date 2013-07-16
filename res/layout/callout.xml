@@ -11,16 +11,16 @@
     <FrameLayout
         android:id="@+id/calloutHeader"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/dot_bg_blue" >
         
 	    <TextView
 	        android:id="@+id/calloutTitle"
-	        style="@style/CalloutTitle" />"
+	        style="@style/CalloutTitle" />
 
     </FrameLayout>
     
-	    <TextView android:id="@+id/calloutText"
-	        style="@style/CalloutText" />
+	<TextView android:id="@+id/calloutText"
+	    style="@style/CalloutText" />
 	    
 </LinearLayout>

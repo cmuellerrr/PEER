@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
@@ -90,7 +89,7 @@ public class NavigationPage extends LinearLayout {
 		
 		if (reps < 2) {
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			params.setMargins(60, 0, 0, 0);
+			params.setMargins(30, 0, 0, 0);
 			newStep.setLayoutParams(params);
 		}
 		
