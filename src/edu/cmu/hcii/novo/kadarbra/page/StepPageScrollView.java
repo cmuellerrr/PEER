@@ -154,12 +154,14 @@ public class StepPageScrollView extends ScrollView{
 		
 	}
 	
-	
+	public ViewGroup getStepPage(){
+		return stepPage;
+	}
 	
 	/**
-	 * Scrolls down
+	 * Scrolls up
 	 */
-	public void scrollDown(){
+	public void scrollUp(){
 		current_scrollIndex = Math.max(0, current_scrollIndex-1);
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 	}
@@ -167,9 +169,9 @@ public class StepPageScrollView extends ScrollView{
 	
 	
 	/**
-	 * Scrolls up
+	 * Scrolls down 
 	 */
-	public void scrollUp(){
+	public void scrollDown(){
 		current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 	}

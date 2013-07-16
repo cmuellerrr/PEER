@@ -97,7 +97,10 @@ public class MainActivity extends Activity {
         // sets up data update receiver for receiving broadcast messages from ConnectionService
         if (dataUpdateReceiver == null) 
         	dataUpdateReceiver = new DataUpdateReceiver();
-        IntentFilter intentFilter = new IntentFilter("command");
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(MessageHandler.MSG_TYPE_COMMAND);
+        intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_LEVEL);
+        intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_BUSY);
         registerReceiver(dataUpdateReceiver, intentFilter);
     }
     
