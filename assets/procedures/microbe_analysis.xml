@@ -111,36 +111,6 @@
 			</item>
 		</tools>
 	</equipment>
-	<procedure_notes>
-		<note>
-			<text>Backup sites should be used only if prime sites are inaccessible.</text>
-		</note>
-		<note>
-			<text>Samples in Table 1 are listed in order of collection priority</text>
-			<reference>
-				<type>table</type>
-				<name>Table 1</name>
-				<description>In-Flight Surface Sampling Locations for Microbial Monitoring</description>
-				<table_content>
-					<item>
-						<module>Columbus</module>
-						<primary_site>9101</primary_site>
-						<secondary_site>3689</secondary_site>
-					</item>
-					<item>
-						<module>JEM</module>
-						<primary_site>8224</primary_site>
-						<secondary_site>3916</secondary_site>
-					</item>
-					<item>
-						<module>US Lab</module>
-						<primary_site>6652</primary_site>
-						<secondary_site>3341</secondary_site>
-					</item>
-				</table_content>
-			</reference>
-		</note>
-	</procedure_notes>
 	<steps>
 	    <step>
             <number>1</number>
@@ -148,6 +118,41 @@
         </step>
 	    <cycle>
 	        <repetitions>3</repetitions>
+	        <cycle_notes>
+		        <note>
+		            <text>Backup sites should be used only if prime sites are inaccessible.</text>
+		        </note>
+		        <note>
+		            <text>Samples in Table 1 are listed in order of collection priority</text>
+		            <reference>
+		                <type>table</type>
+		                <name>Table 1</name>
+		                <description>In-Flight Surface Sampling Locations for Microbial Monitoring</description>
+		                <table>'
+		                    <row>
+		                        <cell>Module</cell>
+		                        <cell>Primary Site</cell>
+		                        <cell>Secondary Site</cell>
+		                    </row>
+		                    <row>
+		                        <cell>Columbus</cell>
+		                        <cell>9101</cell>
+		                        <cell>3689</cell>
+		                    </row>
+		                    <row>
+		                        <cell>JEM</cell>
+		                        <cell>8224</cell>
+		                        <cell>3916</cell>
+		                    </row>
+		                    <row>
+		                        <cell>US Lab</cell>
+		                        <cell>6652</cell>
+		                        <cell>3341</cell>
+		                    </row>
+		                </table>
+		            </reference>
+		        </note>
+		    </<cycle_notes>>
 			<step>
 				<number>2</number>
 				<text>Prepare for sample collection</text>
@@ -220,24 +225,28 @@
 						<type>table</type>
 						<name>Figure 3</name>
 						<description>Table indicating number of microbes based on color returned.</description>
-						<table_content>
+						<table>
+							<row>
+							    <cell>Microbe Count</cell>
+							    <cell>Color</cell>
+							</row>
 							<item>
-								<number_of_microbes>10</number_of_microbes>
-								<color>Red</color>
+								<cell>10</cell>
+								<cell>Red</cell>
 							</item>
 							<item>
-								<number_of_microbes>50</number_of_microbes>
-								<color>Blue</color>
+								<cell>50</cell>
+								<cell>Blue</cell>
 							</item>
 							<item>
-								<number_of_microbes>100</number_of_microbes>
-								<color>Green</color>
+								<cell>100</cell>
+								<cell>Green</cell>
 							</item>
 							<item>
-								<number_of_microbes>500</number_of_microbes>
-								<color>Yellow</color>
+								<cell>500</cell>
+								<cell>Yellow</cell>
 							</item>
-						</table_content>
+						</table>
 					</reference>
 				</step>
 			</step>

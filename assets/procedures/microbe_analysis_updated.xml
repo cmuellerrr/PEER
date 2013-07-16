@@ -126,36 +126,6 @@ Last edit: Kristina, 7/11
 			</item>
 		</tools>
 	</equipment>
-	<procedure_notes>
-		<note>
-			<text>Backup sites should be used only if prime sites are inaccessible.</text>
-		</note>
-		<!--I think we were changing the table below somehow, but I kept it as-is for now.-->
-		<note>
-			<text>Samples in Table 1 are listed in order of collection priority</text>
-			<reference>
-				<type>table</type>
-				<name>Table 1</name>
-				<description>Air Filter Locations for Microbial Monitoring</description>
-				<table_content>
-					<item>
-						<module>Node 3</module>
-						<primary_site>9553</primary_site>
-						<secondary_site>7689</secondary_site>
-						<step_association>2.1</step_association>
-						<repetition>1</repetition>
-					</item>
-					<item>
-						<module>Columbus</module>
-						<primary_site>9101</primary_site>
-						<secondary_site>3689</secondary_site>
-						<step_association>2.1</step_association>
-						<repetition>2</repetition>
-					</item>
-				</table_content>
-			</reference>
-		</note>
-	</procedure_notes>
 	<steps>
 	    <step>
             <number>1</number>
@@ -163,6 +133,41 @@ Last edit: Kristina, 7/11
         </step>
 	    <cycle>
 	        <repetitions>2</repetitions>
+	        <cycle_notes>
+		        <note>
+		            <text>Backup sites should be used only if prime sites are inaccessible.</text>
+		        </note>
+		        <!--I think we were changing the table below somehow, but I kept it as-is for now.-->
+		        <note>
+		            <text>Samples in Table 1 are listed in order of collection priority</text>
+		            <reference>
+		                <type>table</type>
+		                <name>Table 1</name>
+		                <description>Air Filter Locations for Microbial Monitoring</description>
+		                <table>
+		                    <row>
+                                <cell>Module</cell>
+                                <cell>Primary Site</cell>
+                                <cell>Backup Site</cell>
+                            </row>
+		                    <row>
+		                        <cell>Node 3</cell>
+		                        <cell>9553</cell>
+		                        <cell>7689</cell>
+		                        <step>2.1</step>
+		                        <repetition>1</repetition>
+		                    </row>
+		                    <row>
+		                        <cell>Columbus</cell>
+		                        <cell>9101</cell>
+		                        <cell>3689</cell>
+		                        <step>2.1</step>
+		                        <repetition>2</repetition>
+		                    </row>
+		                </table>
+		            </reference>
+		        </note>
+		    </cycle_notes>
 			<step>
 				<number>2</number>
 				<text>Collect Microbe Sample</text>
@@ -200,24 +205,28 @@ Last edit: Kristina, 7/11
 						<type>table</type>
 						<name>Table 1</name>
 						<description>Table indicating number of microbes based on color returned.</description>
-						<table_content>
-							<item>
-								<number_of_microbes>10</number_of_microbes>
-								<color>Red</color>
-							</item>
-							<item>
-								<number_of_microbes>50</number_of_microbes>
-								<color>Blue</color>
-							</item>
-							<item>
-								<number_of_microbes>100</number_of_microbes>
-								<color>Green</color>
-							</item>
-							<item>
-								<number_of_microbes>500</number_of_microbes>
-								<color>Yellow</color>
-							</item>
-						</table_content>
+						<table>
+							<row>
+							    <cell>Microbe Count</cell>
+							    <cell>Color</cell>
+							</row>
+							<row>
+								<cell>10</cell>
+								<cell>Red</cell>
+							</row>
+							<row>
+								<cell>50</cell>
+								<cell>Blue</cell>
+							</row>
+							<row>
+								<cell>100</cell>
+								<cell>Green</cell>
+							</row>
+							<row>
+								<cell>500</cell>
+								<cell>Yellow</cell>
+							</row>
+						</table>
 					</reference>
 				</step>
 				<step>
