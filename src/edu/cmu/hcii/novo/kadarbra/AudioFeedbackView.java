@@ -292,7 +292,6 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param c
          */
         private void drawInactive(Canvas c){
-        	//c.drawColor(Color.GRAY);
         }
         
         /**
@@ -305,7 +304,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param animationFrames duration of animation
          */
     	private void drawBusy(Canvas c, float startAlpha, float endAlpha, int animationFrames){
-    		Paint p = new Paint(pActive);
+    		Paint p = new Paint();
     		p.setColor(Color.parseColor("#a4ece8"));
     		
     		float alpha = startAlpha;
@@ -424,6 +423,12 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 */
     	private void drawAudioBarsVert(Canvas c){
     		int barWidth = (viewWidth - BAR_MARGIN*levels.length) / levels.length; 
+    		
+    		if (getCurState() == STATE_INACTIVE){
+    			pBar.setColor(Color.GRAY);
+    		}else if (getCurState() == STATE_ACTIVE){
+    			pBar.setColor(Color.parseColor("#a4ece8"));
+    		}
     		
     		for (int i = 0; i < levels.length; i++){
     			Rect rect;

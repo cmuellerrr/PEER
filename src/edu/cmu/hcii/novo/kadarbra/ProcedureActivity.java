@@ -405,8 +405,6 @@ public class ProcedureActivity extends Activity {
 		clearMenuSelection();
 	}
 	
-	
-	
 	/**
 	 * Run each menu item's animation via the given tag.  Then set their visibility
 	 * to that which was given.
