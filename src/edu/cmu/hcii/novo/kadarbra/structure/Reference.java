@@ -4,6 +4,7 @@
 package edu.cmu.hcii.novo.kadarbra.structure;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A class representing reference objects.  Can be image, 
@@ -26,6 +27,7 @@ public class Reference implements Serializable {
 	private String name;
 	private String description;
 	private String url;
+	private List<List<String>> table;
 	
 	
 	
@@ -37,13 +39,13 @@ public class Reference implements Serializable {
 	 * @param description
 	 * @param url
 	 */
-	public Reference(RType type, String name, String description, String url) {
+	public Reference(RType type, String name, String description, String url, List<List<String>> table) {
 		this.type = type;
 		this.name = name;
 		this.description = description;
-		
 		//TODO right now we store them in assets
 		this.url = url;
+		this.table = table;
 	}
 
 
@@ -116,5 +118,23 @@ public class Reference implements Serializable {
 	 */
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+
+
+	/**
+	 * @return the table
+	 */
+	public List<List<String>> getTable() {
+		return table;
+	}
+
+
+
+	/**
+	 * @param table the table to set
+	 */
+	public void setTable(List<List<String>> table) {
+		this.table = table;
 	}
 }

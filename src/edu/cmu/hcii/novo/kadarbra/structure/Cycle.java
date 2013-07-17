@@ -18,6 +18,7 @@ public class Cycle implements ProcedureItem, Serializable {
 	private static final long serialVersionUID = 3272545299782918475L;
 	private int reps;
 	private String text;
+	private List<CycleNote> notes;
 	private List<ProcedureItem> children;
 	
 	
@@ -25,8 +26,9 @@ public class Cycle implements ProcedureItem, Serializable {
 	/**
 	 * 
 	 */
-	public Cycle(int reps, List<ProcedureItem> children) {
+	public Cycle(int reps, List<CycleNote> notes, List<ProcedureItem> children) {
 		this.reps = reps;
+		this.notes = notes;
 		this.children = children;
 	}
 
@@ -125,6 +127,24 @@ public class Cycle implements ProcedureItem, Serializable {
 	 */
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	
+
+	/**
+	 * @return the notes
+	 */
+	public List<CycleNote> getNotes() {
+		return notes;
+	}
+
+
+
+	/**
+	 * @param notes the notes to set
+	 */
+	public void setNotes(List<CycleNote> notes) {
+		this.notes = notes;
 	}
 
 

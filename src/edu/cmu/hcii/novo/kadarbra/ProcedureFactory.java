@@ -17,6 +17,7 @@ import android.util.Xml;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout.CType;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
+import edu.cmu.hcii.novo.kadarbra.structure.CycleNote;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
 import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
@@ -517,6 +518,7 @@ public class ProcedureFactory {
 	    String name = null;
 	    String description = null;
 	    String url = null;
+	    List<List<String>> table = new ArrayList<List<String>>();
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "reference");
@@ -555,11 +557,14 @@ public class ProcedureFactory {
 	        } else if (tag.equals("url")) {
 	            url = readTag(parser, tag);
 	            
+	        } else if (tag.equals("table")) {
+	            table = readTable(parser);
+	            
 	        } else {
 	            skip(parser);
 	        }
 	    }
-	    return new Reference(type, name, description, url);
+	    return new Reference(type, name, description, url, table);
 	}
 	
 	
@@ -577,6 +582,7 @@ public class ProcedureFactory {
 		Log.d(TAG, "Parsing cycle");
 		
 		int repetitions = 0;
+		List<CycleNote> notes = new ArrayList<CycleNote>();
 	    List<ProcedureItem> children = new ArrayList<ProcedureItem>();
 	    
 	    //This is the tag we are looking for
@@ -599,12 +605,162 @@ public class ProcedureFactory {
 	        } else if (tag.equals("cycle")) {
 	        	children.add(readCycle(parser));
 	        	
+	        } else if (tag.equals("cycle_notes")) {
+	        	notes = readCycleNotes(parser);
+	        	
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    
-	    return new Cycle(repetitions, children);
+	    return new Cycle(repetitions, notes, children);
+	}
+	
+	
+	
+	/**
+	 * Parse xml to produce a list of cycle notes
+	 * 
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static List<CycleNote> readCycleNotes(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing cycle notes");
+		
+		List<CycleNote> notes = new ArrayList<CycleNote>();
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "cycle_notes");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("note")) {
+	        	notes.add(readCycleNote(parser));
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    
+	    return notes;
+	}
+	
+	
+	
+	/**
+	 * Parse xml to produce a cycle note object 
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static CycleNote readCycleNote(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.v(TAG, "Parsing cycle note");
+		
+		String text = null;
+		Reference ref = null;
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "note");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("text")) {
+	        	text = readTag(parser, tag);
+	        	
+	        } else if (tag.equals("reference")) {
+	        	ref = readReference(parser);
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    
+	    return new CycleNote(text, ref);
+	}
+	
+	
+	
+	/**
+	 * Read the xml to produce a table object.  Its a list of lists of strings 
+	 * defining rows and columns.
+	 * 
+	 * TODO this really should be a 2d array
+	 * 
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
+	private static List<List<String>> readTable(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing table");
+		
+	    List<List<String>> cells = new ArrayList<List<String>>();
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "table");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("row")) {
+	        	cells.add(readRow(parser));
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    
+	    return cells;
+	}
+	
+	
+	
+	private static List<String> readRow(XmlPullParser parser) throws XmlPullParserException, IOException {
+		Log.d(TAG, "Parsing row");
+		
+	    List<String> row = new ArrayList<String>();
+	    
+	    //This is the tag we are looking for
+  		parser.require(XmlPullParser.START_TAG, ns, "row");
+	    
+	    //Until we get to the closing tag
+	    while (parser.next() != XmlPullParser.END_TAG) {
+	        if (parser.getEventType() != XmlPullParser.START_TAG) {
+	            continue;
+	        }
+	        String tag = parser.getName();
+	        
+	        //Get the attributes
+	        if (tag.equals("cell")) {
+	        	row.add(readTag(parser, tag));
+	        	
+	        } else {
+	            skip(parser);
+	        }
+	    }
+	    
+	    //row.toArray(new String[row.size()]);
+	    return row;
 	}
 	
 	

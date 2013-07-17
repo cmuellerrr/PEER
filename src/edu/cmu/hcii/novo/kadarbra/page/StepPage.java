@@ -381,6 +381,8 @@ public class StepPage extends LinearLayout {
         this.addView(table);
 	}
 	
+	
+	
 	/**
 	 * Set up a table row with the given values.  
 	 * 
@@ -401,6 +403,7 @@ public class StepPage extends LinearLayout {
         
         return row;
 	}
+	
 	
 	/**
 	 * 

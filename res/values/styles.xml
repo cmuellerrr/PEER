@@ -104,20 +104,6 @@
     </style>
     
     
-    <!-- Stowage Notes -->
-    
-    
-    <style name="StowageNoteCell" parent="TableCell">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:textSize">15sp</item>
-    </style>
-    
-    <style name="StowageNoteHeader" parent="TableHeader" >
-        <item name="android:textSize">18sp</item>
-    </style>
-    
-    
     <!-- Execution Notes Page -->
     
     
