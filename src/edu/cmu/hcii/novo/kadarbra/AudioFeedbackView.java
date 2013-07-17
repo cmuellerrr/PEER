@@ -27,7 +27,6 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private int BAR_MAXIMUM_OFFSET = 100; // how quickly bars grow in height
 		private int BAR_MARGIN = 5; // size of margin between bars
 		private int MINIMUM_RMS_READ = 1;
-		private long COMMANDS_TIMEOUT_DURATION = 10000; // in millesconds
 		private int MAXIMUM_FPS = 20;
 		
 		private int viewWidth;	// width of view
@@ -368,7 +367,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * @return
     	 */
     	private float getThresholdLinePercent(){
-    		return 1 - (((System.currentTimeMillis() - lastMessageTime) / ((float)COMMANDS_TIMEOUT_DURATION)));
+    		return 1 - (((System.currentTimeMillis() - lastMessageTime) / ((float)MessageHandler.COMMANDS_TIMEOUT_DURATION)));
     	}
     	
     	/**
@@ -376,7 +375,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * @return
     	 */
     	private float getThresholdLineOffset(){
-    		return (((System.currentTimeMillis() - lastDrawTime) / ((float)COMMANDS_TIMEOUT_DURATION)) * viewHeight);
+    		return (((System.currentTimeMillis() - lastDrawTime) / ((float)MessageHandler.COMMANDS_TIMEOUT_DURATION)) * viewHeight);
     	}
     	
     	/**
@@ -384,7 +383,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * @return
     	 */
     	private float getThresholdLineHeight(){
-    		return viewHeight - (((System.currentTimeMillis() - lastMessageTime) / ((float)COMMANDS_TIMEOUT_DURATION)) * viewHeight);
+    		return viewHeight - (((System.currentTimeMillis() - lastMessageTime) / ((float)MessageHandler.COMMANDS_TIMEOUT_DURATION)) * viewHeight);
     	}
     	
 
@@ -575,9 +574,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     		}
     		convertAllPixelsToDrawnPixels();
     		
-    		if (rms > 3)
+    		if (rms > MessageHandler.MINIMUM_REFRESH_RMS)
     			lastMessageTime = System.currentTimeMillis();
-    		
     		//drawnLevels[drawnLevels.length-1] = convertPixelToDrawnPixel(drawnLevels.length-1);
     	}
 	}

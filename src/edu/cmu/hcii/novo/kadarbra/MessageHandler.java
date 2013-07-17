@@ -30,7 +30,12 @@ public class MessageHandler {
 	public static int COMMAND_TIMER_START = 13;
 	public static int COMMAND_TIMER_RESET = 14;
 	public static int COMMAND_TIMER_STOP = 15;
-
+	
+	public static long COMMANDS_TIMEOUT_DURATION = 7000; // in millesconds
+	public static long MINIMUM_REFRESH_RMS = 3;
+	
+	private static long lastMessageTime;
+	
 	
 	/**
 	 * Sends a string broadcast message to be read by other classes
@@ -92,8 +97,12 @@ public class MessageHandler {
 			//Log.v(TAG, "type: "+type+", "+"content: "+content);
 			
 			if (type.equals(MSG_TYPE_COMMAND)){
-				handleCommand(ctx, type, content);
+				if (System.currentTimeMillis() - lastMessageTime < COMMANDS_TIMEOUT_DURATION ||
+					content.equals("ready"))
+					handleCommand(ctx, type, content);
 			}else if (type.equals(MSG_TYPE_AUDIO_LEVEL)){
+	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS)
+	    			lastMessageTime = System.currentTimeMillis();
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
 			}else if (type.equals(MSG_TYPE_AUDIO_BUSY)){
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_BUSY, content);
@@ -106,6 +115,10 @@ public class MessageHandler {
 			e.printStackTrace();
 		}		
 	}
+	
+	/**
+	 * 
+	 */
 	
 	
 	/**
@@ -122,6 +135,7 @@ public class MessageHandler {
 		
 		if (content.equals("ready")){
 			commandIdentifier = COMMAND_CONFIRMATION;
+			
 		}else if (content.equals("back")){
 			commandIdentifier = COMMAND_BACK;
 		}else if (content.equals("next")){
@@ -153,7 +167,7 @@ public class MessageHandler {
 		}else if (content.equals("stop")){
 			commandIdentifier = COMMAND_TIMER_STOP;
 		}
-		
+				
 		sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier);
 	}
 	

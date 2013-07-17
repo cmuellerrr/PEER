@@ -434,7 +434,7 @@ public class ProcedureActivity extends Activity {
 		groundButton.startAnimation(menuAnimations.get(groundButton.getId() + tag));
 		groundButton.setVisibility(visibility);
 
-		elapsedTime.startAnimation(menuAnimations.get(groundButton.getId() + tag));
+		elapsedTime.startAnimation(menuAnimations.get(elapsedTime.getId() + tag));
 		elapsedTime.setVisibility(visibility);
 	}
 	
@@ -687,80 +687,78 @@ public class ProcedureActivity extends Activity {
     		if (command == MessageHandler.COMMAND_CONFIRMATION){
     			audioFeedbackThread.setState(audioFeedbackView.STATE_ACTIVE);
     		}
+			Log.v(TAG, "Command_READY: " + command);
     		
-        	if (audioFeedbackThread.getCurState()==(audioFeedbackView.STATE_ACTIVE)){
-        		Log.v(TAG, "Command_READY: " + command);
-        		
-        		// if the menu is not currently open
-        		if (!getMenuVisibility()){	
-		    		if (command == MessageHandler.COMMAND_BACK) {
-		    			prevPage();
-		    			
-			    	} else if (command == MessageHandler.COMMAND_NEXT) {
-			    		nextPage();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
-			    		scrollDown();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
-			    		scrollUp();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-			    		handleNavigationCommand(extras.getString("str"));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
-			    		openMenu();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
-			    		closeMenu();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
-			    		menuSelect(findViewById(R.id.navButton));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
-			    		menuSelect(findViewById(R.id.stowageButton));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
-			    		menuSelect(findViewById(R.id.annotationButton));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
-			    		menuSelect(findViewById(R.id.groundButton));
-			    	} 
+    		// if the menu is not currently open
+    		if (!getMenuVisibility()){	
+	    		if (command == MessageHandler.COMMAND_BACK) {
+	    			prevPage();
+	    			
+		    	} else if (command == MessageHandler.COMMAND_NEXT) {
+		    		nextPage();
 		    		
+		    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
+		    		scrollDown();
 		    		
-		    	// if the menu is currently open	
-        		} else if (getMenuVisibility()) {
-        			if (command == MessageHandler.COMMAND_BACK) {
-		    			closeMenu();
-		    			
-			    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-			    		handleNavigationCommand(extras.getString("str"));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
-			    		// TODO: scrolling through menu frames
-			    		
-			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
-			    		// TODO: scrolling through menu frames
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
-			    		closeMenu();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
-			    		closeMenu();
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
-			    		menuSelect(findViewById(R.id.navButton));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
-			    		menuSelect(findViewById(R.id.stowageButton));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
-			    		menuSelect(findViewById(R.id.annotationButton));
-			    		
-			    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
-			    		menuSelect(findViewById(R.id.groundButton));
-			    	} 
-        		}
+		    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+		    		scrollUp();
+		    		
+		    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
+		    		handleNavigationCommand(extras.getString("str"));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
+		    		openMenu();
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
+		    		closeMenu();
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
+		    		menuSelect(findViewById(R.id.navButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
+		    		menuSelect(findViewById(R.id.stowageButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
+		    		menuSelect(findViewById(R.id.annotationButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
+		    		menuSelect(findViewById(R.id.groundButton));
+		    	} 
+	    		
+	    		
+	    	// if the menu is currently open	
+    		} else if (getMenuVisibility()) {
+    			if (command == MessageHandler.COMMAND_BACK) {
+	    			closeMenu();
+	    			
+		    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
+		    		handleNavigationCommand(extras.getString("str"));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
+		    		// TODO: scrolling through menu frames
+		    		
+		    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+		    		// TODO: scrolling through menu frames
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
+		    		closeMenu();
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
+		    		closeMenu();
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
+		    		menuSelect(findViewById(R.id.navButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
+		    		menuSelect(findViewById(R.id.stowageButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
+		    		menuSelect(findViewById(R.id.annotationButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
+		    		menuSelect(findViewById(R.id.groundButton));
+		    	} 
+    		
         	}
     	}
     }
