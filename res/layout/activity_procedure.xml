@@ -116,6 +116,46 @@
             android:layout_centerHorizontal="true"
             android:text="@string/menu_ground" />
         
+		<RelativeLayout 
+		    android:layout_width="170dp"
+		    android:layout_height="75dp" 
+		    android:id="@+id/elapsedTime"
+		    android:layout_below="@id/groundButton"
+		    android:visibility="gone"
+		    android:background="@drawable/border_blue"
+		    android:layout_marginLeft="26dp"
+		    android:layout_marginTop="40dp"
+		    >
+		    
+		    <RelativeLayout
+		        android:layout_marginTop="15dp"
+		        android:layout_width="100dp"
+		        android:layout_height="50dp"
+		        android:layout_centerInParent="true">
+		        
+		    	<TextView
+					android:id="@+id/timerTimeText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        
+					android:text="00:00"
+					android:textSize="25dp"
+					android:layout_centerHorizontal="true"/>
+			
+			    <TextView
+			        android:layout_below="@id/timerTimeText"
+					android:id="@+id/timerStartText"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+					android:text="@string/elapsed_time"
+					android:textSize="13dp"
+					android:layout_centerHorizontal="true"/>
+		    	
+		    </RelativeLayout>
+			    
+		
+		</RelativeLayout>
+        
     </RelativeLayout>
 
 </RelativeLayout>

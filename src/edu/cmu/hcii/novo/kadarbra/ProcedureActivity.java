@@ -10,7 +10,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -67,7 +69,7 @@ public class ProcedureActivity extends Activity {
 	private static final String TAG_CASCADE = "_cascade";
 	private static final int ANIM_DELAY = 50;
 	
-	
+	private long startTime; // for elapsed time
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,10 @@ public class ProcedureActivity extends Activity {
 		initAudioFeedbackView();
 		
 		stepIndices = getPageIndices();
+		
+		initElapsedTime();
+
+		
 	}
 
 	
@@ -237,7 +243,7 @@ public class ProcedureActivity extends Activity {
 		//Menu button animations
 		curId = findViewById(R.id.navButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY, null);
-		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*4, new AnimationListener() {
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*5, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
@@ -258,14 +264,18 @@ public class ProcedureActivity extends Activity {
 		
 		curId = findViewById(R.id.stowageButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*2, null);
-		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*3, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*4, null);
 		
 		curId = findViewById(R.id.annotationButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*3, null);
-		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*2, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*3, null);
 		
 		curId = findViewById(R.id.groundButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*4, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*2, null);
+		
+		curId = findViewById(R.id.elapsedTime).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*5, null);
 		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY, null);
 		
 		//Drawer animations
@@ -406,7 +416,8 @@ public class ProcedureActivity extends Activity {
 		Button stowButton = (Button) findViewById(R.id.stowageButton);
 		Button annotateButton = (Button) findViewById(R.id.annotationButton);
 		Button groundButton = (Button) findViewById(R.id.groundButton);
-		
+		View elapsedTime = (View) findViewById(R.id.elapsedTime);
+
 		overviewButton.startAnimation(menuAnimations.get(overviewButton.getId() + tag));
 		overviewButton.setVisibility(visibility);
 		
@@ -418,6 +429,9 @@ public class ProcedureActivity extends Activity {
 		
 		groundButton.startAnimation(menuAnimations.get(groundButton.getId() + tag));
 		groundButton.setVisibility(visibility);
+
+		elapsedTime.startAnimation(menuAnimations.get(groundButton.getId() + tag));
+		elapsedTime.setVisibility(visibility);
 	}
 	
 	
@@ -438,7 +452,35 @@ public class ProcedureActivity extends Activity {
 		findViewById(R.id.groundButton).setSelected(false);
 	}
 
-	
+	/**
+	 * Initializes elapsed time view
+	 * Handler handles updates for the elapsed time 
+	 */
+	private void initElapsedTime(){
+		startTime = System.currentTimeMillis();
+        Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Lifeline.ttf");
+        ((TextView) findViewById(R.id.timerTimeText)).setTypeface(tf);
+	    final Handler elapsedTimeHandler = new Handler();
+	    Runnable elapsedTimeRun = new Runnable() {
+	        @Override
+	        public void run() {
+	           long millis = System.currentTimeMillis() - startTime;
+	           int seconds = (int) (millis / 1000);
+	           int minutes = seconds / 60;
+	           seconds     = seconds % 60;
+	           int hours = minutes / 60;
+	           minutes = minutes % 60;
+	           ((TextView) findViewById(R.id.timerTimeText)).setText(String.format("%02d:%02d.%02d", hours, minutes, seconds));
+
+	           elapsedTimeHandler.postDelayed(this, 500);
+	        }
+	    };
+	    
+		elapsedTimeHandler.postDelayed(elapsedTimeRun, 0);
+
+	}
+
+    
 	
 	/**
 	 * Initialize the view pager.  This is the central ui element that 
