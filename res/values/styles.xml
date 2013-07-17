@@ -22,7 +22,7 @@
     <style name="ScrollView" parent ="@android:style/Widget.ScrollView">
         <item name="android:scrollbarStyle">outsideInset</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb</item>
-        <item name="android:scrollbarSize">10dp</item>
+        <item name="android:scrollbarSize">15dp</item>
     </style>
     
     <style name="HeaderText">
@@ -87,6 +87,7 @@
     <style name="TableHeader" parent="CenterText" >
         <item name="android:layout_gravity">center|center_vertical</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:shadowColor">#ff000000</item>  
         <item name="android:shadowRadius">1.5</item>
@@ -96,21 +97,10 @@
     </style>
     
     <style name="TableCell" >
-        <item name="android:padding">10dp</item>
-    </style>
-    
-    
-    <!-- Stowage Notes -->
-    
-    
-    <style name="StowageNoteCell" parent="TableCell">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">15sp</item>
-    </style>
-    
-    <style name="StowageNoteHeader" parent="TableHeader" >
-        <item name="android:textSize">18sp</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     
@@ -184,6 +174,7 @@
         <item name="android:textColor">@color/menu_item</item>
         <item name="android:textSize">20sp</item>
         <item name="android:onClick">menuSelect</item>
+        <item name="android:gravity">left|center_vertical</item>
         <item name="android:visibility">gone</item>
     </style>
     

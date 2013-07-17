@@ -29,6 +29,7 @@ import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.AudioFeedbackView.AudioFeedbackThread;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
+import edu.cmu.hcii.novo.kadarbra.page.CycleMarkerPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
@@ -547,6 +548,7 @@ public class ProcedureActivity extends Activity {
 			Cycle c = (Cycle) item;
 			//Add all the reps
 			for (int i = 0; i < c.getReps(); i++) {
+				result.add(new CycleMarkerPage(this, c, i+1));
 				//Add the steps for each rep
 				for (int j = 0; j < c.getNumChildren(); j++) {
 					//setup the child - parent = null

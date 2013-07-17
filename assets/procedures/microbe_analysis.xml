@@ -128,7 +128,7 @@
 		                <type>table</type>
 		                <name>Table 1</name>
 		                <description>In-Flight Surface Sampling Locations for Microbial Monitoring</description>
-		                <table>'
+		                <table>
 		                    <row>
 		                        <cell>Module</cell>
 		                        <cell>Primary Site</cell>
@@ -152,7 +152,7 @@
 		                </table>
 		            </reference>
 		        </note>
-		    </<cycle_notes>>
+		    </cycle_notes>
 			<step>
 				<number>2</number>
 				<text>Prepare for sample collection</text>
