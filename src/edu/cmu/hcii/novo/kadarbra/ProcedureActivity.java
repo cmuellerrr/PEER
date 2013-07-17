@@ -31,6 +31,7 @@ import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.AudioFeedbackView.AudioFeedbackThread;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
+import edu.cmu.hcii.novo.kadarbra.page.CycleMarkerPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
@@ -274,7 +275,7 @@ public class ProcedureActivity extends Activity {
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*4, null);
 		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*2, null);
 		
-		curId = findViewById(R.id.elapsedTime).getId();
+		curId = findViewById(R.id.elapsedTimeView).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*5, null);
 		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY, null);
 		
@@ -416,7 +417,7 @@ public class ProcedureActivity extends Activity {
 		Button stowButton = (Button) findViewById(R.id.stowageButton);
 		Button annotateButton = (Button) findViewById(R.id.annotationButton);
 		Button groundButton = (Button) findViewById(R.id.groundButton);
-		View elapsedTime = (View) findViewById(R.id.elapsedTime);
+		View elapsedTime = (View) findViewById(R.id.elapsedTimeView);
 
 		overviewButton.startAnimation(menuAnimations.get(overviewButton.getId() + tag));
 		overviewButton.setVisibility(visibility);
@@ -459,7 +460,7 @@ public class ProcedureActivity extends Activity {
 	private void initElapsedTime(){
 		startTime = System.currentTimeMillis();
         Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Lifeline.ttf");
-        ((TextView) findViewById(R.id.timerTimeText)).setTypeface(tf);
+        ((TextView) findViewById(R.id.elapsedTime)).setTypeface(tf);
 	    final Handler elapsedTimeHandler = new Handler();
 	    Runnable elapsedTimeRun = new Runnable() {
 	        @Override
@@ -470,7 +471,7 @@ public class ProcedureActivity extends Activity {
 	           seconds     = seconds % 60;
 	           int hours = minutes / 60;
 	           minutes = minutes % 60;
-	           ((TextView) findViewById(R.id.timerTimeText)).setText(String.format("%02d:%02d.%02d", hours, minutes, seconds));
+	           ((TextView) findViewById(R.id.elapsedTime)).setText(String.format("%02d:%02d.%02d", hours, minutes, seconds));
 
 	           elapsedTimeHandler.postDelayed(this, 500);
 	        }
@@ -589,6 +590,7 @@ public class ProcedureActivity extends Activity {
 			Cycle c = (Cycle) item;
 			//Add all the reps
 			for (int i = 0; i < c.getReps(); i++) {
+				result.add(new CycleMarkerPage(this, c, i+1));
 				//Add the steps for each rep
 				for (int j = 0; j < c.getNumChildren(); j++) {
 					//setup the child - parent = null

@@ -48,7 +48,10 @@ public class MainActivity extends Activity {
 		doBindService();
 		
 		initExampleList();
+		
 	}
+	
+	
 	
 	// Initializes the example list
 	private void initExampleList() {

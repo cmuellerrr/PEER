@@ -20,6 +20,8 @@ import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.VideoView;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -357,10 +359,48 @@ public class StepPage extends LinearLayout {
 	 * @param ref the reference to render
 	 */
 	private void setupTableReference(Reference ref) {
-		//TODO
+		Log.v(TAG, "Setting up table view");
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+        TableLayout table = (TableLayout)inflater.inflate(R.layout.table, null);
+        
+        List<List<String>> cells = ref.getTable();
+        
+        for (int i = 0; i < cells.size(); i++) {
+        	
+        	if (i==0) {
+        		table.addView(getRow(cells.get(i), R.layout.table_header_row, R.layout.table_header_cell));
+        	
+        	} else {
+        		table.addView(getRow(cells.get(i), R.layout.table_row, R.layout.table_cell));
+        	}
+        }
+        
+        //TODO tables don't have captions
+        //((TextView)table.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
+        
+        this.addView(table);
 	}
 	
-	
+	/**
+	 * Set up a table row with the given values.  
+	 * 
+	 * @param cells
+	 * @param rowId
+	 * @param cellId
+	 * @return
+	 */
+	private TableRow getRow(List<String> cells, int rowId, int cellId) {
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+		TableRow row = (TableRow)inflater.inflate(rowId, null);
+        
+        for (int i = 0; i < cells.size(); i++) {
+        	TextView t = (TextView)inflater.inflate(cellId, null);
+        	t.setText(cells.get(i));
+        	row.addView(t);
+        }
+        
+        return row;
+	}
 	
 	/**
 	 * 
