@@ -30,6 +30,7 @@ import edu.cmu.hcii.novo.kadarbra.AudioFeedbackView.AudioFeedbackThread;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.CycleMarkerPage;
+import edu.cmu.hcii.novo.kadarbra.page.CycleSelectPage;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
@@ -59,6 +60,7 @@ public class ProcedureActivity extends Activity {
 	private AudioFeedbackThread audioFeedbackThread;
 	
 	private List<StepIndex> stepIndices;
+	private int selectedStep = -1;
 	
 	private Map<String, Animation> menuAnimations;
 	private View drawerContent;
@@ -68,6 +70,7 @@ public class ProcedureActivity extends Activity {
 	private static final String TAG_CASCADE = "_cascade";
 	private static final int ANIM_DELAY = 50;
 	
+	private long startTime; // for elapsed time
 	
 	
 	@Override
@@ -88,6 +91,10 @@ public class ProcedureActivity extends Activity {
 		initAudioFeedbackView();
 		
 		stepIndices = getPageIndices();
+		
+		initElapsedTime();
+
+		
 	}
 
 	
@@ -238,7 +245,7 @@ public class ProcedureActivity extends Activity {
 		//Menu button animations
 		curId = findViewById(R.id.navButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY, null);
-		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*4, new AnimationListener() {
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*5, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
@@ -259,14 +266,18 @@ public class ProcedureActivity extends Activity {
 		
 		curId = findViewById(R.id.stowageButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*2, null);
-		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*3, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*4, null);
 		
 		curId = findViewById(R.id.annotationButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*3, null);
-		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*2, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*3, null);
 		
 		curId = findViewById(R.id.groundButton).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*4, null);
+		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY*2, null);
+		
+		curId = findViewById(R.id.elapsedTimeView).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, ANIM_DELAY*5, null);
 		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY, null);
 		
 		//Drawer animations
@@ -407,6 +418,7 @@ public class ProcedureActivity extends Activity {
 		Button stowButton = (Button) findViewById(R.id.stowageButton);
 		Button annotateButton = (Button) findViewById(R.id.annotationButton);
 		Button groundButton = (Button) findViewById(R.id.groundButton);
+		View elapsedTime = (View) findViewById(R.id.elapsedTimeView);
 		
 		overviewButton.startAnimation(menuAnimations.get(overviewButton.getId() + tag));
 		overviewButton.setVisibility(visibility);
@@ -419,6 +431,9 @@ public class ProcedureActivity extends Activity {
 		
 		groundButton.startAnimation(menuAnimations.get(groundButton.getId() + tag));
 		groundButton.setVisibility(visibility);
+
+		elapsedTime.startAnimation(menuAnimations.get(groundButton.getId() + tag));
+		elapsedTime.setVisibility(visibility);
 	}
 	
 	
@@ -437,6 +452,35 @@ public class ProcedureActivity extends Activity {
 		findViewById(R.id.stowageButton).setSelected(false);
 		findViewById(R.id.annotationButton).setSelected(false);
 		findViewById(R.id.groundButton).setSelected(false);
+		selectedStep = -1;
+	}
+
+	/**
+	 * Initializes elapsed time view
+	 * Handler handles updates for the elapsed time 
+	 */
+	private void initElapsedTime(){
+		startTime = System.currentTimeMillis();
+        Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Lifeline.ttf");
+        ((TextView) findViewById(R.id.elapsedTime)).setTypeface(tf);
+	    final Handler elapsedTimeHandler = new Handler();
+	    Runnable elapsedTimeRun = new Runnable() {
+	        @Override
+	        public void run() {
+	           long millis = System.currentTimeMillis() - startTime;
+	           int seconds = (int) (millis / 1000);
+	           int minutes = seconds / 60;
+	           seconds     = seconds % 60;
+	           int hours = minutes / 60;
+	           minutes = minutes % 60;
+	           ((TextView) findViewById(R.id.elapsedTime)).setText(String.format("%02d:%02d.%02d", hours, minutes, seconds));
+
+	           elapsedTimeHandler.postDelayed(this, 500);
+	        }
+	    };
+	    
+		elapsedTimeHandler.postDelayed(elapsedTimeRun, 0);
+
 	}
 
 	
@@ -649,83 +693,68 @@ public class ProcedureActivity extends Activity {
         		if (!getMenuVisibility()){	
 		    		if (command == MessageHandler.COMMAND_BACK) {
 		    			prevPage();
+		    			
 			    	} else if (command == MessageHandler.COMMAND_NEXT) {
 			    		nextPage();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
 			    		scrollDown();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
 			    		scrollUp();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-			    		String stepString = extras.getString("str");
-	
-			    		int step;
-			    		try{
-			    			step = Integer.parseInt(stepString);
-			    		}catch(NumberFormatException e){
-			    			step = -1;
-			    		}
-			    		if (step >= 0){
-			    			jumpToStep(step,1);
-			    		}
-			    		Log.v("go to step","go to step"+step);
-			    		/*Log.i(TAG, "Extras: " + extras.toString());
-			    		if (extras.containsKey("reps")) {
-			    			//bring up another menu
-			    			//pass in the step #
-			    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
-			    					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
-			    		} else {
-			    			//By default, get the first occurrence
-			    			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
-				    		jumpToStep(extras.getInt("step"), occ);
-			    		}	    		
-			    		*/
+			    		handleNavigationCommand(extras.getString("str"));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
 			    		openMenu();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
 			    		closeMenu();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
 			    		menuSelect(findViewById(R.id.navButton));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
 			    		menuSelect(findViewById(R.id.stowageButton));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
 			    		menuSelect(findViewById(R.id.annotationButton));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
 			    		menuSelect(findViewById(R.id.groundButton));
 			    	} 
 		    		
 		    		
 		    	// if the menu is currently open	
-        		}else if (getMenuVisibility()){
+        		} else if (getMenuVisibility()) {
         			if (command == MessageHandler.COMMAND_BACK) {
 		    			closeMenu();
+		    			
 			    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-			    		String stepString = extras.getString("str");
-	
-			    		int step;
-			    		try{
-			    			step = Integer.parseInt(stepString);
-			    		}catch(NumberFormatException e){
-			    			step = -1;
-			    		}
-			    		if (step >= 0){
-			    			jumpToStep(step,1);
-			    		}
-			    		Log.v("go to step","go to step"+step);
+			    		handleNavigationCommand(extras.getString("str"));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
 			    		// TODO: scrolling through menu frames
+			    		
 			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
 			    		// TODO: scrolling through menu frames
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
 			    		closeMenu();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
 			    		closeMenu();
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
 			    		menuSelect(findViewById(R.id.navButton));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
 			    		menuSelect(findViewById(R.id.stowageButton));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
 			    		menuSelect(findViewById(R.id.annotationButton));
+			    		
 			    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
 			    		menuSelect(findViewById(R.id.groundButton));
 			    	} 
@@ -734,6 +763,60 @@ public class ProcedureActivity extends Activity {
     	}
     }
 	
+    
+    
+    /*Because of the need to select cycles, we need a branch in
+	  logic.  If the given step number is in a cycle, then we 
+	  need to set the selectedStep variable to keep track of what
+	  was selected and bring up the cycle select menu.  If another
+	  number is then given, then we use the selectedStep variable
+	  to jump to the correct step.  If the step isn't in a cycle,
+	  then we just jump to the first occurrence.
+	*/
+    private void handleNavigationCommand(String inputString) {
+		int inputNumber;
+		
+		//TODO this whole thing only works if step numbers are plain integers
+		try{
+			inputNumber = Integer.parseInt(inputString);
+		} catch(NumberFormatException e){
+			inputNumber = -1;
+		}
+		
+		if (inputNumber >= 0){
+			//If the input is on the cycle select page
+			if (selectedStep > -1) {
+				jumpToStep(selectedStep, inputNumber);
+			
+			//Otherwise, it is just a normal nav selection
+			} else {
+				int reps = getStepReps(inputNumber);
+				//If in a cycle, 
+	    		if (reps > 1) {
+	    			selectedStep = inputNumber;
+	    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
+	    					new CycleSelectPage(this, reps, inputNumber));
+	    		} else {
+	    			jumpToStep(inputNumber, 1);
+	    		}	
+			}
+		}
+		
+		/*Log.i(TAG, "Extras: " + extras.toString());
+		if (extras.containsKey("reps")) {
+			//bring up another menu
+			//pass in the step #
+			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
+					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
+		} else {
+			//By default, get the first occurrence
+			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
+    		jumpToStep(extras.getInt("step"), occ);
+		}	    		
+		*/ 
+    }
+    
+    
     
 	/**
 	 * Goes to previous page in viewPager    
@@ -781,7 +864,7 @@ public class ProcedureActivity extends Activity {
      * Jump to the step at the given index.  Looks up the page
      * to jump to based on the stepIndices list.
      * 
-     * TODO: should it be in the UI thread?  What about other methods?
+     * TODO: should it be in the UI thread?  Should other methods?
      * 
      * @param stepIndex
      * @param occurence
@@ -989,6 +1072,33 @@ public class ProcedureActivity extends Activity {
 		} 
 	
 		return -1;
+	}
+	
+	
+	
+	//TODO this only goes through the top level of steps
+	private int getStepReps(int stepNumber) {
+		int reps = 0;
+		List<ProcedureItem> steps = procedure.getChildren();
+		
+		for (int i = 0; i < steps.size(); i++) {
+			
+			if (steps.get(i).isCycle()) {
+				Cycle c = (Cycle)steps.get(i);
+				for (int j = 0; j < c.getNumChildren(); j++) {
+					//TODO This breaks for nested cycles
+					if (stepNumber == Integer.parseInt(((Step)c.getChild(j)).getNumber())) {
+						reps += c.getReps();
+						break;
+					}
+				}
+				
+			} else if (stepNumber == Integer.parseInt(((Step)steps.get(i)).getNumber())) {
+				reps++;
+			}
+		}
+		
+		return reps;
 	}
 	
 	

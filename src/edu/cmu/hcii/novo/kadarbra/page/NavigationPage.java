@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.MessageHandler;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.ProcedureItem;
@@ -87,6 +88,7 @@ public class NavigationPage extends LinearLayout {
 		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
 		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText());
 		
+		//If a lone step, set a margin so that it matches those which are a the cycle
 		if (reps < 2) {
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.setMargins(30, 0, 0, 0);
@@ -102,9 +104,8 @@ public class NavigationPage extends LinearLayout {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent("command");
-				intent.putExtra("msg", "navigate");
-				intent.putExtra("step", index);
-				intent.putExtra("reps", reps);
+				intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
+				intent.putExtra("str", index);
 				getContext().sendBroadcast(intent);
 			}
 			

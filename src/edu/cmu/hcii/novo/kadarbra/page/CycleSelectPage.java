@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.MessageHandler;
 import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
@@ -46,9 +47,8 @@ public class CycleSelectPage extends LinearLayout {
 				@Override
 				public void onClick(View v) {
 					Intent intent = new Intent("command");
-					intent.putExtra("msg", "navigate");
-					intent.putExtra("step", s);
-					intent.putExtra("occurrence", rep);
+					intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
+					intent.putExtra("str", rep);
 					getContext().sendBroadcast(intent);
 				}
         		
