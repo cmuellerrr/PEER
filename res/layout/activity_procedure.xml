@@ -17,40 +17,39 @@
     	android:layout_centerHorizontal="true"
  	/>
     
-    <edu.cmu.hcii.novo.kadarbra.Breadcrumb
-        android:id="@+id/breadcrumb"
-        android:layout_width="fill_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/menu_group" />
-    
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignLeft="@+id/stepPreviewWidget"
-        android:layout_below="@id/breadcrumb"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
         android:layout_marginLeft="80dp"
-        android:layout_marginRight="10dp" />
+        android:padding="10dp" />
 
     <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget
         android:id="@+id/stepPreviewWidget"
         android:layout_width="fill_parent"
         android:layout_height="82dp"
+        android:layout_above="@+id/breadcrumb" />
+    
+    <edu.cmu.hcii.novo.kadarbra.Breadcrumb
+        android:id="@+id/breadcrumb"
+        android:layout_width="fill_parent"
+        android:layout_height="10dp"
         android:layout_alignParentBottom="true" />
     
     <ScrollView
         android:id="@+id/menuDrawer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/drawer_background"
-        android:textColor="#ffffffff"
         android:layout_above="@+id/stepPreviewWidget"
-        android:layout_below="@id/breadcrumb"
-        android:layout_toRightOf="@id/menu_group"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="70dp"
+        android:layout_toRightOf="@+id/menu_group"
+        android:background="@drawable/drawer_background"
         android:padding="10dp"
+        android:textColor="#ffffffff"
         android:visibility="gone" >
 
     </ScrollView>
