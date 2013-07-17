@@ -27,6 +27,9 @@ public class MessageHandler {
 	public static int COMMAND_MENU_ANNOTATION = 10;
 	public static int COMMAND_MENU_GROUND = 11;
 	public static int COMMAND_GO_TO_STEP = 12;
+	public static int COMMAND_TIMER_START = 13;
+	public static int COMMAND_TIMER_RESET = 14;
+	public static int COMMAND_TIMER_STOP = 15;
 
 	
 	/**
@@ -143,7 +146,13 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_GO_TO_STEP;
 			content = content.replaceFirst("go to step", "");	
 			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, content.trim());
-		}		
+		}else if (content.equals("start")){
+			commandIdentifier = COMMAND_TIMER_START;
+		}else if (content.equals("reset")){
+			commandIdentifier = COMMAND_TIMER_RESET;
+		}else if (content.equals("stop")){
+			commandIdentifier = COMMAND_TIMER_STOP;
+		}
 		
 		sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier);
 	}

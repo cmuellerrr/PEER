@@ -405,7 +405,6 @@ public class StepPage extends LinearLayout {
 	}
 	
 	
-	
 	/**
 	 * 
 	 * @return step
