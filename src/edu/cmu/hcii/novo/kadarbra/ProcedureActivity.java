@@ -824,8 +824,8 @@ public class ProcedureActivity extends Activity {
 		    		scrollUp();
 		    		
 		    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-		    		handleNavigationCommand(extras.getString("str"));
-		    		
+		    		if (!getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT))
+		    			handleNavigationCommand(extras.getString("str"));
 		    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
 		    		openMenu();
 		    		
@@ -878,28 +878,27 @@ public class ProcedureActivity extends Activity {
 		    		//probably do nothing
 		    	} 
     			
-    			
-	    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
-	    			if (command == MessageHandler.COMMAND_STEP_NUMBER){
-	    				//Log.v("drawer_command",extras.getString("str"));
-			    		handleNavigationCommand(extras.getString("str"));
-	    			}
-	    		}else if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT)){
-	    			if (command == MessageHandler.COMMAND_CYCLE_NUMBER){
-	    				//Log.v("drawer_command",extras.getString("str"));
-			    		handleNavigationCommand(extras.getString("str"));
-	    			}
-	    		}
-	    		
-	    		if (!getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
-		    		if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
-			    		scrollDrawerDown();
-			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
-		    			scrollDrawerUp();
-			    	}
-	    		}
+    		
     		
         	}
+    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
+    			if (command == MessageHandler.COMMAND_STEP_NUMBER){
+		    		handleNavigationCommand(extras.getString("str"));
+    			}
+    		}else if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT)){
+    			if (command == MessageHandler.COMMAND_CYCLE_NUMBER){
+		    		handleNavigationCommand(extras.getString("str"));
+    			}
+    		}
+    		
+    		if (!getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
+	    		if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
+		    		scrollDrawerDown();
+		    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+	    			scrollDrawerUp();
+		    	}
+    		}
+    		
     		/** Timer commands **/
     		if (command == MessageHandler.COMMAND_TIMER_START){
 	    		startTimer();
@@ -943,9 +942,13 @@ public class ProcedureActivity extends Activity {
 	    		if (reps > 1) {
 	    			selectedStep = inputNumber;
 	    			
+	    			
 	    			ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
 	    	    	drawer.removeAllViews();
+	    	    	drawer.setVisibility(View.VISIBLE);
 	    	    	drawer.addView(new CycleSelectPage(this, reps, inputNumber));
+	    	    	
+	    	    	
 	    		} else {
 	    			jumpToStep(inputNumber, 1);
 	    		}	

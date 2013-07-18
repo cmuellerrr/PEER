@@ -160,9 +160,9 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_MENU_ANNOTATION;
 		}else if (content.equals("ground")){
 			commandIdentifier = COMMAND_MENU_GROUND;
-		}else if (content.startsWith("go to step")){
+		}else if (content.startsWith("step")){
 			commandIdentifier = COMMAND_GO_TO_STEP;
-			content = content.replaceFirst("go to step", "");	
+			content = content.replaceFirst("step", "");	
 			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, content.trim());
 		}else if (content.equals("start")){
 			commandIdentifier = COMMAND_TIMER_START;
