@@ -31,7 +31,7 @@ public class Procedure implements Serializable {
 	private List<ExecNote> execNotes;
 	private Map<String, List<StowageItem>> stowageItems;
 	private List<ProcedureItem> children;
-	private List<Step> stepsUnnested = new ArrayList<Step>();
+	private List<String> stepPreviews;
 	private boolean timer;
 	
 	/**
@@ -51,7 +51,7 @@ public class Procedure implements Serializable {
 		this.execNotes = new ArrayList<ExecNote>();
 		this.stowageItems = new HashMap<String, List<StowageItem>>();
 		this.children = children;
-		generateStepsUnnested();
+		generateStepPreviews();
 	}
 	
 	/**
@@ -75,7 +75,7 @@ public class Procedure implements Serializable {
 		this.execNotes = execNotes;
 		this.stowageItems = stowageItems;
 		this.children = children;
-		generateStepsUnnested();
+		generateStepPreviews();
 	}
 	
 	
@@ -238,8 +238,17 @@ public class Procedure implements Serializable {
 	/**
 	 * @return the steps in a flat, unnested list
 	 */
-	public List<Step> getStepsUnnested(){
-		return stepsUnnested;
+	public String getStepPreview(int index){
+		return stepPreviews.get(index);
+	}
+	
+	
+	
+	/**
+	 * @return the steps in a flat, unnested list
+	 */
+	public int getStepPreviewSize(){
+		return stepPreviews.size();
 	}
 	
 	
@@ -247,7 +256,9 @@ public class Procedure implements Serializable {
 	/**
 	 * @return the steps in a flat list
 	 */
-	private void generateStepsUnnested(){
+	private void generateStepPreviews(){
+		stepPreviews = new ArrayList<String>();
+		
 		for (int i = 0; i < children.size(); i++){
 			traverseSteps(children.get(i));
 		}
@@ -259,25 +270,36 @@ public class Procedure implements Serializable {
 	 * traverses through all the steps to create an unnested list of steps and substeps
 	 * @param step current step
 	 */
-	private void traverseSteps(ProcedureItem child){
+	private void traverseSteps(ProcedureItem child) {
 		if (child != null){
 			if (child.isCycle()) {
-				int reps = ((Cycle) child).getReps();
+				Cycle c = (Cycle)child;
+				int reps = c.getReps();
+				
 				for (int i = 0; i < reps; i++) {
+					
+					String start = ((Step)c.getChild(0)).getNumber();
+					String end = ((Step)c.getChild(c.getNumChildren()-1)).getNumber();
+					stepPreviews.add("Repeat steps " + start + "-" + end);
+					
 					for (int j = 0; j < child.getNumChildren(); j++){
 						traverseSteps(child.getChild(j));
 					}
 				}
+				
 			} else {
-				if (child.getNumChildren() == 0)
-					stepsUnnested.add((Step)child);
+				if (child.getNumChildren() == 0) {
+					Step s = (Step)child;
+					stepPreviews.add(s.getNumber() + ": " + s.getText());
+				}
 				
 				for (int i = 0; i < child.getNumChildren(); i++){
 					traverseSteps(child.getChild(i));
 				}
 			}
-		} else
+		} else {
 			return;
+		}
 	}
 	
 }

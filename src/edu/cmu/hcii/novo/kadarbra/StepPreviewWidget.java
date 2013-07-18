@@ -37,27 +37,25 @@ public class StepPreviewWidget extends LinearLayout{
 	/**
 	 * 
 	 * @param procedure current procedure
-	 * @param step the page within ViewPager that we want to short a preview of
+	 * @param pagerIndex the page within ViewPager that we want to short a preview of
 	 * @param textView the TextView used to display the preview
 	 */
-	private void setStepText(Procedure procedure, int step, TextView textView){
-		String string = "";
-		if (step < ProcedureActivity.PREPARE_PAGES){
-			if (step == 0){
-				string = "Microbiology Sample Collection";
-			}else if (step == 1){
-				string = "Please gather the following equipment...";
-			}else if (step == 2){
-				string = "Execution Notes";
+	private void setStepText(Procedure procedure, int pagerIndex, TextView textView) {
+		String preview = "";
+		if (pagerIndex < ProcedureActivity.PREPARE_PAGES) {
+			if (pagerIndex == 0){
+				preview = procedure.getTitle();
+			}else if (pagerIndex == 1){
+				preview = "Please gather the following equipment...";
+			}else if (pagerIndex == 2){
+				preview = "Execution Notes";
 			}
 			
-		}else if (step-ProcedureActivity.PREPARE_PAGES < procedure.getStepsUnnested().size()){
-			Step currentStep = procedure.getStepsUnnested().get(step-ProcedureActivity.PREPARE_PAGES);
-			string = currentStep.getNumber() + ": " + currentStep.getText();
-			
+		} else if (pagerIndex - ProcedureActivity.PREPARE_PAGES < procedure.getStepPreviewSize()) {
+			preview = procedure.getStepPreview(pagerIndex - ProcedureActivity.PREPARE_PAGES);
 		}
 			
-		textView.setText(string);
+		textView.setText(preview);
 	}
 	
 }
