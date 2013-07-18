@@ -723,6 +723,9 @@ public class ProcedureActivity extends Activity {
 		    		
 		    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
 		    		menuSelect(findViewById(R.id.groundButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_INPUT) {
+		    		//update the inputValue textview with the given value
 		    	} 
 	    		
 	    		
@@ -757,6 +760,9 @@ public class ProcedureActivity extends Activity {
 		    		
 		    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
 		    		menuSelect(findViewById(R.id.groundButton));
+		    		
+		    	} else if (command == MessageHandler.COMMAND_INPUT) {
+		    		//probably do nothing
 		    	} 
     		
         	}
