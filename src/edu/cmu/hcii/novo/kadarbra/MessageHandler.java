@@ -31,6 +31,9 @@ public class MessageHandler {
 	public static int COMMAND_TIMER_RESET = 14;
 	public static int COMMAND_TIMER_STOP = 15;
 	public static int COMMAND_INPUT = 16;
+	public static int COMMAND_STEP_NUMBER = 17;
+	public static int COMMAND_CYCLE_NUMBER = 18;
+
 	
 	public static long COMMANDS_TIMEOUT_DURATION = 7000; // in millesconds
 	public static long MINIMUM_REFRESH_RMS = 3;
@@ -167,11 +170,33 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_TIMER_RESET;
 		}else if (content.equals("stop")){
 			commandIdentifier = COMMAND_TIMER_STOP;
+		}else if (content.startsWith("step")){
+			commandIdentifier = COMMAND_STEP_NUMBER;
+			String str = handleStep("step",content);
+			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, str);
+		}else if (content.startsWith("cycle")){
+			commandIdentifier = COMMAND_CYCLE_NUMBER;
+			String str = handleStep("cycle",content);
+			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, str);
 		}
+		
 				
 		sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier);
 	}
 	
 	
+	private static String handleStep(String startMsg, String content){
+		int inputNumber;
+		content = content.replaceFirst(startMsg, "");	
+		content = content.trim();
+		try{
+			inputNumber = Integer.parseInt(content);
+		} catch(NumberFormatException e){
+			inputNumber = -1;
+		}
+		
+		
+		return inputNumber+"";
+	}
 	
 }

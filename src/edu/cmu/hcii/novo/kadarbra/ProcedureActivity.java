@@ -34,6 +34,7 @@ import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.CycleMarkerPage;
 import edu.cmu.hcii.novo.kadarbra.page.CycleSelectPage;
+import edu.cmu.hcii.novo.kadarbra.page.DrawerPageInterface;
 import edu.cmu.hcii.novo.kadarbra.page.ExecNotesPage;
 import edu.cmu.hcii.novo.kadarbra.page.GroundPage;
 import edu.cmu.hcii.novo.kadarbra.page.NavigationPage;
@@ -387,6 +388,22 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	/**
+	 * 
+	 * @return name of current drawer opened. Returns null if no drawer is currently opened.
+	 */
+	private String getCurrentDrawer(){
+		String currentDrawer = DrawerPageInterface.DRAWER_NONE;
+		ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
+
+		if (drawer.getVisibility() == View.VISIBLE){
+			DrawerPageInterface drawerPage = (DrawerPageInterface) drawer.getChildAt(0);
+			currentDrawer = drawerPage.getDrawerType();
+		}
+		Log.v("currentDrawer",currentDrawer);
+		return currentDrawer;
+	}
+	
+	/**
 	 * Open the menu.  Run the menu background's open animation and set
 	 * it's visibility to VISIBLE.  This automatically opens the itmes.
 	 */
@@ -541,8 +558,9 @@ public class ProcedureActivity extends Activity {
 				
 				// Time calculations
 				long millis = System.currentTimeMillis() - timerStartTime + timerDuration;
-				if (timerState.equals(TIMER_OFF))
-		        	millis = timerDuration;
+				if (timerState.equals(TIMER_OFF)){
+					millis = timerDuration;
+				}
 		        int seconds = (int) (millis / 1000);
 		        int minutes = seconds / 60;
 		        seconds     = seconds % 60;
@@ -554,7 +572,14 @@ public class ProcedureActivity extends Activity {
 				if (findViewById(R.id.timerTimeText) != null){
 					 TextView timerTimeText = ((TextView) findViewById(R.id.timerTimeText));
 					 timerTimeText.setText(String.format("%02d:%02d", minutes, seconds));
-					 
+					
+					 if(timerState.equals(TIMER_ON)){
+						 TextView tv = (TextView) findViewById(R.id.timerStopText);
+						 tv.setVisibility(View.VISIBLE);
+					 }else if(timerState.equals(TIMER_OFF)){
+						 TextView tv = (TextView) findViewById(R.id.timerStopText);
+						 tv.setVisibility(View.GONE);
+					 }
 				}
 				timerHandler.postDelayed(this, 0);
 			}
@@ -830,19 +855,13 @@ public class ProcedureActivity extends Activity {
 		    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
 		    		handleNavigationCommand(extras.getString("str"));
 		    		
-		    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
-		    		// TODO: scrolling through menu frames
-		    		
-		    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
-		    		// TODO: scrolling through menu frames
-		    		
 		    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
 		    		closeMenu();
 		    		
 		    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
 		    		closeMenu();
 		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
+		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {  			
 		    		menuSelect(findViewById(R.id.navButton));
 		    		
 		    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
@@ -857,6 +876,27 @@ public class ProcedureActivity extends Activity {
 		    	} else if (command == MessageHandler.COMMAND_INPUT) {
 		    		//probably do nothing
 		    	} 
+    			
+    			
+	    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
+	    			if (command == MessageHandler.COMMAND_STEP_NUMBER){
+	    				Log.v("drawer_command",extras.getString("str"));
+			    		handleNavigationCommand(extras.getString("str"));
+	    			}
+	    		}else if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT)){
+	    			if (command == MessageHandler.COMMAND_CYCLE_NUMBER){
+	    				Log.v("drawer_command",extras.getString("str"));
+			    		handleNavigationCommand(extras.getString("str"));
+	    			}
+	    		}
+	    		
+	    		if (!getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
+		    		if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
+			    		scrollDrawerDown();
+			    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+		    			scrollDrawerUp();
+			    	}
+	    		}
     		
         	}
     		/** Timer commands **/
@@ -959,7 +999,6 @@ public class ProcedureActivity extends Activity {
     }
 
     
-    
     /**
      * Scrolls the current StepPageScrollView up
      */
@@ -968,7 +1007,25 @@ public class ProcedureActivity extends Activity {
     	curPage.scrollUp();
     }
     
-    
+    /**
+     * Scrolls current item in drawer down
+     */
+    private void scrollDrawerDown(){
+    	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+    	if (drawer.getVisibility() != View.GONE){
+    		drawer.scrollBy(0, (int) (drawer.getHeight()*0.8f));
+    	}
+    }
+
+    /**
+     * Scrolls current item in drawer up
+     */
+    private void scrollDrawerUp(){
+    	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+    	if (drawer.getVisibility() != View.GONE){
+    		drawer.scrollBy(0, (int) (drawer.getHeight()*-0.8f));
+    	}
+    }
     
     /**
      * Jump to the step at the given index.  Looks up the page
@@ -1243,4 +1300,6 @@ public class ProcedureActivity extends Activity {
 			return "<" + naturalIndex + "," + flatIndex + ">";
 		}
 	}
+	
+
 }

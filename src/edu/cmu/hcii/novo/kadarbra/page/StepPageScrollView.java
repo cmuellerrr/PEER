@@ -144,9 +144,9 @@ public class StepPageScrollView extends ScrollView{
 	@Override
 	public boolean onTouchEvent(MotionEvent e){
 		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
-			scrollUp();
-		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
 			scrollDown();
+		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
+			scrollUp();
 		}
 		
 		//smoothScrollTo(0, 200);

@@ -14,7 +14,7 @@ import edu.cmu.hcii.novo.kadarbra.R;
  * @author Chris
  *
  */
-public class GroundPage extends LinearLayout {
+public class GroundPage extends LinearLayout implements DrawerPageInterface{
 
 	/**
 	 * @param context
@@ -38,4 +38,16 @@ public class GroundPage extends LinearLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+	/**
+	 * Returns name of drawer type
+	 */
+	@Override
+	public String getDrawerType() {
+		return DrawerPageInterface.DRAWER_GROUND;
+	}
+
+	
+	
 }
