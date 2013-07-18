@@ -75,8 +75,6 @@ public class NavigationPage extends LinearLayout {
 	/**
 	 * Add a basic step
 	 * 
-	 * TODO combine this with addCycleStep
-	 * 
 	 * @param context
 	 * @param index
 	 * @param s

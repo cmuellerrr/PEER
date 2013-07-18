@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -284,6 +285,7 @@ public class StepPage extends LinearLayout {
 			
 			InputStream is = getContext().getAssets().open("procedures/references/" + ref.getUrl());
 			Drawable d = Drawable.createFromStream(is, null);
+			
 			((ImageView)reference.findViewById(R.id.referenceImage)).setImageDrawable(d);
 	        //img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));
 	
@@ -326,10 +328,15 @@ public class StepPage extends LinearLayout {
                           /*
                            *  add media controller and set its position
                            *  TODO this still isn't laying where we want it
+                           *  TODO probably should make this a custom videoview class
                            */
                           MediaController mc = new MediaController(getContext());
                           vid.setMediaController(mc);
                           mc.setAnchorView(vid);
+                          
+                          LayoutParams lp = new LinearLayout.LayoutParams(mp.getVideoWidth(), mp.getVideoHeight());
+                          lp.gravity = Gravity.CENTER;
+                          vid.setLayoutParams(lp);
                     }
                 });
             	

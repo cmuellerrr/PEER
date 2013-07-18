@@ -150,10 +150,10 @@
     </style>
     
     <style name="Reference">
-        <item name="android:layout_width">800dp</item>
-        <item name="android:layout_height">600dp</item>
-        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:adjustViewBounds">true</item>
     </style>
     
     <style name="ReferenceCaption" parent="CenterText">
