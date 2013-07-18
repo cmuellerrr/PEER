@@ -449,7 +449,6 @@ public class ProcedureActivity extends Activity {
 	private void clearMenuSelection() {
 		Log.v(TAG, "Clearing all selections");
 		
-		findViewById(R.id.menuTitle).setSelected(false);
 		findViewById(R.id.navButton).setSelected(false);
 		findViewById(R.id.stowageButton).setSelected(false);
 		findViewById(R.id.annotationButton).setSelected(false);
