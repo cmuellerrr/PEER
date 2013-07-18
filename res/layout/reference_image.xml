@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:layout_marginTop="20dp" >
     
-    <TextView android:id="@+id/referenceCaption"
-        style="@style/ReferenceCaption" />
-    
     <edu.cmu.hcii.novo.kadarbra.AspectRatioImageView
         android:id="@+id/referenceImage"
         style="@style/Reference" />
+    
+    <TextView android:id="@+id/referenceCaption"
+        style="@style/ReferenceCaption" />
     
 </LinearLayout>

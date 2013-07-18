@@ -17,10 +17,12 @@ import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -63,17 +65,19 @@ public class CycleMarkerPage extends LinearLayout {
 			
 			String tense = currentRep > 1 ? "are" : "will be";
 			
-			((TextView)page.findViewById(R.id.cycleMarkerHeadsUp)).setText("You " + tense + " repeating steps " + 
+			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("You " + tense + " repeating steps " + 
 					start + "-" + end + " a total of " + totalReps + " times");
 			
 		} else {
-			((TextView)page.findViewById(R.id.cycleMarkerHeadsUp)).setText("There is a cycle with no steps in it.  Someone screwed up.");
+			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("There is a cycle with no steps in it.  Someone screwed up.");
 		}
 		
-        ((TextView)page.findViewById(R.id.cycleMarkerRep)).setText("Beginning cycle " + currentRep);
+        ((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Beginning cycle " + currentRep);
+        
+        ViewGroup container = (ViewGroup)page.findViewById(R.id.cycleMarkerTextContainer);
         
         for (int i = 0; i < notes.size(); i++) {
-        	page.addView(getCycleNote(notes.get(i)));
+        	container.addView(getCycleNote(notes.get(i)));
         }
         
         this.addView(page);
@@ -232,19 +236,21 @@ public class CycleMarkerPage extends LinearLayout {
 	private ViewGroup setupTableReference(Reference ref) {
 		Log.v(TAG, "Setting up table view");
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.table, null);
+        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_table, null);
+        TableLayout table = (TableLayout)reference.findViewById(R.id.referenceTable);
         
         List<List<String>> cells = ref.getTable();
         
         for (int i = 0; i < cells.size(); i++) {
-        	
         	if (i==0) {
-        		reference.addView(getRow(cells.get(i), R.layout.table_header_row, R.layout.table_header_cell));
+        		table.addView(getRow(cells.get(i), R.layout.table_header_row, R.layout.table_header_cell));
         	
         	} else {
-        		reference.addView(getRow(cells.get(i), R.layout.table_row, R.layout.table_cell));
+        		table.addView(getRow(cells.get(i), R.layout.table_row, R.layout.table_cell));
         	}
         }
+        
+        ((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
         
         return reference;
 	}

@@ -2,16 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="83dp"
     android:orientation="vertical" >
     
-    <TextView android:id="@+id/cycleMarkerHeadsUp"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/cycleMarkerTitle"
+        style="@style/ParentStep"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="28sp" />
+        android:layout_marginBottom="20dp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/main" />
     
-    <TextView android:id="@+id/cycleMarkerRep"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp" />
+    
+    <LinearLayout android:id="@+id/cycleMarkerTextContainer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView android:id="@+id/cycleMarkerText"
+                style="@style/Step" />
+            
+    </LinearLayout>
     
 </LinearLayout>

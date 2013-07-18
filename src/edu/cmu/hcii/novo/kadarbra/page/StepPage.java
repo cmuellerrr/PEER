@@ -386,12 +386,12 @@ public class StepPage extends LinearLayout {
 	private void setupTableReference(ViewGroup container, Reference ref) {
 		Log.v(TAG, "Setting up table view");
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-        TableLayout table = (TableLayout)inflater.inflate(R.layout.table, null);
+        View reference = inflater.inflate(R.layout.reference_table, null);
+        TableLayout table = (TableLayout)reference.findViewById(R.id.referenceTable);
         
         List<List<String>> cells = ref.getTable();
         
         for (int i = 0; i < cells.size(); i++) {
-        	
         	if (i==0) {
         		table.addView(getRow(cells.get(i), R.layout.table_header_row, R.layout.table_header_cell));
         	
@@ -400,10 +400,9 @@ public class StepPage extends LinearLayout {
         	}
         }
         
-        //TODO tables don't have captions
-        //((TextView)table.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
+        ((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
         
-        container.addView(table);
+        container.addView(reference);
 	}
 	
 	
