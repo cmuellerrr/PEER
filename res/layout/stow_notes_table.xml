@@ -13,8 +13,6 @@
         android:layout_marginBottom="20dp" />
     
 	<TableLayout android:id="@+id/stow_table"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
 	    style="@style/Table" 
 	    android:shrinkColumns="1,4" >
 	        
@@ -22,27 +20,27 @@
 	        style="@style/TableHeaderRow" >
 	          
 	        <TextView android:id="@+id/binCodeHeader"
-	            style="@style/TableHeader"
+	            style="@style/TableHeaderCell"
 	            android:text="@string/header_bin_code" />
 	            
 	        <TextView android:id="@+id/itemHeader"
-	            style="@style/TableHeader"
+	            style="@style/TableHeaderCell"
 	            android:text="@string/header_item" />
 	           
 	        <TextView android:id="@+id/quantityHeader"
-	            style="@style/TableHeader"
+	            style="@style/TableHeaderCell"
 	            android:text="@string/header_quantity" />
 	            
 	        <TextView android:id="@+id/itemCodeHeader"
-	            style="@style/TableHeader"
+	            style="@style/TableHeaderCell"
 	            android:text="@string/header_item_code" />
 	            
 	        <TextView android:id="@+id/notesHeader"
-	            style="@style/TableHeader"
+	            style="@style/TableHeaderCell"
 	            android:text="@string/header_notes" />
 	            
 	        <TextView android:id="@+id/imageHeader"
-	            style="@style/TableHeader"
+	            style="@style/TableHeaderCell"
 	            android:text="@string/header_image" />
 	            
 	    </TableRow>
