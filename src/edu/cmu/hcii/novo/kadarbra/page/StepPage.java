@@ -115,7 +115,9 @@ public class StepPage extends LinearLayout {
 			((ViewGroup) page.findViewById(R.id.stepTextContainer)).removeView(page.findViewById(R.id.consequentContainer));
 		}
 				
-		setupReferences();
+		setupReferences(cont);
+		
+		if (step.isInputAllowed()) setupInput(cont);
 	}
 	
 	
@@ -239,26 +241,26 @@ public class StepPage extends LinearLayout {
 	/**
 	 * Setup the references for the step
 	 */
-	private void setupReferences() {
+	private void setupReferences(ViewGroup container) {
 		List<Reference> refs = step.getReferences();
 		for (int i = 0; i < refs.size(); i++) {
 			RType type = refs.get(i).getType();
 			
 			switch(type) {
 				case IMAGE:
-					setupImageReference(refs.get(i));
+					setupImageReference(container, refs.get(i));
 					break;
 					
 				case VIDEO:
-					setupVideoReference(refs.get(i));
+					setupVideoReference(container, refs.get(i));
 					break;
 					
 				case AUDIO:
-					setupAudioReference(refs.get(i));
+					setupAudioReference(container, refs.get(i));
 					break;
 					
 				case TABLE:
-					setupTableReference(refs.get(i));
+					setupTableReference(container, refs.get(i));
 					break;
 					
 				default:
@@ -273,7 +275,7 @@ public class StepPage extends LinearLayout {
 	 * Setup the given reference as an image reference
 	 * @param ref the reference to render
 	 */
-	private void setupImageReference(Reference ref) {
+	private void setupImageReference(ViewGroup container, Reference ref) {
 		Log.v(TAG, "Setting up image view: " + ref.getUrl());
 		
 		try {
@@ -287,7 +289,7 @@ public class StepPage extends LinearLayout {
 	
 			((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
 	        
-	        this.addView(reference);
+	        container.addView(reference);
 			
 		} catch (IOException e) {
 			Log.e(TAG, "Error loading image", e);
@@ -304,7 +306,7 @@ public class StepPage extends LinearLayout {
 	 * 
 	 * @param ref the reference to render
 	 */
-	private void setupVideoReference(Reference ref) {
+	private void setupVideoReference(ViewGroup container, Reference ref) {
 		Log.v(TAG, "Setting up video view: " + ref.getUrl());
 		
 		LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -338,7 +340,7 @@ public class StepPage extends LinearLayout {
 		
 		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
 			
-		this.addView(reference);
+		container.addView(reference);
 		
 	}
 	
@@ -348,7 +350,7 @@ public class StepPage extends LinearLayout {
 	 * Setup the given reference as an audio reference
 	 * @param ref the reference to render
 	 */
-	private void setupAudioReference(Reference ref) {
+	private void setupAudioReference(ViewGroup container, Reference ref) {
 		//TODO
 	}
 	
@@ -358,7 +360,7 @@ public class StepPage extends LinearLayout {
 	 * Setup the given reference as a table reference
 	 * @param ref the reference to render
 	 */
-	private void setupTableReference(Reference ref) {
+	private void setupTableReference(ViewGroup container, Reference ref) {
 		Log.v(TAG, "Setting up table view");
 		LayoutInflater inflater = LayoutInflater.from(getContext());
         TableLayout table = (TableLayout)inflater.inflate(R.layout.table, null);
@@ -378,7 +380,7 @@ public class StepPage extends LinearLayout {
         //TODO tables don't have captions
         //((TextView)table.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
         
-        this.addView(table);
+        container.addView(table);
 	}
 	
 	
@@ -403,6 +405,20 @@ public class StepPage extends LinearLayout {
         
         return row;
 	}
+	
+	
+	
+	/**
+	 * 
+	 */
+	private void setupInput(ViewGroup container) {
+		Log.i(TAG, "Setting up input");
+		LayoutInflater inflater = LayoutInflater.from(getContext());
+        View input = (View)inflater.inflate(R.layout.input, null);
+
+		container.addView(input);
+	}
+	
 	
 	
 	/**
