@@ -19,6 +19,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -73,7 +74,13 @@ public class ProcedureActivity extends Activity {
 	private static final int ANIM_DELAY = 50;
 	
 	private long startTime; // for elapsed time
-	
+	private long timerStartTime; // when timer started
+	private long timerDuration; // current time on timer
+
+	private String timerState = TIMER_OFF;
+	private static final String TIMER_ON = "_timerOn";
+	private static final String TIMER_OFF = "_timerOff";
+	private static final String TIMER_RESET = "_timerReset";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,10 +103,9 @@ public class ProcedureActivity extends Activity {
 		
 		initElapsedTime();
 
-		
+		initTimer();
 	}
 
-	
 	
 	// The activity is about to become visible.
 	@Override
@@ -124,6 +130,9 @@ public class ProcedureActivity extends Activity {
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_LEVEL);
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_BUSY);    
 	    registerReceiver(dataUpdateReceiver, intentFilter);
+	    
+		audioFeedbackThread.setRunning(true);
+
 	}
 
 	
@@ -132,6 +141,7 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onPause(){
 		super.onPause();
+		audioFeedbackThread.setRunning(false);
 		//clearReferences();
 		Log.v(TAG, "onPause");
 		if (dataUpdateReceiver != null) 
@@ -475,7 +485,7 @@ public class ProcedureActivity extends Activity {
 	           seconds     = seconds % 60;
 	           int hours = minutes / 60;
 	           minutes = minutes % 60;
-	           ((TextView) findViewById(R.id.elapsedTime)).setText(String.format("%02d:%02d.%02d", hours, minutes, seconds));
+	           ((TextView) findViewById(R.id.elapsedTime)).setText(String.format("%02d:%02d:%02d", hours, minutes, seconds));
 
 	           elapsedTimeHandler.postDelayed(this, 500);
 	        }
@@ -485,7 +495,91 @@ public class ProcedureActivity extends Activity {
 
 	}
 
+
+	/**
+	 * Sets the timer onClick functionality for testing
+	 */
+	private void initTimer(){
+		((TextView) findViewById(R.id.timer)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				if (timerState.equals(TIMER_OFF))
+					startTimer();
+				else if (timerState.equals(TIMER_ON))
+					stopTimer();
+				
+				if (timerState.equals(TIMER_RESET)){
+					startTimer();
+				}
+			}
+		});
+		
+		((TextView) findViewById(R.id.timer)).setOnLongClickListener(new OnLongClickListener(){
+			@Override
+			public boolean onLongClick(View arg0) {
+				resetTimer();
+				return false;
+			}
+		});
+	}
 	
+	/**
+	 * Starts the timer
+	 */
+	private void startTimer(){
+		 timerState = TIMER_ON;
+		 timerStartTime = System.currentTimeMillis();
+		 //Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Lifeline.ttf");
+		 //timerTimeText.setTypeface(tf);
+		 
+		 final Handler timerHandler = new Handler();
+		 Runnable timerRunner = new Runnable() {
+			@Override
+			public void run() {
+				TextView topTimerTimeText = ((TextView) findViewById(R.id.timer));
+				
+				// Time calculations
+				long millis = System.currentTimeMillis() - timerStartTime + timerDuration;
+				if (timerState.equals(TIMER_OFF))
+		        	millis = timerDuration;
+		        int seconds = (int) (millis / 1000);
+		        int minutes = seconds / 60;
+		        seconds     = seconds % 60;
+		        
+		        // Handles top timer
+		        topTimerTimeText.setText(String.format("%02d:%02d", minutes, seconds));
+		   
+		        // Handles timer if it is on a page
+				if (findViewById(R.id.timerTimeText) != null){
+					 TextView timerTimeText = ((TextView) findViewById(R.id.timerTimeText));
+					 timerTimeText.setText(String.format("%02d:%02d", minutes, seconds));
+					 
+				}
+				timerHandler.postDelayed(this, 0);
+			}
+
+		 };
+		 timerHandler.postDelayed(timerRunner, 0);
+	}
+	
+	/**
+	 * Resets the timer
+	 */
+	private void resetTimer(){
+		 timerDuration = 0;
+		 timerStartTime = System.currentTimeMillis();
+		 timerState = TIMER_RESET;
+	}
+	
+	/**
+	 * Stops/pauses the timer
+	 */
+	private void stopTimer(){
+		 timerDuration += System.currentTimeMillis() - timerStartTime;
+		 timerState = TIMER_OFF;
+		 
+	}
 	
 	/**
 	 * Initialize the view pager.  This is the central ui element that 

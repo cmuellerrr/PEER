@@ -32,7 +32,8 @@ public class Procedure implements Serializable {
 	private Map<String, List<StowageItem>> stowageItems;
 	private List<ProcedureItem> children;
 	private List<Step> stepsUnnested = new ArrayList<Step>();
-
+	private boolean timer;
+	
 	/**
 	 * Create a procedure object with the given properties.  The index is then set to
 	 * 0.

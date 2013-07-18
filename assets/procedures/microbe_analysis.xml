@@ -209,6 +209,7 @@
 				<step>
 					<number>4.2</number>
 					<text>Allow microbe analyzer between 15-20 seconds to complete.</text>
+					<timer></timer>
 				</step>
 				<step>
 					<number>4.3</number>

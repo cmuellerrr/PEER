@@ -114,8 +114,10 @@ public class StepPage extends LinearLayout {
 		} else {
 			((ViewGroup) page.findViewById(R.id.stepTextContainer)).removeView(page.findViewById(R.id.consequentContainer));
 		}
-				
+		
 		setupReferences();
+		
+		setupTimer(cont);
 	}
 	
 	
@@ -137,6 +139,17 @@ public class StepPage extends LinearLayout {
 		// TODO Auto-generated method stub	
 	}
 
+	/**
+	 * Set up timer
+	 */
+	private void setupTimer(ViewGroup container){
+		if (step.getTimer()){
+			LayoutInflater inflater = LayoutInflater.from(getContext());
+	        View timer = (View)inflater.inflate(R.layout.timer, null);
+			container.addView(timer);
+		}
+	}
+	
 	/**
 	 * Sets up the execution notes to be displayed for this step.
 	 * If there is a parent step, show that one too.

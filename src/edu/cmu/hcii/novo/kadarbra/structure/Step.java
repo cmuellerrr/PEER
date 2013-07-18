@@ -23,13 +23,13 @@ public class Step implements ProcedureItem, Serializable {
 	private List<Callout> callouts; 
 	private List<Reference> references;
 	private List<ProcedureItem> children;
-	
+	private boolean timer;
 	
 	
 	/**
 	 * 
 	 */
-	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<ProcedureItem> children) {
+	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<ProcedureItem> children, boolean timer) {
 		this.number = number;
 		this.text = text;
 		this.consequent = "";
@@ -37,6 +37,7 @@ public class Step implements ProcedureItem, Serializable {
 		this.callouts = callouts;
 		this.references = references;
 		this.children = children;
+		this.timer = timer;
 	}
 
 	
@@ -224,5 +225,12 @@ public class Step implements ProcedureItem, Serializable {
 	@Override
 	public boolean isCycle() {
 		return false;
+	}
+	
+	/**
+	 * @return whether the step has a timer
+	 */
+	public boolean getTimer(){
+		return timer;
 	}
 }
