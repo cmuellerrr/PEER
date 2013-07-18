@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewManager;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -69,7 +70,8 @@ public class StepPage extends LinearLayout {
 			((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
 			
 		} else {
-			((ViewManager)page).removeView(page.findViewById(R.id.stepCycleNumber));
+			ViewGroup p = (ViewGroup)page.findViewById(R.id.stepCycleNumber).getParent();
+			p.removeView(page.findViewById(R.id.stepCycleNumber));
 		}
 		
 		//setup the parent
@@ -77,7 +79,8 @@ public class StepPage extends LinearLayout {
 			((TextView)page.findViewById(R.id.parentNumber)).setText(parent.getNumber());
 			((TextView)page.findViewById(R.id.parentText)).setText(parent.getText().toUpperCase());
 		} else {
-			((ViewGroup)page).removeView(page.findViewById(R.id.parentContainer));
+			ViewGroup p = (ViewGroup)page.findViewById(R.id.parentContainer).getParent();
+			p.removeView(page.findViewById(R.id.parentContainer));
 		}
 
 		
@@ -113,7 +116,8 @@ public class StepPage extends LinearLayout {
 			});
 			
 		} else {
-			((ViewGroup) page.findViewById(R.id.stepTextContainer)).removeView(page.findViewById(R.id.consequentContainer));
+			ViewGroup p = (ViewGroup)page.findViewById(R.id.consequentContainer).getParent();
+			p.removeView(page.findViewById(R.id.consequentContainer));
 		}
 		
 		

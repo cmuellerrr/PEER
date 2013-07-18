@@ -5,16 +5,15 @@ package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
  * @author Chris
  *
  */
-public class GroundPage extends LinearLayout {
+public class GroundPage extends FrameLayout {
 
 	/**
 	 * @param context
@@ -22,9 +21,10 @@ public class GroundPage extends LinearLayout {
 	public GroundPage(Context context) {
 		super(context);
 		
-		LayoutInflater.from(context).inflate(R.layout.call_ground, this);
 		
-		this.setGravity(Gravity.CENTER);
+		this.addView(LayoutInflater.from(context).inflate(R.layout.call_ground, null));
+		
+		this.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 
 	
