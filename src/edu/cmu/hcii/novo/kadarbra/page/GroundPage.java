@@ -5,7 +5,6 @@ package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -22,9 +21,10 @@ public class GroundPage extends LinearLayout implements DrawerPageInterface{
 	public GroundPage(Context context) {
 		super(context);
 		
-		LayoutInflater.from(context).inflate(R.layout.call_ground, this);
 		
-		this.setGravity(Gravity.CENTER);
+		this.addView(LayoutInflater.from(context).inflate(R.layout.call_ground, null));
+		
+		this.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 
 	

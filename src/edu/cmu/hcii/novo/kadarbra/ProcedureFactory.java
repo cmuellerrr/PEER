@@ -442,7 +442,7 @@ public class ProcedureFactory {
 	            children.add(readCycle(parser));
 	            
 	        } else if (tag.equals("timer")){
-	        	timer = true;
+	        	timer = Boolean.parseBoolean(readTag(parser, tag));
 	        	
 	        } else if (tag.equals("input")) {
 	            inputAllowed = Boolean.parseBoolean(readTag(parser, tag));

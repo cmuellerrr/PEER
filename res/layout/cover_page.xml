@@ -20,12 +20,12 @@
             style="@style/TableHeaderRow" >
             
             <TextView android:id="@+id/objectiveTitle"
-                style="@style/TableHeader"
+                style="@style/TableHeaderCell"
                 android:textSize="28sp"
                 android:text="@string/title_objective" />
             
             <TextView android:id="@+id/durationTitle"
-                style="@style/TableHeader"
+                style="@style/TableHeaderCell"
                 android:textSize="28sp"
                 android:text="@string/title_duration" />
             

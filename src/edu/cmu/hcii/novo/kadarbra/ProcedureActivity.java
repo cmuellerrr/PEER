@@ -417,7 +417,7 @@ public class ProcedureActivity extends Activity {
 	
 	
 	/**
-	 * Close the menu.  If the drawer is open, close it via it's cascading close.  
+	 * Close the menu.  If the drawer is open, close it via it's cascading close.
 	 * Otherwise, run each item's close animation and set their visibility to GONE.
 	 * Then make sure to make all buttons unselected.
 	 */
@@ -1052,7 +1052,7 @@ public class ProcedureActivity extends Activity {
     
     
     /**
-	 * The onclick method for all menu buttons.  Handles the drawer movment and 
+	 * The onclick method for all menu buttons.  Handles the drawer movement and 
 	 * population.
 	 * 
 	 * @param v
