@@ -37,8 +37,7 @@ public class CycleSelectPage extends LinearLayout {
         ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_select_page, null);
         
         for (int i = 0; i < reps; i++) {
-        	final int rep = i+1;
-        	final int s = step;
+        	final String rep = String.valueOf(i+1);
         	
         	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
         	newItem.setText("CYCLE " + (i+1));

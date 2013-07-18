@@ -406,6 +406,7 @@ public class ProcedureActivity extends Activity {
 		}
 		
 		clearMenuSelection();
+		findViewById(R.id.menuTitle).setSelected(false);
 	}
 	
 	/**
@@ -793,8 +794,10 @@ public class ProcedureActivity extends Activity {
 				//If in a cycle, 
 	    		if (reps > 1) {
 	    			selectedStep = inputNumber;
-	    			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
-	    					new CycleSelectPage(this, reps, inputNumber));
+	    			
+	    			ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+	    	    	drawer.removeAllViews();
+	    	    	drawer.addView(new CycleSelectPage(this, reps, inputNumber));
 	    		} else {
 	    			jumpToStep(inputNumber, 1);
 	    		}	
@@ -802,16 +805,17 @@ public class ProcedureActivity extends Activity {
 		}
 		
 		/*Log.i(TAG, "Extras: " + extras.toString());
-		if (extras.containsKey("reps")) {
-			//bring up another menu
-			//pass in the step #
-			((FrameLayout)findViewById(R.id.menuDrawer)).addView(
-					new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
-		} else {
-			//By default, get the first occurrence
-			int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
-    		jumpToStep(extras.getInt("step"), occ);
-		}	    		
+		if (extras.getInt("reps") > 1) {
+	    	//bring up another menu
+	    	//pass in the step #
+	    	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+	    	drawer.removeAllViews();
+	    	drawer.addView(new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
+	    } else {
+	    	//By default, get the first occurrence
+	    	int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
+		  		jumpToStep(extras.getInt("step"), occ);
+	    }    		
 		*/ 
     }
     
@@ -990,6 +994,8 @@ public class ProcedureActivity extends Activity {
 				for (int j = 0; j < c.getReps(); j++) {					
 					//We need to keep our place outside of the cycle
 					int repStepNumber = stepNumber;
+					//Also, we offset for the cycle marker page
+					curIndex++;
 					
 					for (int k = 0; k < c.getNumChildren(); k++) {						
 						result.add(new StepIndex(++repStepNumber, curIndex));
