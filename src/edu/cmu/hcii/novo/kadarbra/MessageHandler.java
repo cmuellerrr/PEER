@@ -30,6 +30,7 @@ public class MessageHandler {
 	public static int COMMAND_TIMER_START = 13;
 	public static int COMMAND_TIMER_RESET = 14;
 	public static int COMMAND_TIMER_STOP = 15;
+	public static int COMMAND_INPUT = 16;
 	
 	public static long COMMANDS_TIMEOUT_DURATION = 7000; // in millesconds
 	public static long MINIMUM_REFRESH_RMS = 3;

@@ -47,5 +47,11 @@
     <!-- Elapsed Time -->
     <string name="elapsed_time">ELAPSED TIME</string>
     
+    
+    <!-- Input -->
+    <string name="input_command">LOG</string>
+    <string name="input_confirm">DONE</string>
+    <string name="input_retry">RETRY</string>
+    <string name="input_instruction">Place the object in the space provided to the left.</string>
         
 </resources>

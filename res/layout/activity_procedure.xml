@@ -23,7 +23,7 @@
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignLeft="@+id/stepPreviewWidget"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="80dp"
         android:padding="10dp" />
         
@@ -45,7 +45,7 @@
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:layout_toRightOf="@+id/menu_group"
         android:background="@drawable/drawer_background"
         android:padding="10dp"

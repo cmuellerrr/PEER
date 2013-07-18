@@ -24,12 +24,15 @@ public class Step implements ProcedureItem, Serializable {
 	private List<Reference> references;
 	private List<ProcedureItem> children;
 	private boolean timer;
-	
+	private boolean inputAllowed;
+		
 	
 	/**
 	 * 
 	 */
-	public Step(String number, String text, List<Callout> callouts, List<Reference> references, List<ProcedureItem> children, boolean timer) {
+	public Step(String number, String text, List<Callout> callouts, List<Reference> references, 
+			List<ProcedureItem> children, boolean timer, boolean inputAllowed) {
+		
 		this.number = number;
 		this.text = text;
 		this.consequent = "";
@@ -38,6 +41,7 @@ public class Step implements ProcedureItem, Serializable {
 		this.references = references;
 		this.children = children;
 		this.timer = timer;
+		this.inputAllowed = inputAllowed;
 	}
 
 	
@@ -218,6 +222,24 @@ public class Step implements ProcedureItem, Serializable {
 	 */
 	public void setText(String text) {
 		this.text = text;
+	}
+
+
+
+	/**
+	 * @return the hasInput
+	 */
+	public boolean isInputAllowed() {
+		return inputAllowed;
+	}
+
+
+
+	/**
+	 * @param hasInput the hasInput to set
+	 */
+	public void setInputAllowed(boolean inputAllowed) {
+		this.inputAllowed = inputAllowed;
 	}
 
 

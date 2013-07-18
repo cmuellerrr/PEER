@@ -407,6 +407,7 @@ public class ProcedureFactory {
 	    List<ProcedureItem> children = new ArrayList<ProcedureItem>();
 	    List<Reference> references = new ArrayList<Reference>();
 	    boolean timer = false;
+	    boolean inputAllowed = false;
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "step");
@@ -443,12 +444,15 @@ public class ProcedureFactory {
 	        } else if (tag.equals("timer")){
 	        	timer = true;
 	        	
+	        } else if (tag.equals("input")) {
+	            inputAllowed = Boolean.parseBoolean(readTag(parser, tag));
+	            
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    
-	    Step result = new Step(number, text, callouts, references, children, timer);
+	    Step result = new Step(number, text, callouts, references, children, timer, inputAllowed);
 	    if (consequent != null) result.setConsequent(consequent);
 	
 	    return result;

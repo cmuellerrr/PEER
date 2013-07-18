@@ -81,7 +81,7 @@ public class NavigationPage extends LinearLayout {
 	 * @param index
 	 * @param s
 	 */
-	private ViewGroup getStep(final int index, Step s, final int reps) {
+	private ViewGroup getStep(int index, Step s, int reps) {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		ViewGroup newStep = (ViewGroup) inflater.inflate(R.layout.nav_item, null);
 		
@@ -97,6 +97,8 @@ public class NavigationPage extends LinearLayout {
 		
 		if (index == current) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(getResources().getColor(R.color.main));
 		
+		final String step = String.valueOf(index);
+		
 		newStep.setOnClickListener(new OnClickListener(){
 
 			//The step number sent will be 0 indexed.
@@ -105,7 +107,7 @@ public class NavigationPage extends LinearLayout {
 			public void onClick(View arg0) {
 				Intent intent = new Intent("command");
 				intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
-				intent.putExtra("str", index);
+				intent.putExtra("str", step);
 				getContext().sendBroadcast(intent);
 			}
 			
