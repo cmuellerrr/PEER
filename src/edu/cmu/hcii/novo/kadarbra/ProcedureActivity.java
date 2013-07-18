@@ -820,8 +820,7 @@ public class ProcedureActivity extends Activity {
 		    		
 		    	} else if (command == MessageHandler.COMMAND_INPUT) {
 		    		//update the inputValue textview with the given value
-		    	} 
-	    		
+		    	}
 	    		
 	    	// if the menu is currently open	
     		} else if (getMenuVisibility()) {
@@ -860,6 +859,14 @@ public class ProcedureActivity extends Activity {
 		    	} 
     		
         	}
+    		/** Timer commands **/
+    		if (command == MessageHandler.COMMAND_TIMER_START){
+	    		startTimer();
+	    	} else if (command == MessageHandler.COMMAND_TIMER_STOP){
+	    		stopTimer();
+	    	} else if (command == MessageHandler.COMMAND_TIMER_RESET){
+	    		resetTimer();
+	    	}
     	}
     }
 	
