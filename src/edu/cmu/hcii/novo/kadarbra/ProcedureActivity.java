@@ -397,7 +397,8 @@ public class ProcedureActivity extends Activity {
 
 		if (drawer.getVisibility() == View.VISIBLE){
 			DrawerPageInterface drawerPage = (DrawerPageInterface) drawer.getChildAt(0);
-			currentDrawer = drawerPage.getDrawerType();
+			if (drawerPage != null)
+				currentDrawer = drawerPage.getDrawerType();
 		}
 		Log.v("currentDrawer",currentDrawer);
 		return currentDrawer;
@@ -880,12 +881,12 @@ public class ProcedureActivity extends Activity {
     			
 	    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
 	    			if (command == MessageHandler.COMMAND_STEP_NUMBER){
-	    				Log.v("drawer_command",extras.getString("str"));
+	    				//Log.v("drawer_command",extras.getString("str"));
 			    		handleNavigationCommand(extras.getString("str"));
 	    			}
 	    		}else if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT)){
 	    			if (command == MessageHandler.COMMAND_CYCLE_NUMBER){
-	    				Log.v("drawer_command",extras.getString("str"));
+	    				//Log.v("drawer_command",extras.getString("str"));
 			    		handleNavigationCommand(extras.getString("str"));
 	    			}
 	    		}
