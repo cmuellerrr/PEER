@@ -154,8 +154,8 @@ public class StepPageScrollView extends ScrollView{
 		
 	}
 	
-	public ViewGroup getStepPage(){
-		return stepPage;
+	public StepPage getStepPage(){
+		return (StepPage) stepPage;
 	}
 	
 	/**

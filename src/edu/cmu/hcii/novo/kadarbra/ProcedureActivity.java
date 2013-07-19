@@ -86,7 +86,7 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
 		Intent intent = getIntent();
@@ -589,8 +589,9 @@ public class ProcedureActivity extends Activity {
 				long millis = System.currentTimeMillis() - timerStartTime + timerDuration;
 				if (timerState.equals(TIMER_OFF)){
 					millis = timerDuration;
-				}
-		        int seconds = (int) (millis / 1000);
+				}else if (timerState.equals(TIMER_RESET))
+					millis = 0;
+				int seconds = (int) (millis / 1000);
 		        int minutes = seconds / 60;
 		        seconds     = seconds % 60;
 		        
@@ -605,7 +606,7 @@ public class ProcedureActivity extends Activity {
 					 if(timerState.equals(TIMER_ON)){
 						 TextView tv = (TextView) findViewById(R.id.timerStopText);
 						 tv.setVisibility(View.VISIBLE);
-					 }else if(timerState.equals(TIMER_OFF)){
+					 }else if(timerState.equals(TIMER_OFF) || timerState.equals(TIMER_RESET)){
 						 TextView tv = (TextView) findViewById(R.id.timerStopText);
 						 tv.setVisibility(View.GONE);
 					 }
@@ -936,6 +937,15 @@ public class ProcedureActivity extends Activity {
 	    	} else if (command == MessageHandler.COMMAND_TIMER_RESET){
 	    		resetTimer();
 	    	}
+    	
+    		/** Conditional commands **/
+    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE) && !getMenuVisibility()){
+		    	if (command == MessageHandler.COMMAND_COND_EXPAND){
+		    		condExpand();
+		    	} else if (command == MessageHandler.COMMAND_COND_COLLAPSE){
+		    		condCollapse();
+		    	}
+    		}
     	}
     }
 	
@@ -1058,6 +1068,40 @@ public class ProcedureActivity extends Activity {
     	if (drawer.getVisibility() != View.GONE){
     		drawer.scrollBy(0, (int) (drawer.getHeight()*-0.8f));
     	}
+    }
+    
+    /**
+     * Expands conditional
+     * TODO: make this not shitty
+     */
+    private void condExpand(){
+    	StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+        //StepPage curStepPage = curScrollPage.getStepPage();
+        //if (curStepPage.getStep().isConditional()){
+    	
+		final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
+		if (consText != null){
+			final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
+			consText.setVisibility(View.VISIBLE);
+			consTitle.setText(R.string.cond_title_shown);
+        }
+    }
+    
+    /**
+     * Collapses conditional
+     * TODO: make this not shitty
+     */
+    private void condCollapse(){
+        StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+        //StepPage curStepPage = curScrollPage.getStepPage();
+        //if (curStepPage.getStep().isConditional()){
+		
+        final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
+		if (consText != null){
+			final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
+			consText.setVisibility(View.GONE);
+			consTitle.setText(R.string.cond_title_hidden);
+        }
     }
     
     /**

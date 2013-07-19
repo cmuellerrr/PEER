@@ -33,12 +33,15 @@ public class MessageHandler {
 	public static int COMMAND_INPUT = 16;
 	public static int COMMAND_STEP_NUMBER = 17;
 	public static int COMMAND_CYCLE_NUMBER = 18;
+	public static int COMMAND_COND_EXPAND = 19;
+	public static int COMMAND_COND_COLLAPSE = 20;
 
 	
-	public static long COMMANDS_TIMEOUT_DURATION = 7000; // in millesconds
-	public static long MINIMUM_REFRESH_RMS = 3;
+	public static long COMMANDS_TIMEOUT_DURATION = 4000; // in millesconds
+	public static float MINIMUM_REFRESH_RMS = 7;
 	
 	private static long lastMessageTime;
+	private static boolean active;
 	
 	
 	/**
@@ -102,10 +105,13 @@ public class MessageHandler {
 			
 			if (type.equals(MSG_TYPE_COMMAND)){
 				if (System.currentTimeMillis() - lastMessageTime < COMMANDS_TIMEOUT_DURATION ||
-					content.equals("ready"))
+					content.equals("ready")){
 					handleCommand(ctx, type, content);
+					lastMessageTime = System.currentTimeMillis();
+					active = true;
+				}
 			}else if (type.equals(MSG_TYPE_AUDIO_LEVEL)){
-	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS)
+	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && active)
 	    			lastMessageTime = System.currentTimeMillis();
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
 			}else if (type.equals(MSG_TYPE_AUDIO_BUSY)){
@@ -156,7 +162,7 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_MENU_OVERVIEW;
 		}else if (content.equals("stowage")){
 			commandIdentifier = COMMAND_MENU_STOWAGE;
-		}else if (content.equals("annotation")){
+		}else if (content.equals("annotations")){
 			commandIdentifier = COMMAND_MENU_ANNOTATION;
 		}else if (content.equals("ground")){
 			commandIdentifier = COMMAND_MENU_GROUND;
@@ -178,6 +184,10 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_CYCLE_NUMBER;
 			String str = handleStep("cycle",content);
 			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, str);
+		}else if (content.equals("expand")){
+			commandIdentifier = COMMAND_COND_EXPAND;
+		}else if (content.equals("collapse")){
+			commandIdentifier = COMMAND_COND_COLLAPSE;
 		}
 		
 				
