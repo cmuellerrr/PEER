@@ -5,14 +5,7 @@
     android:orientation="vertical"
     android:layout_marginTop="20dp" >
     
-    <TableLayout
-        android:id="@+id/referenceTable"
-	    style="@style/Table" >
-	    
-	</TableLayout>
-	
-	<TextView 
-	    android:id="@+id/referenceCaption"
-	    style="@style/ReferenceCaption" />
+    <TextView android:id="@+id/referenceCaption"
+        style="@style/ReferenceCaption" />
     
 </LinearLayout>

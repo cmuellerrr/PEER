@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.VideoView;
+import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.CycleNote;
@@ -154,20 +156,23 @@ public class CycleMarkerPage extends LinearLayout {
 		Log.v(TAG, "Setting up image view: " + ref.getUrl());
 		
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-		ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_image, null);
+        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
+        ImageView img = (ImageView)inflater.inflate(R.layout.image, null);
 		
-		try {
+		try {			
 			InputStream is = getContext().getAssets().open("procedures/references/" + ref.getUrl());
 			Drawable d = Drawable.createFromStream(is, null);
-			((ImageView)reference.findViewById(R.id.referenceImage)).setImageDrawable(d);
+			
+			img.setImageDrawable(d);
 	        //img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));
-	
-			((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
 			
 		} catch (IOException e) {
 			Log.e(TAG, "Error loading image", e);
 		}
 		
+		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
+        
+		reference.addView(img, 0);
 		return reference;
 	}
 	
@@ -183,10 +188,12 @@ public class CycleMarkerPage extends LinearLayout {
 	private ViewGroup setupVideoReference(Reference ref) {
 		Log.v(TAG, "Setting up video view: " + ref.getUrl());
 		
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_video, null);
-		
-        final VideoView vid = ((VideoView)reference.findViewById(R.id.referenceVideo));
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        //ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
+        //final VideoView vid = (VideoView)inflater.inflate(R.id.video);
+        
+        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_video, null);
+        final VideoView vid = (VideoView)reference.findViewById(R.id.referenceVideo);		
 		
 		//TODO for some reason this fucking thing doesn't work.
 		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
@@ -200,20 +207,25 @@ public class CycleMarkerPage extends LinearLayout {
                           /*
                            *  add media controller and set its position
                            *  TODO this still isn't laying where we want it
+                           *  TODO probably should make this a custom videoview class
                            */
                           MediaController mc = new MediaController(getContext());
                           vid.setMediaController(mc);
                           mc.setAnchorView(vid);
+                          
+                          LayoutParams lp = new LinearLayout.LayoutParams(mp.getVideoWidth(), mp.getVideoHeight());
+                          lp.gravity = Gravity.CENTER;
+                          vid.setLayoutParams(lp);
                     }
                 });
             	
             	mp.start();
             }
-        });
-			
+        });			
 		
 		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
 			
+		//reference.addView(vid, 0);	
 		return reference;		
 	}
 	
@@ -235,9 +247,10 @@ public class CycleMarkerPage extends LinearLayout {
 	 */
 	private ViewGroup setupTableReference(Reference ref) {
 		Log.v(TAG, "Setting up table view");
+		
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_table, null);
-        TableLayout table = (TableLayout)reference.findViewById(R.id.referenceTable);
+        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
+        TableLayout table = (TableLayout)inflater.inflate(R.layout.table, null);
         
         List<List<String>> cells = ref.getTable();
         
@@ -252,6 +265,7 @@ public class CycleMarkerPage extends LinearLayout {
         
         ((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
         
+        reference.addView(table, 0);
         return reference;
 	}
 	
