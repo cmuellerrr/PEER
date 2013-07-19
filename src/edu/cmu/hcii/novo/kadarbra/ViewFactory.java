@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -19,6 +20,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -28,9 +30,11 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.LinearLayout.LayoutParams;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
+import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.CycleNote;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
+import edu.cmu.hcii.novo.kadarbra.structure.Step;
 import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
 /**
@@ -42,8 +46,106 @@ public class ViewFactory {
 	private static final String TAG = "ViewFactory";
 	
 	
-	public static View getCallGroundPage(Context context) {
-		return LayoutInflater.from(context).inflate(R.layout.call_ground, null);
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static View getCallGround(Context context) {
+		View v = LayoutInflater.from(context).inflate(R.layout.call_ground, null);
+		
+		return v;
+	}
+	
+	
+	
+	/**
+	 * Add a basic step
+	 * 
+	 * @param context
+	 * @param index
+	 * @param s
+	 */
+	public static ViewGroup getNavigationStep(Context context, int curStepIndex, int index, Step s, int reps) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		ViewGroup newStep = (ViewGroup) inflater.inflate(R.layout.nav_item, null);
+		
+		((TextView)newStep.findViewById(R.id.navItemNumber)).setText("STEP " + s.getNumber());
+		((TextView)newStep.findViewById(R.id.navItemText)).setText(s.getText());
+		
+		//If a lone step, set a margin so that it matches those which are a the cycle
+		if (reps < 2) {
+			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+			params.setMargins(30, 0, 0, 0);
+			newStep.setLayoutParams(params);
+		}
+		
+		if (index == curStepIndex) ((TextView)newStep.findViewById(R.id.navItemNumber)).setTextColor(context.getResources().getColor(R.color.main));
+		
+		final String step = String.valueOf(index);
+		
+		newStep.setOnClickListener(new OnClickListener(){
+
+			//The step number sent will be 0 indexed.
+			//So step 1 will send over the index of 0.
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent("command");
+				intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
+				intent.putExtra("str", step);
+				arg0.getContext().sendBroadcast(intent);
+			}
+			
+		});
+		
+		return newStep;
+	}
+	
+	
+	public static ViewGroup getNavigationCycle(Context context, int curStepIndex, int index, Cycle c) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		ViewGroup newCycle = (ViewGroup) inflater.inflate(R.layout.nav_item_cycle, null);
+		
+		((TextView)newCycle.findViewById(R.id.navCycleCount)).setText("x" + c.getReps());		
+		ViewGroup steps = (ViewGroup) newCycle.findViewById(R.id.navCycleSteps);
+		
+		for (int j = 0; j < c.getNumChildren(); j++) {
+			//TODO this will break on cycles within cycles
+			steps.addView(getNavigationStep(context, curStepIndex, index, (Step)c.getChild(j), c.getReps()));
+			index++;
+		}
+		
+		return newCycle;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param context
+	 * @param index
+	 * @return
+	 */
+	public static View getCycleSelect(Context context, int index) {
+		final String rep = String.valueOf(index);
+    	
+		LayoutInflater inflater = LayoutInflater.from(context);
+    	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
+    	newItem.setText("CYCLE " + rep);    	
+    	
+    	newItem.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent("command");
+				intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
+				intent.putExtra("str", rep);
+				v.getContext().sendBroadcast(intent);
+			}
+    	});
+    	
+    	return newItem;
 	}
 	
 	

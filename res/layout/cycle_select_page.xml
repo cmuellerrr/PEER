@@ -9,7 +9,7 @@
     <TextView 
         android:id="@+id/cycleSelectTitle"
         style="@style/CycleSelectTitle"
-        android:text="@string/cycle_select_title" />"
+        android:text="@string/cycle_select_title" />
     
     <View
         android:layout_width="300dp"

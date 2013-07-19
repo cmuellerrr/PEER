@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.FontManager;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.ViewFactory;
+import edu.cmu.hcii.novo.kadarbra.FontManager.FontStyle;
 import edu.cmu.hcii.novo.kadarbra.structure.Cycle;
 import edu.cmu.hcii.novo.kadarbra.structure.CycleNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
@@ -22,8 +24,6 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
  *
  */
 public class CycleMarkerPage extends LinearLayout {
-	private static final String TAG = "CycleMarkerPage";
-	
 	
 	private int totalReps;
 	private int currentRep;
@@ -42,7 +42,7 @@ public class CycleMarkerPage extends LinearLayout {
 		this.notes = c.getNotes();
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
-		ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_marker_page, null);
+		ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_marker_page, this);
 		
 		if (c.getNumChildren() > 0) {
 			String start = ((Step)c.getChild(0)).getNumber();
@@ -54,7 +54,7 @@ public class CycleMarkerPage extends LinearLayout {
 					start + "-" + end + " a total of " + totalReps + " times");
 			
 		} else {
-			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("There is a cycle with no steps in it.  Someone screwed up.");
+			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("Uhh... There is a cycle with no steps in it.  Someone screwed up.");
 		}
 		
         ((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Beginning cycle " + currentRep);
@@ -65,7 +65,7 @@ public class CycleMarkerPage extends LinearLayout {
         	container.addView(ViewFactory.getCycleNote(context, notes.get(i)));
         }
         
-        this.addView(page);
+        initFonts();
 	}
 	
 	
@@ -80,6 +80,18 @@ public class CycleMarkerPage extends LinearLayout {
 	}
 
 
+	
+	/**
+	 * Setup the custom fonts for this view.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getContext().getAssets());
+		
+		((TextView)findViewById(R.id.cycleMarkerTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
+		((TextView)findViewById(R.id.cycleMarkerText)).setTypeface(fm.getFont(FontStyle.BODY));
+	}
+	
+	
 
 	/**
 	 * @return the totalReps

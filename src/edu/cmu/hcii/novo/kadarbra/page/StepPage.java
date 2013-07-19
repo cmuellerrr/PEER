@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.FontManager;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.novo.kadarbra.ViewFactory;
+import edu.cmu.hcii.novo.kadarbra.FontManager.FontStyle;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
@@ -107,6 +109,8 @@ public class StepPage extends LinearLayout {
 		if (step.getTimer()) cont.addView(ViewFactory.getTimer(context));
 		setupReferences(context, cont);
 		if (step.isInputAllowed()) cont.addView(ViewFactory.getInput(context));
+		
+		initFonts();
 	}
 	
 	
@@ -118,6 +122,28 @@ public class StepPage extends LinearLayout {
 	public StepPage(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	/**
+	 * Setup the custom fonts for this view.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getContext().getAssets());
+		
+		if (findViewById(R.id.parentContainer) != null) {
+			((TextView)findViewById(R.id.parentNumber)).setTypeface(fm.getFont(FontStyle.HEADER));
+			((TextView)findViewById(R.id.parentText)).setTypeface(fm.getFont(FontStyle.HEADER));
+		}
+		
+		((TextView)findViewById(R.id.stepNumber)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)findViewById(R.id.stepText)).setTypeface(fm.getFont(FontStyle.BODY));
+		
+		if (findViewById(R.id.consequentContainer) != null) {
+			((TextView)findViewById(R.id.consequentTitle)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+			((TextView)findViewById(R.id.consequentText)).setTypeface(fm.getFont(FontStyle.BODY));
+		}
 	}
 	
 

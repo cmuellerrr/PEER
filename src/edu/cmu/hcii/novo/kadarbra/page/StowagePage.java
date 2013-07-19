@@ -26,7 +26,6 @@ import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
  *
  */
 public class StowagePage extends TableLayout implements DrawerPageInterface {
-	private static final String TAG = "StowagePage";
 	private Map<String, List<StowageItem>> stowageItems;
 	
 	
