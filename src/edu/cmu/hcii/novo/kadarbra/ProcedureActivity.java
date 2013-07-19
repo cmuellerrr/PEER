@@ -418,6 +418,17 @@ public class ProcedureActivity extends Activity {
 	
 	
 	/**
+	 * Close the drawer
+	 */
+	private void closeDrawer(){
+		View drawer = (View) findViewById(R.id.menuDrawer);
+		if (drawer.getVisibility() == View.VISIBLE) {
+			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE + TAG_CASCADE));
+			drawer.setVisibility(View.GONE);
+		}
+	}
+	
+	/**
 	 * Close the menu.  If the drawer is open, close it via it's cascading close.
 	 * Otherwise, run each item's close animation and set their visibility to GONE.
 	 * Then make sure to make all buttons unselected.
@@ -812,8 +823,10 @@ public class ProcedureActivity extends Activity {
     		// if the menu is not currently open
     		if (!getMenuVisibility()){	
 	    		if (command == MessageHandler.COMMAND_BACK) {
-	    			prevPage();
-	    			
+	    			if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE))
+	    				prevPage();
+	    			else
+	    				closeDrawer();
 		    	} else if (command == MessageHandler.COMMAND_NEXT) {
 		    		nextPage();
 		    		
@@ -830,8 +843,7 @@ public class ProcedureActivity extends Activity {
 		    		openMenu();
 		    		
 		    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
-		    		closeMenu();
-		    		
+		    		closeDrawer();
 		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
 		    		menuSelect(findViewById(R.id.navButton));
 		    		
@@ -1104,7 +1116,7 @@ public class ProcedureActivity extends Activity {
 		}
 	}
 
-
+	
 
 	/*
 	private void clearReferences() {

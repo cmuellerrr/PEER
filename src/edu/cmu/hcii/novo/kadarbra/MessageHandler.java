@@ -168,7 +168,7 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_TIMER_START;
 		}else if (content.equals("reset")){
 			commandIdentifier = COMMAND_TIMER_RESET;
-		}else if (content.equals("stop")){
+		}else if (content.equals("pause")){
 			commandIdentifier = COMMAND_TIMER_STOP;
 		}else if (content.startsWith("step")){
 			commandIdentifier = COMMAND_STEP_NUMBER;

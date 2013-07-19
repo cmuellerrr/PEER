@@ -42,7 +42,7 @@
     <!-- Timer -->
     <string name="timer_start">START</string>
     <string name="timer_reset">RESET</string>
-    <string name="timer_stop">STOP</string>
+    <string name="timer_stop">PAUSE</string>
     
     <!-- Elapsed Time -->
     <string name="elapsed_time">ELAPSED TIME</string>
