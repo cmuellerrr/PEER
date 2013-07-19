@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.FontManager;
+import edu.cmu.hcii.novo.kadarbra.FontManager.FontStyle;
 import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
@@ -44,6 +46,8 @@ public class CoverPage extends FrameLayout {
         ((TextView)page.findViewById(R.id.procedureName)).setText(title.toUpperCase());
         ((TextView)page.findViewById(R.id.objective)).setText(objective);
         ((TextView)page.findViewById(R.id.duration)).setText(duration);
+        
+        initFonts();
 	}
 
 	
@@ -57,6 +61,20 @@ public class CoverPage extends FrameLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+	
+	/**
+	 * Setup the custom fonts for this view.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getContext().getAssets());
+		
+		((TextView)findViewById(R.id.procedureName)).setTypeface(fm.getFont(FontStyle.HEADER));
+        ((TextView)findViewById(R.id.objectiveTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
+        ((TextView)findViewById(R.id.durationTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
+        ((TextView)findViewById(R.id.objective)).setTypeface(fm.getFont(FontStyle.BODY));
+        ((TextView)findViewById(R.id.duration)).setTypeface(fm.getFont(FontStyle.BODY));
+	}
 	
 	
 	/**

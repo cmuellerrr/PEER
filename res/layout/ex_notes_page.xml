@@ -18,8 +18,7 @@
     
     <TextView android:id="@+id/exNotesTitle"
         style="@style/ExecutionNotesTitle" 
-        android:text="@string/ex_notes_title">
-    </TextView>
+        android:text="@string/ex_notes_title" />
         
     <LinearLayout android:id="@+id/exNotesList"
         android:layout_width="match_parent"

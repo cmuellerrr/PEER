@@ -31,6 +31,7 @@ import edu.cmu.hcii.novo.kadarbra.structure.Callout;
 import edu.cmu.hcii.novo.kadarbra.structure.CycleNote;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
+import edu.cmu.hcii.novo.kadarbra.structure.StowageItem;
 
 /**
  * @author Chris
@@ -43,6 +44,70 @@ public class ViewFactory {
 	
 	public static View getCallGroundPage(Context context) {
 		return LayoutInflater.from(context).inflate(R.layout.call_ground, null);
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param module
+	 * @param items
+	 * @return
+	 */
+	public static ViewGroup getStowageTable(Context context, String module, List<StowageItem> items) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		ViewGroup container = (ViewGroup)inflater.inflate(R.layout.stow_notes_table, null);
+		TableLayout table = (TableLayout)container.findViewById(R.id.stow_table);
+		
+		//set table title
+		((TextView)container.findViewById(R.id.stow_table_title)).setText(module);
+		
+		for (int i = 0; i < items.size(); i++) {
+			StowageItem s = items.get(i);
+						
+			TableRow row = (TableRow) inflater.inflate(R.layout.stow_note, null);
+			
+			((TextView)row.findViewById(R.id.stowNoteBinCode)).setText(s.getBinCode());
+			((TextView)row.findViewById(R.id.stowNoteItem)).setText(s.getName());
+			((TextView)row.findViewById(R.id.stowNoteQuantity)).setText(String.valueOf(s.getQuantity()));
+			((TextView)row.findViewById(R.id.stowNoteItemCode)).setText(s.getItemCode());
+			((TextView)row.findViewById(R.id.stowNoteNotes)).setText(s.getText());
+			
+			try {
+				InputStream is = context.getAssets().open("procedures/references/" + s.getUrl());
+				Drawable d = Drawable.createFromStream(is, null);
+				((ImageView)row.findViewById(R.id.stowNoteImage)).setImageDrawable(d);
+				
+			} catch(Exception e) {
+				Log.e(TAG, "Error adding reference image to stowage note", e);
+			}
+			
+			table.addView(row);
+		}
+		
+		return container;
+	}
+	
+	
+	/**
+	 * 
+	 * @param context
+	 * @param note
+	 * @return
+	 */
+	public static ViewGroup getExecutionNoteOverview(Context context, ExecNote note) {
+		if (note != null) {
+			Log.v(TAG, "Setting up overview execution note");
+			LayoutInflater inflater = LayoutInflater.from(context);
+			ViewGroup noteView = (ViewGroup)inflater.inflate(R.layout.ex_note_overall, null);
+			
+			((TextView)noteView.findViewById(R.id.exNoteNumber)).setText("Step " + note.getNumber());
+			((TextView)noteView.findViewById(R.id.exNoteText)).setText(note.getText());
+
+			return noteView;
+		}
+		
+		return null;
 	}
 	
 	
