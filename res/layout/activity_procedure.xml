@@ -84,7 +84,7 @@
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="29sp"
+            android:textSize="26sp"
             android:text="@string/menu_title"
             android:textColor="@color/menu_item" />
         

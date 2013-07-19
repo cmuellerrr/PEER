@@ -35,7 +35,7 @@ public class FontManager {
         
         addFont(FontStyle.HEADER, "Trebuchet MS Bold.ttf");
         addFont(FontStyle.BODY, "Trebuchet MS Regular.ttf");
-        addFont(FontStyle.SELECTABLE, "Consolas Regular.ttf");
+        addFont(FontStyle.SELECTABLE, "Orbitron-Regular.ttf");
         addFont(FontStyle.TIMER, "Lifeline.ttf");
     }
     

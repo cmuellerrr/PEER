@@ -39,7 +39,7 @@ public class StowagePage extends TableLayout implements DrawerPageInterface {
 		this.stowageItems = stowageItems;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
-        ViewGroup page = (ViewGroup)inflater.inflate(R.layout.stow_notes_page, this);
+        ViewGroup page = (ViewGroup)inflater.inflate(R.layout.stowage_page, this);
         
         for (String key : stowageItems.keySet()) {
         	page.addView(ViewFactory.getStowageTable(context, key, stowageItems.get(key)));
