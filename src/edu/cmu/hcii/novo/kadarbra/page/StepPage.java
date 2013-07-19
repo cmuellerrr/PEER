@@ -1,36 +1,19 @@
 package edu.cmu.hcii.novo.kadarbra.page;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.media.MediaPlayer.OnVideoSizeChangedListener;
-import android.net.Uri;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
-import android.view.ViewParent;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.VideoView;
 import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.ViewFactory;
 import edu.cmu.hcii.novo.kadarbra.structure.Callout;
-import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 import edu.cmu.hcii.novo.kadarbra.structure.Reference;
-import edu.cmu.hcii.novo.kadarbra.structure.Reference.RType;
 import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class StepPage extends LinearLayout {
@@ -86,8 +69,8 @@ public class StepPage extends LinearLayout {
 		
 		//Add callout elements
 		ViewGroup cont = ((ViewGroup)page.findViewById(R.id.stepTextContainer));
-		setupExecutionNotes(cont);
-		setupCallouts(cont);
+		setupExecutionNotes(context, cont);
+		setupCallouts(context, cont);
 		
 		
 		//Add the normal text
@@ -121,9 +104,9 @@ public class StepPage extends LinearLayout {
 		}
 		
 		
-		setupTimer(cont);				
-		setupReferences(cont);
-		if (step.isInputAllowed()) setupInput(cont);
+		if (step.getTimer()) cont.addView(ViewFactory.getTimer(context));
+		setupReferences(context, cont);
+		if (step.isInputAllowed()) cont.addView(ViewFactory.getInput(context));
 	}
 	
 	
@@ -145,43 +128,19 @@ public class StepPage extends LinearLayout {
 		// TODO Auto-generated method stub	
 	}
 
-	/**
-	 * Set up timer
-	 */
-	private void setupTimer(ViewGroup container){
-		if (step.getTimer()){
-			LayoutInflater inflater = LayoutInflater.from(getContext());
-	        View timer = (View)inflater.inflate(R.layout.timer, null);
-			container.addView(timer);
-		}
-	}
+	
 	
 	/**
 	 * Sets up the execution notes to be displayed for this step.
 	 * If there is a parent step, show that one too.
 	 */
-	private void setupExecutionNotes(ViewGroup container) {
-		if (parent != null) setupExecutionNote(container, parent.getExecNote());
-		setupExecutionNote(container, step.getExecNote());
-	}
-	
-	
-	
-	/**
-	 * Add the given execution note to the step page.
-	 * 
-	 * @param note the note to display
-	 */
-	private void setupExecutionNote(ViewGroup container, ExecNote note) {
-		if (note != null) {
-			Log.i(TAG, "Setting up execution note");
-			LayoutInflater inflater = LayoutInflater.from(getContext());
-	        View noteView = (View)inflater.inflate(R.layout.callout, null);
-			
-	        ((TextView)noteView.findViewById(R.id.calloutTitle)).setText(R.string.ex_note_title);
-	        ((TextView)noteView.findViewById(R.id.calloutText)).setText(note.getText());
-
-			container.addView(noteView, 0);
+	private void setupExecutionNotes(Context context, ViewGroup container) {
+		if (parent != null && parent.getExecNote() != null) {
+			container.addView(ViewFactory.getExecutionNote(context, parent.getExecNote()), 0);
+		}
+		
+		if (step.getExecNote() != null) {
+			container.addView(ViewFactory.getExecutionNote(context, step.getExecNote()), 0);
 		}
 	}
 	
@@ -190,66 +149,18 @@ public class StepPage extends LinearLayout {
 	/**
 	 * Setup the step's callouts
 	 */
-	private void setupCallouts(ViewGroup container) {
+	private void setupCallouts(Context context, ViewGroup container) {
 		//TODO repeating code
 		if (parent != null) {
 			List<Callout> pcalls = parent.getCallouts();
 			for (int i = 0; i < pcalls.size(); i++) {
-				setupCallout(container, pcalls.get(i));
+				container.addView(ViewFactory.getCallout(context, pcalls.get(i)), 0);
 			}
 		}
 		
 		List<Callout> calls = step.getCallouts();
 		for (int i = 0; i < calls.size(); i++) {
-			setupCallout(container, calls.get(i));
-		}
-	}
-	
-	
-	
-	/**
-	 * Add the given callout object to the step
-	 * @param call the callout to render
-	 */
-	private void setupCallout(ViewGroup container, Callout call) {
-		if (call != null) {
-			Log.i(TAG, "Setting up callout");
-			LayoutInflater inflater = LayoutInflater.from(getContext());
-	        View callView = (View)inflater.inflate(R.layout.callout, null);
-	        
-	        String typeName = "";
-	        int bg = 0;
-	        int border = 0;
-	        
-	        switch(call.getType()) {
-	        	case NOTE:
-	        		typeName = "NOTE";
-	        		bg = R.drawable.dot_bg_white;
-	        		border = R.drawable.border_white;
-	        		break;
-	        	
-	        	case CAUTION:
-	        		typeName = "CAUTION";
-	        		bg = R.drawable.dot_bg_yellow;
-	        		border = R.drawable.border_yellow;
-	        		break;
-	        		
-	        	case WARNING:
-	        		typeName = "WARNING";
-	        		bg = R.drawable.dot_bg_red;
-	        		border = R.drawable.border_red;
-	        		break;	        	
-	        		
-	        	default:
-	        		break;
-	        }
-	        
-	        ((ViewGroup)callView.findViewById(R.id.calloutContainer)).setBackgroundResource(border);
-	        ((ViewGroup)callView.findViewById(R.id.calloutHeader)).setBackgroundResource(bg);
-	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
-	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());
-
-			container.addView(callView, 0);
+			container.addView(ViewFactory.getCallout(context, calls.get(i)), 0);
 		}
 	}
 	
@@ -258,191 +169,11 @@ public class StepPage extends LinearLayout {
 	/**
 	 * Setup the references for the step
 	 */
-	private void setupReferences(ViewGroup container) {
+	private void setupReferences(Context context, ViewGroup container) {
 		List<Reference> refs = step.getReferences();
 		for (int i = 0; i < refs.size(); i++) {
-			RType type = refs.get(i).getType();
-			
-			switch(type) {
-				case IMAGE:
-					setupImageReference(container, refs.get(i));
-					break;
-					
-				case VIDEO:
-					setupVideoReference(container, refs.get(i));
-					break;
-					
-				case AUDIO:
-					setupAudioReference(container, refs.get(i));
-					break;
-					
-				case TABLE:
-					setupTableReference(container, refs.get(i));
-					break;
-					
-				default:
-					break;
-			}
+			container.addView(ViewFactory.getReference(context, refs.get(i)));
 		}
-	}
-	
-	
-	
-	/**
-	 * Setup the given reference as an image reference
-	 * @param ref the reference to render
-	 */
-	private void setupImageReference(ViewGroup container, Reference ref) {
-		Log.v(TAG, "Setting up image view: " + ref.getUrl());
-		
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
-        ImageView img = (ImageView)inflater.inflate(R.layout.image, null);
-		
-		try {			
-			InputStream is = getContext().getAssets().open("procedures/references/" + ref.getUrl());
-			Drawable d = Drawable.createFromStream(is, null);
-			
-			img.setImageDrawable(d);
-	        //img.setImageDrawable(Drawable.createFromPath(ref.getUrl()));
-			
-		} catch (IOException e) {
-			Log.e(TAG, "Error loading image", e);
-		}
-		
-		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
-        
-		reference.addView(img, 0);
-        container.addView(reference);
-	}
-	
-	
-	
-	/**
-	 * Setup the given reference as a video reference
-	 * 
-	 * TODO: we should make our own media controller so it's stylized
-	 * 
-	 * @param ref the reference to render
-	 */
-	private void setupVideoReference(ViewGroup container, Reference ref) {
-		Log.v(TAG, "Setting up video view: " + ref.getUrl());
-		
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        //ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
-        //final VideoView vid = (VideoView)inflater.inflate(R.id.video);
-        
-        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_video, null);
-        final VideoView vid = (VideoView)reference.findViewById(R.id.referenceVideo);
-		
-		//TODO for some reason this fucking thing doesn't work.
-		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
-		vid.setVideoURI(Uri.parse(Environment.getExternalStorageDirectory().toString() + "/" + ref.getUrl()));
-
-		vid.setOnPreparedListener(new OnPreparedListener() {
-            public void onPrepared(MediaPlayer mp) {
-            	mp.setOnVideoSizeChangedListener(new OnVideoSizeChangedListener() { 
-                    @Override
-                    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-                          /*
-                           *  add media controller and set its position
-                           *  TODO this still isn't laying where we want it
-                           *  TODO probably should make this a custom videoview class
-                           */
-                          MediaController mc = new MediaController(getContext());
-                          vid.setMediaController(mc);
-                          mc.setAnchorView(vid);
-                                                    
-                          LayoutParams lp = new LinearLayout.LayoutParams(mp.getVideoWidth(), mp.getVideoHeight());
-                          lp.gravity = Gravity.CENTER;
-                          vid.setLayoutParams(lp);
-                    }
-                });
-            	
-            	mp.start();
-            }
-        });			
-		
-		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
-			
-		//reference.addView(vid, 0);
-        container.addView(reference);
-	}
-	
-	
-	
-	/**
-	 * Setup the given reference as an audio reference
-	 * @param ref the reference to render
-	 */
-	private void setupAudioReference(ViewGroup container, Reference ref) {
-		//TODO
-	}
-	
-	
-	
-	/**
-	 * Setup the given reference as a table reference
-	 * @param ref the reference to render
-	 */
-	private void setupTableReference(ViewGroup container, Reference ref) {
-		Log.v(TAG, "Setting up table view");
-		
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
-        TableLayout table = (TableLayout)inflater.inflate(R.layout.table, null);
-        
-        List<List<String>> cells = ref.getTable();
-        
-        for (int i = 0; i < cells.size(); i++) {
-        	if (i==0) {
-        		table.addView(getRow(cells.get(i), R.layout.table_header_row, R.layout.table_header_cell));
-        	
-        	} else {
-        		table.addView(getRow(cells.get(i), R.layout.table_row, R.layout.table_cell));
-        	}
-        }
-        
-        ((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
-        
-        reference.addView(table, 0);
-        container.addView(reference);
-	}
-	
-	
-	
-	/**
-	 * Set up a table row with the given values.  
-	 * 
-	 * @param cells
-	 * @param rowId
-	 * @param cellId
-	 * @return
-	 */
-	private TableRow getRow(List<String> cells, int rowId, int cellId) {
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		TableRow row = (TableRow)inflater.inflate(rowId, null);
-        
-        for (int i = 0; i < cells.size(); i++) {
-        	TextView t = (TextView)inflater.inflate(cellId, null);
-        	t.setText(cells.get(i));
-        	row.addView(t);
-        }
-        
-        return row;
-	}
-	
-	
-	
-	/**
-	 * 
-	 */
-	private void setupInput(ViewGroup container) {
-		Log.i(TAG, "Setting up input");
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-        View input = (View)inflater.inflate(R.layout.input, null);
-
-		container.addView(input);
 	}
 	
 	
