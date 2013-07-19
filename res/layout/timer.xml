@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"	    
-	    android:layout_width="350dp"
-	    android:layout_height="190dp" 
-	    android:layout_marginTop="20dp">
+	    android:layout_width="350px"
+	    android:layout_height="190px" 
+	    android:layout_marginTop="20px">
 	    
 	    <RelativeLayout
-	        android:layout_marginTop="15dp"
-	        android:layout_width="350dp"
-	        android:layout_height="170dp"
+	        android:layout_marginTop="15px"
+	        android:layout_width="350px"
+	        android:layout_height="170px"
 	        android:background="@drawable/border_blue_dots">
 	        
 	    	<TextView
@@ -16,21 +16,21 @@
 		        android:layout_height="wrap_content"
 				android:layout_centerInParent="true"
 				android:text="00:00"
-				android:textSize="70dp"/>
+				android:textSize="70px"/>
 		
 	    </RelativeLayout>
 	    
 	    <TextView
 			android:id="@+id/timerStartText"
-	        android:layout_width="135dp"
-	        android:layout_marginLeft="40dp"
+	        android:layout_width="135px"
+	        android:layout_marginLeft="40px"
 			android:text="@string/timer_start"
 			style="@style/TimerButtonText"
 
 		/>
 		<TextView
 			android:id="@+id/timerResetText"
-	        android:layout_width="135dp"
+	        android:layout_width="135px"
 			android:layout_toRightOf="@id/timerStartText"
 			android:text="@string/timer_reset"
 			style="@style/TimerButtonText"
@@ -38,8 +38,8 @@
 
 		<TextView
 			android:id="@+id/timerStopText"
-			android:layout_marginLeft="40dp"
-	        android:layout_width="270dp"
+			android:layout_marginLeft="40px"
+	        android:layout_width="270px"
 			android:text="@string/timer_stop"
 			style="@style/TimerButtonText"
 			android:visibility="gone"

@@ -2,7 +2,7 @@
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android" 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp">
+    android:layout_marginBottom="5px">
     
     <TextView android:id="@+id/stowNoteBinCode"
         style="@style/TableCell" />
@@ -20,7 +20,7 @@
         style="@style/TableCell" />
     
     <ImageView android:id="@+id/stowNoteImage"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
+        android:layout_width="150px"
+        android:layout_height="100px"
         android:scaleType="fitCenter" />
 </TableRow>

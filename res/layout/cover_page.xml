@@ -7,12 +7,12 @@
     <TextView android:id="@+id/procedureName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:layout_marginTop="63dp"
-        android:layout_marginBottom="63dp" />
+        android:textSize="36px"
+        android:layout_marginTop="63px"
+        android:layout_marginBottom="63px" />
     
     <TableLayout
-        android:layout_width="729dp"
+        android:layout_width="729px"
         android:layout_height="fill_parent"
         style="@style/Table" >
         
@@ -21,12 +21,12 @@
             
             <TextView android:id="@+id/objectiveTitle"
                 style="@style/TableHeaderCell"
-                android:textSize="28sp"
+                android:textSize="28px"
                 android:text="@string/title_objective" />
             
             <TextView android:id="@+id/durationTitle"
                 style="@style/TableHeaderCell"
-                android:textSize="28sp"
+                android:textSize="28px"
                 android:text="@string/title_duration" />
             
         </TableRow>
@@ -35,12 +35,12 @@
             
             <TextView android:id="@+id/objective"
                 style="@style/TableCell"
-                android:textSize="20sp"
-                android:width="450dp" />
+                android:textSize="20px"
+                android:width="450px" />
                 
             <TextView  android:id="@+id/duration"
                 style="@style/TableCell"
-                android:textSize="20sp" />
+                android:textSize="20px" />
             
         </TableRow>
     </TableLayout>

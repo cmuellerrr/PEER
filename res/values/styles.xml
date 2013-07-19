@@ -22,21 +22,21 @@
     <style name="ScrollView" parent ="@android:style/Widget.ScrollView">
         <item name="android:scrollbarStyle">outsideInset</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb</item>
-        <item name="android:scrollbarSize">15dp</item>
+        <item name="android:scrollbarSize">15px</item>
     </style>
     
     <style name="HeaderText">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">22px</item>
         <item name="android:textColor">#FFFFFFFF</item>
     </style>
     
     <style name="BodyText">
-        <item name="android:textSize">26sp</item>
+        <item name="android:textSize">26px</item>
         <item name="android:textColor">#FFFFFFFF</item>
     </style>
     
     <style name="CalloutHeaderText">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">28px</item>
         <item name="android:textColor">#FF222222</item>
     </style>
     
@@ -58,15 +58,15 @@
     <!-- Cover Page -->
     
     <style name="CoverSubTitle" parent="HorizontalStretch">
-        <item name="android:textSize">25sp</item>
-        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:textSize">25px</item>
+        <item name="android:layout_marginBottom">15px</item>
         <item name="android:textColor">@color/main</item>
     </style>
     
     <style name="CoverText">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20px</item>
     </style>
     
     
@@ -93,20 +93,20 @@
     <style name="TableHeaderCell" parent="TableCell" >
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">28px</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:shadowColor">#ff000000</item>  
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">1</item>  
         <item name="android:shadowDy">2</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:padding">10px</item>
     </style>
     
     <style name="TableCell" >
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:padding">10dp</item>
+        <item name="android:textSize">18px</item>
+        <item name="android:padding">10px</item>
     </style>
     
     
@@ -114,16 +114,16 @@
     
     
     <style name="ExecutionNotesTitle" parent="HorizontalStretch">
-        <item name="android:textSize">28sp</item>
-        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">28px</item>
+        <item name="android:layout_marginBottom">10px</item>
     </style>
     
     <style name="ExecutionNotesSubTitle" parent="HorizontalStretch">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20px</item>
     </style>
     
     <style name="ExecutionNotesText" >
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20px</item>
     </style>
     
     
@@ -132,12 +132,12 @@
     
     <style name="CalloutTitle" parent="TableHeaderCell">
         <item name="android:layout_gravity">center|center_vertical</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">28px</item>
     </style>
     
     <style name="CalloutText" parent="CenterText">
-        <item name="android:textSize">26sp</item>
-        <item name="android:padding">30dp</item>
+        <item name="android:textSize">26px</item>
+        <item name="android:padding">30px</item>
     </style>
     
     
@@ -145,16 +145,16 @@
     
     
     <style name="StepCycle" parent="HorizontalStretch">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">10px</item>
     </style>
     
     <style name="ParentStep" parent="HorizontalStretch">
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">22px</item>
     </style>
     
     <style name="Step" parent="HorizontalStretch">
-        <item name="android:layout_marginBottom">40dp</item>
-        <item name="android:textSize">26sp</item>
+        <item name="android:layout_marginBottom">40px</item>
+        <item name="android:textSize">26px</item>
     </style>
     
     <style name="Reference">
@@ -166,7 +166,7 @@
     
     <style name="ReferenceCaption" parent="CenterText">
         <item name="android:layout_gravity">center</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">15px</item>
     </style>
         
     
@@ -175,24 +175,24 @@
     
     <style name="MenuItem" >
         <item name="android:background">@drawable/menu_item_bg</item>
-        <item name="android:layout_width">188dp</item>
-        <item name="android:layout_height">37dp</item>
-        <item name="android:layout_marginTop">30dp</item>
-        <item name="android:paddingLeft">40dp</item>
+        <item name="android:layout_width">188px</item>
+        <item name="android:layout_height">37px</item>
+        <item name="android:layout_marginTop">30px</item>
+        <item name="android:paddingLeft">40px</item>
         <item name="android:textColor">@color/menu_item</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20px</item>
         <item name="android:onClick">menuSelect</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:visibility">gone</item>
     </style>
     
     <style name="CycleSelectTitle" parent="CenterText">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">28px</item>
         <item name="android:textColor">@color/main</item>
     </style>
     
     <style name="CycleSelectItem" parent="CenterText">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">28px</item>
         <item name="android:textColor">@color/highlight</item>
     </style>
     
@@ -201,9 +201,9 @@
     
     
     <style name="TimerButtonText">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">20px</item>
         <item name="android:textColor">@color/menu_item</item>    
-        <item name="android:layout_height">40dp</item>    
+        <item name="android:layout_height">40px</item>    
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:background">@drawable/border_blue_dots</item>
     </style>

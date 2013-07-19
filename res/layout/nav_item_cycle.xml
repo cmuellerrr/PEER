@@ -5,20 +5,20 @@
     android:orientation="horizontal" >
     
     <TextView android:id="@+id/navCycleCount"
-        android:layout_width="30dp"
+        android:layout_width="30px"
         android:layout_height="fill_parent" 
-        android:textSize="18sp"
+        android:textSize="18px"
         android:textColor="@color/main"
         android:gravity="right|center_vertical"
-        android:paddingRight="5dp" />
+        android:paddingRight="5px" />
     
     <View android:id="@+id/navCycleMarker"
-        android:layout_width="10dp"
+        android:layout_width="10px"
         android:layout_height="fill_parent"
         android:background="@drawable/cycle_marker" 
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" 
-        android:layout_marginRight="5dp"/>
+        android:layout_marginTop="10px"
+        android:layout_marginBottom="10px" 
+        android:layout_marginRight="5px"/>
     
     <LinearLayout android:id="@+id/navCycleSteps"
         android:layout_width="match_parent"

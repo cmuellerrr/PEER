@@ -11,11 +11,11 @@
     
     <edu.cmu.hcii.novo.kadarbra.AudioFeedbackView
         android:id="@+id/audioFeedbackView"
-        android:layout_width="150dp"
-        android:layout_height="70dp" 
+        android:layout_width="150px"
+        android:layout_height="70px" 
         android:layout_alignParentBottom="true"
     	android:layout_centerHorizontal="true"
-    	android:layout_marginBottom="12dp"
+    	android:layout_marginBottom="12px"
  	/>
     
     <android.support.v4.view.ViewPager
@@ -24,20 +24,20 @@
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignLeft="@+id/stepPreviewWidget"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="80dp"
-        android:padding="10dp" />
+        android:layout_marginTop="40px"
+        android:layout_marginLeft="80px"
+        android:padding="10px" />
         
     <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget
         android:id="@+id/stepPreviewWidget"
         android:layout_width="fill_parent"
-        android:layout_height="82dp"
+        android:layout_height="82px"
         android:layout_above="@+id/breadcrumb" />
     
     <edu.cmu.hcii.novo.kadarbra.Breadcrumb
         android:id="@+id/breadcrumb"
         android:layout_width="fill_parent"
-        android:layout_height="10dp"
+        android:layout_height="10px"
         android:layout_alignParentBottom="true" />
     
     <ScrollView
@@ -46,10 +46,10 @@
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="40px"
         android:layout_toRightOf="@+id/menu_group"
         android:background="@drawable/drawer_background"
-        android:padding="10dp"
+        android:padding="10px"
         android:textColor="#ffffffff"
         android:visibility="gone" >
 
@@ -57,7 +57,7 @@
     
     
     <View
-        android:layout_width="6dp"
+        android:layout_width="6px"
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignLeft="@+id/menu_group"
@@ -66,7 +66,7 @@
     
     <RelativeLayout
         android:id="@+id/menu_group"
-        android:layout_width="222dp"
+        android:layout_width="222px"
         android:layout_height="fill_parent"
         android:layout_above="@+id/stepPreviewWidget" >
         
@@ -81,10 +81,10 @@
         <TextView
             android:id="@+id/menuTitle"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="40px"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="29sp"
+            android:textSize="29px"
             android:text="@string/menu_title"
             android:textColor="@color/menu_item" />
         
@@ -117,20 +117,20 @@
             android:text="@string/menu_ground" />
         
 		<RelativeLayout 
-		    android:layout_width="170dp"
-		    android:layout_height="75dp" 
+		    android:layout_width="170px"
+		    android:layout_height="75px" 
 		    android:id="@+id/elapsedTimeView"
 		    android:layout_below="@id/groundButton"
 		    android:visibility="gone"
 		    android:background="@drawable/border_blue"
-		    android:layout_marginLeft="26dp"
-		    android:layout_marginTop="40dp"
+		    android:layout_marginLeft="26px"
+		    android:layout_marginTop="40px"
 		    >
 		    
 		    <RelativeLayout
-		        android:layout_marginTop="15dp"
-		        android:layout_width="100dp"
-		        android:layout_height="50dp"
+		        android:layout_marginTop="15px"
+		        android:layout_width="100px"
+		        android:layout_height="50px"
 		        android:layout_centerInParent="true">
 		        
 		    	<TextView
@@ -139,7 +139,7 @@
 			        android:layout_height="wrap_content"
 			        
 					android:text="00:00:00"
-					android:textSize="25dp"
+					android:textSize="25px"
 					android:layout_centerHorizontal="true"/>
 			
 			    <TextView
@@ -148,7 +148,7 @@
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 					android:text="@string/elapsed_time"
-					android:textSize="13dp"
+					android:textSize="13px"
 					android:layout_centerHorizontal="true"/>
 		    	
 		    </RelativeLayout>
@@ -161,7 +161,7 @@
     
     <RelativeLayout
         android:layout_width="wrap_content"
-	    android:layout_height="40dp" 
+	    android:layout_height="40px" 
 	    android:id="@+id/topWidgetBar"
 	    android:layout_alignParentRight="true">
         

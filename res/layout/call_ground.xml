@@ -2,7 +2,7 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/CenterText"
     android:layout_gravity="center|center_vertical"
-    android:textSize="30sp"
+    android:textSize="30px"
     android:drawableTop="@drawable/call_ground"
-    android:drawablePadding="10dp"
+    android:drawablePadding="10px"
     android:text="@string/calling_ground" />
