@@ -15,7 +15,7 @@ import android.widget.TextView;
  * @author Chris
  *
  */
-public class AnnotationPage extends LinearLayout {
+public class AnnotationPage extends LinearLayout implements DrawerPageInterface{
 
 
 	
@@ -44,6 +44,15 @@ public class AnnotationPage extends LinearLayout {
 	public AnnotationPage(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+	}
+
+	
+	/**
+	 * Returns type of drawer page
+	 */
+	@Override
+	public String getDrawerType() {
+		return DrawerPageInterface.DRAWER_ANNOTATIONS;
 	}
 
 	

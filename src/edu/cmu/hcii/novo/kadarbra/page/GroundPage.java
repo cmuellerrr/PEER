@@ -6,14 +6,14 @@ package edu.cmu.hcii.novo.kadarbra.page;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import edu.cmu.hcii.novo.kadarbra.R;
 
 /**
  * @author Chris
  *
  */
-public class GroundPage extends FrameLayout {
+public class GroundPage extends LinearLayout implements DrawerPageInterface{
 
 	/**
 	 * @param context
@@ -38,4 +38,16 @@ public class GroundPage extends FrameLayout {
 		// TODO Auto-generated constructor stub
 	}
 
+
+
+	/**
+	 * Returns name of drawer type
+	 */
+	@Override
+	public String getDrawerType() {
+		return DrawerPageInterface.DRAWER_GROUND;
+	}
+
+	
+	
 }

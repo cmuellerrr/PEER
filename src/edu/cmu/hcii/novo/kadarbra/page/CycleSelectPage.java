@@ -19,7 +19,7 @@ import edu.cmu.hcii.novo.kadarbra.R;
  * @author Chris
  *
  */
-public class CycleSelectPage extends LinearLayout {
+public class CycleSelectPage extends LinearLayout implements DrawerPageInterface{
 
 	private int reps;
 	private int step;
@@ -104,5 +104,14 @@ public class CycleSelectPage extends LinearLayout {
 	 */
 	public void setStep(int step) {
 		this.step = step;
+	}
+
+
+	/**
+	 * Returns name of drawer type
+	 */
+	@Override
+	public String getDrawerType() {
+		return DrawerPageInterface.DRAWER_CYCLE_SELECT;
 	}
 }

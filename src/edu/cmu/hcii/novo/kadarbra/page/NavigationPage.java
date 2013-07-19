@@ -27,7 +27,7 @@ import edu.cmu.hcii.novo.kadarbra.structure.Step;
  * @author Chris
  *
  */
-public class NavigationPage extends LinearLayout {
+public class NavigationPage extends LinearLayout implements DrawerPageInterface {
 
 	private List<ProcedureItem> steps;
 	private int current;
@@ -147,5 +147,14 @@ public class NavigationPage extends LinearLayout {
 	 */
 	public void setSteps(List<ProcedureItem> steps) {
 		this.steps = steps;
+	}
+
+
+	/**
+	 * Returns type of interface
+	 */
+	@Override
+	public String getDrawerType() {
+		return DrawerPageInterface.DRAWER_NAVIGATION;
 	}
 }
