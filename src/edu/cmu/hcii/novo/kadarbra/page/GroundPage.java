@@ -5,9 +5,8 @@ package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.LinearLayout;
-import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.ViewFactory;
 
 /**
  * @author Chris
@@ -21,8 +20,7 @@ public class GroundPage extends LinearLayout implements DrawerPageInterface{
 	public GroundPage(Context context) {
 		super(context);
 		
-		
-		this.addView(LayoutInflater.from(context).inflate(R.layout.call_ground, null));
+		this.addView(ViewFactory.getCallGround(context));
 		
 		this.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}

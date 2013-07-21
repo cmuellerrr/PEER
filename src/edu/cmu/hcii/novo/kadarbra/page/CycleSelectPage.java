@@ -4,22 +4,22 @@
 package edu.cmu.hcii.novo.kadarbra.page;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import edu.cmu.hcii.novo.kadarbra.MessageHandler;
+import edu.cmu.hcii.novo.kadarbra.FontManager;
+import edu.cmu.hcii.novo.kadarbra.FontManager.FontStyle;
 import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.ViewFactory;
 
 /**
  * @author Chris
  *
  */
-public class CycleSelectPage extends LinearLayout implements DrawerPageInterface{
+public class CycleSelectPage extends LinearLayout implements DrawerPageInterface {
 
 	private int reps;
 	private int step;
@@ -37,26 +37,15 @@ public class CycleSelectPage extends LinearLayout implements DrawerPageInterface
         ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_select_page, null);
         
         for (int i = 0; i < reps; i++) {
-        	final String rep = String.valueOf(i+1);
-        	
-        	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
-        	newItem.setText("CYCLE " + (i+1));
-        	newItem.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent("command");
-					intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
-					intent.putExtra("str", rep);
-					getContext().sendBroadcast(intent);
-				}
-        		
-        	});
-        	
-        	page.addView(newItem);
+        	page.addView(ViewFactory.getCycleSelect(context, i+1));
         }
+        
+        //TODO hmm, specifying the parent on inflate isn't working. 
+        //But it does appear to center correctly
         this.addView(page);
         this.setGravity(Gravity.CENTER);
+        
+        initFonts();
 	}
 	
 	
@@ -68,6 +57,17 @@ public class CycleSelectPage extends LinearLayout implements DrawerPageInterface
 	public CycleSelectPage(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+	}
+	
+	
+	
+	/**
+	 * Setup the custom fonts for this view.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getContext().getAssets());
+
+		((TextView)findViewById(R.id.cycleSelectTitle)).setTypeface(fm.getFont(FontStyle.BODY));
 	}
 	
 	

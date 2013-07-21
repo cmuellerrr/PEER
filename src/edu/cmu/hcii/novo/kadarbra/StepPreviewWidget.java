@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.structure.Procedure;
-import edu.cmu.hcii.novo.kadarbra.structure.Step;
 
 public class StepPreviewWidget extends LinearLayout{
 

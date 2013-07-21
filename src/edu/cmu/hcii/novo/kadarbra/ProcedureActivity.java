@@ -10,7 +10,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -30,6 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.AudioFeedbackView.AudioFeedbackThread;
+import edu.cmu.hcii.novo.kadarbra.FontManager.FontStyle;
 import edu.cmu.hcii.novo.kadarbra.page.AnnotationPage;
 import edu.cmu.hcii.novo.kadarbra.page.CoverPage;
 import edu.cmu.hcii.novo.kadarbra.page.CycleMarkerPage;
@@ -93,6 +93,7 @@ public class ProcedureActivity extends Activity {
 		procedure = (Procedure)intent.getSerializableExtra(MainActivity.PROCEDURE);
 		
 		setContentView(R.layout.activity_procedure);
+		initFonts();
 		
 		initStepPreviewWidget();
 		initMenu();
@@ -103,10 +104,28 @@ public class ProcedureActivity extends Activity {
 		stepIndices = getPageIndices();
 		
 		initElapsedTime();
-
 		initTimer();
 	}
+	
+	
+	/**
+	 * Set up the custom fonts on the views that are static to a procedure.
+	 * Mainly, the menu and timer.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getAssets());
+		
+		((TextView)findViewById(R.id.menuTitle)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+		((Button)findViewById(R.id.navButton)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+		((Button)findViewById(R.id.stowageButton)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+		((Button)findViewById(R.id.annotationButton)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+		((Button)findViewById(R.id.groundButton)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+		
+		((TextView)findViewById(R.id.elapsedTime)).setTypeface(fm.getFont(FontStyle.TIMER));
+		((TextView)findViewById(R.id.elapsedTimeText)).setTypeface(fm.getFont(FontStyle.BODY));
+	}
 
+	
 	
 	// The activity is about to become visible.
 	@Override
@@ -507,8 +526,7 @@ public class ProcedureActivity extends Activity {
 	 */
 	private void initElapsedTime(){
 		startTime = System.currentTimeMillis();
-        Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Lifeline.ttf");
-        ((TextView) findViewById(R.id.elapsedTime)).setTypeface(tf);
+        
 	    final Handler elapsedTimeHandler = new Handler();
 	    Runnable elapsedTimeRun = new Runnable() {
 	        @Override
@@ -526,7 +544,6 @@ public class ProcedureActivity extends Activity {
 	    };
 	    
 		elapsedTimeHandler.postDelayed(elapsedTimeRun, 0);
-
 	}
 
 
