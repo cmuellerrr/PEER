@@ -14,7 +14,7 @@ public class MessageHandler {
 	public static String MSG_TYPE_AUDIO_LEVEL = "audioLevel";
 	public static String MSG_TYPE_AUDIO_BUSY = "audioBusy";
 	
-	public static int COMMAND_NOT_FOUND = 0;
+	public static int COMMAND_NOT_FOUND = 0; 
 	public static int COMMAND_CONFIRMATION = 1;
 	public static int COMMAND_BACK = 2;
 	public static int COMMAND_NEXT = 3;

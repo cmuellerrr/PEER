@@ -93,6 +93,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
                     }
                 }
             }
+            return;
         }
 
         /**
@@ -112,9 +113,11 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param s current state
          */
         public void setState(int s){
-        	state = s;
-        	if (state == STATE_ACTIVE){
-        		refreshThresholdLine();
+        	synchronized (mSurfaceHolder) {
+	        	state = s;
+	        	if (state == STATE_ACTIVE){
+	        		refreshThresholdLine();
+	        	}
         	}
         }
         
@@ -648,21 +651,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 	@Override
 	public void surfaceChanged(SurfaceHolder arg0, int format, int width, int height) {
         thread.setSurfaceSize(width, height);
-		
+		Log.v(TAG,"surfaceChanged");
+
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
         // start the thread here so that we don't busy-wait in run()
         // waiting for the surface to be created
+		Log.v(TAG,"surfaceCreated");
+
 		thread.setRunning(true);
-        thread.start();
+		thread.start();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder arg0) {
         // we have to tell thread to shut down & wait for it to finish, or else
         // it might touch the Surface after we return and explode
+		
+		Log.v(TAG,"surfaceDestroyed");
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {

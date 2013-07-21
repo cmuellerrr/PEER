@@ -53,7 +53,6 @@ public class ProcedureActivity extends Activity {
 	public final static String CURRENT_STEP = "edu.cmu.hcii.novo.kadarbra.CURRENT_STEP";
 
 	public final static int PREPARE_PAGES = 3; // number of pages in prepare stage (before steps are shown)
-	public final static int OPEN_MENU = 0; // startActivityForResult call identifier
 	
 	private Procedure procedure;
 	private ViewPager viewPager;
@@ -437,15 +436,40 @@ public class ProcedureActivity extends Activity {
 
 	}
 	
-	
+	/**
+	 * Opens the drawer
+	 */
+	private void openStepDrawer(View v){
+		ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+		if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
+			// do animation
+			drawerContent = v;
+			
+			//If the drawer is open for another menu
+			if (drawer.getVisibility() != View.GONE) {
+				//change drawer
+				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
+				clearMenuSelection();
+		    //If the drawer is closed
+			} else {
+				//open the drawer
+				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
+				drawer.setVisibility(View.VISIBLE);
+			}
+		}else{
+			drawer.removeAllViews();
+			drawer.setVisibility(View.VISIBLE);
+			drawer.addView(v);
+		}
+	}
 	
 	/**
 	 * Close the drawer
 	 */
 	private void closeDrawer(){
-		View drawer = (View) findViewById(R.id.menuDrawer);
+		FrameLayout drawer = (FrameLayout) findViewById(R.id.menuDrawer);
 		if (drawer.getVisibility() == View.VISIBLE) {
-			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE + TAG_CASCADE));
+			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE));
 			drawer.setVisibility(View.GONE);
 		}
 		clearMenuSelection();
@@ -908,6 +932,8 @@ public class ProcedureActivity extends Activity {
 	 * Handles the back command  
 	 */
     private void commandBack(){
+    	Log.v(TAG,"getMenuVisibility: "+ getMenuVisibility() + ", getOpenedDrawer: "+ getOpenedDrawer());
+    	
     	/*
     	 * If menu and drawer are closed,
     	 * 		Go to the next previous page.
@@ -1026,8 +1052,8 @@ public class ProcedureActivity extends Activity {
      */
     private void commandGoToCycle(Bundle extras){
 	    /*
-	     * If the cycle menu is not open, 
-	     * 		handle the step command
+	     * If the cycle is open, 
+	     * 		handle the command
 	     */
     	if (getOpenedDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT))
     		handleNavigationCommand(extras.getString("str"));
@@ -1062,14 +1088,7 @@ public class ProcedureActivity extends Activity {
 				//If in a cycle, 
 	    		if (reps > 1) {
 	    			selectedStep = inputNumber;
-	    			
-	    			
-	    			ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-	    	    	drawer.removeAllViews();
-	    	    	drawer.setVisibility(View.VISIBLE);
-	    	    	drawer.addView(new CycleSelectPage(this, reps, inputNumber));
-	    	    	
-	    	    	
+	    			openStepDrawer(new CycleSelectPage(this, reps, inputNumber));
 	    		} else {
 	    			jumpToStep(inputNumber, 1);
 	    		}	
@@ -1173,7 +1192,10 @@ public class ProcedureActivity extends Activity {
     		
     		runOnUiThread(new Runnable() {
     			public void run() { 
-    				closeMenu();
+    				if (getMenuVisibility())
+    					closeMenu();
+    				else
+    					closeDrawer();
     				viewPager.setCurrentItem(index, true);
       	      	}
     		});
@@ -1193,6 +1215,7 @@ public class ProcedureActivity extends Activity {
 		
 		//If I hit the same menu button
 		if (v.isSelected()) {
+			Log.v(TAG,"menuSelect: same menu");
 			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE));
 			drawer.setVisibility(View.GONE);
 			v.setSelected(false);
