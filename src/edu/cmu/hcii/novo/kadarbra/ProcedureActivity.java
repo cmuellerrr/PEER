@@ -389,9 +389,10 @@ public class ProcedureActivity extends Activity {
 	
 	/**
 	 * 
-	 * @return name of current drawer opened. Returns null if no drawer is currently opened.
+	 * @return name of current drawer opened. 
+	 * Returns DrawerPageInterface.DRAWER_NONE if no drawer is currently opened.
 	 */
-	private String getCurrentDrawer(){
+	private String getOpenedDrawer(){
 		String currentDrawer = DrawerPageInterface.DRAWER_NONE;
 		ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
 
@@ -410,9 +411,11 @@ public class ProcedureActivity extends Activity {
 	 */
 	private void openMenu() {
 		View bg = (View) findViewById(R.id.menuBackground);
-		
 		bg.startAnimation(menuAnimations.get(bg.getId() + TAG_OPEN));
 		bg.setVisibility(View.VISIBLE);
+		
+		findViewById(R.id.menuTitle).setSelected(true);
+
 	}
 	
 	
@@ -426,6 +429,7 @@ public class ProcedureActivity extends Activity {
 			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE + TAG_CASCADE));
 			drawer.setVisibility(View.GONE);
 		}
+		clearMenuSelection();
 	}
 	
 	/**
@@ -446,6 +450,7 @@ public class ProcedureActivity extends Activity {
 		
 		clearMenuSelection();
 		findViewById(R.id.menuTitle).setSelected(false);
+		
 	}
 	
 	/**
@@ -534,12 +539,12 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if (timerState.equals(TIMER_OFF))
-					startTimer();
+					commandStartTimer();
 				else if (timerState.equals(TIMER_ON))
-					stopTimer();
+					commandStopTimer();
 				
 				if (timerState.equals(TIMER_RESET)){
-					startTimer();
+					commandStartTimer();
 				}
 			}
 		});
@@ -547,7 +552,7 @@ public class ProcedureActivity extends Activity {
 		((TextView) findViewById(R.id.timer)).setOnLongClickListener(new OnLongClickListener(){
 			@Override
 			public boolean onLongClick(View arg0) {
-				resetTimer();
+				commandResetTimer();
 				return false;
 			}
 		});
@@ -556,11 +561,9 @@ public class ProcedureActivity extends Activity {
 	/**
 	 * Starts the timer
 	 */
-	private void startTimer(){
+	private void commandStartTimer(){
 		 timerState = TIMER_ON;
 		 timerStartTime = System.currentTimeMillis();
-		 //Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/Lifeline.ttf");
-		 //timerTimeText.setTypeface(tf);
 		 
 		 final Handler timerHandler = new Handler();
 		 Runnable timerRunner = new Runnable() {
@@ -604,7 +607,7 @@ public class ProcedureActivity extends Activity {
 	/**
 	 * Resets the timer
 	 */
-	private void resetTimer(){
+	private void commandResetTimer(){
 		 timerDuration = 0;
 		 timerStartTime = System.currentTimeMillis();
 		 timerState = TIMER_RESET;
@@ -613,7 +616,7 @@ public class ProcedureActivity extends Activity {
 	/**
 	 * Stops/pauses the timer
 	 */
-	private void stopTimer(){
+	private void commandStopTimer(){
 		 timerDuration += System.currentTimeMillis() - timerStartTime;
 		 timerState = TIMER_OFF;
 		 
@@ -651,7 +654,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onPageSelected(int arg0) {
-				Log.v("viewPager","onPageSelected "+arg0);
+				//Log.v(TAG,"viewPager onPageSelected: "+arg0);
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
 				stepPreviewWidget.setCurrentStep(procedure,arg0);
 				
@@ -781,7 +784,6 @@ public class ProcedureActivity extends Activity {
 	private class DataUpdateReceiver extends BroadcastReceiver {
 		@Override
 	    public void onReceive(Context context, Intent intent) {
-	    	Log.d(TAG, "Received action: " + intent.getAction());
 	
 	    	if (intent.getAction().equals(MessageHandler.MSG_TYPE_COMMAND)) {
         		handleCommand(intent.getExtras());
@@ -791,6 +793,8 @@ public class ProcedureActivity extends Activity {
 	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_BUSY)){
 	    		boolean busyState = Boolean.parseBoolean(intent.getExtras().getString("msg"));
 	    		audioFeedbackThread.setBusy(busyState);
+	    		Log.v(TAG, "busyState: " + busyState);
+
 	    	}
 	    }
 	}
@@ -813,126 +817,204 @@ public class ProcedureActivity extends Activity {
     	int command = extras.getInt("msg");
     	
     	if (command != MessageHandler.COMMAND_NOT_FOUND) {
-    		Log.v(TAG, "Command: " + command);
+    		Log.v(TAG, "handleCommand: " + command);
 
     		audioFeedbackThread.setBusy(false);
     		if (command == MessageHandler.COMMAND_CONFIRMATION){
     			audioFeedbackThread.setState(audioFeedbackView.STATE_ACTIVE);
     		}
-			Log.v(TAG, "Command_READY: " + command);
     		
-    		// if the menu is not currently open
-    		if (!getMenuVisibility()){	
-	    		if (command == MessageHandler.COMMAND_BACK) {
-	    			if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE))
-	    				prevPage();
-	    			else
-	    				closeDrawer();
-		    	} else if (command == MessageHandler.COMMAND_NEXT) {
-		    		nextPage();
-		    		
-		    	} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
-		    		scrollDown();
-		    		
-		    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
-		    		scrollUp();
-		    		
-		    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-		    		if (!getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT))
-		    			handleNavigationCommand(extras.getString("str"));
-		    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
-		    		openMenu();
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
-		    		closeDrawer();
-		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {
-		    		menuSelect(findViewById(R.id.navButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
-		    		menuSelect(findViewById(R.id.stowageButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
-		    		menuSelect(findViewById(R.id.annotationButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
-		    		menuSelect(findViewById(R.id.groundButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_INPUT) {
-		    		//update the inputValue textview with the given value
-		    	}
+			if (command == MessageHandler.COMMAND_BACK) { 					
+    			commandBack();
+
+			} else if (command == MessageHandler.COMMAND_NEXT) {  			
+				commandNext();
+				
+			} else if (command == MessageHandler.COMMAND_SCROLL_DOWN) {		
+				commandScrollDown();
+				
+			} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
+				commandScrollUp();
+				
+			} else if (command == MessageHandler.COMMAND_GO_TO_STEP){
+				commandGoToStep(extras);
+				
+			} else if (command == MessageHandler.COMMAND_STEP_NUMBER){
+				commandGoToStep(extras);
+
+			} else if (command == MessageHandler.COMMAND_CYCLE_NUMBER){
+				commandGoToCycle(extras);
+				
+			} else if (command == MessageHandler.COMMAND_MENU){
+				commandMenu();
+		
+			} else if (command == MessageHandler.COMMAND_CLOSE){
+				commandClose();
+			
+			} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW){
+	    		menuSelect(findViewById(R.id.navButton));
+
+			} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
+	    		menuSelect(findViewById(R.id.stowageButton));
 	    		
-	    	// if the menu is currently open	
-    		} else if (getMenuVisibility()) {
-    			if (command == MessageHandler.COMMAND_BACK) {
-	    			closeMenu();
-	    			
-		    	} else if (command == MessageHandler.COMMAND_GO_TO_STEP) { 
-		    		handleNavigationCommand(extras.getString("str"));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_OPEN) {
-		    		closeMenu();
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_CLOSE) {
-		    		closeMenu();
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_OVERVIEW) {  			
-		    		menuSelect(findViewById(R.id.navButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_STOWAGE) {
-		    		menuSelect(findViewById(R.id.stowageButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
-		    		menuSelect(findViewById(R.id.annotationButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
-		    		menuSelect(findViewById(R.id.groundButton));
-		    		
-		    	} else if (command == MessageHandler.COMMAND_INPUT) {
-		    		//probably do nothing
-		    	} 
-    			
-    		
-    		
-        	}
-    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
-    			if (command == MessageHandler.COMMAND_STEP_NUMBER){
-		    		handleNavigationCommand(extras.getString("str"));
-    			}
-    		}else if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT)){
-    			if (command == MessageHandler.COMMAND_CYCLE_NUMBER){
-		    		handleNavigationCommand(extras.getString("str"));
-    			}
-    		}
-    		
-    		if (!getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
-	    		if (command == MessageHandler.COMMAND_SCROLL_DOWN) {
-		    		scrollDrawerDown();
-		    	} else if (command == MessageHandler.COMMAND_SCROLL_UP) {
-	    			scrollDrawerUp();
-		    	}
-    		}
-    		
-    		/** Timer commands **/
-    		if (command == MessageHandler.COMMAND_TIMER_START){
-	    		startTimer();
+	    	} else if (command == MessageHandler.COMMAND_MENU_ANNOTATION) {
+	    		menuSelect(findViewById(R.id.annotationButton));
+	    		
+	    	} else if (command == MessageHandler.COMMAND_MENU_GROUND) {
+	    		menuSelect(findViewById(R.id.groundButton));
+	    		
+	    	} else if (command == MessageHandler.COMMAND_TIMER_START){
+	    		commandStartTimer();
+	    		
 	    	} else if (command == MessageHandler.COMMAND_TIMER_STOP){
-	    		stopTimer();
+	    		commandStopTimer();
+	    		
 	    	} else if (command == MessageHandler.COMMAND_TIMER_RESET){
-	    		resetTimer();
-	    	}
-    	
-    		/** Conditional commands **/
-    		if (getCurrentDrawer().equals(DrawerPageInterface.DRAWER_NONE) && !getMenuVisibility()){
-		    	if (command == MessageHandler.COMMAND_COND_EXPAND){
-		    		condExpand();
-		    	} else if (command == MessageHandler.COMMAND_COND_COLLAPSE){
-		    		condCollapse();
-		    	}
-    		}
+	    		commandResetTimer();
+	    		
+	    	} else if (command == MessageHandler.COMMAND_COND_EXPAND){
+		    	commandCondExpand();
+		    	
+		    } else if (command == MessageHandler.COMMAND_COND_COLLAPSE){
+		    	commandCondCollapse();
+		    	
+		    } else if (command == MessageHandler.COMMAND_INPUT) {
+		    	//update the inputValue textview with the given value
+		    }
+    		
     	}
     }
 	
     
+    
+	/**
+	 * Handles the back command  
+	 */
+    private void commandBack(){
+    	/*
+    	 * If menu and drawer are closed,
+    	 * 		Go to the next previous page.
+    	 */
+    	if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+	    	if (viewPager.getCurrentItem() > 0)
+	    		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
+		}
+    	
+    	/*
+    	 * If menu is open,
+    	 * 		Close the menu.
+    	 */
+    	else if (getMenuVisibility()){
+    		closeMenu();
+    	}
+    	
+    	/*
+    	 * If menu is not open but drawer is,
+    	 * 		Close the drawer.
+    	 */
+    	else if (!getMenuVisibility() && !getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
+    		closeDrawer();
+    	}
+    }
+    
+    
+    
+    /**
+     * Handles the next command
+     */
+    private void commandNext(){
+    	/*
+    	 * If menu and drawer are closed,
+    	 * 		Go to the next step page.
+    	 */
+		if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+	    	if (viewPager.getCurrentItem()<viewPager.getChildCount());
+	    		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
+		}
+    }
+    
+    
+    
+    /**
+     * Handles the scroll down command
+     */
+    private void commandScrollDown(){
+    	/*
+    	 * If menu and drawer are closed, 
+    	 * 		scroll the step page 
+    	 */
+		if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+	        StepPageScrollView curPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+	    	curPage.scrollDown();
+	    	
+	    /*
+	     * If drawer is open, 
+	     * 		scroll the drawer
+	     */
+		}else if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
+			scrollDrawerDown();
+		}
+    }
+
+    
+    /**
+     * Handles the scroll up command
+     */
+    private void commandScrollUp(){
+    	/*
+    	 * If menu and drawer are closed, scroll the step page 
+    	 */
+		if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+	        StepPageScrollView curPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+	    	curPage.scrollUp();
+	    	
+	    /*
+	     * If drawer is open, scroll the drawer
+	     */
+		}else if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+			scrollDrawerUp();
+		}
+    }
+    
+    /**
+     * Scrolls current item in drawer down
+     */
+    private void scrollDrawerDown(){
+      	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+	    drawer.smoothScrollBy(0, (int) (drawer.getHeight()*0.7f));
+    }
+
+    /**
+     * Scrolls current item in drawer up
+     */
+    private void scrollDrawerUp(){
+      	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+	    drawer.smoothScrollBy(0, (int) (drawer.getHeight()*-0.7f));
+    }
+    
+    /**
+     * Handles the go to step command
+     */
+    private void commandGoToStep(Bundle extras){
+	    /*
+	     * If the cycle menu is not open, 
+	     * 		handle the step command
+	     */
+    	if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT))
+    		handleNavigationCommand(extras.getString("str"));
+    }
+    
+    /**
+     * Handles the go to cycle command
+     */
+    private void commandGoToCycle(Bundle extras){
+	    /*
+	     * If the cycle menu is not open, 
+	     * 		handle the step command
+	     */
+    	if (getOpenedDrawer().equals(DrawerPageInterface.DRAWER_CYCLE_SELECT))
+    		handleNavigationCommand(extras.getString("str"));
+    }
     
     /*Because of the need to select cycles, we need a branch in
 	  logic.  If the given step number is in a cycle, then we 
@@ -992,99 +1074,71 @@ public class ProcedureActivity extends Activity {
 		*/ 
     }
     
-    
-    
-	/**
-	 * Goes to previous page in viewPager    
-	 */
-    private void prevPage(){
-    	if (viewPager.getCurrentItem() > 0)
-    		viewPager.setCurrentItem(viewPager.getCurrentItem()-1,true);
-    	//else
-    	//	finish();
-    }
-    
-    
-    
     /**
-     * Goes to next page in viewPager
+     * Handles menu command
      */
-    private void nextPage(){
-    	if (viewPager.getCurrentItem()<viewPager.getChildCount());
-    		viewPager.setCurrentItem(viewPager.getCurrentItem()+1,true);
-    }
-    
-    
-    
-    /**
-     * Scrolls the current StepPageScrollView down
-     */
-    private void scrollDown(){
-        StepPageScrollView curPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
-    	curPage.scrollDown();
-    }
-
-    
-    /**
-     * Scrolls the current StepPageScrollView up
-     */
-    private void scrollUp(){
-        StepPageScrollView curPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
-    	curPage.scrollUp();
+    private void commandMenu(){
+    	if (!getMenuVisibility())
+    		openMenu();
+    	else if (getMenuVisibility())
+    		closeMenu();
     }
     
     /**
-     * Scrolls current item in drawer down
+     * Handles close command
      */
-    private void scrollDrawerDown(){
-    	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-    	if (drawer.getVisibility() != View.GONE){
-    		drawer.scrollBy(0, (int) (drawer.getHeight()*0.8f));
-    	}
-    }
-
-    /**
-     * Scrolls current item in drawer up
-     */
-    private void scrollDrawerUp(){
-    	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-    	if (drawer.getVisibility() != View.GONE){
-    		drawer.scrollBy(0, (int) (drawer.getHeight()*-0.8f));
+    private void commandClose(){
+    	/*
+    	 * If menu is closed but drawer is open
+    	 * 		close the drawer
+    	 */
+    	if (!getMenuVisibility() && !getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){
+    		closeDrawer();
+    	}else if (getMenuVisibility()){
+    		closeMenu();
     	}
     }
     
     /**
      * Expands conditional
-     * TODO: make this not shitty
+     * TODO: make this not slow
      */
-    private void condExpand(){
-    	StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
-        //StepPage curStepPage = curScrollPage.getStepPage();
-        //if (curStepPage.getStep().isConditional()){
-    	
-		final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
-		if (consText != null){
-			final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
-			consText.setVisibility(View.VISIBLE);
-			consTitle.setText(R.string.cond_title_shown);
-        }
+    private void commandCondExpand(){
+    	// Only if menu and drawer are both closed
+		if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+	    	StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+	        /*
+	        StepPage curStepPage = curScrollPage.getStepPage();
+	        if (curStepPage.getStep().isConditional()){
+	    	*/
+			final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
+			if (consText != null){
+				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
+				consText.setVisibility(View.VISIBLE);
+				consTitle.setText(R.string.cond_title_shown);
+	        }
+		}
     }
     
     /**
      * Collapses conditional
-     * TODO: make this not shitty
+     * TODO: make this not slow
      */
-    private void condCollapse(){
-        StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
-        //StepPage curStepPage = curScrollPage.getStepPage();
-        //if (curStepPage.getStep().isConditional()){
-		
-        final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
-		if (consText != null){
-			final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
-			consText.setVisibility(View.GONE);
-			consTitle.setText(R.string.cond_title_hidden);
-        }
+    private void commandCondCollapse(){
+    	// Only if menu and drawer are both closed
+    	if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
+	        StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
+	        /*
+	        StepPage curStepPage = curScrollPage.getStepPage();
+	        if (curStepPage.getStep().isConditional()){
+			*/
+	        final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
+			if (consText != null){
+				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
+				consText.setVisibility(View.GONE);
+				consTitle.setText(R.string.cond_title_hidden);
+	        }
+    	}
     }
     
     /**

@@ -162,7 +162,7 @@ public class ConnectionService extends Service {
 	            {  try
 	               {
 	            	  status = 2;
-		              Log.v("waiting  for msg",""+spamCount);
+		              //Log.v("waiting  for msg",""+spamCount);
 		              checkDisconnectSpam();
 		              
 	            	  String line = streamIn.readLine();

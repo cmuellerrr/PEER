@@ -20,8 +20,8 @@ public class MessageHandler {
 	public static int COMMAND_NEXT = 3;
 	public static int COMMAND_SCROLL_UP = 4;
 	public static int COMMAND_SCROLL_DOWN = 5;
-	public static int COMMAND_MENU_OPEN = 6;
-	public static int COMMAND_MENU_CLOSE = 7;
+	public static int COMMAND_MENU = 6;
+	public static int COMMAND_CLOSE = 7;
 	public static int COMMAND_MENU_OVERVIEW = 8;
 	public static int COMMAND_MENU_STOWAGE = 9;
 	public static int COMMAND_MENU_ANNOTATION = 10;
@@ -155,9 +155,9 @@ public class MessageHandler {
 		}else if (content.equals("down")){
 			commandIdentifier = COMMAND_SCROLL_DOWN;
 		}else if (content.equals("menu")){
-			commandIdentifier = COMMAND_MENU_OPEN;
+			commandIdentifier = COMMAND_MENU;
 		}else if (content.equals("close")){
-			commandIdentifier = COMMAND_MENU_CLOSE;
+			commandIdentifier = COMMAND_CLOSE;
 		}else if (content.equals("overview")){
 			commandIdentifier = COMMAND_MENU_OVERVIEW;
 		}else if (content.equals("stowage")){
