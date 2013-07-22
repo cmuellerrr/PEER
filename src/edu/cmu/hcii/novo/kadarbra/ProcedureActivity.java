@@ -71,7 +71,7 @@ public class ProcedureActivity extends Activity {
 	private static final String TAG_CLOSE = "_close";
 	private static final String TAG_CYCLE = "_cycle";
 	private static final String TAG_CASCADE = "_cascade";
-	private static final int ANIM_DELAY = 50;
+	private static final int ANIM_DELAY = 25;
 	
 	private long startTime; // for elapsed time
 	private long timerStartTime; // when timer started
@@ -1094,20 +1094,6 @@ public class ProcedureActivity extends Activity {
 	    		}	
 			}
 		}
-		
-		/*Log.i(TAG, "Extras: " + extras.toString());
-		if (extras.getInt("reps") > 1) {
-	    	//bring up another menu
-	    	//pass in the step #
-	    	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-	    	drawer.removeAllViews();
-	    	drawer.addView(new CycleSelectPage(this, extras.getInt("reps"), extras.getInt("step")));
-	    } else {
-	    	//By default, get the first occurrence
-	    	int occ = extras.containsKey("occurrence") ? extras.getInt("occurrence") : 1;
-		  		jumpToStep(extras.getInt("step"), occ);
-	    }    		
-		*/ 
     }
     
     /**

@@ -153,7 +153,7 @@ public class ViewFactory {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent("command");
-				intent.putExtra("msg", MessageHandler.COMMAND_GO_TO_STEP);
+				intent.putExtra("msg", MessageHandler.COMMAND_CYCLE_NUMBER);
 				intent.putExtra("str", rep);
 				v.getContext().sendBroadcast(intent);
 			}
