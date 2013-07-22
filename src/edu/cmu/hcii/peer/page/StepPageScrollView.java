@@ -57,7 +57,7 @@ public class StepPageScrollView extends ScrollView{
             viewWidth = xNew;
             viewHeight = yNew;
             
-            //Log.v(TAG,"w,h: "+viewWidth+", "+viewHeight);
+            //Log.i(TAG,"Size change: w,h: "+viewWidth+", "+viewHeight);
     }
     
    

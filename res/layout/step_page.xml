@@ -70,7 +70,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical" >
                 
-                <TextView android:id="@+id/consequentTitle"
+                <TextView android:id="@+id/consequentMarker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/highlight"
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="26sp"
-                    android:visibility="gone" />
+                    android:visibility="invisible" />
                 
             </LinearLayout>
             

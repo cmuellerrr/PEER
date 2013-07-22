@@ -1137,7 +1137,7 @@ public class ProcedureActivity extends Activity {
 	    	*/
 			final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
 			if (consText != null){
-				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
+				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentMarker);
 				consText.setVisibility(View.VISIBLE);
 				consTitle.setText(R.string.cond_title_shown);
 	        }
@@ -1158,7 +1158,7 @@ public class ProcedureActivity extends Activity {
 			*/
 	        final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
 			if (consText != null){
-				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentTitle);
+				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentMarker);
 				consText.setVisibility(View.GONE);
 				consTitle.setText(R.string.cond_title_hidden);
 	        }

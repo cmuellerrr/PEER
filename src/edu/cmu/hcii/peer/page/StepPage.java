@@ -87,7 +87,7 @@ public class StepPage extends LinearLayout {
 			final TextView consText = ((TextView)page.findViewById(R.id.consequentText));
 			consText.setText(step.getConsequent());
 			
-			page.findViewById(R.id.consequentTitle).setOnClickListener(new OnClickListener() {
+			page.findViewById(R.id.consequentMarker).setOnClickListener(new OnClickListener() {
 				public void onClick(View v) {
 					//TODO make this a toggle?
 					if (consText.getVisibility() == VISIBLE) {
@@ -141,7 +141,7 @@ public class StepPage extends LinearLayout {
 		((TextView)findViewById(R.id.stepText)).setTypeface(fm.getFont(FontStyle.BODY));
 		
 		if (findViewById(R.id.consequentContainer) != null) {
-			((TextView)findViewById(R.id.consequentTitle)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+			((TextView)findViewById(R.id.consequentMarker)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
 			((TextView)findViewById(R.id.consequentText)).setTypeface(fm.getFont(FontStyle.BODY));
 		}
 	}
