@@ -60,6 +60,10 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
         
         private int state = STATE_INACTIVE;
         
+        // Bitmaps for drawing mic
+        private Bitmap micActive_Scaled;
+        private Bitmap micInactive_Scaled;
+
         public AudioFeedbackThread(SurfaceHolder surfaceHolder, Context context) {
             // get handles to some important objects
             mSurfaceHolder = surfaceHolder;
@@ -89,6 +93,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
                     }
                 }
             }
+            return;
         }
 
         /**
@@ -108,9 +113,11 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param s current state
          */
         public void setState(int s){
-        	state = s;
-        	if (state == STATE_ACTIVE){
-        		refreshThresholdLine();
+        	synchronized (mSurfaceHolder) {
+	        	state = s;
+	        	if (state == STATE_ACTIVE){
+	        		refreshThresholdLine();
+	        	}
         	}
         }
         
@@ -176,16 +183,25 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 					drawInactive(c);
 				}else if (state == STATE_ACTIVE){
 					drawMicThresholdAnimation(c);
-					//drawThresholdLine(c);
 				}
 			}
-			//drawBusy(c,0.15f,0.7f,40);
+		}
+		
+		/**
+		 * Initializes objects needed for drawing
+		 */
+		private void init(){
+			initPaints();
+
+			for (int i = 0; i < levels.length; i++ ){
+				drawnLevelSpeeds[i] = 1;
+			}
 		}
 		
 		/**
 		 * Initializes paint
 		 */
-		private void init(){
+		private void initPaints(){
 			pBar = new Paint();
 			pBar.setColor(Color.parseColor("#a4ece8"));
 			//p.setMaskFilter(new BlurMaskFilter(25, Blur.INNER));
@@ -203,17 +219,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 			pThreshold.setStrokeWidth(2.0f);
 			//pThreshold.setShader(new LinearGradient(8f, 80f, 30f, 20f, Color.RED,Color.WHITE, TileMode.MIRROR));
 		
-			
-			for (int i = 0; i < levels.length; i++ ){
-				drawnLevelSpeeds[i] = 1;
-				
-			}
+		}
+		
+		/**
+		 * Initializes bitmaps
+		 */
+		private void initBitmaps(){
+        	Resources res = getContext().getResources();
+        	Bitmap micActive = BitmapFactory.decodeResource(res, R.drawable.mic_active);
+        	micActive_Scaled = scaleImageRelativeToViewHeight(micActive,0.8f);
+        	
+        	Bitmap micInactive = BitmapFactory.decodeResource(res, R.drawable.mic_inactive);
+        	micInactive_Scaled = scaleImageRelativeToViewHeight(micInactive,0.8f);
 		}
 		
         /* Callback invoked when the surface dimensions change. */
         public void setSurfaceSize(int width, int height) {
             // synchronized to make sure these all change atomically
             synchronized (mSurfaceHolder) {
+    			initBitmaps();
+
                 //viewWidth = width;
                 //viewHeight = height;
 
@@ -227,11 +252,6 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param c
          */
         private void drawMicInactive(Canvas c){
-        	Resources res = getContext().getResources();
-        	Bitmap micInactive = BitmapFactory.decodeResource(res, R.drawable.mic_inactive);
-
-        	Bitmap micInactive_Scaled = scaleImageRelativeToViewHeight(micInactive,0.8f);
-        	
         	int left = viewWidth/2-micInactive_Scaled.getWidth()/2;
         	int top = viewHeight/2-micInactive_Scaled.getHeight()/2;
         	
@@ -248,11 +268,6 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param clippingProportion % of the microphone that is not filled in
          */
         private void drawMicActive(Canvas c, float clippingProportion, Paint paint){
-        	Resources res = getContext().getResources();
-        	Bitmap micActive = BitmapFactory.decodeResource(res, R.drawable.mic_active);
-
-        	Bitmap micActive_Scaled = scaleImageRelativeToViewHeight(micActive,0.8f);
-        	
         	int left = viewWidth/2-micActive_Scaled.getWidth()/2;
         	int top = viewHeight/2-micActive_Scaled.getHeight()/2;
         	
@@ -636,21 +651,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 	@Override
 	public void surfaceChanged(SurfaceHolder arg0, int format, int width, int height) {
         thread.setSurfaceSize(width, height);
-		
+		Log.v(TAG,"surfaceChanged");
+
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder arg0) {
         // start the thread here so that we don't busy-wait in run()
         // waiting for the surface to be created
+		Log.v(TAG,"surfaceCreated");
+
 		thread.setRunning(true);
-        thread.start();
+		thread.start();
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder arg0) {
         // we have to tell thread to shut down & wait for it to finish, or else
         // it might touch the Surface after we return and explode
+		
+		Log.v(TAG,"surfaceDestroyed");
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {

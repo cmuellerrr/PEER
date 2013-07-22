@@ -227,15 +227,10 @@ public class MainActivity extends Activity {
               Log.v(TAG, "on receive");
                 if (intent.getAction().equals("command")) {
                   Bundle b = intent.getExtras();
-                  String msg = b.getString("msg");
+                  int msg = b.getInt("msg");
                   
-                  Log.v(TAG, msg);
-                  
-                  // For testing test input 
-                  if (msg.equals("Back")){
-                    
-                  }else if (msg.equals("Next")){
-    		    	  Intent in = new Intent(procedureListView.getContext(), ProcedureActivity.class);
+                  if (msg == MessageHandler.COMMAND_NEXT){
+                      Intent in = new Intent(procedureListView.getContext(), ProcedureActivity.class);
     		    	  in.putExtra(PROCEDURE, procedures.get(0));
     		    	  startActivity(in);
     		      }

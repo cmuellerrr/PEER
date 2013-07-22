@@ -22,7 +22,7 @@
     <style name="ScrollView" parent ="@android:style/Widget.ScrollView">
         <item name="android:scrollbarStyle">outsideInset</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb</item>
-        <item name="android:scrollbarSize">15px</item>
+        <item name="android:scrollbarSize">5dp</item>
     </style>
     
     <style name="HeaderText">
@@ -84,10 +84,12 @@
     <style name="TableRow">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">5dp</item>
     </style>
     
     <style name="TableHeaderRow" parent="TableRow">
         <item name="android:background">@drawable/dot_bg_blue</item>
+        <item name="android:layout_marginBottom">0dp</item>
     </style>
     
     <style name="TableHeaderCell" parent="TableCell" >
@@ -95,7 +97,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28px</item>
         <item name="android:textColor">#ffffffff</item>
-        <item name="android:shadowColor">#ff000000</item>  
+        <item name="android:shadowColor">#ff000000</item>
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">1</item>  
         <item name="android:shadowDy">2</item>
@@ -166,6 +168,8 @@
     
     <style name="ReferenceCaption" parent="CenterText">
         <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">10px</item>
+        <item name="android:layout_marginBottom">10px</item>
         <item name="android:textSize">15px</item>
     </style>
         
@@ -180,7 +184,7 @@
         <item name="android:layout_marginTop">30px</item>
         <item name="android:paddingLeft">40px</item>
         <item name="android:textColor">@color/menu_item</item>
-        <item name="android:textSize">20px</item>
+        <item name="android:textSize">19px</item>
         <item name="android:onClick">menuSelect</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:visibility">gone</item>
@@ -192,7 +196,7 @@
     </style>
     
     <style name="CycleSelectItem" parent="CenterText">
-        <item name="android:textSize">28px</item>
+        <item name="android:textSize">26px</item>
         <item name="android:textColor">@color/highlight</item>
     </style>
     

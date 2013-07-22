@@ -57,7 +57,7 @@ public class StepPageScrollView extends ScrollView{
             viewWidth = xNew;
             viewHeight = yNew;
             
-            Log.v(TAG,"w,h: "+viewWidth+", "+viewHeight);
+            //Log.v(TAG,"w,h: "+viewWidth+", "+viewHeight);
     }
     
    
@@ -154,8 +154,8 @@ public class StepPageScrollView extends ScrollView{
 		
 	}
 	
-	public ViewGroup getStepPage(){
-		return stepPage;
+	public StepPage getStepPage(){
+		return (StepPage) stepPage;
 	}
 	
 	/**

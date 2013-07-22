@@ -14,14 +14,14 @@ public class MessageHandler {
 	public static String MSG_TYPE_AUDIO_LEVEL = "audioLevel";
 	public static String MSG_TYPE_AUDIO_BUSY = "audioBusy";
 	
-	public static int COMMAND_NOT_FOUND = 0;
+	public static int COMMAND_NOT_FOUND = 0; 
 	public static int COMMAND_CONFIRMATION = 1;
 	public static int COMMAND_BACK = 2;
 	public static int COMMAND_NEXT = 3;
 	public static int COMMAND_SCROLL_UP = 4;
 	public static int COMMAND_SCROLL_DOWN = 5;
-	public static int COMMAND_MENU_OPEN = 6;
-	public static int COMMAND_MENU_CLOSE = 7;
+	public static int COMMAND_MENU = 6;
+	public static int COMMAND_CLOSE = 7;
 	public static int COMMAND_MENU_OVERVIEW = 8;
 	public static int COMMAND_MENU_STOWAGE = 9;
 	public static int COMMAND_MENU_ANNOTATION = 10;
@@ -33,12 +33,15 @@ public class MessageHandler {
 	public static int COMMAND_INPUT = 16;
 	public static int COMMAND_STEP_NUMBER = 17;
 	public static int COMMAND_CYCLE_NUMBER = 18;
+	public static int COMMAND_COND_EXPAND = 19;
+	public static int COMMAND_COND_COLLAPSE = 20;
 
 	
-	public static long COMMANDS_TIMEOUT_DURATION = 7000; // in millesconds
-	public static long MINIMUM_REFRESH_RMS = 3;
+	public static long COMMANDS_TIMEOUT_DURATION = 4000; // in millesconds
+	public static float MINIMUM_REFRESH_RMS = 7;
 	
 	private static long lastMessageTime;
+	private static boolean active;
 	
 	
 	/**
@@ -102,10 +105,13 @@ public class MessageHandler {
 			
 			if (type.equals(MSG_TYPE_COMMAND)){
 				if (System.currentTimeMillis() - lastMessageTime < COMMANDS_TIMEOUT_DURATION ||
-					content.equals("ready"))
+					content.equals("ready")){
 					handleCommand(ctx, type, content);
+					lastMessageTime = System.currentTimeMillis();
+					active = true;
+				}
 			}else if (type.equals(MSG_TYPE_AUDIO_LEVEL)){
-	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS)
+	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && active)
 	    			lastMessageTime = System.currentTimeMillis();
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
 			}else if (type.equals(MSG_TYPE_AUDIO_BUSY)){
@@ -149,14 +155,14 @@ public class MessageHandler {
 		}else if (content.equals("down")){
 			commandIdentifier = COMMAND_SCROLL_DOWN;
 		}else if (content.equals("menu")){
-			commandIdentifier = COMMAND_MENU_OPEN;
+			commandIdentifier = COMMAND_MENU;
 		}else if (content.equals("close")){
-			commandIdentifier = COMMAND_MENU_CLOSE;
+			commandIdentifier = COMMAND_CLOSE;
 		}else if (content.equals("overview")){
 			commandIdentifier = COMMAND_MENU_OVERVIEW;
 		}else if (content.equals("stowage")){
 			commandIdentifier = COMMAND_MENU_STOWAGE;
-		}else if (content.equals("annotation")){
+		}else if (content.equals("annotations")){
 			commandIdentifier = COMMAND_MENU_ANNOTATION;
 		}else if (content.equals("ground")){
 			commandIdentifier = COMMAND_MENU_GROUND;
@@ -178,6 +184,10 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_CYCLE_NUMBER;
 			String str = handleStep("cycle",content);
 			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, str);
+		}else if (content.equals("expand")){
+			commandIdentifier = COMMAND_COND_EXPAND;
+		}else if (content.equals("collapse")){
+			commandIdentifier = COMMAND_COND_COLLAPSE;
 		}
 		
 				

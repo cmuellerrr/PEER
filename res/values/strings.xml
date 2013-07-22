@@ -16,7 +16,7 @@
     <string name="ex_note_title">EXECUTION NOTE</string>
     
     <!-- Stowage Notes -->
-    <string name="stow_notes_title">Stowage Notes</string>
+    <string name="stow_notes_title">STOWAGE NOTES</string>
     <string name="header_bin_code">BIN CODE</string>
     <string name="header_item">ITEM</string>
     <string name="header_quantity">QTY</string>

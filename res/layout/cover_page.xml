@@ -31,7 +31,8 @@
             
         </TableRow>
         
-        <TableRow >
+        <TableRow
+            style="@style/TableRow" >
             
             <TextView android:id="@+id/objective"
                 style="@style/TableCell"

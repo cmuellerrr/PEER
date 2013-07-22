@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/calloutContainer"
-    android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20px"
-    android:layout_marginBottom="20px"
-    android:orientation="vertical"
-    android:background="@drawable/border_blue" >
-    
-    <FrameLayout
-        android:id="@+id/calloutHeader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/dot_bg_blue" >
+    android:paddingBottom="20px">
+ 
+	<TableLayout
+	    android:id="@+id/calloutContainer"
+	    style="@style/Table" >
+	            
+	    <TableRow
+	        android:id="@+id/calloutHeader"
+	        style="@style/TableHeaderRow" >
+	              
+	        <TextView android:id="@+id/calloutTitle"
+	            style="@style/TableHeaderCell" />
+	    </TableRow>
+	        
+	    <TableRow
+	        style="@style/TableRow" >
+	              
+	        <TextView android:id="@+id/calloutText"
+	            style="@style/TableCell" />
+	    </TableRow>
         
-	    <TextView
-	        android:id="@+id/calloutTitle"
-	        style="@style/CalloutTitle" />
-
-    </FrameLayout>
-    
-	<TextView android:id="@+id/calloutText"
-	    style="@style/CalloutText" />
-	    
-</LinearLayout>
+    </TableLayout>
+</FrameLayout>

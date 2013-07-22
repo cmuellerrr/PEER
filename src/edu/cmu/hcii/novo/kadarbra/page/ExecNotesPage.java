@@ -11,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import edu.cmu.hcii.novo.kadarbra.FontManager;
 import edu.cmu.hcii.novo.kadarbra.R;
+import edu.cmu.hcii.novo.kadarbra.FontManager.FontStyle;
+import edu.cmu.hcii.novo.kadarbra.ViewFactory;
 import edu.cmu.hcii.novo.kadarbra.structure.ExecNote;
 
 /**
@@ -36,22 +39,15 @@ public class ExecNotesPage extends LinearLayout {
 		this.execNotes = execNotes;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
-        View page = (View)inflater.inflate(R.layout.ex_notes_page, null);
+        View page = (View)inflater.inflate(R.layout.ex_notes_page, this);
         
         LinearLayout notesList = (LinearLayout) page.findViewById(R.id.exNotesList);
 
 		for (int i = 0; i < execNotes.size(); i++) {
-			ExecNote curNote = execNotes.get(i);
-			
-			View newNote = (View) inflater.inflate(R.layout.ex_note_overall, null);
-			
-			((TextView)newNote.findViewById(R.id.exNoteNumber)).setText("Step " + curNote.getNumber());
-			((TextView)newNote.findViewById(R.id.exNoteText)).setText(curNote.getText());
-			
-			notesList.addView(newNote);
+			notesList.addView(ViewFactory.getExecutionNoteOverview(context, execNotes.get(i)));
 		}
 		
-		this.addView(page);
+		initFonts();
 	}
 
 	
@@ -66,6 +62,18 @@ public class ExecNotesPage extends LinearLayout {
 	}
 
 
+	
+	/**
+	 * Setup the custom fonts for this view.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getContext().getAssets());
+		
+		((TextView)findViewById(R.id.exNotesAside)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)findViewById(R.id.exNotesTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
+	}
+	
+	
 
 	/**
 	 * @return the execNotes
