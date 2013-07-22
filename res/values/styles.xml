@@ -225,11 +225,10 @@
     </style>
     
     <style name="CalloutTitle" parent="TableHeaderCell">
-        <item name="android:layout_gravity">center|center_vertical</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:gravity">center|center_vertical</item>
     </style>
     
-    <style name="CalloutText" parent="CenterText">
+    <style name="CalloutText" parent="TableCell">
         <item name="android:textSize">26sp</item>
         <item name="android:padding">30dp</item>
     </style>
@@ -277,7 +276,6 @@
     </style>
     
     <style name="TableHeaderCell" parent="TableCell" >
-        <item name="android:gravity">center|center_vertical</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28sp</item>
         <item name="android:textColor">#ffffffff</item>

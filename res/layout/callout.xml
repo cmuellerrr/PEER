@@ -11,14 +11,14 @@
 	        style="@style/TableHeaderRow" >
 	              
 	        <TextView android:id="@+id/calloutTitle"
-	            style="@style/TableHeaderCell" />
+	            style="@style/CalloutTitle" />
 	    </TableRow>
 	        
 	    <TableRow
 	        style="@style/TableRow" >
 	              
 	        <TextView android:id="@+id/calloutText"
-	            style="@style/TableCell" />
+	            style="@style/CalloutText" />
 	    </TableRow>
         
     </TableLayout>
