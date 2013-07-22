@@ -82,7 +82,7 @@ public class ViewFactory {
 		//If a lone step, set a margin so that it matches those which are a the cycle
 		if (reps < 2) {
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			params.setMargins(30, 0, 0, 0);
+			params.setMargins(50, 0, 0, 0);
 			newStep.setLayoutParams(params);
 		}
 		
@@ -117,7 +117,7 @@ public class ViewFactory {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		ViewGroup newCycle = (ViewGroup) inflater.inflate(R.layout.nav_item_cycle, null);
 		
-		((TextView)newCycle.findViewById(R.id.navCycleCount)).setText("x" + c.getReps());		
+		((TextView)newCycle.findViewById(R.id.navCycleCount)).setText(c.getReps() + "x");		
 		ViewGroup steps = (ViewGroup) newCycle.findViewById(R.id.navCycleSteps);
 		
 		for (int j = 0; j < c.getNumChildren(); j++) {
