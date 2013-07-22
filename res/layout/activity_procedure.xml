@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ProcedureActivity" >
     
-    <edu.cmu.hcii.novo.kadarbra.AudioFeedbackView
+    <edu.cmu.hcii.peer.AudioFeedbackView
         android:id="@+id/audioFeedbackView"
         style="@style/AudioFeedback"
         android:layout_alignParentBottom="true"
@@ -22,12 +22,12 @@
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignLeft="@+id/stepPreviewWidget" />
         
-    <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget
+    <edu.cmu.hcii.peer.StepPreviewWidget
         android:id="@+id/stepPreviewWidget"
         style="@style/StepPreview"
         android:layout_above="@+id/breadcrumb" />
     
-    <edu.cmu.hcii.novo.kadarbra.Breadcrumb
+    <edu.cmu.hcii.peer.Breadcrumb
         android:id="@+id/breadcrumb"
         style="@style/Breadcrumb"
         android:layout_alignParentBottom="true" />

@@ -25,22 +25,6 @@
         <item name="android:scrollbarSize">5dp</item>
     </style>
     
-    <style name="HeaderText">
-        <item name="android:textSize">22sp</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-    </style>
-    
-    <style name="BodyText">
-        <item name="android:textSize">26sp</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-    </style>
-    
-    <style name="CalloutHeaderText">
-        <item name="android:textSize">28sp</item>
-        <item name="android:textColor">#FF222222</item>
-    </style>
-    
-    
     
     <!-- Stretch text view horizontally, but wrap vertically -->
     <style name="HorizontalStretch">
@@ -56,6 +40,7 @@
     
     
     <!-- Widgets -->
+    
     
     <style name="TopWidgetBar">
         <item name="android:layout_width">wrap_content</item>
@@ -194,9 +179,82 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">20sp</item>
     </style>
+        
+    
+    <!-- Execution Notes Page -->
+    
+    
+    <style name="ExecutionNotesTitle" parent="HorizontalStretch">
+        <item name="android:textSize">28sp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+    
+    <style name="ExecutionNotesSubTitle" parent="HorizontalStretch">
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    <style name="ExecutionNotesText" >
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+    
+    <!-- Steps -->
+    
+    
+    <style name="StepCycle" parent="HorizontalStretch">
+        <item name="android:textSize">10sp</item>
+    </style>
+    
+    <style name="ParentStep" parent="HorizontalStretch">
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="Step" parent="HorizontalStretch">
+        <item name="android:layout_marginBottom">40dp</item>
+        <item name="android:textSize">26sp</item>
+    </style>
+    
+    
+    <!-- Callouts (ex notes, notes/cautions/warnings) -->
+    
+    
+    <style name="Callout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
+    
+    <style name="CalloutTitle" parent="TableHeaderCell">
+        <item name="android:layout_gravity">center|center_vertical</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+    
+    <style name="CalloutText" parent="CenterText">
+        <item name="android:textSize">26sp</item>
+        <item name="android:padding">30dp</item>
+    </style>
+    
+    
+    <!-- References -->
+    
+    
+    <style name="Reference">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+    
+    <style name="ReferenceCaption" parent="CenterText">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">15sp</item>
+    </style>    
     
     
     <!-- Tables -->
+    
     
     <style name="Table">
         <item name="android:layout_width">fill_parent</item>
@@ -241,77 +299,6 @@
         <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">100dp</item>
         <item name="android:scaleType">fitCenter</item>
-    </style>
-    
-    
-    <!-- Execution Notes Page -->
-    
-    
-    <style name="ExecutionNotesTitle" parent="HorizontalStretch">
-        <item name="android:textSize">28sp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-    </style>
-    
-    <style name="ExecutionNotesSubTitle" parent="HorizontalStretch">
-        <item name="android:textSize">20sp</item>
-    </style>
-    
-    <style name="ExecutionNotesText" >
-        <item name="android:textSize">20sp</item>
-    </style>
-    
-    
-    <!-- Callouts (ex notes, notes/cautions/warnings) -->
-    
-    <style name="Callout">
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">20dp</item>
-    </style>
-    
-    <style name="CalloutTitle" parent="TableHeaderCell">
-        <item name="android:layout_gravity">center|center_vertical</item>
-        <item name="android:textSize">28sp</item>
-    </style>
-    
-    <style name="CalloutText" parent="CenterText">
-        <item name="android:textSize">26sp</item>
-        <item name="android:padding">30dp</item>
-    </style>
-    
-    
-    <!-- Steps -->
-    
-    
-    <style name="StepCycle" parent="HorizontalStretch">
-        <item name="android:textSize">10sp</item>
-    </style>
-    
-    <style name="ParentStep" parent="HorizontalStretch">
-        <item name="android:textSize">22sp</item>
-    </style>
-    
-    <style name="Step" parent="HorizontalStretch">
-        <item name="android:layout_marginBottom">40dp</item>
-        <item name="android:textSize">26sp</item>
-    </style>
-    
-    
-    <!-- References -->
-    
-    
-    <style name="Reference">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:adjustViewBounds">true</item>
-    </style>
-    
-    <style name="ReferenceCaption" parent="CenterText">
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">15sp</item>
     </style>
     
     
