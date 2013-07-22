@@ -113,6 +113,9 @@ public class MessageHandler {
 			}else if (type.equals(MSG_TYPE_AUDIO_LEVEL)){
 	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && active)
 	    			lastMessageTime = System.currentTimeMillis();
+	    		if (System.currentTimeMillis() - lastMessageTime > COMMANDS_TIMEOUT_DURATION)
+	    			active = false;
+	    			
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
 			}else if (type.equals(MSG_TYPE_AUDIO_BUSY)){
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_BUSY, content);
@@ -145,7 +148,6 @@ public class MessageHandler {
 		
 		if (content.equals("ready")){
 			commandIdentifier = COMMAND_CONFIRMATION;
-			
 		}else if (content.equals("back")){
 			commandIdentifier = COMMAND_BACK;
 		}else if (content.equals("next")){
