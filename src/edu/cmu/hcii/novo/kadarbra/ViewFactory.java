@@ -441,8 +441,8 @@ public class ViewFactory {
 		Log.v(TAG, "Setting up video view: " + ref.getUrl());
 		
         LayoutInflater inflater = LayoutInflater.from(context);
-        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference, null);
-        final VideoView vid = (VideoView)inflater.inflate(R.layout.video, null);		
+        ViewGroup reference = (ViewGroup)inflater.inflate(R.layout.reference_video, null);
+        final VideoView vid = (VideoView)reference.findViewById(R.id.referenceVideo);
 		
 		//TODO for some reason this fucking thing doesn't work.
 		//vid.setVideoURI(Uri.parse("file:///android_asset/procedures/references/" + ref.getUrl()));
@@ -471,9 +471,7 @@ public class ViewFactory {
             	mp.start();
             }
         });			
-		
-		reference.addView(vid, 0);	
-		
+				
 		((TextView)reference.findViewById(R.id.referenceCaption)).setText(ref.getName() + ": " + ref.getDescription());
 			
 		//Set up the custom fonts
