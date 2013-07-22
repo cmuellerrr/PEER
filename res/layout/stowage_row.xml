@@ -18,7 +18,5 @@
         style="@style/TableCell" />
     
     <ImageView android:id="@+id/stowNoteImage"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:scaleType="fitCenter" />
+        style="@style/TableImageCell" />
 </TableRow>

@@ -11,46 +11,33 @@
     
     <edu.cmu.hcii.novo.kadarbra.AudioFeedbackView
         android:id="@+id/audioFeedbackView"
-        android:layout_width="150dp"
-        android:layout_height="70dp" 
+        style="@style/AudioFeedback"
         android:layout_alignParentBottom="true"
     	android:layout_centerHorizontal="true"
-    	android:layout_marginBottom="12dp"
  	/>
     
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        style="@style/ViewPager"
         android:layout_above="@+id/stepPreviewWidget"
-        android:layout_alignLeft="@+id/stepPreviewWidget"
-        android:layout_marginTop="40dp"
-        android:layout_marginLeft="80dp"
-        android:padding="10dp" />
+        android:layout_alignLeft="@+id/stepPreviewWidget" />
         
     <edu.cmu.hcii.novo.kadarbra.StepPreviewWidget
         android:id="@+id/stepPreviewWidget"
-        android:layout_width="fill_parent"
-        android:layout_height="82dp"
+        style="@style/StepPreview"
         android:layout_above="@+id/breadcrumb" />
     
     <edu.cmu.hcii.novo.kadarbra.Breadcrumb
         android:id="@+id/breadcrumb"
-        android:layout_width="fill_parent"
-        android:layout_height="10dp"
+        style="@style/Breadcrumb"
         android:layout_alignParentBottom="true" />
     
     <ScrollView
         android:id="@+id/menuDrawer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        style="@style/MenuDrawer"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="40dp"
         android:layout_toRightOf="@+id/menu_group"
-        android:background="@drawable/drawer_background"
-        android:padding="10dp"
-        android:textColor="#ffffffff"
         android:visibility="gone" >
 
     </ScrollView>
@@ -66,8 +53,7 @@
     
     <RelativeLayout
         android:id="@+id/menu_group"
-        android:layout_width="222dp"
-        android:layout_height="fill_parent"
+        style="@style/MenuGroup"
         android:layout_above="@+id/stepPreviewWidget" >
         
         <View
@@ -80,13 +66,10 @@
         
         <TextView
             android:id="@+id/menuTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            style="@style/MenuTitle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="26sp"
-            android:text="@string/menu_title"
-            android:textColor="@color/menu_item" />
+            android:text="@string/menu_title" />
         
         <Button
             android:id="@+id/navButton"
@@ -117,37 +100,27 @@
             android:text="@string/menu_ground" />
         
 		<RelativeLayout 
-		    android:layout_width="170dp"
-		    android:layout_height="75dp" 
 		    android:id="@+id/elapsedTimeView"
+		    style="@style/ElapsedTimeView"
 		    android:layout_below="@id/groundButton"
-		    android:visibility="gone"
-		    android:background="@drawable/border_blue"
-		    android:layout_marginLeft="26dp"
-		    android:layout_marginTop="40dp" >
+		    android:visibility="gone" >
 		    
 		    <RelativeLayout
-		        android:layout_marginTop="15dp"
-		        android:layout_width="100dp"
-		        android:layout_height="50dp"
+		        style="@style/ElapsedTimeContainer"
 		        android:layout_centerInParent="true">
 		        
 		    	<TextView
 					android:id="@+id/elapsedTime"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-					android:text="00:00:00"
-					android:textSize="25sp"
-					android:layout_centerHorizontal="true" />
+					style="@style/ElapsedTime"
+					android:layout_centerHorizontal="true"
+					android:text="00:00:00" />
 			
 			    <TextView
 			        android:id="@+id/elapsedTimeText"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
+			        style="@style/ElapsedTimeText"
                     android:layout_below="@id/elapsedTime"
-					android:text="@string/elapsed_time"
-					android:textSize="13sp"
-					android:layout_centerHorizontal="true" />
+					android:layout_centerHorizontal="true"
+					android:text="@string/elapsed_time" />
 		    	
 		    </RelativeLayout>
 			    
@@ -158,16 +131,13 @@
     
     
     <RelativeLayout
-        android:layout_width="wrap_content"
-	    android:layout_height="40dp" 
 	    android:id="@+id/topWidgetBar"
+	    style="@style/TopWidgetBar"
 	    android:layout_alignParentRight="true">
         
         <TextView
 			android:id="@+id/timer"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:color="@color/main"	        
+			style="@style/Timer"  
 	        android:layout_alignParentRight="true"
 			android:text="00:00">
             

@@ -322,7 +322,7 @@ public class ViewFactory {
 	        		break;
 	        }
 	        
-	        ((ViewGroup)callView.findViewById(R.id.calloutContainer)).setBackgroundResource(border);
+	        ((ViewGroup)callView.findViewById(R.id.calloutTable)).setBackgroundResource(border);
 	        ((ViewGroup)callView.findViewById(R.id.calloutHeader)).setBackgroundResource(bg);
 	        ((TextView)callView.findViewById(R.id.calloutTitle)).setText(typeName);
 	        ((TextView)callView.findViewById(R.id.calloutText)).setText(call.getText());

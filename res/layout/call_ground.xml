@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/CenterText"
-    android:layout_gravity="center|center_vertical"
-    android:textSize="30sp"
+    style="@style/CallGround"
     android:drawableTop="@drawable/call_ground"
-    android:drawablePadding="10dp"
     android:text="@string/calling_ground" />

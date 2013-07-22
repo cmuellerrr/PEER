@@ -55,6 +55,132 @@
     </style>
     
     
+    <!-- Widgets -->
+    
+    <style name="TopWidgetBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+    
+    <style name="Timer">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/main</item>
+    </style>   
+    
+    <style name="AudioFeedback">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">70dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+    </style>
+    
+    <style name="ViewPager">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_marginLeft">80dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+    
+    <style name="StepPreview">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">82dp</item>
+    </style>
+    
+    <style name="Breadcrumb">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">10dp</item>
+    </style>
+    
+    
+    <!-- Menu -->
+    
+    
+    <style name="MenuDrawer">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/drawer_background</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+    
+    <style name="MenuGroup">
+        <item name="android:layout_width">222dp</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    
+    <style name="MenuTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/menu_item</item>
+    </style>
+    
+    <style name="MenuItem" >
+        <item name="android:background">@drawable/menu_item_bg</item>
+        <item name="android:layout_width">188dp</item>
+        <item name="android:layout_height">37dp</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:paddingLeft">40dp</item>
+        <item name="android:textColor">@color/menu_item</item>
+        <item name="android:textSize">19sp</item>
+        <item name="android:onClick">menuSelect</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:visibility">gone</item>
+    </style>
+    
+    <style name="ElapsedTimeView">
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_marginLeft">26dp</item>
+        <item name="android:background">@drawable/border_blue</item>
+    </style>
+    
+    <style name="ElapsedTimeContainer">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+    </style>
+            
+    <style name="ElapsedTime">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">25sp</item>
+    </style>
+    
+    <style name="ElapsedTimeText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    
+    
+    <!-- Calling Ground -->
+    
+    
+    <style name="CallGround" parent="CenterText">
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_gravity">center|center_vertical</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+    
+    
+    <!-- Navigation -->
+    
+    
+    <style name="CycleSelectTitle" parent="CenterText">
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">@color/main</item>
+    </style>
+    
+    <style name="CycleSelectItem" parent="CenterText">
+        <item name="android:textSize">26sp</item>
+        <item name="android:textColor">@color/highlight</item>
+    </style>
+    
+    
     <!-- Cover Page -->
     
     <style name="CoverSubTitle" parent="HorizontalStretch">
@@ -111,6 +237,12 @@
         <item name="android:padding">10dp</item>
     </style>
     
+    <style name="TableImageCell" parent="TableCell">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+    
     
     <!-- Execution Notes Page -->
     
@@ -131,6 +263,11 @@
     
     <!-- Callouts (ex notes, notes/cautions/warnings) -->
     
+    <style name="Callout">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">20dp</item>
+    </style>
     
     <style name="CalloutTitle" parent="TableHeaderCell">
         <item name="android:layout_gravity">center|center_vertical</item>
@@ -159,6 +296,10 @@
         <item name="android:textSize">26sp</item>
     </style>
     
+    
+    <!-- References -->
+    
+    
     <style name="Reference">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -171,33 +312,6 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:textSize">15sp</item>
-    </style>
-        
-    
-    <!-- Menu -->
-    
-    
-    <style name="MenuItem" >
-        <item name="android:background">@drawable/menu_item_bg</item>
-        <item name="android:layout_width">188dp</item>
-        <item name="android:layout_height">37dp</item>
-        <item name="android:layout_marginTop">30dp</item>
-        <item name="android:paddingLeft">40dp</item>
-        <item name="android:textColor">@color/menu_item</item>
-        <item name="android:textSize">19sp</item>
-        <item name="android:onClick">menuSelect</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:visibility">gone</item>
-    </style>
-    
-    <style name="CycleSelectTitle" parent="CenterText">
-        <item name="android:textSize">28sp</item>
-        <item name="android:textColor">@color/main</item>
-    </style>
-    
-    <style name="CycleSelectItem" parent="CenterText">
-        <item name="android:textSize">26sp</item>
-        <item name="android:textColor">@color/highlight</item>
     </style>
     
     
