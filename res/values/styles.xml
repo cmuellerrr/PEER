@@ -281,6 +281,7 @@
     </style>
     
     <style name="TableHeaderCell" parent="TableCell" >
+        <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28sp</item>
         <item name="android:textColor">#ffffffff</item>
