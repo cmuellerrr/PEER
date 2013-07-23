@@ -112,27 +112,32 @@
         <item name="android:textSize">19sp</item>
         <item name="android:onClick">menuSelect</item>
         <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_centerHorizontal">true</item>
         <item name="android:visibility">gone</item>
     </style>
     
+    
+    <!-- Elapsed Time -->
+    
+    
     <style name="ElapsedTimeView">
-        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_width">150dp</item>
         <item name="android:layout_height">75dp</item>
-        <item name="android:layout_marginTop">40dp</item>
-        <item name="android:layout_marginLeft">26dp</item>
+        <item name="android:layout_marginTop">31dp</item>
+        <item name="android:layout_marginLeft">55dp</item>
         <item name="android:background">@drawable/border_blue</item>
     </style>
     
     <style name="ElapsedTimeContainer">
-        <item name="android:layout_width">100dp</item>
-        <item name="android:layout_height">100dp</item>
-        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
     </style>
             
     <style name="ElapsedTime">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">30sp</item>
     </style>
     
     <style name="ElapsedTimeText">

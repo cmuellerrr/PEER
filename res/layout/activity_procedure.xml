@@ -75,28 +75,25 @@
             android:id="@+id/navButton"
             style="@style/MenuItem"
             android:layout_below="@id/menuTitle"
-            android:layout_centerHorizontal="true"
             android:text="@string/menu_overview" />
         
         <Button
             android:id="@+id/stowageButton"
             style="@style/MenuItem"
             android:layout_below="@id/navButton"
-            android:layout_centerHorizontal="true"
             android:text="@string/menu_stowage" />
 
         <Button
             android:id="@+id/annotationButton"
             style="@style/MenuItem"
             android:layout_below="@id/stowageButton"
-            android:layout_centerHorizontal="true"
+            android:textSize="17sp"
             android:text="@string/menu_annotations" />
 
         <Button
             android:id="@+id/groundButton"
             style="@style/MenuItem"
             android:layout_below="@id/annotationButton"
-            android:layout_centerHorizontal="true"
             android:text="@string/menu_ground" />
         
 		<RelativeLayout 
@@ -106,8 +103,7 @@
 		    android:visibility="gone" >
 		    
 		    <RelativeLayout
-		        style="@style/ElapsedTimeContainer"
-		        android:layout_centerInParent="true">
+		        style="@style/ElapsedTimeContainer">
 		        
 		    	<TextView
 					android:id="@+id/elapsedTime"

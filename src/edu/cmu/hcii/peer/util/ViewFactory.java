@@ -51,23 +51,6 @@ public class ViewFactory {
 	
 	
 	/**
-	 * 
-	 * @param context
-	 * @return
-	 */
-	public static View getCallGround(Context context) {
-		TextView v = (TextView)LayoutInflater.from(context).inflate(R.layout.call_ground, null);
-		
-		//Set up the custom fonts
-		FontManager fm = FontManager.getInstance(context.getAssets());
-		v.setTypeface(fm.getFont(FontStyle.BODY));
-		
-		return v;
-	}
-	
-	
-	
-	/**
 	 * Add a basic step
 	 * 
 	 * @param context
@@ -84,7 +67,7 @@ public class ViewFactory {
 		//If a lone step, set a margin so that it matches those which are a the cycle
 		if (reps < 2) {
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			params.setMargins(50, 0, 0, 0);
+			params.setMargins(34, 0, 0, 0);
 			newStep.setLayoutParams(params);
 		}
 		
@@ -597,5 +580,22 @@ public class ViewFactory {
     	((TextView)timer.findViewById(R.id.timerResetText)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
 	    
 	    return timer;
+	}
+
+
+
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static View getCallGround(Context context) {
+		TextView v = (TextView)LayoutInflater.from(context).inflate(R.layout.call_ground, null);
+		
+		//Set up the custom fonts
+		FontManager fm = FontManager.getInstance(context.getAssets());
+		v.setTypeface(fm.getFont(FontStyle.BODY));
+		
+		return v;
 	}
 }
