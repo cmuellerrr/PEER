@@ -162,7 +162,7 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_MENU_OVERVIEW;
 		}else if (content.equals("stowage")){
 			commandIdentifier = COMMAND_MENU_STOWAGE;
-		}else if (content.equals("annotations")){
+		}else if (content.equals("notations")){
 			commandIdentifier = COMMAND_MENU_ANNOTATION;
 		}else if (content.equals("ground")){
 			commandIdentifier = COMMAND_MENU_GROUND;

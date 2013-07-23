@@ -87,7 +87,6 @@
             android:id="@+id/annotationButton"
             style="@style/MenuItem"
             android:layout_below="@id/stowageButton"
-            android:textSize="17sp"
             android:text="@string/menu_annotations" />
 
         <Button
