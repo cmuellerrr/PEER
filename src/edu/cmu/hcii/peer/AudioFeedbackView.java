@@ -115,12 +115,12 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param s current state
          */
         public void setState(int s){
-        	synchronized (mSurfaceHolder) {
+        //.	synchronized (mSurfaceHolder) {
 	        	state = s;
 	        	if (state == STATE_ACTIVE){
 	        		refreshThresholdLine();
 	        	}
-        	}
+        //	}
         }
         
         /**
@@ -348,9 +348,9 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 
         	lastDrawTime = System.currentTimeMillis();
         	
-        	if (levelThresholdPercent <= 0){
-        		setState(STATE_INACTIVE);
-        	}
+        	//if (levelThresholdPercent <= 0){
+        	//	setState(STATE_INACTIVE);
+        	//}
         }
     	
     	/**
@@ -373,9 +373,9 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     		lastDrawTime = System.currentTimeMillis();
     		//Log.v("lastDrawTime, offset", lastDrawTime +", "+ levelThreshold);
 	    	
-    		if (levelThreshold/(float)viewHeight < 0.25f){
-    			setState(STATE_INACTIVE);
-    		}
+    		//if (levelThreshold/(float)viewHeight < 0.25f){
+    		//	setState(STATE_INACTIVE);
+    		//}
 
     	}
     	

@@ -150,6 +150,8 @@ public class ProcedureActivity extends Activity {
         intentFilter.addAction(MessageHandler.MSG_TYPE_COMMAND);
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_LEVEL);
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_BUSY);    
+        intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_STATE);    
+
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	    
 		audioFeedbackThread.setRunning(true);
@@ -837,6 +839,10 @@ public class ProcedureActivity extends Activity {
 	    		boolean busyState = Boolean.parseBoolean(intent.getExtras().getString("msg"));
 	    		audioFeedbackThread.setBusy(busyState);
 	    		Log.v(TAG, "busyState: " + busyState);
+	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_STATE)){
+	    		int state = intent.getExtras().getInt("msg");
+	    		audioFeedbackThread.setState(state);
+	    		Log.v(TAG, "state: " + state);
 
 	    	}
 	    }
@@ -863,10 +869,7 @@ public class ProcedureActivity extends Activity {
     		Log.v(TAG, "handleCommand: " + command);
 
     		audioFeedbackThread.setBusy(false);
-    		if (command == MessageHandler.COMMAND_CONFIRMATION){
-    			audioFeedbackThread.setState(audioFeedbackView.STATE_ACTIVE);
-    		}
-    		
+		
 			if (command == MessageHandler.COMMAND_BACK) { 					
     			commandBack();
 

@@ -13,7 +13,8 @@ public class MessageHandler {
 	public static String MSG_TYPE_COMMAND = "command";
 	public static String MSG_TYPE_AUDIO_LEVEL = "audioLevel";
 	public static String MSG_TYPE_AUDIO_BUSY = "audioBusy";
-	
+	public static String MSG_TYPE_AUDIO_STATE = "audioState";
+
 	public static int COMMAND_NOT_FOUND = 0; 
 	public static int COMMAND_CONFIRMATION = 1;
 	public static int COMMAND_BACK = 2;
@@ -41,8 +42,10 @@ public class MessageHandler {
 	public static float MINIMUM_REFRESH_RMS = 7;
 	
 	private static long lastMessageTime;
-	private static boolean active;
 	
+	public static int STATE_INACTIVE = 0;
+	public static int STATE_ACTIVE = 1;
+    private static int state = STATE_INACTIVE;
 	
 	/**
 	 * Sends a string broadcast message to be read by other classes
@@ -104,20 +107,21 @@ public class MessageHandler {
 			//Log.v(TAG, "type: "+type+", "+"content: "+content);
 			
 			if (type.equals(MSG_TYPE_COMMAND)){
-				if (active || content.equals("ready") ){
+				if (state == STATE_ACTIVE || content.equals("ready") ){
 					handleCommand(ctx, type, content);
 					lastMessageTime = System.currentTimeMillis();
-					active = true;
 				}
 			}else if (type.equals(MSG_TYPE_AUDIO_LEVEL)){
-	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && active)
+	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && state == STATE_ACTIVE)
 	    			lastMessageTime = System.currentTimeMillis();
-	    		if (System.currentTimeMillis() - lastMessageTime > COMMANDS_TIMEOUT_DURATION)
-	    			active = false;
-	    			
+
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
 			}else if (type.equals(MSG_TYPE_AUDIO_BUSY)){
+    			lastMessageTime = System.currentTimeMillis();
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_BUSY, content);
+			}else if (type.equals(MSG_TYPE_AUDIO_STATE)){
+				int s = Integer.parseInt(content);
+				setState(ctx, s);
 			}
 				
 				
@@ -131,7 +135,10 @@ public class MessageHandler {
 	/**
 	 * 
 	 */
-	
+	private static void setState(Context ctx, int s){
+		state = s;
+		sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_STATE, s);
+	}
 	
 	/**
 	 * Reads an input command and returns a message for activities to see
