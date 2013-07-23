@@ -17,7 +17,7 @@
     
     <!-- Stowage Notes -->
     <string name="stow_notes_title">STOWAGE NOTES</string>
-    <string name="header_bin_code">BIN CODE</string>
+    <string name="header_bin_code">BIN</string>
     <string name="header_item">ITEM</string>
     <string name="header_quantity">QTY</string>
     <string name="header_item_code">CODE</string>
