@@ -104,8 +104,7 @@ public class MessageHandler {
 			//Log.v(TAG, "type: "+type+", "+"content: "+content);
 			
 			if (type.equals(MSG_TYPE_COMMAND)){
-				if (System.currentTimeMillis() - lastMessageTime < COMMANDS_TIMEOUT_DURATION ||
-					content.equals("ready")){
+				if (active || content.equals("ready") ){
 					handleCommand(ctx, type, content);
 					lastMessageTime = System.currentTimeMillis();
 					active = true;
