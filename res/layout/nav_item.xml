@@ -6,14 +6,14 @@
     
     
     <TextView android:id="@+id/navItemNumber"
-        android:layout_width="115dp"
+        android:layout_width="115px"
         android:layout_height="match_parent"
         android:textColor="@color/highlight"
-        android:textSize="21sp" />
+        android:textSize="21px" />
     
     <TextView android:id="@+id/navItemText"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:textSize="26sp" />
+        android:textSize="26px" />
 
 </LinearLayout>

@@ -12,10 +12,10 @@
         android:text="@string/cycle_select_title" />
     
     <View
-        android:layout_width="300dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="300px"
+        android:layout_height="1px"
+        android:layout_marginTop="10px"
+        android:layout_marginBottom="10px"
         android:background="@color/main" />
     
 </LinearLayout>

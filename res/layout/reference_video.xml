@@ -6,8 +6,8 @@
     
     <VideoView android:id="@+id/referenceVideo"
 	    style="@style/Reference"
-	    android:layout_width="1dp"
-	    android:layout_height="1dp" />
+	    android:layout_width="1px"
+	    android:layout_height="1px" />
     
     <TextView android:id="@+id/referenceCaption"
         style="@style/ReferenceCaption" />

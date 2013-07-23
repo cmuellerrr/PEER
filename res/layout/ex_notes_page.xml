@@ -11,9 +11,9 @@
     
     <View
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_height="1px"
+        android:layout_marginTop="20px"
+        android:layout_marginBottom="20px"
         android:background="@color/main" />
     
     <TextView android:id="@+id/exNotesTitle"
