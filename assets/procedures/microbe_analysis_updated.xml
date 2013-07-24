@@ -16,7 +16,7 @@ Last edit: Kristina, 7/11
 		<note>
             <step>2</step>
             <substep>2</substep>
-            <text>Instead of testing JEM site 8224, test Node 3 site 9553.</text>
+            <text>Instead of testing Node 3 site 9553, test JEM site 8224.</text>
         </note>
         <note>
             <step>5</step>
@@ -49,8 +49,8 @@ Last edit: Kristina, 7/11
 			<quantity>1</quantity>
 			<item_code></item_code>
 			<bin_code>USL1_C5</bin_code>
-			<text>Remove three from package</text>
-			<url>bag.jpg</url>
+			<text></text>
+			<url>refuse.jpg</url>
 		</item>
 		<item>
 			<module>USL</module>
@@ -78,10 +78,8 @@ Last edit: Kristina, 7/11
 		<item>
 		    <module>COL</module>
 			<name>Microbe analyzer</name>
-			<quantity>3</quantity>
-			<item_code>261B</item_code>
-			<item_code>463B</item_code>
-			<item_code>857A</item_code>
+			<quantity>2</quantity>
+			<item_code>261B, 463B</item_code>
 			<bin_code>COL1_B4</bin_code>
 			<text>Use microbe analyzers in order listed</text>
 			<url>analyzer.jpg</url>
