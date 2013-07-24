@@ -2,88 +2,91 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" >
-    
-    <ImageView 
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/inputInstruction"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="2"
-        android:src="@drawable/input_marker" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="@string/input_instruction"
+        android:textSize="20sp" />
     
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="3"
+        android:layout_height="wrap_content"
         android:padding="20dp" >
 
-        <TextView
-            android:id="@+id/inputCommand"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/inputTarget"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="80dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/input_marker" />
+        
+        <TextView
+            android:id="@+id/inputCommand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/inputTarget"
+            android:layout_toRightOf="@+id/inputTarget"
             android:text="@string/input_command"
             android:textColor="@color/highlight"
             android:textSize="20sp" />
-        
+
         <TextView
             android:id="@+id/inputValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/inputCommand"
+            android:layout_above="@+id/hr"
+            android:layout_toRightOf="@+id/inputTarget"
             android:textSize="28sp" />
-
-        <View
+        
+         <ImageView
+            android:id="@+id/inputReceived"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/inputRetry"
+            android:layout_alignTop="@+id/inputValue"
+            android:src="@drawable/input_complete"
+            android:visibility="gone" />
+         
+         <View
             android:id="@+id/hr"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/inputValue"
-            android:layout_marginBottom="20dp"
+            android:layout_above="@+id/inputConfirm"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_toRightOf="@+id/inputTarget"
             android:background="@color/main" />
-        
+
         <TextView
             android:id="@+id/inputConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/hr"
-            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@+id/inputTarget"
+            android:layout_toRightOf="@+id/inputTarget"
             android:text="@string/input_confirm"
             android:textColor="@color/highlight"
             android:textSize="20sp"
             android:visibility="invisible" />
 
-        <ImageView
-            android:id="@+id/inputComplete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/inputCommand"
-            android:src="@drawable/input_complete"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/inputRetry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/inputConfirm"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/hr"
             android:text="@string/input_retry"
             android:textColor="@color/highlight"
             android:textSize="20sp"
-            android:visibility="invisible" />
+            android:visibility="invisible" />        
         
-        <TextView
-            android:id="@+id/inputInstruction"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:text="@string/input_instruction" />
     </RelativeLayout>
     
 </LinearLayout>
