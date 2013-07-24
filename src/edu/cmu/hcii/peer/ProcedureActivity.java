@@ -36,6 +36,7 @@ import edu.cmu.hcii.peer.page.CycleMarkerPage;
 import edu.cmu.hcii.peer.page.CycleSelectPage;
 import edu.cmu.hcii.peer.page.DrawerPageInterface;
 import edu.cmu.hcii.peer.page.ExecNotesPage;
+import edu.cmu.hcii.peer.page.CompletionPage;
 import edu.cmu.hcii.peer.page.GroundPage;
 import edu.cmu.hcii.peer.page.NavigationPage;
 import edu.cmu.hcii.peer.page.PageAdapter;
@@ -750,6 +751,8 @@ public class ProcedureActivity extends Activity {
 		for (int i = 0; i < procedure.getNumChildren(); i++){
 			result.addAll(setupStepPage(procedure.getChildAt(i), null, 0));
 		}
+		
+		result.add(new CompletionPage(this));
 		
 		return result;
 	}

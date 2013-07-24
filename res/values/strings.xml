@@ -14,11 +14,13 @@
     <string name="title_duration">DURATION</string>
     
     <!-- Execution Notes -->
+    <string name="ex_note_preview">Execution Notes</string>
     <string name="ex_notes_title">EXECUTION NOTES</string>
     <string name="ex_notes_aside">Execution notes will display again on their respective steps.</string>
     <string name="ex_note_title">EXECUTION NOTE</string>
     
     <!-- Stowage Notes -->
+    <string name="stow_note_preview">Please gather the following equipment</string>
     <string name="stow_notes_title">STOWAGE NOTES</string>
     <string name="header_bin_code">BIN</string>
     <string name="header_item">ITEM</string>
@@ -55,5 +57,10 @@
     <string name="input_confirm">DONE</string>
     <string name="input_retry">RETRY</string>
     <string name="input_instruction">Place the object in the space provided to the left.</string>
+    
+    <!-- Final Page -->
+    <string name="completion_preview">Procedure complete</string>
+    <string name="completion_title">PROCEDURE COMPLETE</string>
+    <string name="completion_text">Check the OSTPV for your next assignment.</string>
         
 </resources>

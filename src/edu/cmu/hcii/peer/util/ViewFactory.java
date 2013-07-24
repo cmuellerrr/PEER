@@ -598,4 +598,22 @@ public class ViewFactory {
 		
 		return v;
 	}
+	
+	
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static ViewGroup getCompletionPage(Context context) {
+		ViewGroup v = (ViewGroup)LayoutInflater.from(context).inflate(R.layout.complete_page, null);
+		
+		//Set up the custom fonts
+		FontManager fm = FontManager.getInstance(context.getAssets());
+		((TextView)v.findViewById(R.id.completeTitle)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)v.findViewById(R.id.completeText)).setTypeface(fm.getFont(FontStyle.BODY));
+		
+		return v;
+	}
 }
