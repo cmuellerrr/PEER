@@ -131,7 +131,7 @@ public class ViewFactory {
     	
 		LayoutInflater inflater = LayoutInflater.from(context);
     	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
-    	newItem.setText("CYCLE " + rep);    	
+    	newItem.setText(context.getResources().getString(R.string.cycle_display_name).toUpperCase() + " " + rep);	
     	
     	newItem.setOnClickListener(new OnClickListener() {
 
@@ -453,7 +453,7 @@ public class ViewFactory {
                     }
                 });
             	
-            	mp.start();
+            	//mp.start();
             }
         });			
 				

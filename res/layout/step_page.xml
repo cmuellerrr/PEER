@@ -73,6 +73,7 @@
                 <TextView android:id="@+id/consequentMarker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:textColor="@color/highlight"
                     android:textSize="20sp"
                     android:text="@string/cond_title_hidden" />
