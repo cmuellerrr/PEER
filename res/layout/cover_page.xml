@@ -5,28 +5,20 @@
     android:orientation="vertical" >
     
     <TextView android:id="@+id/procedureName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="36sp"
-        android:layout_marginTop="63dp"
-        android:layout_marginBottom="63dp" />
+        style="@style/ProcedureName" />
     
     <TableLayout
-        android:layout_width="729dp"
-        android:layout_height="fill_parent"
-        style="@style/Table" >
+        style="@style/CoverTable" >
         
         <TableRow
             style="@style/TableHeaderRow" >
             
             <TextView android:id="@+id/objectiveTitle"
-                style="@style/TableHeaderCell"
-                android:textSize="28sp"
+                style="@style/CoverTableHeaderCell"
                 android:text="@string/title_objective" />
             
             <TextView android:id="@+id/durationTitle"
-                style="@style/TableHeaderCell"
-                android:textSize="28sp"
+                style="@style/CoverTableHeaderCell"
                 android:text="@string/title_duration" />
             
         </TableRow>
@@ -35,13 +27,10 @@
             style="@style/TableRow" >
             
             <TextView android:id="@+id/objective"
-                style="@style/TableCell"
-                android:textSize="20sp"
-                android:width="450dp" />
+                style="@style/ObjectiveCell" />
                 
-            <TextView  android:id="@+id/duration"
-                style="@style/TableCell"
-                android:textSize="20sp" />
+            <TextView android:id="@+id/duration"
+                style="@style/CoverTableCell" />
             
         </TableRow>
     </TableLayout>
