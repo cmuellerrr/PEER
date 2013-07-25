@@ -210,7 +210,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		}
 		
 		private void initNumberOfBars(){
-			NUMBER_OF_BARS = viewWidth / dotPattern.getWidth();
+			NUMBER_OF_BARS = (viewWidth / dotPattern.getWidth());
 		}
 		
 		private void initArrays(){
@@ -472,7 +472,11 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     		
     		for (int i = 0; i < levels.length; i++){
     			Rect rect;
-    			rect = new Rect(i*barWidth+i*BAR_MARGIN, viewHeight-drawnLevels[i],i*barWidth+barWidth+i*BAR_MARGIN,viewHeight);
+    			
+    			int drawnHeight = viewHeight-drawnLevels[i];
+    			drawnHeight = (drawnHeight / dotPattern.getHeight()) * dotPattern.getHeight();
+    			
+    			rect = new Rect(i*barWidth+i*BAR_MARGIN, drawnHeight,i*barWidth+barWidth+i*BAR_MARGIN,viewHeight);
     			
     			c.drawRect(rect, pBar);	
     			
