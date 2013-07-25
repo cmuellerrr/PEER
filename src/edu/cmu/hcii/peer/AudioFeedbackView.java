@@ -87,7 +87,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
                     synchronized (mSurfaceHolder) {
                        // if (System.currentTimeMillis() - lastFrameTime > 1000/MAXIMUM_FPS){
                         //	lastFrameTime = System.currentTimeMillis();
-                    	if (!paused)
+                    	if (!paused && c != null && init)
                         	doDraw(c);
                         //}
                     }
@@ -467,24 +467,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * @param c
     	 */
     	private void drawAudioBarsVert(Canvas c){
-    		int barWidth = (viewWidth - BAR_MARGIN*levels.length) / levels.length; 
-    		
-    		if (getCurState() == STATE_INACTIVE){
-    			pBar.setColor(Color.GRAY);
-    		}else if (getCurState() == STATE_ACTIVE){
-    			pBar.setColor(Color.parseColor("#a4ece8"));
-    		}
-    		
-    		for (int i = 0; i < levels.length; i++){
-    			Rect rect;
-    			
-    			int drawnHeight = viewHeight-drawnLevels[i];
-    			drawnHeight = (drawnHeight / dotPattern.getHeight()) * dotPattern.getHeight();
-    			
-    			rect = new Rect(i*barWidth+i*BAR_MARGIN, drawnHeight,i*barWidth+barWidth+i*BAR_MARGIN,viewHeight);
-    			
-    			c.drawRect(rect, pBar);	
-    			
+    		if (levels != null){
+	    		int barWidth = (viewWidth - BAR_MARGIN*levels.length) / levels.length; 
+	    		
+	    		if (getCurState() == STATE_INACTIVE){
+	    			pBar.setColor(Color.GRAY);
+	    		}else if (getCurState() == STATE_ACTIVE){
+	    			pBar.setColor(Color.parseColor("#a4ece8"));
+	    		}
+	    		
+	    		for (int i = 0; i < levels.length; i++){
+	    			Rect rect;
+	    			
+	    			int drawnHeight = viewHeight-drawnLevels[i];
+	    			drawnHeight = (drawnHeight / dotPattern.getHeight()) * dotPattern.getHeight();
+	    			
+	    			rect = new Rect(i*barWidth+i*BAR_MARGIN, drawnHeight,i*barWidth+barWidth+i*BAR_MARGIN,viewHeight);
+	    			
+	    			c.drawRect(rect, pBar);	
+	    			
+	    		}
     		}
     	}
     	

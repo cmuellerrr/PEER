@@ -186,6 +186,7 @@ public class StepPageScrollView extends ScrollView{
 	 * @return the distance to the bottom of the screen
 	 */
 	public int getDistanceToBottomOfScreen(){
+		Log.v(TAG,"stepPage.getHeight: "+stepPage.getHeight() + " viewHeight: "+viewHeight +" scrollIndex.get(current_scrollIndex): "+ scrollIndex.get(current_scrollIndex));
 		return stepPage.getHeight() - (viewHeight + scrollIndex.get(current_scrollIndex));
 	}
 	
@@ -194,7 +195,9 @@ public class StepPageScrollView extends ScrollView{
 	 * If so, disable the fading edge.
 	 */
 	public void checkScrollFadingEdge(){
-		int fadingEdgeLength = this.getVerticalFadingEdgeLength();
+		Log.v(TAG, "getDistanceToBottomOfScreen(): "+getDistanceToBottomOfScreen() + " fadingEdgeLength(): " + getVerticalFadingEdgeLength());
+		int fadingEdgeLength = this.getVerticalFadingEdgeLength(); // doesn't work on moverio...
+		fadingEdgeLength = 20;
 		if (getDistanceToBottomOfScreen() < fadingEdgeLength)
 			this.setVerticalFadingEdgeEnabled(false);
 		else

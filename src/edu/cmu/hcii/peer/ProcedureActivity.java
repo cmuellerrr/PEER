@@ -846,7 +846,7 @@ public class ProcedureActivity extends Activity {
 	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_STATE)){
 	    		int state = intent.getExtras().getInt("msg");
 	    		audioFeedbackThread.setState(state);
-	    		Log.v(TAG, "state: " + state);
+	    		//Log.v(TAG, "state: " + state);
 
 	    	}
 	    }
