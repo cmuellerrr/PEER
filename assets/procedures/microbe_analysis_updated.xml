@@ -179,13 +179,7 @@ Last edit: Kristina, 7/11
 						<type>caution</type>
 						<text>Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
 					</callout>
-					<text>Swipe front face of air filtration unit in zigzag motion (Video 1).</text>
-					<reference>
-                        <type>video</type>
-                        <name>Video 1</name>
-                        <description>Correct swabbing motion</description>
-                        <url>Video_1.mp4</url>
-                    </reference>
+					<text>Swipe front face of air filtration unit in zigzag motion.</text>
 				</step>
 			</step>
 			<step>

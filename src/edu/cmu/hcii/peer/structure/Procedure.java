@@ -279,8 +279,11 @@ public class Procedure implements Serializable {
 					
 					String start = ((Step)c.getChild(0)).getNumber();
 					String end = ((Step)c.getChild(c.getNumChildren()-1)).getNumber();
-					stepPreviews.add("You will be repeating steps " + start + "-" + end);
+					//stepPreviews.add("You will be repeating steps " + start + "-" + end);
 					
+					
+					//stepPreviews.add(("Repetition " + currentRep + " information");
+
 					for (int j = 0; j < child.getNumChildren(); j++){
 						traverseSteps(child.getChild(j));
 					}
@@ -289,7 +292,7 @@ public class Procedure implements Serializable {
 			} else {
 				if (child.getNumChildren() == 0) {
 					Step s = (Step)child;
-					stepPreviews.add("Step " + s.getNumber() + ": " + s.getText());
+					stepPreviews.add("Step " + s.getNumber() + "  " + s.getText());
 				}
 				
 				for (int i = 0; i < child.getNumChildren(); i++){
