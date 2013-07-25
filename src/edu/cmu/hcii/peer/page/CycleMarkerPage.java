@@ -49,19 +49,21 @@ public class CycleMarkerPage extends LinearLayout {
 			String end = ((Step)c.getChild(c.getNumChildren()-1)).getNumber();
 			
 			String tense = currentRep > 1 ? "are" : "will be";
-			
-			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("You " + tense + " repeating steps " + 
+						
+			((TextView)page.findViewById(R.id.cycleMarkerText)).setText("You " + tense + " repeating steps " + 
 					start + "-" + end + " a total of " + totalReps + " times");
 			
 		} else {
-			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("Uhh... There is a " + 
+			((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Uhh... There is a " + 
 					context.getResources().getString(R.string.cycle_display_name) + 
 					" with no steps in it.  Someone screwed up.");
 		}
-		
+		/*
         ((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Beginning " + 
         		context.getResources().getString(R.string.cycle_display_name) + " " + currentRep);
-        
+        */
+		((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("Repetition " + currentRep + " information");
+
         ViewGroup container = (ViewGroup)page.findViewById(R.id.cycleMarkerTextContainer);
         
         for (int i = 0; i < notes.size(); i++) {

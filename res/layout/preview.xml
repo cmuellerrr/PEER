@@ -10,7 +10,7 @@
 	    android:gravity="left|center_vertical"
 	    android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-	    android:textSize="16px" 
+	    style="@style/StepPreviewText"
 	    android:drawableLeft="@drawable/preview_arrow_l"
 	    android:drawablePadding="10px"
 	    android:singleLine="true" />
@@ -23,8 +23,8 @@
 	    android:layout_alignParentBottom="true"
 	    android:drawableRight="@drawable/preview_arrow_r"
 	    android:drawablePadding="10px"
+	    style="@style/StepPreviewText"
 	    android:gravity="right|center_vertical"
-	    android:textSize="16px" 
 	    android:singleLine="true"/>
       
 </RelativeLayout>

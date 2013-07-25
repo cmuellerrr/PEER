@@ -21,7 +21,7 @@
     
     <style name="ScrollView" parent ="@android:style/Widget.ScrollView">
         <item name="android:scrollbarStyle">outsideInset</item>
-        <item name="android:scrollbarTrackVertical">@drawable/scroller_bar</item>
+        <item name="android:scrollbarTrackVertical">@drawable/scroller_line</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb</item>
         <item name="android:scrollbarSize">5px</item>
     </style>
@@ -68,7 +68,7 @@
     </style>   
     
     <style name="AudioFeedback">
-        <item name="android:layout_width">270px</item>
+        <item name="android:layout_width">198px</item>
         <item name="android:layout_height">72px</item>
         <item name="android:layout_marginBottom">10px</item>
     </style>
@@ -84,6 +84,10 @@
     <style name="StepPreview">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">82px</item>
+    </style>
+    
+    <style name="StepPreviewText">
+        <item name="android:textSize">18px</item>
     </style>
     
     <style name="Breadcrumb">
