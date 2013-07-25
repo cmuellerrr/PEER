@@ -9,12 +9,7 @@
         android:text="@string/ex_notes_aside">
     </TextView>
     
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="20px"
-        android:layout_marginBottom="20px"
-        android:background="@color/main" />
+    <View style="@style/hr" />
     
     <TextView android:id="@+id/exNotesTitle"
         style="@style/ExecutionNotesTitle" 

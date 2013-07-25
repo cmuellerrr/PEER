@@ -5,27 +5,18 @@
     android:paddingLeft="83px"
     android:orientation="vertical" >
     
-    <TextView
-        android:id="@+id/cycleMarkerTitle"
-        style="@style/ParentStep"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20px" />
+    <TextView android:id="@+id/cycleMarkerTitle"
+        style="@style/ParentStep" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:layout_marginBottom="20px"
-        android:background="@color/main" />
-    
+    <View style="@style/hr" />
     
     <LinearLayout android:id="@+id/cycleMarkerTextContainer"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-            <TextView android:id="@+id/cycleMarkerText"
-                style="@style/Step" />
+        <TextView android:id="@+id/cycleMarkerText"
+            style="@style/Step" />
             
     </LinearLayout>
     

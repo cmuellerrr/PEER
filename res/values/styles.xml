@@ -39,6 +39,19 @@
         <item name="android:gravity">center|center_vertical</item>
     </style>
     
+    <style name="hr">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:layout_marginTop">20px</item>
+        <item name="android:layout_marginBottom">20px</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
+    <style name="hr_10" parent="hr">
+        <item name="android:layout_marginTop">10px</item>
+        <item name="android:layout_marginBottom">10px</item>
+    </style>
+    
     
     <!-- Widgets -->
     
@@ -199,7 +212,63 @@
         <item name="android:textSize">20px</item>
     </style>
     
+    <style name="ExecutionNotesNumber" >
+        <item name="android:layout_width">184px</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20px</item>
+    </style>
+    
     <style name="ExecutionNotesText" >
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20px</item>
+        <item name="android:paddingLeft">20px</item>
+    </style>
+    
+    
+    <!-- Cover Page -->
+    
+    
+    <style name="ProcedureName" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">36px</item>
+        <item name="android:layout_marginTop">63px</item>
+        <item name="android:layout_marginBottom">63px</item>
+    </style>
+    
+    <style name="CoverTable" parent="Table" >
+        <item name="android:layout_width">729px</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    
+    <style name="CoverTableHeaderCell" parent="TableHeaderCell" >
+        <item name="android:textSize">28px</item>
+    </style>
+    
+    <style name="CoverTableCell" parent="TableCell" >
+        <item name="android:textSize">20px</item>
+    </style>
+    
+    <style name="ObjectiveCell" parent="CoverTableCell" >
+        <item name="android:layout_width">450px</item>
+    </style>
+    
+    
+    <!-- Cycle Marker -->
+    
+    
+    <style name="CycleNote" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">20px</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    
+    <style name="CycleNoteText" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10px</item>
         <item name="android:textSize">20px</item>
     </style>
     
@@ -230,13 +299,12 @@
         <item name="android:paddingBottom">20px</item>
     </style>
     
-    <style name="CalloutTitle" parent="TableHeaderCell">
+    <style name="CalloutHeaderCell" parent="TableHeaderCell">
         <item name="android:gravity">center|center_vertical</item>
     </style>
     
-    <style name="CalloutText" parent="TableCell">
+    <style name="CalloutCell" parent="TableCell">
         <item name="android:textSize">26px</item>
-        <item name="android:padding">30px</item>
     </style>
     
     
@@ -316,6 +384,24 @@
         <item name="android:layout_height">40px</item>    
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:background">@drawable/border_blue_dots</item>
+    </style>
+    
+    
+    <!-- Completion Page -->
+    
+    
+    <style name="CompletionTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">36px</item>
+        <item name="android:layout_marginTop">63px</item>    
+        <item name="android:layout_marginBottom">63px</item>
+    </style>
+    
+    <style name="CompletionText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">28px</item>
     </style>
     
 </resources>

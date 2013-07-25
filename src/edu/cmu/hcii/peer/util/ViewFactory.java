@@ -453,7 +453,7 @@ public class ViewFactory {
                     }
                 });
             	
-            	//mp.start();
+            	mp.start();
             }
         });			
 				

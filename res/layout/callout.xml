@@ -2,23 +2,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Callout">
  
-	<TableLayout
-	    android:id="@+id/calloutTable"
+	<TableLayout android:id="@+id/calloutTable"
 	    style="@style/Table" >
 	            
-	    <TableRow
-	        android:id="@+id/calloutHeader"
+	    <TableRow android:id="@+id/calloutHeader"
 	        style="@style/TableHeaderRow" >
 	              
 	        <TextView android:id="@+id/calloutTitle"
-	            style="@style/CalloutTitle" />
+	            style="@style/CalloutHeaderCell" />
 	    </TableRow>
 	        
 	    <TableRow
 	        style="@style/TableRow" >
 	              
 	        <TextView android:id="@+id/calloutText"
-	            style="@style/CalloutText" />
+	            style="@style/CalloutCell" />
 	    </TableRow>
         
     </TableLayout>
