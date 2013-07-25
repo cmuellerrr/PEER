@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
+    android:layout_marginBottom="20px"
     android:orientation="vertical" >
 
     <TextView
@@ -10,9 +10,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="20px"
         android:text="@string/input_instruction"
-        android:textSize="20sp" />
+        android:textSize="20px" />
     
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -37,14 +37,14 @@
             android:text="@string/input_command"
             android:textColor="@color/highlight"
             android:textSize="20px" />
-            
+
         <TextView
             android:id="@+id/inputValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28px" />
             android:layout_above="@+id/hr"
-            android:layout_toRightOf="@+id/inputTarget" />
+            android:layout_toRightOf="@+id/inputTarget"
+            android:textSize="28px" />
         
          <ImageView
             android:id="@+id/inputReceived"
@@ -58,11 +58,10 @@
          <View
             android:id="@+id/hr"
             android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="20px"
-            android:layout_marginTop="20px"
+            android:layout_height="1dp"
             android:layout_above="@+id/inputConfirm"
+            android:layout_marginTop="20px"
+            android:layout_marginBottom="20px"
             android:layout_toRightOf="@+id/inputTarget"
             android:background="@color/main" />
 
@@ -88,7 +87,6 @@
             android:textSize="20px"
             android:visibility="invisible" />        
         
-
     </RelativeLayout>
     
 </LinearLayout>
