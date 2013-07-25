@@ -125,6 +125,8 @@ public class ProcedureActivity extends Activity {
 		
 		((TextView)findViewById(R.id.elapsedTime)).setTypeface(fm.getFont(FontStyle.TIMER));
 		((TextView)findViewById(R.id.elapsedTimeText)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)findViewById(R.id.timer)).setTypeface(fm.getFont(FontStyle.TIMER));
+		
 	}
 
 	

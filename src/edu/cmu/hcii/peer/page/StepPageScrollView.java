@@ -121,11 +121,11 @@ public class StepPageScrollView extends ScrollView{
 						if (stepPage.getChildAt(currentChild).getTop() > currentScroll){
 							// then we scroll to the top of current obscured view
 							currentScroll = stepPage.getChildAt(currentChild).getTop();
-							list.add(Math.min(currentScroll, stepPage.getHeight() - viewHeight));
+							list.add(Math.max(0, Math.min(currentScroll - getVerticalFadingEdgeLength(), stepPage.getHeight() - viewHeight)));
 							
 						}else{ //if we already past the top of current obscured view (aka the current view is larger than the viewHeight)
 							currentScroll += viewHeight * SCROLL_DISTANCE;
-							list.add(Math.min(currentScroll, stepPage.getHeight() - viewHeight));
+							list.add(Math.max(0, Math.min(currentScroll, stepPage.getHeight() - viewHeight)));
 							
 						}
 					}
@@ -164,8 +164,9 @@ public class StepPageScrollView extends ScrollView{
 	public void scrollUp(){
 		current_scrollIndex = Math.max(0, current_scrollIndex-1);
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		checkScrollFadingEdge();
+		
 	}
-	
 	
 	
 	/**
@@ -174,5 +175,30 @@ public class StepPageScrollView extends ScrollView{
 	public void scrollDown(){
 		current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		checkScrollFadingEdge();
 	}
+	
+
+	
+	/**
+	 * Used for enabling/disabling the scroller fading edge when at the edges of the screen 
+	 * 
+	 * @return the distance to the bottom of the screen
+	 */
+	public int getDistanceToBottomOfScreen(){
+		return stepPage.getHeight() - (viewHeight + scrollIndex.get(current_scrollIndex));
+	}
+	
+	/**
+	 * Checks if the scroller fading edge overlaps with existing content
+	 * If so, disable the fading edge.
+	 */
+	public void checkScrollFadingEdge(){
+		int fadingEdgeLength = this.getVerticalFadingEdgeLength();
+		if (getDistanceToBottomOfScreen() < fadingEdgeLength)
+			this.setVerticalFadingEdgeEnabled(false);
+		else
+			this.setVerticalFadingEdgeEnabled(true);
+	}
+	
 }
