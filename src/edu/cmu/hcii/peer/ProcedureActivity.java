@@ -157,8 +157,7 @@ public class ProcedureActivity extends Activity {
 
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	    
-		audioFeedbackThread.setRunning(true);
-
+	    audioFeedbackThread.unpause();
 	}
 
 	
@@ -167,7 +166,7 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onPause(){
 		super.onPause();
-		audioFeedbackThread.setRunning(false);
+		audioFeedbackThread.pause();
 		//clearReferences();
 		Log.v(TAG, "onPause");
 		if (dataUpdateReceiver != null) 
