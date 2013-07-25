@@ -60,7 +60,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
         private SurfaceHolder mSurfaceHolder;
 
         /** Indicate whether the surface has been created & is ready to draw */
-        private boolean mRun = false;
+        private volatile boolean mRun = false;
         
         private int state = STATE_INACTIVE;
         private boolean init = false;
@@ -638,16 +638,18 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     private AudioFeedbackThread thread;
     /** Handle to the application context, used to e.g. fetch Drawables. */
     private Context mContext;
+    private SurfaceHolder mHolder;
+    private boolean threadClosed = false;
     
 	public AudioFeedbackView(Context context, AttributeSet attrs) {
 		super(context, attrs);
         // register our interest in hearing about changes to our surface
-        SurfaceHolder holder = getHolder();
-        holder.addCallback(this);
+		mHolder = getHolder();
+		mHolder.addCallback(this);
         mContext = context;
         
         // create thread only; it's started in surfaceCreated()
-        thread = new AudioFeedbackThread(holder, context);
+        thread = new AudioFeedbackThread(mHolder, mContext);
 
         setFocusable(true); // make sure we get key events
 	}
@@ -692,7 +694,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
         // start the thread here so that we don't busy-wait in run()
         // waiting for the surface to be created
 		Log.v(TAG,"surfaceCreated");
-
+		if (threadClosed)
+			thread = new AudioFeedbackThread(mHolder, mContext);
 		thread.setRunning(true);
 		thread.start();
 	}
@@ -709,6 +712,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
             try {
                 thread.join();
                 retry = false;
+                threadClosed = true;
             } catch (InterruptedException e) {
             }
         }		
