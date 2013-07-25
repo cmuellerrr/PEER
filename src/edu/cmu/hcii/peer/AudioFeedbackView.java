@@ -8,11 +8,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -25,9 +27,9 @@ import android.view.SurfaceView;
  */
 public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Callback {
 	class AudioFeedbackThread extends Thread {
-		private static final int NUMBER_OF_BARS = 16;
-		private int BAR_MAXIMUM_OFFSET = 100; // how quickly bars grow in height
-		private int BAR_MARGIN = 5; // size of margin between bars
+		private int NUMBER_OF_BARS;
+		private int BAR_MAXIMUM_OFFSET = 60; // how quickly bars grow in height
+		private int BAR_MARGIN = 0; // size of margin between bars
 		private int MINIMUM_RMS_READ = 1;
 		private int MAXIMUM_FPS = 20;
 		
@@ -39,12 +41,12 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private Paint pActive; 		// paint of active items
 
 		
-		private int levels[] = new int[NUMBER_OF_BARS];					// pixel heights of bars (if directly corresponding the noise level)
-		private int drawnLevels[] = new int[NUMBER_OF_BARS];			// pixel heights of bars (when actually drawn - this is different from the above for making animations smoother)
-		public float levelThreshold = 0;								// pixel height of level threshold line
-		public float levelThresholdPercent = 0;							// percent of level threshold line
+		private int levels[];						// pixel heights of bars (if directly corresponding the noise level)
+		private int drawnLevels[];					// pixel heights of bars (when actually drawn - this is different from the above for making animations smoother)
+		public float levelThreshold = 0;			// pixel height of level threshold line
+		public float levelThresholdPercent = 0;		// percent of level threshold line
 
-		private float[] drawnLevelSpeeds = new float[NUMBER_OF_BARS];	// pixel heights of bars (if directly corresponding the noise level)
+		private float[] drawnLevelSpeeds;			// pixel heights of bars (if directly corresponding the noise level)
 		private int randomLevelIndex;
 
 		private long lastMessageTime;
@@ -58,19 +60,21 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
         private SurfaceHolder mSurfaceHolder;
 
         /** Indicate whether the surface has been created & is ready to draw */
-        private boolean mRun = false;
+        private volatile boolean mRun = false;
         
-        private int state = STATE_INACTIVE;
-        
+        private boolean init = false;
+        private volatile boolean paused = false;
+
         // Bitmaps for drawing mic
         private Bitmap micActive_Scaled;
         private Bitmap micInactive_Scaled;
-
+        private Bitmap dotPattern;
+        
         public AudioFeedbackThread(SurfaceHolder surfaceHolder, Context context) {
             // get handles to some important objects
             mSurfaceHolder = surfaceHolder;
             mContext = context;
-            init();
+            //init();
         }
         
         
@@ -83,6 +87,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
                     synchronized (mSurfaceHolder) {
                        // if (System.currentTimeMillis() - lastFrameTime > 1000/MAXIMUM_FPS){
                         //	lastFrameTime = System.currentTimeMillis();
+                    	if (!paused && c != null && init)
                         	doDraw(c);
                         //}
                     }
@@ -115,12 +120,12 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param s current state
          */
         public void setState(int s){
-        //.	synchronized (mSurfaceHolder) {
+        	synchronized (mSurfaceHolder) {
 	        	state = s;
 	        	if (state == STATE_ACTIVE){
 	        		refreshThresholdLine();
 	        	}
-        //	}
+        	}
         }
         
         /**
@@ -147,9 +152,11 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * @param busyState
     	 */
     	public void setBusy(boolean busyState){
-    		busy = busyState;
-    		refreshThresholdLine();
-    		busyDrawCounter = 0;
+        	synchronized (mSurfaceHolder) {
+	    		busy = busyState;
+	    		refreshThresholdLine();
+	    		busyDrawCounter = 0;
+        	}
     	}
     	
     	/**
@@ -165,6 +172,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
          * @param c
          */
 		private void doDraw(Canvas c) {
+			if (c==null)
+				return;
 			c.drawColor(Color.BLACK);
 			//Log.v("hello","hello");
 			
@@ -193,11 +202,27 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		 * Initializes objects needed for drawing
 		 */
 		private void init(){
+			initBitmaps();
 			initPaints();
+			initNumberOfBars();
+			initArrays();
+			
+			init = true;
 
 			for (int i = 0; i < levels.length; i++ ){
 				drawnLevelSpeeds[i] = 1;
 			}
+		}
+		
+		private void initNumberOfBars(){
+			NUMBER_OF_BARS = (viewWidth / dotPattern.getWidth());
+		}
+		
+		private void initArrays(){
+			levels = new int[NUMBER_OF_BARS];
+			drawnLevels = new int[NUMBER_OF_BARS];
+			drawnLevelSpeeds = new float[NUMBER_OF_BARS];
+			
 		}
 		
 		/**
@@ -211,6 +236,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 			//p.setMaskFilter(new BlurMaskFilter(15, Blur.SOLID));
 			//pBar.setMaskFilter(new BlurMaskFilter(10, Blur.NORMAL));
 			//p.setShadowLayer(70, 0, 0, Color.CYAN);
+		
+			pBar.setShader(new BitmapShader(dotPattern,Shader.TileMode.REPEAT,Shader.TileMode.REPEAT));
 			
 			pActive = new Paint();
 			pActive.setColor(Color.parseColor("#FCDA4F"));
@@ -227,24 +254,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		 * Initializes bitmaps
 		 */
 		private void initBitmaps(){
-        	Resources res = getContext().getResources();
+			Resources res = getContext().getResources();
         	Bitmap micActive = BitmapFactory.decodeResource(res, R.drawable.mic_active);
         	micActive_Scaled = scaleImageRelativeToViewHeight(micActive,0.8f);
         	
         	Bitmap micInactive = BitmapFactory.decodeResource(res, R.drawable.mic_inactive);
         	micInactive_Scaled = scaleImageRelativeToViewHeight(micInactive,0.8f);
+		
+        	dotPattern = BitmapFactory.decodeResource(res, R.drawable.mic_dot);
+        	
 		}
 		
         /* Callback invoked when the surface dimensions change. */
         public void setSurfaceSize(int width, int height) {
             // synchronized to make sure these all change atomically
             synchronized (mSurfaceHolder) {
-    			initBitmaps();
+                viewWidth = width;
+                viewHeight = height;
+    			init();
 
-                //viewWidth = width;
-                //viewHeight = height;
-
-               // Log.v("viewWidth,viewHeight",width+","+height);
+                Log.v(TAG,"setSurfaceSize: viewWidth,viewHeight "+width+","+height);
             }
         }
         
@@ -438,19 +467,26 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 * @param c
     	 */
     	private void drawAudioBarsVert(Canvas c){
-    		int barWidth = (viewWidth - BAR_MARGIN*levels.length) / levels.length; 
-    		
-    		if (getCurState() == STATE_INACTIVE){
-    			pBar.setColor(Color.GRAY);
-    		}else if (getCurState() == STATE_ACTIVE){
-    			pBar.setColor(Color.parseColor("#a4ece8"));
-    		}
-    		
-    		for (int i = 0; i < levels.length; i++){
-    			Rect rect;
-    			rect = new Rect(i*barWidth+i*BAR_MARGIN, viewHeight-drawnLevels[i],i*barWidth+barWidth+i*BAR_MARGIN,viewHeight);
-    			
-    			c.drawRect(rect, pBar);	
+    		if (levels != null){
+	    		int barWidth = (viewWidth - BAR_MARGIN*levels.length) / levels.length; 
+	    		
+	    		if (getCurState() == STATE_INACTIVE){
+	    			pBar.setColor(Color.GRAY);
+	    		}else if (getCurState() == STATE_ACTIVE){
+	    			pBar.setColor(Color.parseColor("#a4ece8"));
+	    		}
+	    		
+	    		for (int i = 0; i < levels.length; i++){
+	    			Rect rect;
+	    			
+	    			int drawnHeight = viewHeight-drawnLevels[i];
+	    			drawnHeight = (drawnHeight / dotPattern.getHeight()) * dotPattern.getHeight();
+	    			
+	    			rect = new Rect(i*barWidth+i*BAR_MARGIN, drawnHeight,i*barWidth+barWidth+i*BAR_MARGIN,viewHeight);
+	    			
+	    			c.drawRect(rect, pBar);	
+	    			
+	    		}
     		}
     	}
     	
@@ -490,7 +526,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	 */
     	private void convertAllPixelsToDrawnPixels(){
     		for (int i = 0; i < levels.length; i++){
-    			drawnLevels[i] = convertPixelToDrawnPixel(i);
+    			drawnLevels[i] = Math.max(0, Math.min(viewHeight, convertPixelToDrawnPixel(i)));
     		}
     	}
     	
@@ -595,6 +631,25 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     			lastMessageTime = System.currentTimeMillis();
     		//drawnLevels[drawnLevels.length-1] = convertPixelToDrawnPixel(drawnLevels.length-1);
     	}
+    	
+    	
+    	/**
+    	 * Pauses drawing
+    	 */
+    	public void pause(){
+    		synchronized (mSurfaceHolder) {
+    			paused = true;
+    		}
+    	}
+    	
+    	/**
+    	 * Unauses drawing
+    	 */
+    	public void unpause(){
+    		synchronized (mSurfaceHolder) {
+    			paused = false;
+    		}
+    	}
 	}
 	
 	private String TAG = "AudioFeedbackView";
@@ -604,21 +659,24 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 	public int STATE_INACTIVE = 0;
 	public int STATE_ACTIVE = 1;
 	public boolean busy = false;
-	
+    private int state = STATE_INACTIVE;
+
     /** The thread that actually draws the animation */
     private AudioFeedbackThread thread;
     /** Handle to the application context, used to e.g. fetch Drawables. */
     private Context mContext;
+    private SurfaceHolder mHolder;
+    private boolean threadClosed = false;
     
 	public AudioFeedbackView(Context context, AttributeSet attrs) {
 		super(context, attrs);
         // register our interest in hearing about changes to our surface
-        SurfaceHolder holder = getHolder();
-        holder.addCallback(this);
+		mHolder = getHolder();
+		mHolder.addCallback(this);
         mContext = context;
         
         // create thread only; it's started in surfaceCreated()
-        thread = new AudioFeedbackThread(holder, context);
+        thread = new AudioFeedbackThread(mHolder, mContext);
 
         setFocusable(true); // make sure we get key events
 	}
@@ -647,7 +705,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 	 * @param rms raw rms value from SpeechRecognizer
 	 */
 	public void updateAudioFeedbackView(float rms){
-		thread.updateAudioValues(rms);
+		if (thread.init)
+			thread.updateAudioValues(rms);
 	}
 
 	@Override
@@ -662,7 +721,10 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
         // start the thread here so that we don't busy-wait in run()
         // waiting for the surface to be created
 		Log.v(TAG,"surfaceCreated");
-
+		if (threadClosed){
+			thread = new AudioFeedbackThread(mHolder, mContext);
+			
+		}
 		thread.setRunning(true);
 		thread.start();
 	}
@@ -679,6 +741,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
             try {
                 thread.join();
                 retry = false;
+                threadClosed = true;
             } catch (InterruptedException e) {
             }
         }		

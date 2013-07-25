@@ -12,7 +12,8 @@
         android:layout_alignParentBottom="true"
 	    android:textSize="16px" 
 	    android:drawableLeft="@drawable/preview_arrow_l"
-	    android:drawablePadding="10px" />
+	    android:drawablePadding="10px"
+	    android:singleLine="true" />
 
 	<TextView
 	    android:id="@+id/rightText"
@@ -23,6 +24,7 @@
 	    android:drawableRight="@drawable/preview_arrow_r"
 	    android:drawablePadding="10px"
 	    android:gravity="right|center_vertical"
-	    android:textSize="16px" />
+	    android:textSize="16px" 
+	    android:singleLine="true"/>
       
 </RelativeLayout>

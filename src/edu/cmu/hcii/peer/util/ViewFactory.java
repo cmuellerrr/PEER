@@ -131,7 +131,7 @@ public class ViewFactory {
     	
 		LayoutInflater inflater = LayoutInflater.from(context);
     	TextView newItem = (TextView)inflater.inflate(R.layout.cycle_select_item, null);       	
-    	newItem.setText("CYCLE " + rep);    	
+    	newItem.setText(context.getResources().getString(R.string.cycle_display_name).toUpperCase() + " " + rep);	
     	
     	newItem.setOnClickListener(new OnClickListener() {
 
@@ -453,7 +453,7 @@ public class ViewFactory {
                     }
                 });
             	
-            	mp.start();
+            	//mp.start();
             }
         });			
 				
@@ -555,8 +555,8 @@ public class ViewFactory {
     	FontManager fm = FontManager.getInstance(context.getAssets());
     	((TextView)input.findViewById(R.id.inputCommand)).setTypeface(fm.getFont(FontStyle.SELECTABLE)); 
     	((TextView)input.findViewById(R.id.inputValue)).setTypeface(fm.getFont(FontStyle.BODY));
-    	((TextView)input.findViewById(R.id.inputConfirm)).setTypeface(fm.getFont(FontStyle.HEADER));
-    	((TextView)input.findViewById(R.id.inputRetry)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	((TextView)input.findViewById(R.id.inputConfirm)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
+    	((TextView)input.findViewById(R.id.inputRetry)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
     	((TextView)input.findViewById(R.id.inputInstruction)).setTypeface(fm.getFont(FontStyle.BODY));
     	
 		return input;
@@ -595,6 +595,24 @@ public class ViewFactory {
 		//Set up the custom fonts
 		FontManager fm = FontManager.getInstance(context.getAssets());
 		v.setTypeface(fm.getFont(FontStyle.BODY));
+		
+		return v;
+	}
+	
+	
+	
+	/**
+	 * 
+	 * @param context
+	 * @return
+	 */
+	public static ViewGroup getCompletionPage(Context context) {
+		ViewGroup v = (ViewGroup)LayoutInflater.from(context).inflate(R.layout.complete_page, null);
+		
+		//Set up the custom fonts
+		FontManager fm = FontManager.getInstance(context.getAssets());
+		((TextView)v.findViewById(R.id.completeTitle)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)v.findViewById(R.id.completeText)).setTypeface(fm.getFont(FontStyle.BODY));
 		
 		return v;
 	}

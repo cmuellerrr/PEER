@@ -36,6 +36,7 @@ import edu.cmu.hcii.peer.page.CycleMarkerPage;
 import edu.cmu.hcii.peer.page.CycleSelectPage;
 import edu.cmu.hcii.peer.page.DrawerPageInterface;
 import edu.cmu.hcii.peer.page.ExecNotesPage;
+import edu.cmu.hcii.peer.page.CompletionPage;
 import edu.cmu.hcii.peer.page.GroundPage;
 import edu.cmu.hcii.peer.page.NavigationPage;
 import edu.cmu.hcii.peer.page.PageAdapter;
@@ -124,6 +125,8 @@ public class ProcedureActivity extends Activity {
 		
 		((TextView)findViewById(R.id.elapsedTime)).setTypeface(fm.getFont(FontStyle.TIMER));
 		((TextView)findViewById(R.id.elapsedTimeText)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)findViewById(R.id.timer)).setTypeface(fm.getFont(FontStyle.TIMER));
+		
 	}
 
 	
@@ -154,8 +157,7 @@ public class ProcedureActivity extends Activity {
 
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	    
-		audioFeedbackThread.setRunning(true);
-
+	    audioFeedbackThread.unpause();
 	}
 
 	
@@ -164,7 +166,7 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onPause(){
 		super.onPause();
-		audioFeedbackThread.setRunning(false);
+		audioFeedbackThread.pause();
 		//clearReferences();
 		Log.v(TAG, "onPause");
 		if (dataUpdateReceiver != null) 
@@ -751,6 +753,8 @@ public class ProcedureActivity extends Activity {
 			result.addAll(setupStepPage(procedure.getChildAt(i), null, 0));
 		}
 		
+		result.add(new CompletionPage(this));
+		
 		return result;
 	}
 	
@@ -842,7 +846,7 @@ public class ProcedureActivity extends Activity {
 	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_STATE)){
 	    		int state = intent.getExtras().getInt("msg");
 	    		audioFeedbackThread.setState(state);
-	    		Log.v(TAG, "state: " + state);
+	    		//Log.v(TAG, "state: " + state);
 
 	    	}
 	    }

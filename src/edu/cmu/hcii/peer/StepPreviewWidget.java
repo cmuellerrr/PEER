@@ -43,16 +43,21 @@ public class StepPreviewWidget extends LinearLayout{
 	private void setStepText(Procedure procedure, int pagerIndex, TextView textView) {
 		String preview = "";
 		if (pagerIndex < ProcedureActivity.PREPARE_PAGES) {
-			if (pagerIndex == 0){
+			if (pagerIndex == 0) {
 				preview = procedure.getTitle();
-			}else if (pagerIndex == 1){
-				preview = "Please gather the following equipment...";
-			}else if (pagerIndex == 2){
-				preview = "Execution Notes";
+				
+			} else if (pagerIndex == 1) {
+				preview = getContext().getResources().getString(R.string.stow_note_preview);
+				
+			} else if (pagerIndex == 2) {
+				preview = getContext().getResources().getString(R.string.ex_note_preview);
 			}
 			
 		} else if (pagerIndex - ProcedureActivity.PREPARE_PAGES < procedure.getStepPreviewSize()) {
 			preview = procedure.getStepPreview(pagerIndex - ProcedureActivity.PREPARE_PAGES);
+		
+		} else if (pagerIndex - ProcedureActivity.PREPARE_PAGES == procedure.getStepPreviewSize()) {
+			preview = getContext().getResources().getString(R.string.completion_preview);
 		}
 			
 		textView.setText(preview);

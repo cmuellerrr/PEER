@@ -71,8 +71,8 @@ public class StepPage extends LinearLayout {
 		
 		//Add callout elements
 		ViewGroup cont = ((ViewGroup)page.findViewById(R.id.stepTextContainer));
-		setupExecutionNotes(context, cont);
 		setupCallouts(context, cont);
+		setupExecutionNotes(context, cont);
 		
 		
 		//Add the normal text
@@ -105,10 +105,9 @@ public class StepPage extends LinearLayout {
 			p.removeView(page.findViewById(R.id.consequentContainer));
 		}
 		
-		
-		if (step.getTimer()) cont.addView(ViewFactory.getTimer(context));
+		setupInput(context, cont);
+		setupTimer(context, cont);
 		setupReferences(context, cont);
-		if (step.isInputAllowed()) cont.addView(ViewFactory.getInput(context));
 		
 		initFonts();
 	}
@@ -190,6 +189,29 @@ public class StepPage extends LinearLayout {
 		}
 	}
 	
+	
+	
+	/**
+	 * Setup the input for the step
+	 * 
+	 * @param context
+	 * @param container
+	 */
+	private void setupInput(Context context, ViewGroup container) {
+		if (step.isInputAllowed()) container.addView(ViewFactory.getInput(context));
+	}
+	
+	
+	
+	/**
+	 * Setup the timer for the step
+	 * 
+	 * @param context
+	 * @param container
+	 */
+	private void setupTimer(Context context, ViewGroup container) {
+		if (step.getTimer()) container.addView(ViewFactory.getTimer(context));
+	}
 	
 	
 	/**

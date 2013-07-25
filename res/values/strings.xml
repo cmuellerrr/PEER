@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">kadARbra</string>
+    <string name="app_name">PEER</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_procedure">ProcedureActivity</string>
+    
+    <!-- General -->
+    <string name="cycle_display_name">repetition</string>
     
     <!-- Title Page -->
     <string name="title_objective">OBJECTIVE</string>
     <string name="title_duration">DURATION</string>
     
     <!-- Execution Notes -->
+    <string name="ex_note_preview">Execution Notes</string>
     <string name="ex_notes_title">EXECUTION NOTES</string>
     <string name="ex_notes_aside">Execution notes will display again on their respective steps.</string>
     <string name="ex_note_title">EXECUTION NOTE</string>
     
     <!-- Stowage Notes -->
+    <string name="stow_note_preview">Please gather the following equipment</string>
     <string name="stow_notes_title">STOWAGE NOTES</string>
     <string name="header_bin_code">BIN</string>
     <string name="header_item">ITEM</string>
@@ -31,7 +36,7 @@
     <string name="menu_annotations">NOTATIONS</string>
     <string name="menu_ground">GROUND</string>
     
-    <string name="cycle_select_title">WHICH CYCLE?</string>
+    <string name="cycle_select_title">WHICH REPETITION?</string>
     
     <string name="calling_ground">Speaking with ground</string>
     
@@ -47,11 +52,15 @@
     <!-- Elapsed Time -->
     <string name="elapsed_time">ELAPSED TIME</string>
     
-    
     <!-- Input -->
     <string name="input_command">LOG</string>
     <string name="input_confirm">DONE</string>
     <string name="input_retry">RETRY</string>
-    <string name="input_instruction">Place the object in the space provided to the left.</string>
+    <string name="input_instruction">Place the object to record in the space provided below.</string>
+    
+    <!-- Final Page -->
+    <string name="completion_preview">Procedure complete</string>
+    <string name="completion_title">PROCEDURE COMPLETE</string>
+    <string name="completion_text">Check the OSTPV for your next assignment.</string>
         
 </resources>

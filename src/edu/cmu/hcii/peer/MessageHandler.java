@@ -188,9 +188,9 @@ public class MessageHandler {
 			commandIdentifier = COMMAND_STEP_NUMBER;
 			String str = handleStep("step",content);
 			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, str);
-		}else if (content.startsWith("cycle")){
+		}else if (content.startsWith("repetition")){
 			commandIdentifier = COMMAND_CYCLE_NUMBER;
-			String str = handleStep("cycle",content);
+			String str = handleStep("repetition",content);
 			sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier, str);
 		}else if (content.equals("expand")){
 			commandIdentifier = COMMAND_COND_EXPAND;

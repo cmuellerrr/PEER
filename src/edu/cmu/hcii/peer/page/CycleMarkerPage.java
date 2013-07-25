@@ -54,10 +54,13 @@ public class CycleMarkerPage extends LinearLayout {
 					start + "-" + end + " a total of " + totalReps + " times");
 			
 		} else {
-			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("Uhh... There is a cycle with no steps in it.  Someone screwed up.");
+			((TextView)page.findViewById(R.id.cycleMarkerTitle)).setText("Uhh... There is a " + 
+					context.getResources().getString(R.string.cycle_display_name) + 
+					" with no steps in it.  Someone screwed up.");
 		}
 		
-        ((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Beginning cycle " + currentRep);
+        ((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Beginning " + 
+        		context.getResources().getString(R.string.cycle_display_name) + " " + currentRep);
         
         ViewGroup container = (ViewGroup)page.findViewById(R.id.cycleMarkerTextContainer);
         
