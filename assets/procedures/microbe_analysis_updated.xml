@@ -133,7 +133,7 @@ Last edit: Kristina, 7/11
 	        <repetitions>2</repetitions>
 	        <cycle_notes>
 		        <note>
-		            <text>Backup sites should be used only if prime sites are inaccessible.</text>
+		            <text>Backup sites should be used only if primary sites are inaccessible.</text>
 		        </note>
 		        <!--I think we were changing the table below somehow, but I kept it as-is for now.-->
 		        <note>
