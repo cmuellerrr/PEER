@@ -154,6 +154,7 @@ public class ProcedureActivity extends Activity {
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_LEVEL);
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_BUSY);    
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_STATE);    
+        intentFilter.addAction(MessageHandler.MSG_TYPE_AR_READ);    
 
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	    
@@ -1040,7 +1041,7 @@ public class ProcedureActivity extends Activity {
      */
     private void scrollDrawerDown(){
       	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-	    drawer.smoothScrollBy(0, (int) (drawer.getHeight()*0.7f));
+	    drawer.smoothScrollBy(0, (int) (drawer.getHeight()*0.6f));
     }
 
     /**
@@ -1048,7 +1049,7 @@ public class ProcedureActivity extends Activity {
      */
     private void scrollDrawerUp(){
       	ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-	    drawer.smoothScrollBy(0, (int) (drawer.getHeight()*-0.7f));
+	    drawer.smoothScrollBy(0, (int) (drawer.getHeight()*-0.6f));
     }
     
     /**

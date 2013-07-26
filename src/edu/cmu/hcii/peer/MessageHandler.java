@@ -105,7 +105,7 @@ public class MessageHandler {
 			String type = json.getString("type");
 			String content = json.getString("content");	
 			
-			//Log.v(TAG, "type: "+type+", "+"content: "+content);
+			Log.v(TAG, "type: "+type+", "+"content: "+content);
 			
 			if (type.equals(MSG_TYPE_COMMAND)) {
 				if (state == STATE_ACTIVE || content.equals("ready") ) {
@@ -129,6 +129,7 @@ public class MessageHandler {
 				
 			} else if (type.equals(MSG_TYPE_AR_READ)) {
 				//send a message to set the current page's input value
+				
 				sendBroadcastMsg(ctx, MSG_TYPE_AR_READ, content);
 			}
 				

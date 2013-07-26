@@ -22,8 +22,8 @@
     <style name="ScrollView" parent ="@android:style/Widget.ScrollView">
         <item name="android:scrollbarStyle">outsideInset</item>
         <item name="android:scrollbarTrackVertical">@drawable/scroller_line</item>
-        <item name="android:scrollbarThumbVertical">@drawable/scroller_inv</item>
-        <item name="android:scrollbarSize">5px</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb_bar</item>
+        <item name="android:scrollbarSize">2px</item>
     </style>
     
     

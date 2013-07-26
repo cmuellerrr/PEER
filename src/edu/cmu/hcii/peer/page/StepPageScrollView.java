@@ -159,11 +159,30 @@ public class StepPageScrollView extends ScrollView{
 	}
 	
 	/**
+	 * Scrolls up using scroll indexes
+	 */
+	public void smartScrollUp(){
+		current_scrollIndex = Math.max(0, current_scrollIndex-1);
+		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		checkScrollFadingEdge();
+		
+	}
+	
+	
+	/**
+	 * Scrolls down using scroll index
+	 */
+	public void smartScrollDown(){
+		current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
+		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		checkScrollFadingEdge();
+	}
+	
+	/**
 	 * Scrolls up
 	 */
 	public void scrollUp(){
-		current_scrollIndex = Math.max(0, current_scrollIndex-1);
-		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		smoothScrollBy(0, (int) (viewHeight * -0.5f));
 		checkScrollFadingEdge();
 		
 	}
@@ -173,12 +192,9 @@ public class StepPageScrollView extends ScrollView{
 	 * Scrolls down 
 	 */
 	public void scrollDown(){
-		current_scrollIndex = Math.min(scrollIndex.size() - 1, current_scrollIndex+1);
-		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
+		smoothScrollBy(0, (int) (viewHeight * 0.5f));
 		checkScrollFadingEdge();
 	}
-	
-
 	
 	/**
 	 * Used for enabling/disabling the scroller fading edge when at the edges of the screen 
