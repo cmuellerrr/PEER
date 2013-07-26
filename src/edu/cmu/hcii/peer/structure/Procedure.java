@@ -281,7 +281,7 @@ public class Procedure implements Serializable {
 					//String end = ((Step)c.getChild(c.getNumChildren()-1)).getNumber();
 					//stepPreviews.add("You will be repeating steps " + start + "-" + end);
 					
-					stepPreviews.add("Repetition " +(i+1) +" information");
+					stepPreviews.add("Repetition " +(i+1) +" Information");
 
 					for (int j = 0; j < child.getNumChildren(); j++){
 						traverseSteps(child.getChild(j));
