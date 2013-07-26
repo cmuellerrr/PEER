@@ -179,7 +179,7 @@ Last edit: Kristina, 7/11
 						<type>caution</type>
 						<text>Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
 					</callout>
-					<text>Swipe front face of air filtration unit in zigzag motion. USE AR MODE FOR THIS STEP.</text>
+					<text>Swipe front face of air filtration unit in zigzag motion as shown in AR overlay.</text>
 				</step>
 			</step>
 			<step>
@@ -197,7 +197,7 @@ Last edit: Kristina, 7/11
 				<step>
 				<!--For this step, don't we need some bit in the XML about input?-->
 					<number>3.3</number>
-					<text>Record the resulting microbe level reading (Table 1). USE AR MODE FOR THIS STEP.</text>
+					<text>Record the resulting microbe level reading (Table 1).</text>
 					<reference>
 						<type>table</type>
 						<name>Table 1</name>
