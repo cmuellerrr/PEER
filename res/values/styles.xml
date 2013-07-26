@@ -379,7 +379,7 @@
     </style>
     
     
-    <style name="Table2">
+    <style name="LinearLayoutTable">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/border_blue</item>
@@ -387,7 +387,7 @@
         <item name="android:orientation">vertical</item>
     </style>
     
-    <style name="TableRow2">
+    <style name="LinearLayoutTableRow">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">5px</item>
@@ -395,7 +395,7 @@
         
     </style>
     
-    <style name="TableHeaderRow2" parent="TableRow2">
+    <style name="LinearLayoutTableHeaderRow" parent="LinearLayoutTableRow">
         <item name="android:background">@drawable/dot_bg_blue</item>
         <item name="android:layout_marginBottom">0px</item>
         <item name="android:orientation">horizontal</item>
@@ -403,7 +403,7 @@
         
     </style>
     
-    <style name="TableHeaderCell2" parent="TableCell2" >
+    <style name="LinearLayoutTableHeaderCell" parent="LinearLayoutTableCell" >
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">28px</item>
@@ -415,7 +415,7 @@
         <item name="android:padding">10px</item>
     </style>
     
-    <style name="TableCell2" >
+    <style name="LinearLayoutTableCell" >
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">wrap_content</item>
        
@@ -423,7 +423,7 @@
         <item name="android:padding">10px</item>
     </style>
     
-    <style name="TableImageCell2" parent="TableCell2">
+    <style name="LinearLayoutTableImageCell" parent="LinearLayoutTableCell">
         <item name="android:layout_width">150px</item>
         <item name="android:layout_height">100px</item>
         <item name="android:scaleType">fitCenter</item>

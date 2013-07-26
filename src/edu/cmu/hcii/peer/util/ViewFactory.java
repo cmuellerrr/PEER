@@ -223,21 +223,21 @@ public class ViewFactory {
 	 * @param items
 	 * @return
 	 */
-	public static ViewGroup getStowageTable2(Context context, String module, List<StowageItem> items) {
+	public static ViewGroup getLinearLayoutStowageTable(Context context, String module, List<StowageItem> items) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		ViewGroup container = (ViewGroup)inflater.inflate(R.layout.stowage_table_v2, null);
-		LinearLayout table = (LinearLayout)container.findViewById(R.id.stow_table2);
+		ViewGroup container = (ViewGroup)inflater.inflate(R.layout.linear_layout_stowage_table, null);
+		LinearLayout table = (LinearLayout)container.findViewById(R.id.linear_layout_stow_table);
 		
 		//set table title
-		((TextView)container.findViewById(R.id.stow_table_title2)).setText(module);
+		((TextView)container.findViewById(R.id.linear_layout_stow_table_title)).setText(module);
 		
 		for (int i = 0; i < items.size(); i++) {
-			table.addView(getStowageRow2(context, items.get(i)));
+			table.addView(getLinearLayoutStowageRow(context, items.get(i)));
 		}
 		
 		//Set up the custom fonts
     	FontManager fm = FontManager.getInstance(context.getAssets());
-    	((TextView)container.findViewById(R.id.stow_table_title2)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	((TextView)container.findViewById(R.id.linear_layout_stow_table_title)).setTypeface(fm.getFont(FontStyle.HEADER));
     	
     	((TextView)table.findViewById(R.id.binCodeHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
     	((TextView)table.findViewById(R.id.itemHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
@@ -249,9 +249,9 @@ public class ViewFactory {
 	}
 	
 	
-	public static ViewGroup getStowageRow2(Context context, StowageItem item) {
+	public static ViewGroup getLinearLayoutStowageRow(Context context, StowageItem item) {
 		LayoutInflater inflater = LayoutInflater.from(context);
-		LinearLayout row = (LinearLayout) inflater.inflate(R.layout.stowage_row_v2, null);
+		LinearLayout row = (LinearLayout) inflater.inflate(R.layout.linear_layout_stowage_row, null);
 		
 		((TextView)row.findViewById(R.id.stowNoteBinCode)).setText(item.getBinCode());
 		((TextView)row.findViewById(R.id.stowNoteItem)).setText(item.getName());
