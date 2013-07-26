@@ -8,14 +8,15 @@
 	    <RelativeLayout
 	        android:layout_marginTop="15px"
 	        android:layout_width="350px"
-	        android:layout_height="170px"
+	        android:layout_height="155px"
 	        android:background="@drawable/border_blue_dots">
 	        
 	    	<TextView
 				android:id="@+id/timerTimeText"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-				android:layout_centerInParent="true"
+				android:layout_marginTop="50px"
+				android:layout_centerHorizontal="true"
 				android:text="00:00"
 				android:textSize="70px"/>
 		

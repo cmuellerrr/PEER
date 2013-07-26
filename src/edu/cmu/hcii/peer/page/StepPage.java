@@ -39,7 +39,10 @@ public class StepPage extends LinearLayout {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
-		String cycleLabel = (cycle > 0 ? "Cycle " + cycle : "");
+		String cycleNameUppercase = getResources().getString(R.string.cycle_display_name).substring(0, 1).toUpperCase() + getResources().getString(R.string.cycle_display_name).substring(1);
+		String cycleLabel = (cycle > 0 ? cycleNameUppercase + " " + cycle : "");
+		
+
 		
 		Log.d(TAG, "Setting up step page " + step.getNumber() + " " + cycleLabel);
 		

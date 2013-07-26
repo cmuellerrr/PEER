@@ -140,8 +140,8 @@
     
     <style name="ElapsedTimeView">
         <item name="android:layout_width">150px</item>
-        <item name="android:layout_height">75px</item>
-        <item name="android:layout_marginTop">31px</item>
+        <item name="android:layout_height">65px</item>
+        <item name="android:layout_marginTop">11px</item>
         <item name="android:layout_marginLeft">55px</item>
         <item name="android:background">@drawable/border_blue</item>
     </style>
@@ -161,7 +161,7 @@
     <style name="ElapsedTimeText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">13px</item>
+        <item name="android:textSize">15px</item>
     </style>
     
     
@@ -430,7 +430,6 @@
     </style>
     
     <!--  Timer -->
-    
     
     <style name="TimerButtonText">
         <item name="android:textSize">20px</item>
