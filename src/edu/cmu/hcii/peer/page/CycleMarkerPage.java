@@ -16,30 +16,36 @@ import edu.cmu.hcii.peer.structure.Cycle;
 import edu.cmu.hcii.peer.structure.CycleNote;
 import edu.cmu.hcii.peer.structure.Step;
 import edu.cmu.hcii.peer.util.FontManager;
-import edu.cmu.hcii.peer.util.ViewFactory;
 import edu.cmu.hcii.peer.util.FontManager.FontStyle;
+import edu.cmu.hcii.peer.util.ViewFactory;
 
 /**
+ * A layout for the page before beginning a cycle.  Here, we want to 
+ * show the users that they will be repeating some steps, which
+ * instance of that cycle they are starting, and any notes that
+ * have been defined for that cycle.
+ * 
+ * NOTE: We kept going back and forth about the word 'cycle', but 
+ * I (Chris) refer to them as cycles.
+ * 
  * @author Chris
  *
  */
 public class CycleMarkerPage extends LinearLayout {
-	
-	private int totalReps;
-	private int currentRep;
-	private List<CycleNote> notes;
-	
+
 	
 	
 	/**
 	 * 
+	 * @param context
+	 * @param c
+	 * @param currentRep
 	 */
 	public CycleMarkerPage(Context context, Cycle c, int currentRep) {
 		super(context);
 		
-		this.totalReps = c.getReps();
-		this.currentRep = currentRep;
-		this.notes = c.getNotes();
+		int totalReps = c.getReps();
+		List<CycleNote> notes = c.getNotes();
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
 		ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_marker_page, this);
@@ -100,59 +106,5 @@ public class CycleMarkerPage extends LinearLayout {
 		
 		((TextView)findViewById(R.id.cycleMarkerTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
 		((TextView)findViewById(R.id.cycleMarkerText)).setTypeface(fm.getFont(FontStyle.BODY));
-	}
-	
-	
-
-	/**
-	 * @return the totalReps
-	 */
-	public int getTotalReps() {
-		return totalReps;
-	}
-
-
-
-	/**
-	 * @param totalReps the totalReps to set
-	 */
-	public void setTotalReps(int totalReps) {
-		this.totalReps = totalReps;
-	}
-
-
-
-	/**
-	 * @return the repetition
-	 */
-	public int getCurrentRep() {
-		return currentRep;
-	}
-
-
-
-	/**
-	 * @param repetition the repetition to set
-	 */
-	public void setCurrentRep(int currentRep) {
-		this.currentRep = currentRep;
-	}
-
-
-
-	/**
-	 * @return the notes
-	 */
-	public List<CycleNote> getNotes() {
-		return notes;
-	}
-
-
-
-	/**
-	 * @param notes the notes to set
-	 */
-	public void setNotes(List<CycleNote> notes) {
-		this.notes = notes;
 	}
 }

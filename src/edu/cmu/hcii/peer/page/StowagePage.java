@@ -26,18 +26,15 @@ import edu.cmu.hcii.peer.util.FontManager.FontStyle;
  *
  */
 public class StowagePage extends TableLayout implements DrawerPageInterface {
-	private Map<String, List<StowageItem>> stowageItems;
-	
-	
+
+		
 	
 	/**
 	 * @param context
 	 */
 	public StowagePage(Context context, Map<String, List<StowageItem>> stowageItems) {
 		super(context);
-		
-		this.stowageItems = stowageItems;
-		
+				
 		LayoutInflater inflater = LayoutInflater.from(context);
         ViewGroup page = (ViewGroup)inflater.inflate(R.layout.stowage_page, this);
         
@@ -70,24 +67,7 @@ public class StowagePage extends TableLayout implements DrawerPageInterface {
 		((TextView)findViewById(R.id.stowNotesTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
 	}
 
-
-
-	/**
-	 * @return the stowageItems
-	 */
-	public Map<String, List<StowageItem>> getStowageItems() {
-		return stowageItems;
-	}
-
-
-
-	/**
-	 * @param stowageItems the stowageItems to set
-	 */
-	public void setStowageItems(Map<String, List<StowageItem>> stowageItems) {
-		this.stowageItems = stowageItems;
-	}
-
+	
 
 	/**
 	 * Returns type of drawer page

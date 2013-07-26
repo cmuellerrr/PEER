@@ -18,6 +18,15 @@ import edu.cmu.hcii.peer.util.FontManager;
 import edu.cmu.hcii.peer.util.ViewFactory;
 import edu.cmu.hcii.peer.util.FontManager.FontStyle;
 
+/**
+ * A layout for a normal step.  A step page includes the normal 
+ * step text along with any step-specific info like execution notes
+ * and cautions, any information about its parent, and 
+ * optional conditional text.
+ * 
+ * @author Chris
+ *
+ */
 public class StepPage extends LinearLayout {
 	private static final String TAG = "StepPage";
 	
@@ -25,11 +34,13 @@ public class StepPage extends LinearLayout {
 	private Step parent;
 	private Step step;
 	
+	
+	
 	/**
-	 * constructs a step page, which is a layout object that can have children objects - 
+	 * Constructs a step page, which is a layout object that can have children objects - 
 	 * the type of layout object used will change in the future (probably a vertical ViewPager)
 	 * 
-	 * If there is no parent, it needs to be passed a null
+	 * NOTE: If there is no parent, it needs to be passed a null
 	 * 
 	 * @param context
 	 * @param step
@@ -39,10 +50,9 @@ public class StepPage extends LinearLayout {
 		super(context);
 		this.setOrientation(VERTICAL);
 		
-		String cycleNameUppercase = getResources().getString(R.string.cycle_display_name).substring(0, 1).toUpperCase() + getResources().getString(R.string.cycle_display_name).substring(1);
+		String cycleNameUppercase = getResources().getString(R.string.cycle_display_name).substring(0, 1).toUpperCase() + 
+				getResources().getString(R.string.cycle_display_name).substring(1);
 		String cycleLabel = (cycle > 0 ? cycleNameUppercase + " " + cycle : "");
-		
-
 		
 		Log.d(TAG, "Setting up step page " + step.getNumber() + " " + cycleLabel);
 		
@@ -62,7 +72,7 @@ public class StepPage extends LinearLayout {
 			p.removeView(page.findViewById(R.id.stepCycleNumber));
 		}
 		
-		//setup the parent
+		//Set up the parent
 		if (parent != null) {			
 			((TextView)page.findViewById(R.id.parentNumber)).setText(parent.getNumber());
 			((TextView)page.findViewById(R.id.parentText)).setText(parent.getText().toUpperCase());
@@ -108,6 +118,7 @@ public class StepPage extends LinearLayout {
 			p.removeView(page.findViewById(R.id.consequentContainer));
 		}
 		
+		//Set up all the other conditional stuff
 		setupInput(context, cont);
 		setupTimer(context, cont);
 		setupReferences(context, cont);
@@ -146,14 +157,6 @@ public class StepPage extends LinearLayout {
 			((TextView)findViewById(R.id.consequentMarker)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
 			((TextView)findViewById(R.id.consequentText)).setTypeface(fm.getFont(FontStyle.BODY));
 		}
-	}
-	
-
-	
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		super.onLayout(changed,l,t,r,b);
-		// TODO Auto-generated method stub	
 	}
 
 	
@@ -217,6 +220,7 @@ public class StepPage extends LinearLayout {
 	}
 	
 	
+	
 	/**
 	 * Setup the references for the step
 	 */
@@ -250,7 +254,6 @@ public class StepPage extends LinearLayout {
 	
 	
 	/**
-	 * 
 	 * 
 	 * @return cycle
 	 */

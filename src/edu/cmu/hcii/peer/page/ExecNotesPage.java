@@ -18,15 +18,13 @@ import edu.cmu.hcii.peer.util.ViewFactory;
 import edu.cmu.hcii.peer.util.FontManager.FontStyle;
 
 /**
- * A layout for execution notes. Displays all
+ * A layout for the execution notes page. Displays all
  * execution notes for a procedure.
  * 
  * @author Chris
  *
  */
 public class ExecNotesPage extends LinearLayout {
-
-	private List<ExecNote> execNotes;
 	
 	
 	
@@ -35,8 +33,6 @@ public class ExecNotesPage extends LinearLayout {
 	 */
 	public ExecNotesPage(Context context, List<ExecNote> execNotes) {
 		super(context);
-		
-		this.execNotes = execNotes;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
         View page = (View)inflater.inflate(R.layout.ex_notes_page, this);
@@ -71,23 +67,5 @@ public class ExecNotesPage extends LinearLayout {
 		
 		((TextView)findViewById(R.id.exNotesAside)).setTypeface(fm.getFont(FontStyle.BODY));
 		((TextView)findViewById(R.id.exNotesTitle)).setTypeface(fm.getFont(FontStyle.HEADER));
-	}
-	
-	
-
-	/**
-	 * @return the execNotes
-	 */
-	public List<ExecNote> getExecNotes() {
-		return execNotes;
-	}
-
-
-
-	/**
-	 * @param execNotes the execNotes to set
-	 */
-	public void setExecNotes(List<ExecNote> execNotes) {
-		this.execNotes = execNotes;
 	}
 }

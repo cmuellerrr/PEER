@@ -9,11 +9,17 @@ import android.widget.LinearLayout;
 import edu.cmu.hcii.peer.util.ViewFactory;
 
 /**
+ * A layout for the page when users are calling ground. 
+ * 
+ * Just a static image for now.
+ * 
  * @author Chris
  *
  */
 public class GroundPage extends LinearLayout implements DrawerPageInterface{
 
+	
+	
 	/**
 	 * @param context
 	 */
@@ -21,7 +27,6 @@ public class GroundPage extends LinearLayout implements DrawerPageInterface{
 		super(context);
 		
 		this.addView(ViewFactory.getCallGround(context));
-		
 		this.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 	}
 
@@ -45,7 +50,4 @@ public class GroundPage extends LinearLayout implements DrawerPageInterface{
 	public String getDrawerType() {
 		return DrawerPageInterface.DRAWER_GROUND;
 	}
-
-	
-	
 }

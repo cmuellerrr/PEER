@@ -23,8 +23,7 @@ import edu.cmu.hcii.peer.util.ViewFactory;
  */
 public class NavigationPage extends LinearLayout implements DrawerPageInterface {
 
-	private List<ProcedureItem> steps;
-	private int curStepIndex;
+	
 	
 	/**
 	 * @param context
@@ -32,9 +31,6 @@ public class NavigationPage extends LinearLayout implements DrawerPageInterface 
 	public NavigationPage(final Context context, List<ProcedureItem> steps, int curStepIndex) {
 		super(context);
 		this.setOrientation(VERTICAL);
-		
-		this.steps = steps;
-		this.curStepIndex = curStepIndex;
 
 		//The list is 1 based
 		//TODO this whole indexing is kind of f-ed.  Shouldn't we just use the 
@@ -65,24 +61,7 @@ public class NavigationPage extends LinearLayout implements DrawerPageInterface 
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-	
-	/**
-	 * @return the steps
-	 */
-	public List<ProcedureItem> getSteps() {
-		return steps;
-	}
 
-
-
-	/**
-	 * @param steps the steps to set
-	 */
-	public void setSteps(List<ProcedureItem> steps) {
-		this.steps = steps;
-	}
 
 
 	/**

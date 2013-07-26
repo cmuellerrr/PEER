@@ -16,22 +16,22 @@ import edu.cmu.hcii.peer.util.ViewFactory;
 import edu.cmu.hcii.peer.util.FontManager.FontStyle;
 
 /**
+ * A layout for the selection of a cycle.  This appears when navigating to
+ * a step which gets repeated.  A menu is brought up asking which 
+ * instance of that step to navigate to.
+ * 
  * @author Chris
  *
  */
 public class CycleSelectPage extends LinearLayout implements DrawerPageInterface {
 
-	private int reps;
-	private int step;
+	
 	
 	/**
 	 * @param context
 	 */
 	public CycleSelectPage(Context context, int reps, int step) {
 		super(context);
-		
-		this.reps = reps;
-		this.step = step;
 		
 		LayoutInflater inflater = LayoutInflater.from(context);
         ViewGroup page = (ViewGroup)inflater.inflate(R.layout.cycle_select_page, null);
@@ -70,41 +70,6 @@ public class CycleSelectPage extends LinearLayout implements DrawerPageInterface
 		((TextView)findViewById(R.id.cycleSelectTitle)).setTypeface(fm.getFont(FontStyle.BODY));
 	}
 	
-	
-
-	/**
-	 * @return the reps
-	 */
-	public int getReps() {
-		return reps;
-	}
-	
-	
-
-	/**
-	 * @param reps the reps to set
-	 */
-	public void setReps(int reps) {
-		this.reps = reps;
-	}
-
-	
-	
-	/**
-	 * @return the step
-	 */
-	public int getStep() {
-		return step;
-	}
-
-	
-	
-	/**
-	 * @param step the step to set
-	 */
-	public void setStep(int step) {
-		this.step = step;
-	}
 
 
 	/**

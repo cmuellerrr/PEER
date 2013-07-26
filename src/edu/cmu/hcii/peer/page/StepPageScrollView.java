@@ -11,7 +11,16 @@ import android.view.MotionEvent;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
-public class StepPageScrollView extends ScrollView{
+/**
+ * A class that encapsulates a page in a scrollable area.
+ * 
+ * TODO: We should just incorporate this stuff into the
+ * normal StepPage
+ * 
+ * @author Gordon
+ *
+ */
+public class StepPageScrollView extends ScrollView {
 	private String TAG = "StepPageScrollView";
 	
 	private int viewWidth;
@@ -21,6 +30,8 @@ public class StepPageScrollView extends ScrollView{
 	private int current_scrollIndex = 0;
 	
 	private static float SCROLL_DISTANCE = 0.7f; // % of screen that is scrolled normally
+	
+	
 	
 	/**
 	 * 
@@ -49,7 +60,8 @@ public class StepPageScrollView extends ScrollView{
 	
 	
 	/**
-	 * 
+	 * When the size of the page changes, make sure to update
+	 * the class variables.
 	 */
     @Override
     protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld){
@@ -60,16 +72,16 @@ public class StepPageScrollView extends ScrollView{
             //Log.i(TAG,"Size change: w,h: "+viewWidth+", "+viewHeight);
     }
     
-   
+    
     
     /**
-     * 
+     * When drawing, setup the scroll index if not populated.
      */
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //Log.v(TAG,"onDraw - scrollY "+       this.getScrollY() + ", " + stepPage.getHeight());
-/*
+        /*
         for (int i = 0; i< stepPage.getChildCount(); i++){
         	Rect r = new Rect();
         	View stepItem = stepPage.getChildAt(i);
@@ -83,20 +95,19 @@ public class StepPageScrollView extends ScrollView{
             //Log.v(TAG,"onDraw - child:"+i+"  Rect -"+" top:"+r.top+" bot:"+r.bottom);
       	
         }
-     */
-        if (scrollIndex==null){
+        */        
+        if (scrollIndex == null) {
         	scrollIndex = getScrollIndex();
-        	
         }
     }
     
     
     
     /**
-     * gets scroll indexes
+     * Gets scroll indexes
      * @return 
      */
-	private List<Integer> getScrollIndex(){
+	private List<Integer> getScrollIndex() {
 		List<Integer> list = new ArrayList<Integer>();
 		int currentScroll = 0;
 		int currentChild = 0;
@@ -136,27 +147,35 @@ public class StepPageScrollView extends ScrollView{
 		}
 		
 		return list;
-		
 	}
 	
 	
 	
+	/**
+	 * 
+	 */
 	@Override
-	public boolean onTouchEvent(MotionEvent e){
-		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2){
+	public boolean onTouchEvent(MotionEvent e) {
+		if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() > viewHeight/2) {
 			scrollDown();
-		}else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2){
+		} else if (e.getAction() == MotionEvent.ACTION_DOWN && e.getY() < viewHeight/2) {
 			scrollUp();
 		}
 		
 		//smoothScrollTo(0, 200);
 		return false;
-		
 	}
 	
+	
+	
+	/**
+	 * @return the step page
+	 */
 	public StepPage getStepPage(){
 		return (StepPage) stepPage;
 	}
+	
+	
 	
 	/**
 	 * Scrolls up using scroll indexes
@@ -165,8 +184,8 @@ public class StepPageScrollView extends ScrollView{
 		current_scrollIndex = Math.max(0, current_scrollIndex-1);
 		smoothScrollTo(0, scrollIndex.get(current_scrollIndex));
 		checkScrollFadingEdge();
-		
 	}
+	
 	
 	
 	/**
@@ -178,6 +197,8 @@ public class StepPageScrollView extends ScrollView{
 		checkScrollFadingEdge();
 	}
 	
+	
+	
 	/**
 	 * Scrolls up
 	 */
@@ -188,6 +209,7 @@ public class StepPageScrollView extends ScrollView{
 	}
 	
 	
+	
 	/**
 	 * Scrolls down 
 	 */
@@ -195,6 +217,8 @@ public class StepPageScrollView extends ScrollView{
 		smoothScrollBy(0, (int) (viewHeight * 0.5f));
 		checkScrollFadingEdge();
 	}
+	
+	
 	
 	/**
 	 * Used for enabling/disabling the scroller fading edge when at the edges of the screen 
@@ -206,6 +230,8 @@ public class StepPageScrollView extends ScrollView{
 		return stepPage.getHeight() - (viewHeight + scrollIndex.get(current_scrollIndex));
 	}
 	
+	
+	
 	/**
 	 * Checks if the scroller fading edge overlaps with existing content
 	 * If so, disable the fading edge.
@@ -214,10 +240,11 @@ public class StepPageScrollView extends ScrollView{
 		Log.v(TAG, "getDistanceToBottomOfScreen(): "+getDistanceToBottomOfScreen() + " fadingEdgeLength(): " + getVerticalFadingEdgeLength());
 		int fadingEdgeLength = this.getVerticalFadingEdgeLength(); // doesn't work on moverio...
 		fadingEdgeLength = 20;
-		if (getDistanceToBottomOfScreen() < fadingEdgeLength)
+		
+		if (getDistanceToBottomOfScreen() < fadingEdgeLength) {
 			this.setVerticalFadingEdgeEnabled(false);
-		else
-			this.setVerticalFadingEdgeEnabled(true);
+		} else {
+			this.setVerticalFadingEdgeEnabled(true); 
+		}
 	}
-	
 }

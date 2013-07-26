@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * A layout for stowage notes.  Displays information 
- * as a table.
+ * A layout for the annotation screen.  This screen allows users 
+ * to annotate both individual steps and a procedure as a whole.
  * 
  * @author Chris
  *
@@ -25,14 +25,11 @@ public class AnnotationPage extends LinearLayout implements DrawerPageInterface{
 	public AnnotationPage(Context context) {
 		super(context);
 		
-		
 		TextView temp = new TextView(context);
 		temp.setText("This feature is not yet implemented");
 		temp.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 		
 		this.addView(temp);
-				
-
 	}
 
 	
@@ -45,6 +42,7 @@ public class AnnotationPage extends LinearLayout implements DrawerPageInterface{
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	
 	/**
@@ -55,7 +53,4 @@ public class AnnotationPage extends LinearLayout implements DrawerPageInterface{
 		return DrawerPageInterface.DRAWER_ANNOTATIONS;
 	}
 
-	
-	
-	
 }
