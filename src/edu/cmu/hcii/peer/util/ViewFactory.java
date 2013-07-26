@@ -215,6 +215,70 @@ public class ViewFactory {
 		return row;
 	}
 	
+	
+	
+	/**
+	 * 
+	 * @param module
+	 * @param items
+	 * @return
+	 */
+	public static ViewGroup getStowageTable2(Context context, String module, List<StowageItem> items) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		ViewGroup container = (ViewGroup)inflater.inflate(R.layout.stowage_table_v2, null);
+		LinearLayout table = (LinearLayout)container.findViewById(R.id.stow_table2);
+		
+		//set table title
+		((TextView)container.findViewById(R.id.stow_table_title2)).setText(module);
+		
+		for (int i = 0; i < items.size(); i++) {
+			table.addView(getStowageRow2(context, items.get(i)));
+		}
+		
+		//Set up the custom fonts
+    	FontManager fm = FontManager.getInstance(context.getAssets());
+    	((TextView)container.findViewById(R.id.stow_table_title2)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	
+    	((TextView)table.findViewById(R.id.binCodeHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	((TextView)table.findViewById(R.id.itemHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	((TextView)table.findViewById(R.id.quantityHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	((TextView)table.findViewById(R.id.itemCodeHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
+    	((TextView)table.findViewById(R.id.notesHeader)).setTypeface(fm.getFont(FontStyle.HEADER));
+		
+		return container;
+	}
+	
+	
+	public static ViewGroup getStowageRow2(Context context, StowageItem item) {
+		LayoutInflater inflater = LayoutInflater.from(context);
+		LinearLayout row = (LinearLayout) inflater.inflate(R.layout.stowage_row_v2, null);
+		
+		((TextView)row.findViewById(R.id.stowNoteBinCode)).setText(item.getBinCode());
+		((TextView)row.findViewById(R.id.stowNoteItem)).setText(item.getName());
+		((TextView)row.findViewById(R.id.stowNoteQuantity)).setText(String.valueOf(item.getQuantity()));
+		((TextView)row.findViewById(R.id.stowNoteItemCode)).setText(item.getItemCode());
+		((TextView)row.findViewById(R.id.stowNoteNotes)).setText(item.getText());
+		
+		try {
+			InputStream is = context.getAssets().open("procedures/references/" + item.getUrl());
+			Drawable d = Drawable.createFromStream(is, null);
+			((ImageView)row.findViewById(R.id.stowNoteImage)).setImageDrawable(d);
+			
+		} catch(Exception e) {
+			Log.e(TAG, "Error adding reference image to stowage note", e);
+		}
+		
+		//Set up the custom fonts
+    	FontManager fm = FontManager.getInstance(context.getAssets());    	
+    	((TextView)row.findViewById(R.id.stowNoteBinCode)).setTypeface(fm.getFont(FontStyle.BODY));
+    	((TextView)row.findViewById(R.id.stowNoteItem)).setTypeface(fm.getFont(FontStyle.BODY));
+    	((TextView)row.findViewById(R.id.stowNoteQuantity)).setTypeface(fm.getFont(FontStyle.BODY));
+    	((TextView)row.findViewById(R.id.stowNoteItemCode)).setTypeface(fm.getFont(FontStyle.BODY));
+    	((TextView)row.findViewById(R.id.stowNoteNotes)).setTypeface(fm.getFont(FontStyle.BODY));
+		
+		return row;
+	}
+	
 	/**
 	 * 
 	 * @param context

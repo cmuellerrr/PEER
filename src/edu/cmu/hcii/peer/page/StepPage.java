@@ -52,7 +52,7 @@ public class StepPage extends LinearLayout {
 		
 		//Add in an indicator if in a cycle
 		if (cycle > 0) {
-			//((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
+			((TextView)page.findViewById(R.id.stepCycleNumber)).setText(cycleLabel);
 			
 		} else {
 			ViewGroup p = (ViewGroup)page.findViewById(R.id.stepCycleNumber).getParent();

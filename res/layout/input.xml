@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/inputTarget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="350px"
+            android:layout_height="250px"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="10px"
@@ -48,8 +48,8 @@
         
          <ImageView
             android:id="@+id/inputReceived"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="350px"
+            android:layout_height="250px"
             android:layout_alignRight="@+id/inputRetry"
             android:layout_alignTop="@+id/inputValue"
             android:src="@drawable/input_complete"

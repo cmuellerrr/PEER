@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:orientation="vertical"
+    android:paddingTop="10px"
+    android:paddingBottom="10px" >
+    
+    <TextView android:id="@+id/stow_table_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:textSize="26px" 
+        android:layout_marginBottom="20px" />
+    
+	<LinearLayout android:id="@+id/stow_table2"
+	    style="@style/Table2" >
+	        
+	    <LinearLayout
+	        style="@style/TableHeaderRow2" >
+	          
+	        <TextView android:id="@+id/binCodeHeader"
+	            style="@style/TableHeaderCell2"
+	            android:text="@string/header_bin_code" 
+	            android:layout_weight="1"
+	            />
+	            
+	        <TextView android:id="@+id/itemHeader"
+	            style="@style/TableHeaderCell2"
+	            android:text="@string/header_item"
+	            android:layout_weight="1" />
+	           
+	        <TextView android:id="@+id/quantityHeader"
+	            style="@style/TableHeaderCell2"
+	            android:text="@string/header_quantity" 
+	            android:layout_weight="2" />
+	            
+	        <TextView android:id="@+id/itemCodeHeader"
+	            style="@style/TableHeaderCell2"
+	            android:text="@string/header_item_code"
+	            android:layout_weight="1.5" />
+	            
+	        <TextView android:id="@+id/notesHeader"
+	            style="@style/TableHeaderCell2"
+	            android:text="@string/header_notes"
+	            android:layout_weight="0.7" />
+	            
+	        <TextView android:id="@+id/imageHeader"
+	            style="@style/TableHeaderCell2"
+	            android:text="@string/header_image"
+	            android:layout_weight="0.7" />
+	            
+	    </LinearLayout>
+	</LinearLayout>
+</LinearLayout>

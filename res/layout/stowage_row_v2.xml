@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+    style="@style/TableRow2" >
+    
+    <TextView android:id="@+id/stowNoteBinCode"
+        style="@style/TableCell2" 
+        android:layout_weight="1"/>
+    
+    <TextView android:id="@+id/stowNoteItem"
+        android:layout_weight="1"
+        style="@style/TableCell2" />
+    
+    <TextView android:id="@+id/stowNoteQuantity"
+        style="@style/TableCell2" 
+        android:layout_weight="2"/>
+    
+    <TextView android:id="@+id/stowNoteItemCode"
+        style="@style/TableCell2" 
+        android:layout_weight="1.5"/>
+    
+    <TextView android:id="@+id/stowNoteNotes"
+        style="@style/TableCell2" 
+        android:layout_weight="0.7"/>
+    
+    <ImageView android:id="@+id/stowNoteImage"
+        style="@style/TableImageCell2" 
+        android:layout_weight="0.7"/>
+</LinearLayout>
