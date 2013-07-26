@@ -33,9 +33,10 @@ public class Procedure implements Serializable {
 	private List<ProcedureItem> children;
 	private List<String> stepPreviews;
 	
+	
+	
 	/**
-	 * Create a procedure object with the given properties.  The index is then set to
-	 * 0.
+	 * Create a procedure object with the given properties.
 	 * 
 	 * @param title
 	 * @param objective
@@ -54,8 +55,7 @@ public class Procedure implements Serializable {
 	}
 	
 	/**
-	 * Create a procedure object with the given properties.  The index is then set to
-	 * 0.
+	 * Create a procedure object with the given properties.
 	 * 
 	 * @param number
 	 * @param title
@@ -235,7 +235,7 @@ public class Procedure implements Serializable {
 	
 	
 	/**
-	 * @return the steps in a flat, unnested list
+	 * @return the steps preview at the given index
 	 */
 	public String getStepPreview(int index){
 		return stepPreviews.get(index);
@@ -244,7 +244,7 @@ public class Procedure implements Serializable {
 	
 	
 	/**
-	 * @return the steps in a flat, unnested list
+	 * @return number of step previews
 	 */
 	public int getStepPreviewSize(){
 		return stepPreviews.size();
@@ -253,7 +253,12 @@ public class Procedure implements Serializable {
 	
 	
 	/**
-	 * @return the steps in a flat list
+	 * Generate the text to be used by the preview
+	 * widget. Basically, just grab the text from
+	 * each step linearly, but take the cycle marker
+	 * pages into account.
+	 * 
+	 * @return the step text in a flat list
 	 */
 	private void generateStepPreviews(){
 		stepPreviews = new ArrayList<String>();
@@ -281,7 +286,7 @@ public class Procedure implements Serializable {
 					//String end = ((Step)c.getChild(c.getNumChildren()-1)).getNumber();
 					//stepPreviews.add("You will be repeating steps " + start + "-" + end);
 					
-					stepPreviews.add("Repetition " +(i+1) +" Information");
+					stepPreviews.add("Repetition " + (i+1) +" Information");
 
 					for (int j = 0; j < child.getNumChildren(); j++){
 						traverseSteps(child.getChild(j));
@@ -302,5 +307,4 @@ public class Procedure implements Serializable {
 			return;
 		}
 	}
-	
 }

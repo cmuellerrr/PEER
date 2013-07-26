@@ -7,6 +7,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * An object representig a cycle, or, a repetition of steps.
+ * Contains a list of steps, the number of repetitions, and
+ * any notes related to the group.
+ * 
  * @author Chris
  *
  */
@@ -17,14 +21,14 @@ public class Cycle implements ProcedureItem, Serializable {
 	 */
 	private static final long serialVersionUID = 3272545299782918475L;
 	private int reps;
-	private String text;
 	private List<CycleNote> notes;
 	private List<ProcedureItem> children;
 	
 	
 	
 	/**
-	 * 
+	 * Create a new cycle object with the given reps, notes, and 
+	 * children.
 	 */
 	public Cycle(int reps, List<CycleNote> notes, List<ProcedureItem> children) {
 		this.reps = reps;
@@ -109,24 +113,6 @@ public class Cycle implements ProcedureItem, Serializable {
 	 */
 	public void setReps(int reps) {
 		this.reps = reps;
-	}
-
-
-
-	/**
-	 * @return the text
-	 */
-	public String getText() {
-		return text;
-	}
-
-
-
-	/**
-	 * @param text the text to set
-	 */
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	

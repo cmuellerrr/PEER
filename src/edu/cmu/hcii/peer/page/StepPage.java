@@ -204,7 +204,7 @@ public class StepPage extends LinearLayout {
 	 * @param container
 	 */
 	private void setupInput(Context context, ViewGroup container) {
-		if (step.isInputAllowed()) container.addView(ViewFactory.getInput(context));
+		if (step.hasInput()) container.addView(ViewFactory.getInput(context));
 	}
 	
 	
@@ -216,7 +216,7 @@ public class StepPage extends LinearLayout {
 	 * @param container
 	 */
 	private void setupTimer(Context context, ViewGroup container) {
-		if (step.getTimer()) container.addView(ViewFactory.getTimer(context));
+		if (step.hasTimer()) container.addView(ViewFactory.getTimer(context));
 	}
 	
 	

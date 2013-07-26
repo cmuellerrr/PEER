@@ -37,6 +37,7 @@ public class StowageItem implements Serializable {
 	 */
 	public StowageItem(String module, String name, int quantity, String itemCode, String binCode,
 			String text, String url) {
+		
 		this.module = module;
 		this.name = name;
 		this.quantity = quantity;
@@ -73,6 +74,8 @@ public class StowageItem implements Serializable {
 		return name;
 	}
 
+	
+	
 	/**
 	 * @param name the name to set
 	 */
@@ -80,6 +83,8 @@ public class StowageItem implements Serializable {
 		this.name = name;
 	}
 
+	
+	
 	/**
 	 * @return the quantity
 	 */
@@ -87,6 +92,8 @@ public class StowageItem implements Serializable {
 		return quantity;
 	}
 
+	
+	
 	/**
 	 * @param quantity the quantity to set
 	 */
@@ -94,6 +101,8 @@ public class StowageItem implements Serializable {
 		this.quantity = quantity;
 	}
 
+	
+	
 	/**
 	 * @return the itemCode
 	 */
@@ -101,12 +110,16 @@ public class StowageItem implements Serializable {
 		return itemCode;
 	}
 
+	
+	
 	/**
 	 * @param itemCode the itemCode to set
 	 */
 	public void setItemCode(String itemCode) {
 		this.itemCode = itemCode;
 	}
+	
+	
 
 	/**
 	 * @return the binCode
@@ -114,6 +127,8 @@ public class StowageItem implements Serializable {
 	public String getBinCode() {
 		return binCode;
 	}
+	
+	
 
 	/**
 	 * @param binCode the binCode to set
@@ -122,6 +137,8 @@ public class StowageItem implements Serializable {
 		this.binCode = binCode;
 	}
 
+	
+	
 	/**
 	 * @return the text
 	 */
@@ -129,12 +146,16 @@ public class StowageItem implements Serializable {
 		return text;
 	}
 
+	
+	
 	/**
 	 * @param text the text to set
 	 */
 	public void setText(String text) {
 		this.text = text;
 	}
+	
+	
 
 	/**
 	 * @return the url
@@ -143,6 +164,8 @@ public class StowageItem implements Serializable {
 		return url;
 	}
 
+	
+	
 	/**
 	 * @param url the url to set
 	 */

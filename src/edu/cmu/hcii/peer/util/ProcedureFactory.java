@@ -26,6 +26,13 @@ import edu.cmu.hcii.peer.structure.StowageItem;
 import edu.cmu.hcii.peer.structure.Callout.CType;
 import edu.cmu.hcii.peer.structure.Reference.RType;
 
+/**
+ * A class for creating procedure objects based off of 
+ * supplied XML files.
+ * 
+ * @author Chris
+ *
+ */
 public class ProcedureFactory {
 	private static final String TAG = "ProcedureFactory";
 	
@@ -36,7 +43,7 @@ public class ProcedureFactory {
     
     /**
      * Generate a list of procedure objects based off of the 
-     * xml definitions in the ___ directory.
+     * xml definitions in the assets/procedures directory.
      * 
      * @return a list of procedure objects
      */
@@ -407,7 +414,7 @@ public class ProcedureFactory {
 	    List<ProcedureItem> children = new ArrayList<ProcedureItem>();
 	    List<Reference> references = new ArrayList<Reference>();
 	    boolean timer = false;
-	    boolean inputAllowed = false;
+	    boolean input = false;
 	    
 	    //This is the tag we are looking for
   		parser.require(XmlPullParser.START_TAG, ns, "step");
@@ -445,14 +452,14 @@ public class ProcedureFactory {
 	        	timer = Boolean.parseBoolean(readTag(parser, tag));
 	        	
 	        } else if (tag.equals("input")) {
-	            inputAllowed = Boolean.parseBoolean(readTag(parser, tag));
+	            input = Boolean.parseBoolean(readTag(parser, tag));
 	            
 	        } else {
 	            skip(parser);
 	        }
 	    }
 	    
-	    Step result = new Step(number, text, callouts, references, children, timer, inputAllowed);
+	    Step result = new Step(number, text, callouts, references, children, timer, input);
 	    if (consequent != null) result.setConsequent(consequent);
 	
 	    return result;
@@ -743,6 +750,15 @@ public class ProcedureFactory {
 	
 	
 	
+	/**
+	 * Read the xml to produce a table row.  Looks for children
+	 * cells.
+	 * 
+	 * @param parser
+	 * @return
+	 * @throws XmlPullParserException
+	 * @throws IOException
+	 */
 	private static List<String> readRow(XmlPullParser parser) throws XmlPullParserException, IOException {
 		Log.d(TAG, "Parsing row");
 		

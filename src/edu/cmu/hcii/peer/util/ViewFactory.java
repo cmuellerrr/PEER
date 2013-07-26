@@ -41,6 +41,10 @@ import edu.cmu.hcii.peer.structure.StowageItem;
 import edu.cmu.hcii.peer.util.FontManager.FontStyle;
 
 /**
+ * A factory class for inflating views from layout XML files.
+ * Handles the inflation, population, and any other basic
+ * setup of these re-usable views.
+ * 
  * @author Chris
  *
  */
@@ -98,6 +102,16 @@ public class ViewFactory {
 	}
 	
 	
+	
+	/**
+	 * Get a navigation element for cycles.
+	 * 
+	 * @param context
+	 * @param curStepIndex
+	 * @param index
+	 * @param c
+	 * @return
+	 */
 	public static ViewGroup getNavigationCycle(Context context, int curStepIndex, int index, Cycle c) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		ViewGroup newCycle = (ViewGroup) inflater.inflate(R.layout.nav_item_cycle, null);
@@ -121,6 +135,7 @@ public class ViewFactory {
 	
 	
 	/**
+	 * Get a cycle selection item.
 	 * 
 	 * @param context
 	 * @param index
@@ -154,6 +169,7 @@ public class ViewFactory {
 	
 	
 	/**
+	 * Get a stowage table.
 	 * 
 	 * @param module
 	 * @param items
@@ -185,6 +201,14 @@ public class ViewFactory {
 	}
 	
 	
+	
+	/**
+	 * Get a row within a stowage table.
+	 * 
+	 * @param context
+	 * @param item
+	 * @return
+	 */
 	public static ViewGroup getStowageRow(Context context, StowageItem item) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		TableRow row = (TableRow) inflater.inflate(R.layout.stowage_row, null);
@@ -218,6 +242,7 @@ public class ViewFactory {
 	
 	
 	/**
+	 * Get a a stowage table for the new linear layout variety.
 	 * 
 	 * @param module
 	 * @param items
@@ -249,6 +274,14 @@ public class ViewFactory {
 	}
 	
 	
+	
+	/**
+	 * Get a row for the linear layout storage row.
+	 * 
+	 * @param context
+	 * @param item
+	 * @return
+	 */
 	public static ViewGroup getLinearLayoutStowageRow(Context context, StowageItem item) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		LinearLayout row = (LinearLayout) inflater.inflate(R.layout.linear_layout_stowage_row, null);
@@ -279,7 +312,10 @@ public class ViewFactory {
 		return row;
 	}
 	
+	
+	
 	/**
+	 * Get an execution note for the ex note overview page.
 	 * 
 	 * @param context
 	 * @param note
@@ -308,7 +344,7 @@ public class ViewFactory {
 	
 	
 	/**
-	 * Add the given execution note to the step page.
+	 * Get an execution note for the step page.
 	 * 
 	 * @param note the note to display
 	 */
@@ -335,7 +371,8 @@ public class ViewFactory {
 	
 	
 	/**
-	 * Add the given callout object to the step
+	 * Get a callout object for a step
+	 * 
 	 * @param call the callout to render
 	 */
 	public static ViewGroup getCallout(Context context, Callout call) {
@@ -608,7 +645,10 @@ public class ViewFactory {
 	
 	
 	/**
+	 * Get the input section for a step using AR.
 	 * 
+	 * @param context
+	 * @return
 	 */
 	public static ViewGroup getInput(Context context) {
 		Log.v(TAG, "Setting up input");
@@ -625,6 +665,7 @@ public class ViewFactory {
 	
 	
 	/**
+	 * Get a timer.
 	 * 
 	 * @param container
 	 */
@@ -646,6 +687,7 @@ public class ViewFactory {
 
 
 	/**
+	 * Get a call ground element.
 	 * 
 	 * @param context
 	 * @return
@@ -663,6 +705,7 @@ public class ViewFactory {
 	
 	
 	/**
+	 * Get the completion page.
 	 * 
 	 * @param context
 	 * @return

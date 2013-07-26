@@ -7,6 +7,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * An object representing a step.  Contains the basic text as 
+ * well as all the conditional information associated with it.
+ * Such as, references, execution notes, callouts (warnings, etc),
+ * and whether or not a timer or input is attached.
+ * 
+ * Steps can be nested, so it also has a list of children.
+ * 
  * @author Chris
  *
  */
@@ -24,14 +31,14 @@ public class Step implements ProcedureItem, Serializable {
 	private List<Reference> references;
 	private List<ProcedureItem> children;
 	private boolean timer;
-	private boolean inputAllowed;
+	private boolean input;
 		
 	
 	/**
-	 * 
+	 * Create a new step with the given information.
 	 */
 	public Step(String number, String text, List<Callout> callouts, List<Reference> references, 
-			List<ProcedureItem> children, boolean timer, boolean inputAllowed) {
+			List<ProcedureItem> children, boolean hasTimer, boolean hasInput) {
 		
 		this.number = number;
 		this.text = text;
@@ -40,8 +47,8 @@ public class Step implements ProcedureItem, Serializable {
 		this.callouts = callouts;
 		this.references = references;
 		this.children = children;
-		this.timer = timer;
-		this.inputAllowed = inputAllowed;
+		this.timer = hasTimer;
+		this.input = hasInput;
 	}
 
 	
@@ -229,17 +236,26 @@ public class Step implements ProcedureItem, Serializable {
 	/**
 	 * @return the hasInput
 	 */
-	public boolean isInputAllowed() {
-		return inputAllowed;
+	public boolean hasInput() {
+		return input;
+	}
+	
+	
+	
+	/**
+	 * @return whether the step has a timer
+	 */
+	public boolean hasTimer(){
+		return timer;
 	}
 
 
 
 	/**
-	 * @param hasInput the hasInput to set
+	 * @param input the hasInput to set
 	 */
-	public void setInputAllowed(boolean inputAllowed) {
-		this.inputAllowed = inputAllowed;
+	public void setInput(boolean hasInput) {
+		this.input = hasInput;
 	}
 
 
@@ -247,12 +263,5 @@ public class Step implements ProcedureItem, Serializable {
 	@Override
 	public boolean isCycle() {
 		return false;
-	}
-	
-	/**
-	 * @return whether the step has a timer
-	 */
-	public boolean getTimer(){
-		return timer;
 	}
 }

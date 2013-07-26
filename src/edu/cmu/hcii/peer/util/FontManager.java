@@ -10,6 +10,11 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
 /**
+ * A singleton which manages custom fonts.  This is needed
+ * because Android apparently allocates memory for the full 
+ * font every time it is used.  This way, we load it up 
+ * front, then use the same reference when needed.
+ * 
  * @author Chris
  *
  */
@@ -19,8 +24,8 @@ public class FontManager {
 	    HEADER, BODY, SELECTABLE, TIMER
 	}
 
-    private static FontManager self; // the singleton instance
-    private Map<FontStyle, Typeface> fonts; //collection of font styles
+    private static FontManager self;
+    private Map<FontStyle, Typeface> fonts;
      
     // an instance of the android's asset manager. 
     //We need it so we can get the Font Types within the asset folder
@@ -28,7 +33,10 @@ public class FontManager {
     
     
     
-    //For the singleton implementation the constructor must be private
+    /**
+     * Private constructor to keep it a singleton
+     * @param assMan
+     */
     private FontManager(AssetManager assMan) {
         this.assMan = assMan;
         this.fonts = new HashMap<FontStyle, Typeface>();
@@ -41,17 +49,27 @@ public class FontManager {
     
     
    
-    //The method that returns the instance of the Font Manager.
-    //The first call instantiates the Font Manager itself
+    /**
+     * Get the instance of the font manager.  Instantiate it on
+     * the first call.
+     * 
+     * @param assetManager
+     * @return
+     */
     public static FontManager getInstance(AssetManager assetManager) {
         if(self == null) self = new FontManager(assetManager);
         return self;
     }
-   
     
     
-    //This methods adds Font Type and a Paint object to the collection. They are identified
-    //by an enum object (FONT_STYLES)
+    
+    /**
+     * Add a font to the manager.  The typeface is loaded based on the given
+     * file path. Font names are identified by the enum FONT_STYLES.
+     * 
+     * @param name
+     * @param fileName
+     */
     public void addFont(FontStyle name, String fileName) {
         Typeface face = Typeface.createFromAsset(assMan, "fonts/" + fileName);
         fonts.put(name, face);
@@ -59,7 +77,11 @@ public class FontManager {
     
     
    
-    //This method returns the Paint object for the given style
+    /**
+     * Get the font specified by the given FONT_STYLE name.
+     * @param name
+     * @return
+     */
     public Typeface getFont(FontStyle name) {
         return fonts.get(name);
     }

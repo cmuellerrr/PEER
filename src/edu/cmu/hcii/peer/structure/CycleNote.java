@@ -6,6 +6,10 @@ package edu.cmu.hcii.peer.structure;
 import java.io.Serializable;
 
 /**
+ * An object representing a note specific to a cycle
+ * or steps.  Has general text notes and an optional
+ * reference.
+ * 
  * @author Chris
  *
  */
@@ -21,7 +25,7 @@ public class CycleNote implements Serializable {
 	
 	
 	/**
-	 * 
+	 * Create a new cycle note with the given text and reference.
 	 */
 	public CycleNote(String text, Reference reference) {
 		this.text = text;
