@@ -14,6 +14,7 @@ public class MessageHandler {
 	public static String MSG_TYPE_AUDIO_LEVEL = "audioLevel";
 	public static String MSG_TYPE_AUDIO_BUSY = "audioBusy";
 	public static String MSG_TYPE_AUDIO_STATE = "audioState";
+	public static String MSG_TYPE_AR_READ = "readObject";
 
 	public static int COMMAND_NOT_FOUND = 0; 
 	public static int COMMAND_CONFIRMATION = 1;
@@ -96,7 +97,7 @@ public class MessageHandler {
 	 * @param ctx Context
 	 * @param msg 
 	 */
-	public static void parseMsg(Context ctx, String msg){
+	public static void parseMsg(Context ctx, String msg) {
 		JSONObject json;
 		
 		try {
@@ -106,28 +107,34 @@ public class MessageHandler {
 			
 			//Log.v(TAG, "type: "+type+", "+"content: "+content);
 			
-			if (type.equals(MSG_TYPE_COMMAND)){
-				if (state == STATE_ACTIVE || content.equals("ready") ){
+			if (type.equals(MSG_TYPE_COMMAND)) {
+				if (state == STATE_ACTIVE || content.equals("ready") ) {
 					handleCommand(ctx, type, content);
 					lastMessageTime = System.currentTimeMillis();
 				}
-			}else if (type.equals(MSG_TYPE_AUDIO_LEVEL)){
+				
+			} else if (type.equals(MSG_TYPE_AUDIO_LEVEL)) {
 	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && state == STATE_ACTIVE)
 	    			lastMessageTime = System.currentTimeMillis();
 
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
-			}else if (type.equals(MSG_TYPE_AUDIO_BUSY)){
+				
+			} else if (type.equals(MSG_TYPE_AUDIO_BUSY)) {
     			lastMessageTime = System.currentTimeMillis();
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_BUSY, content);
-			}else if (type.equals(MSG_TYPE_AUDIO_STATE)){
+				
+			} else if (type.equals(MSG_TYPE_AUDIO_STATE)) {
 				int s = Integer.parseInt(content);
 				setState(ctx, s);
+				
+			} else if (type.equals(MSG_TYPE_AR_READ)) {
+				//send a message to set the current page's input value
+				sendBroadcastMsg(ctx, MSG_TYPE_AR_READ, content);
 			}
 				
 				
 		
 		} catch (JSONException e) {
-			
 			e.printStackTrace();
 		}		
 	}

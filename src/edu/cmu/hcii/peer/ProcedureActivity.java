@@ -836,18 +836,25 @@ public class ProcedureActivity extends Activity {
 	
 	    	if (intent.getAction().equals(MessageHandler.MSG_TYPE_COMMAND)) {
         		handleCommand(intent.getExtras());
-	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_LEVEL)){
+        		
+	    	} else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_LEVEL)) {
 	    		float rms = Float.parseFloat(intent.getExtras().getString("msg"));
 	    		audioFeedbackView.updateAudioFeedbackView(rms);
-	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_BUSY)){
+	    		
+	    	} else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_BUSY)) {
 	    		boolean busyState = Boolean.parseBoolean(intent.getExtras().getString("msg"));
 	    		audioFeedbackThread.setBusy(busyState);
 	    		Log.v(TAG, "busyState: " + busyState);
-	    	}else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_STATE)){
+	    		
+	    	} else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AUDIO_STATE)) {
 	    		int state = intent.getExtras().getInt("msg");
 	    		audioFeedbackThread.setState(state);
 	    		//Log.v(TAG, "state: " + state);
-
+	    		
+	    	} else if (intent.getAction().equals(MessageHandler.MSG_TYPE_AR_READ)) {
+	    		String val = intent.getExtras().getString("msg");
+	    		Log.v(TAG, "Received AR input: " + val);
+	    		commandLogInput(val);
 	    	}
 	    }
 	}
@@ -1169,6 +1176,18 @@ public class ProcedureActivity extends Activity {
 				consText.setVisibility(View.GONE);
 				consTitle.setText(R.string.cond_title_hidden);
 	        }
+    	}
+    }
+    
+    
+    /**
+     * Adds the logged input to the current step page.
+     */
+    private void commandLogInput(String value) {
+    	StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());
+    	TextView inputText = (TextView)curScrollPage.findViewById(R.id.inputValue);
+    	if (inputText != null) {
+    		inputText.setText(value);
     	}
     }
     
