@@ -49,10 +49,16 @@ public class CycleMarkerPage extends LinearLayout {
 			String end = ((Step)c.getChild(c.getNumChildren()-1)).getNumber();
 			
 			String tense = currentRep > 1 ? "are" : "will be";
-						
-			((TextView)page.findViewById(R.id.cycleMarkerText)).setText("You " + tense + " repeating steps " + 
-					start + "-" + end + " a total of " + totalReps + " times");
 			
+			if (currentRep == 1)
+				((TextView)page.findViewById(R.id.cycleMarkerText)).setText("You " + tense + " repeating steps " + 
+						start + "-" + end + " a total of " + totalReps + " times");
+			else if (currentRep > 1){
+				((TextView)page.findViewById(R.id.cycleMarkerText)).setText("You are beginning repetition " + currentRep + " of steps " + 
+						start + "-" + end + " out of a total of " + totalReps + " times");	
+			}
+				
+				
 		} else {
 			((TextView)page.findViewById(R.id.cycleMarkerText)).setText("Uhh... There is a " + 
 					context.getResources().getString(R.string.cycle_display_name) + 
