@@ -440,6 +440,25 @@
     </style>
     
     
+    <!-- Input -->
+    
+    
+    <style name="InputInstruction">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">20px</item>
+        <item name="android:layout_marginBottom">20px</item>
+        <item name="android:textSize">20px</item>
+    </style>
+    
+    <style name="InputValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>    
+        <item name="android:textSize">40px</item>
+    </style>
+    
+    
     <!-- Completion Page -->
     
     

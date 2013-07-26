@@ -56,7 +56,7 @@
     <string name="input_command">LOG</string>
     <string name="input_confirm">DONE</string>
     <string name="input_retry">RETRY</string>
-    <string name="input_instruction">Place the object to record in the space provided below.</string>
+    <string name="input_instruction">Use AR mode to analyze object.</string>
     
     <!-- Final Page -->
     <string name="completion_preview">Procedure complete</string>

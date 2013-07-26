@@ -617,10 +617,7 @@ public class ViewFactory {
 
         //Set up the custom fonts
     	FontManager fm = FontManager.getInstance(context.getAssets());
-    	((TextView)input.findViewById(R.id.inputCommand)).setTypeface(fm.getFont(FontStyle.SELECTABLE)); 
     	((TextView)input.findViewById(R.id.inputValue)).setTypeface(fm.getFont(FontStyle.BODY));
-    	((TextView)input.findViewById(R.id.inputConfirm)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
-    	((TextView)input.findViewById(R.id.inputRetry)).setTypeface(fm.getFont(FontStyle.SELECTABLE));
     	((TextView)input.findViewById(R.id.inputInstruction)).setTypeface(fm.getFont(FontStyle.BODY));
     	
 		return input;
