@@ -7,18 +7,21 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
+/**
+ * This is a progress bar that displays the proportion of the procedure steps that you have completed
+ * 
+ * @author Chris
+ */
 public class Breadcrumb extends View {
 
-	int w = 0;
-	int h = 0;
-	float progress = 0;
-	float curStep = 0;
-	float totalSteps = 0;
+	int w = 0; // width of view
+	int h = 0; // height of view
+	float progress = 0; // pixel size of progress bar that is filled in
+	float curStep = 0; // current step
+	float totalSteps = 0; // total steps in procedure
 	Paint p; // paint used for drawing
 
 	
-	
-	// constructor
 	public Breadcrumb(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		p = new Paint();
@@ -43,7 +46,10 @@ public class Breadcrumb extends View {
 	
 	
 	
-	// sets the current step
+	/**
+	 * Sets the current step
+	 * @param step
+	 */
 	public void setCurrentStep(int step){
 		curStep = step;
 		setProgress();
@@ -52,20 +58,27 @@ public class Breadcrumb extends View {
 	
 	
 
-	// sets the total # of steps
+	/**
+	 * Sets the total # of steps
+	 * @param total steps
+	 */
 	public void setTotalSteps(int total){
 		totalSteps = total;
 		setProgress();
 	}
 	
 	
-	
+	/**
+	 * Set progress of steps
+	 */
 	private void setProgress() {
 		progress = curStep > 0 ? (curStep / totalSteps) * w : 0;
 	}
 	
 	
-	
+	/**
+	 * Performs drawing of progress bar 
+	 */
 	@Override
     public void onDraw(Canvas canvas) {
         p.setColor(0xFFAAAAAA);

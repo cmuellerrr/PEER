@@ -11,4 +11,8 @@
         android:text="@string/stow_notes_title">
     </TextView>
     
+    <TextView android:id="@+id/stowNotesMessage"
+        style="@style/Step"
+        android:text="@string/stow_note_message">
+    </TextView>
 </LinearLayout>

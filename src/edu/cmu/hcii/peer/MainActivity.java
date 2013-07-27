@@ -25,6 +25,11 @@ import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.peer.structure.Procedure;
 import edu.cmu.hcii.peer.util.ProcedureFactory;
 
+/**
+ * 
+ * This is the main activity that sets up and shows a list of procedures. 
+ * 
+ */
 public class MainActivity extends Activity {
 	private static final String TAG = "MainActivity";	// used for logging purposes
 	public final static String PROCEDURE = "edu.cmu.hcii.novo.kadarbra.PROCEDURE";
@@ -49,14 +54,15 @@ public class MainActivity extends Activity {
 		   startService(new Intent(MainActivity.this,ConnectionService.class));
 		doBindService();
 		
-		initExampleList();
-		
+		initProcedureList();
 	}
 	
 	
 	
-	// Initializes the example list
-	private void initExampleList() {
+	/**
+	 * Initializes and populates the procedure list
+	 */
+	private void initProcedureList() {
 		procedureListView = (ListView) findViewById(R.id.listView1);
 	
 		final List<String> procedureList = new ArrayList<String>();
@@ -136,24 +142,18 @@ public class MainActivity extends Activity {
         Log.v(TAG, "onDestroy");
         doUnbindService();
     }
-	
-    /**
-     * Helps keep track of current activity
-     */
-    /*private void clearReferences(){
-    	Activity currActivity = MainApp.getCurrentActivity();
-    	if (currActivity != null && currActivity.equals(this))
-    	MainApp.setCurrentActivity(null);
-    }*/
-    
       
-    // Called when a menu item is selected (starts the socket)
+    /**
+     *  Called when a menu item is selected (starts the socket)
+     */
     public boolean onOptionsItemSelected (MenuItem item){
       mBoundService.startServer();    
       return false;
     }
     
-    // declares service and connects
+    /**
+     *  Declares service and connects
+     */
     private ServiceConnection mConnection = new ServiceConnection() {
     	public void onServiceConnected(ComponentName className, IBinder service) {
     		Log.v("TAG", "set mBoundService");
@@ -165,9 +165,10 @@ public class MainActivity extends Activity {
     	}
     };
     
-    // Binds the service to the activity 
-    // Allows access service functions/variables available to binded activities.
-      // See LocalBinder class in ConnectionService
+    /**
+     *  Binds the service to the activity.
+     *  Allows access to service functions/variables available to binded activities.
+     */
     private void doBindService() {
       Log.v(TAG, "bind service");
         bindService(new Intent(MainActivity.this, ConnectionService.class), mConnection, Context.BIND_AUTO_CREATE);
@@ -175,7 +176,9 @@ public class MainActivity extends Activity {
     }
 
 
-    // unbinds the service and activity
+    /**
+     *  Unbinds the service 
+     */
     private void doUnbindService() {
         if (mIsBound) {
           Log.v(TAG, "unbind service");
@@ -185,7 +188,10 @@ public class MainActivity extends Activity {
         }
     }
     
-    // returns whether or not the service is running
+    /**
+     * Returns whether or not the service is running
+     * @return
+     */
     private boolean isMyServiceRunning() {
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
@@ -196,7 +202,9 @@ public class MainActivity extends Activity {
         return false;
     }
     
-    // Adds items to the menu bar (currently used for managing the receive socket)
+    /**
+     *  Adds items to the menu bar (currently used for managing the receive socket)
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
        Log.v(TAG, "menu create");
@@ -204,7 +212,11 @@ public class MainActivity extends Activity {
        return true;
     }
         
-    // Called any time the bottom menu pops up
+    /**
+     *  Called any time the bottom menu pops up.
+     *  Gives us feedback on whether or not the socket has been connected.
+     *  
+     */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
        Log.v(TAG, "menu prepare");
@@ -222,7 +234,10 @@ public class MainActivity extends Activity {
           return true;
       }
       
-      // Listens to broadcast messages
+      /**
+       * Listens to broadcast messages
+       *
+       */
         private class DataUpdateReceiver extends BroadcastReceiver {
             @Override
             public void onReceive(Context context, Intent intent) {

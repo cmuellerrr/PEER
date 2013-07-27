@@ -9,9 +9,15 @@ import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.peer.structure.Procedure;
 
+/**
+ * 
+ * A widget that displays the previous and next step with a one-line message.
+ *
+ * @author Chris
+ *
+ */
 public class StepPreviewWidget extends LinearLayout{
 
-	
 	
 	public StepPreviewWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -21,8 +27,6 @@ public class StepPreviewWidget extends LinearLayout{
 
         this.addView(page);
 	}
-	
-	
 	
 	/**
 	 * 

@@ -51,26 +51,30 @@ import edu.cmu.hcii.peer.structure.Step;
 import edu.cmu.hcii.peer.util.FontManager;
 import edu.cmu.hcii.peer.util.FontManager.FontStyle;
 
+/**
+ * This activity is the bulk of our application and handles all of the actions within a procedure
+ *
+ */
 public class ProcedureActivity extends Activity {
 	private static final String TAG = "ProcedureActivity";	// used for logging purposes
 	public final static String CURRENT_STEP = "edu.cmu.hcii.novo.kadarbra.CURRENT_STEP";
 
 	public final static int PREPARE_PAGES = 3; // number of pages in prepare stage (before steps are shown)
 	
-	private Procedure procedure;
-	private ViewPager viewPager;
-	private Breadcrumb breadcrumb;
-	private StepPreviewWidget stepPreviewWidget;
-	private DataUpdateReceiver dataUpdateReceiver;
-	private AudioFeedbackView audioFeedbackView;
-	private AudioFeedbackThread audioFeedbackThread;
+	private Procedure procedure; 					 // current procedure
+	private ViewPager viewPager; 					 // the ViewPager that displays our steps
+	private Breadcrumb breadcrumb; 					 // the progress bar
+	private StepPreviewWidget stepPreviewWidget; 	 // the bottom widget that displays previews of the previous and next steps
+	private DataUpdateReceiver dataUpdateReceiver; 	 // handles broadcast messages 
+	private AudioFeedbackView audioFeedbackView; 	 // visualizes the noise level of audio input
+	private AudioFeedbackThread audioFeedbackThread; // handles the audioFeedbackView
 	
-	private List<StepIndex> stepIndices;
-	private int selectedStep = -1;
+	private List<StepIndex> stepIndices;	// a list that keeps track of which view page a higher level step is displayed on
+	private int selectedStep = -1;			// the step we are currently viewing
 	
-	private Map<String, Animation> menuAnimations;
-	private View drawerContent;
-	private static final String TAG_OPEN = "_open";
+	private Map<String, Animation> menuAnimations; // stores animations
+	private View drawerContent; // stores drawer content
+	private static final String TAG_OPEN = "_open"; 
 	private static final String TAG_CLOSE = "_close";
 	private static final String TAG_CYCLE = "_cycle";
 	private static final String TAG_CASCADE = "_cascade";
@@ -144,7 +148,6 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onResume() {
 	    super.onResume();
-	    //edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(this);
 	    Log.v(TAG, "onResume");
 	
 	    if (dataUpdateReceiver == null) 
@@ -168,7 +171,6 @@ public class ProcedureActivity extends Activity {
 	protected void onPause(){
 		super.onPause();
 		audioFeedbackThread.pause();
-		//clearReferences();
 		Log.v(TAG, "onPause");
 		if (dataUpdateReceiver != null) 
 			unregisterReceiver(dataUpdateReceiver);
@@ -180,7 +182,6 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onStop() {
 	    super.onStop();
-	    //clearReferences();
 	    Log.v(TAG, "onStop");
 	}
 	
@@ -190,12 +191,11 @@ public class ProcedureActivity extends Activity {
 	@Override
 	protected void onDestroy() {
 	    super.onDestroy();
-	    //clearReferences();
 	    Log.v(TAG, "onDestroy");
 	}
 
 	/**
-	 *  initalizes audio feedback view and drawing thread
+	 *  Initializes audio feedback view and drawing thread
 	 */
 	private void initAudioFeedbackView(){
         audioFeedbackView = (AudioFeedbackView) findViewById(R.id.audioFeedbackView);
@@ -203,16 +203,15 @@ public class ProcedureActivity extends Activity {
         audioFeedbackThread = audioFeedbackView.getThread();
 	}
 	
-	// initializes the Breadcrumb (currently just step numbers)
+	/**
+	 * Initializes the breadcrumb (currently just step numbers)
+	 */
 	private void initBreadcrumb(){
 		breadcrumb = (Breadcrumb) findViewById(R.id.breadcrumb);
 		breadcrumb.setTotalSteps(viewPager.getAdapter().getCount());
 		breadcrumb.setCurrentStep(1);
-		//breadcrumb.setVisibility(View.INVISIBLE);
 	}
 
-	
-	
 	/**
 	 * Setup the step preview widget.  The thing at the bottom that shows
 	 * the previous and next steps.
@@ -221,8 +220,6 @@ public class ProcedureActivity extends Activity {
 		stepPreviewWidget = (StepPreviewWidget) findViewById(R.id.stepPreviewWidget);
 		stepPreviewWidget.setCurrentStep(procedure,0);
 	}
-	
-	
 	
 	/**
 	 * Initialize the menu.  Setup the animations along with the onclick method
@@ -705,15 +702,7 @@ public class ProcedureActivity extends Activity {
 				//Log.v(TAG,"viewPager onPageSelected: "+arg0);
 				breadcrumb.setCurrentStep(arg0+1); // updates breadcrumb when a new page is selected
 				stepPreviewWidget.setCurrentStep(procedure,arg0);
-				
-				/*if (!(viewPager.getChildAt(viewPager.getCurrentItem()).getClass() == StepPage.class)) {
-
-					Log.v(TAG, "Removing breadcrumb");
-					breadcrumb.setVisibility(View.INVISIBLE);
-				} else {
-					Log.v(TAG, "Removing breadcrumb");
-					breadcrumb.setVisibility(View.VISIBLE);
-				}*/
+			
 			}
 			
 		});
@@ -814,22 +803,9 @@ public class ProcedureActivity extends Activity {
 	}
 	
 	
-
-    /*
-    private void clearReferences() {
-    	Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
-    	if (currActivity != null && currActivity.equals(this))
-    		edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(null);
-    }
-    */
-	
-	
 	
 	/**
 	 * Listens to broadcast messages
-	 *  
-	 * @author Chris
-	 *
 	 */
 	private class DataUpdateReceiver extends BroadcastReceiver {
 		@Override
@@ -866,13 +842,9 @@ public class ProcedureActivity extends Activity {
      * All commands are handled here.
      * 
      * Convention: 
-     * 		"msg" - the command to be run
-     * 		"step" - if the command is "navigate", it is the
-     * 				 index of the step to navigate to.
-     * 		"reps" - if the step is in a cycle
-     * 		"occurrence" - which occurrence of a step to navigate to
+     * 		extras.getInt("msg") - the command to be run (see MessageHandler class)
+     * 		extras.getString("str") - an additional string if needed (e.g. commands for going to a particular step or cycle)
      * 
-     * @param command 
      */
     private void handleCommand(Bundle extras){
     	int command = extras.getInt("msg");
@@ -937,7 +909,7 @@ public class ProcedureActivity extends Activity {
 		    	commandCondCollapse();
 		    	
 		    } else if (command == MessageHandler.COMMAND_INPUT) {
-		    	//update the inputValue textview with the given value
+		    	// This is currently being handled with AR
 		    }
     		
     	}
@@ -1146,10 +1118,7 @@ public class ProcedureActivity extends Activity {
     	// Only if menu and drawer are both closed
 		if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
 	    	StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
-	        /*
-	        StepPage curStepPage = curScrollPage.getStepPage();
-	        if (curStepPage.getStep().isConditional()){
-	    	*/
+
 			final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
 			if (consText != null){
 				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentMarker);
@@ -1167,10 +1136,7 @@ public class ProcedureActivity extends Activity {
     	// Only if menu and drawer are both closed
     	if (!getMenuVisibility() && getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NONE)){	
 	        StepPageScrollView curScrollPage = (StepPageScrollView) viewPager.findViewWithTag(viewPager.getCurrentItem());    	
-	        /*
-	        StepPage curStepPage = curScrollPage.getStepPage();
-	        if (curStepPage.getStep().isConditional()){
-			*/
+
 	        final TextView consText = (TextView)curScrollPage.findViewById(R.id.consequentText);
 			if (consText != null){
 				final TextView consTitle = (TextView)curScrollPage.findViewById(R.id.consequentMarker);
@@ -1270,17 +1236,6 @@ public class ProcedureActivity extends Activity {
 		}
 	}
 
-	
-
-	/*
-	private void clearReferences() {
-		Activity currActivity = edu.cmu.hcii.novo.kadarbra.MainApp.getCurrentActivity();
-		if (currActivity != null && currActivity.equals(this))
-			edu.cmu.hcii.novo.kadarbra.MainApp.setCurrentActivity(null);
-	}
-	*/
-	
-	
 	
 	/**
 	 * Get the index of the execution note for the given step number.
