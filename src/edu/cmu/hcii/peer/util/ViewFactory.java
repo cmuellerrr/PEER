@@ -654,6 +654,9 @@ public class ViewFactory {
 		Log.v(TAG, "Setting up input");
 		LayoutInflater inflater = LayoutInflater.from(context);
         ViewGroup input = (ViewGroup)inflater.inflate(R.layout.input, null);
+        
+        //TODO WHY THE FUCK DOES THIS NEED TO HAPPEN!!!!1!!!!11!!!
+        input.setLayoutParams(new LayoutParams(300, LayoutParams.WRAP_CONTENT));
 
         //Set up the custom fonts
     	FontManager fm = FontManager.getInstance(context.getAssets());

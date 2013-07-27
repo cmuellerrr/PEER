@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    style="@style/InputSection"
+    android:layout_gravity="center_horizontal|center" >
 
     <TextView android:id="@+id/inputInstruction"
         style="@style/InputInstruction"
-        android:text="@string/input_instruction" />"
+        android:text="@string/input_instruction" />
     
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+	    
+	    <TextView android:id="@+id/inputValue"
+	        style="@style/InputValue" />
+	    
+	    <ImageView
+	        android:id="@+id/inputReceived"
+	        style="@style/InputReceived"
+	        android:visibility="invisible" />
 
-    <TextView android:id="@+id/inputValue"
-        style="@style/InputValue" />
-
-    <View style="@style/hr_10" />
+    </RelativeLayout>
+    
+    <View style="@style/hr_heavy" />
     
 </LinearLayout>

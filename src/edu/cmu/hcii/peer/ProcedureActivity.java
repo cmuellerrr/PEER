@@ -1189,6 +1189,7 @@ public class ProcedureActivity extends Activity {
     	TextView inputText = (TextView)curScrollPage.findViewById(R.id.inputValue);
     	if (inputText != null) {
     		inputText.setText(value);
+    		curScrollPage.findViewById(R.id.inputReceived).setVisibility(View.VISIBLE);
     	}
     }
     

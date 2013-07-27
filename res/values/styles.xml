@@ -52,6 +52,9 @@
         <item name="android:layout_marginBottom">10px</item>
     </style>
     
+    <style name="hr_heavy" parent="hr">
+        <item name="android:layout_height">5px</item>
+    </style>
     
     <!-- Widgets -->
     
@@ -442,6 +445,13 @@
     
     <!-- Input -->
     
+    <style name="InputSection">
+        <item name="android:layout_width">300px</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">40px</item>
+    </style>
     
     <style name="InputInstruction">
         <item name="android:layout_width">fill_parent</item>
@@ -452,10 +462,19 @@
         <item name="android:textSize">20px</item>
     </style>
     
+    <style name="InputReceived">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_alignBottom">@id/inputValue</item>
+        <item name="android:src">@drawable/input_complete</item>
+    </style>
+    
     <style name="InputValue">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>    
-        <item name="android:textSize">40px</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentLeft">true</item>
+        <item name="android:textSize">60px</item>
     </style>
     
     
