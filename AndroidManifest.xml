@@ -33,7 +33,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-    edu.cmu.hcii.peer.page.MenuPage<activity
+    	<activity
             android:name=".page.MenuPage"
             android:theme="@android:style/Theme.Dialog"/>
         
