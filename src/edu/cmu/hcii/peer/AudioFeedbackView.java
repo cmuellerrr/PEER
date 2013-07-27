@@ -22,59 +22,66 @@ import android.view.SurfaceView;
 
 /**
  * 
+ * This view draws the audio noise levels produced by a SpeechRecognizer
+ * 
  * @author Gordon
- *
+ * 
  */
 public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Callback {
 	class AudioFeedbackThread extends Thread {
-		private int NUMBER_OF_BARS;
+		
+		/** Variables that determine how animations are drawn **/
+		private int NUMBER_OF_BARS; // number of bars drawn
 		private int BAR_MAXIMUM_OFFSET = 60; // how quickly bars grow in height
 		private int BAR_MARGIN = 0; // size of margin between bars
-		private int MINIMUM_RMS_READ = 1;
-		private int MAXIMUM_FPS = 20;
+		private int MINIMUM_RMS_READ = 1; // minimum noise level that will be drawn
+		public boolean SHIFT = false; // if shift is true, we show the left/right moving visualizer, if false, then we show the up/down bars
+
 		
-		private int viewWidth;	// width of view
+        /* Handle to the surface manager object we interact with */
+        private SurfaceHolder mSurfaceHolder;
+
+        /* Indicate whether the surface has been created & is ready to draw */
+        private volatile boolean mRun = false;
+
+        /* For keeping track of initialization state */
+        private boolean init = false;
+        
+        /* For handling pausing of drawing*/
+        private volatile boolean paused = false;
+
+        private int viewWidth;	// width of view
 		public int viewHeight;	// height of view 
-		
+	
+        /** Variables that handle drawing **/
+     
+        /* Bitmaps for drawing microphone and audio bars*/
+        private Bitmap micActive_Scaled;
+        private Bitmap micInactive_Scaled;
+        private Bitmap dotPattern;
+    
+        /* Paints */
 		private Paint pBar;			// paint of bars
 		private Paint pThreshold; 	// paint of threshold marker
 		private Paint pActive; 		// paint of active items
-
 		
+		/* Audio levels */
 		private int levels[];						// pixel heights of bars (if directly corresponding the noise level)
 		private int drawnLevels[];					// pixel heights of bars (when actually drawn - this is different from the above for making animations smoother)
 		public float levelThreshold = 0;			// pixel height of level threshold line
 		public float levelThresholdPercent = 0;		// percent of level threshold line
+		private int busyDrawCounter;				// for drawing each frame within the busy animation
+		private float[] drawnLevelSpeeds;			// for drawing the offsets for each frame within the rising bar animation
+		private int randomLevelIndex;				// for randomizing the bars
 
-		private float[] drawnLevelSpeeds;			// pixel heights of bars (if directly corresponding the noise level)
-		private int randomLevelIndex;
-
-		private long lastMessageTime;
-		private long lastFrameTime;
-		private long lastDrawTime;
-		private long lastRandomizeTime;
-		
-		private int busyDrawCounter;
-		
-        /** Handle to the surface manager object we interact with */
-        private SurfaceHolder mSurfaceHolder;
-
-        /** Indicate whether the surface has been created & is ready to draw */
-        private volatile boolean mRun = false;
-        
-        private boolean init = false;
-        private volatile boolean paused = false;
-
-        // Bitmaps for drawing mic
-        private Bitmap micActive_Scaled;
-        private Bitmap micInactive_Scaled;
-        private Bitmap dotPattern;
+		private long lastMessageTime;	
+		private long lastDrawTime;		// for animating threshold 
+		private long lastRandomizeTime;	
         
         public AudioFeedbackThread(SurfaceHolder surfaceHolder, Context context) {
             // get handles to some important objects
             mSurfaceHolder = surfaceHolder;
             mContext = context;
-            //init();
         }
         
         
@@ -85,11 +92,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
                 try {
                     c = mSurfaceHolder.lockCanvas(null);
                     synchronized (mSurfaceHolder) {
-                       // if (System.currentTimeMillis() - lastFrameTime > 1000/MAXIMUM_FPS){
-                        //	lastFrameTime = System.currentTimeMillis();
                     	if (!paused && c != null && init)
                         	doDraw(c);
-                        //}
                     }
                 } finally {
                     // do this in a finally so that if an exception is thrown
@@ -182,7 +186,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 				drawMicInactive(c);
 				drawBusy(c,0.15f,0.7f,40);
 			}else{
-				if (shift)
+				if (SHIFT)
 					drawAudioBars(c);
 				else
 					drawAudioBarsVert(c);
@@ -231,11 +235,6 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private void initPaints(){
 			pBar = new Paint();
 			pBar.setColor(Color.parseColor("#a4ece8"));
-			//p.setMaskFilter(new BlurMaskFilter(25, Blur.INNER));
-			//p.setMaskFilter(new BlurMaskFilter(35, Blur.OUTER));
-			//p.setMaskFilter(new BlurMaskFilter(15, Blur.SOLID));
-			//pBar.setMaskFilter(new BlurMaskFilter(10, Blur.NORMAL));
-			//p.setShadowLayer(70, 0, 0, Color.CYAN);
 		
 			pBar.setShader(new BitmapShader(dotPattern,Shader.TileMode.REPEAT,Shader.TileMode.REPEAT));
 			
@@ -245,9 +244,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 
 			pThreshold = new Paint();
 			pThreshold.setColor(Color.parseColor("#FCDA4F"));
-			pThreshold.setStrokeWidth(2.0f);
-			//pThreshold.setShader(new LinearGradient(8f, 80f, 30f, 20f, Color.RED,Color.WHITE, TileMode.MIRROR));
-		
+			pThreshold.setStrokeWidth(2.0f);		
 		}
 		
 		/**
@@ -369,21 +366,19 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	
 
     	/**
-    	 * 
+    	 * Draws current frame for the microphone in its active state
     	 */
         private void drawMicThresholdAnimation(Canvas c){
         	levelThresholdPercent = Math.max(getThresholdLinePercent(), 0);
         	drawMicActive(c, 1f-levelThresholdPercent, pActive);
 
         	lastDrawTime = System.currentTimeMillis();
-        	
-        	//if (levelThresholdPercent <= 0){
-        	//	setState(STATE_INACTIVE);
-        	//}
         }
     	
     	/**
     	 * Draws the threshold line
+    	 * 
+    	 * Not currently used.
     	 */
     	private void drawThresholdLine(Canvas c){
     		int maxDrawnLevel = getMaximumDrawnLevel();
@@ -397,15 +392,9 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     		levelThreshold = Math.max(levelThreshold, 0);
     		
     		c.drawLine(0, viewHeight-levelThreshold, viewWidth, viewHeight-levelThreshold, pThreshold);
-    		//c.drawRect(0, viewHeight-levelThreshold, viewWidth, viewHeight, pThreshold);
 
     		lastDrawTime = System.currentTimeMillis();
     		//Log.v("lastDrawTime, offset", lastDrawTime +", "+ levelThreshold);
-	    	
-    		//if (levelThreshold/(float)viewHeight < 0.25f){
-    		//	setState(STATE_INACTIVE);
-    		//}
-
     	}
     	
     	/**
@@ -619,7 +608,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     		float percent = convertRmsToPercent(rms);
     		int pixel = convertPercentToPixel(percent);
     		
-    		if (shift){
+    		if (SHIFT){
     			shiftAudioLevelArray(pixel);
     		}else{
     			setBarRandomSpeeds();
@@ -643,7 +632,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
     	}
     	
     	/**
-    	 * Unauses drawing
+    	 * Unpauses drawing
     	 */
     	public void unpause(){
     		synchronized (mSurfaceHolder) {
@@ -653,19 +642,21 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 	}
 	
 	private String TAG = "AudioFeedbackView";
-
-	public boolean shift = false; // if shift is true, we show the left/right moving visualizer, if false, then we show the up/down bars
 	
+	/* State of audio feedback visualizer */
 	public int STATE_INACTIVE = 0;
 	public int STATE_ACTIVE = 1;
 	public boolean busy = false;
     private int state = STATE_INACTIVE;
 
-    /** The thread that actually draws the animation */
+    /* The thread that actually draws the animation */
     private AudioFeedbackThread thread;
-    /** Handle to the application context, used to e.g. fetch Drawables. */
+    
+    /* Handle to the application context, used to e.g. fetch Drawables. */
     private Context mContext;
     private SurfaceHolder mHolder;
+    
+    /* Whether the thread has been closed */
     private boolean threadClosed = false;
     
 	public AudioFeedbackView(Context context, AttributeSet attrs) {

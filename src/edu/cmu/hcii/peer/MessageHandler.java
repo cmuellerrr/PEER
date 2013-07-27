@@ -7,6 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+/**
+ * 
+ * A utility class that handles messages received by ConnectionService, 
+ * interprets them, and sends commands to activities through broadcast messages
+ * 
+ * @author Gordon
+ *
+ */
 public class MessageHandler {
 	private static String TAG = "MessageHandler";
 	
@@ -41,9 +49,7 @@ public class MessageHandler {
 	
 	public static long COMMANDS_TIMEOUT_DURATION = 4000; // in millesconds
 	public static float MINIMUM_REFRESH_RMS = 7;
-	
-	private static long lastMessageTime;
-	
+		
 	public static int STATE_INACTIVE = 0;
 	public static int STATE_ACTIVE = 1;
     private static int state = STATE_INACTIVE;
@@ -110,17 +116,12 @@ public class MessageHandler {
 			if (type.equals(MSG_TYPE_COMMAND)) {
 				if (state == STATE_ACTIVE || content.equals("ready") ) {
 					handleCommand(ctx, type, content);
-					lastMessageTime = System.currentTimeMillis();
 				}
 				
 			} else if (type.equals(MSG_TYPE_AUDIO_LEVEL)) {
-	    		if (Float.parseFloat(content) > MINIMUM_REFRESH_RMS && state == STATE_ACTIVE)
-	    			lastMessageTime = System.currentTimeMillis();
-
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_LEVEL, content);
 				
 			} else if (type.equals(MSG_TYPE_AUDIO_BUSY)) {
-    			lastMessageTime = System.currentTimeMillis();
 				sendBroadcastMsg(ctx, MSG_TYPE_AUDIO_BUSY, content);
 				
 			} else if (type.equals(MSG_TYPE_AUDIO_STATE)) {
@@ -129,7 +130,6 @@ public class MessageHandler {
 				
 			} else if (type.equals(MSG_TYPE_AR_READ)) {
 				//send a message to set the current page's input value
-				
 				sendBroadcastMsg(ctx, MSG_TYPE_AR_READ, content);
 			}
 				
@@ -141,7 +141,7 @@ public class MessageHandler {
 	}
 	
 	/**
-	 * 
+	 * Sets current state and broadcast message that alerts activities of state change 
 	 */
 	private static void setState(Context ctx, int s){
 		state = s;
@@ -210,7 +210,13 @@ public class MessageHandler {
 		sendBroadcastMsg(ctx, MSG_TYPE_COMMAND, commandIdentifier);
 	}
 	
-	
+	/**
+	 * Handles commands that contain an additional number
+	 * 
+	 * @param startMsg
+	 * @param content
+	 * @return
+	 */
 	private static String handleStep(String startMsg, String content){
 		int inputNumber;
 		content = content.replaceFirst(startMsg, "");	
@@ -220,7 +226,6 @@ public class MessageHandler {
 		} catch(NumberFormatException e){
 			inputNumber = -1;
 		}
-		
 		
 		return inputNumber+"";
 	}

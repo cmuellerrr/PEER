@@ -14,7 +14,13 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-
+/**
+ * 
+ * Service starts a socket and input stream so it can receive messages from a paired Android device.
+ * 
+ * @author Gordon
+ * 
+ */
 public class ConnectionService extends Service {
 	
 	// Connection info
