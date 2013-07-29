@@ -42,12 +42,12 @@
 	        <TextView android:id="@+id/notesHeader"
 	            style="@style/LinearLayoutTableHeaderCell"
 	            android:text="@string/header_notes"
-	            android:layout_weight="1.3" />
+	            android:layout_weight="1.2" />
 	            
 	        <TextView android:id="@+id/imageHeader"
 	            style="@style/LinearLayoutTableHeaderCell"
 	            android:text="@string/header_image"
-	            android:layout_weight="1.3" />
+	            android:layout_weight="1.2" />
 	            
 	    </LinearLayout>
 	</LinearLayout>

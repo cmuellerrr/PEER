@@ -31,16 +31,21 @@
         style="@style/Breadcrumb"
         android:layout_alignParentBottom="true" />
     
-    <ScrollView
-        android:id="@+id/menuDrawer"
+    <LinearLayout
+        android:id="@+id/menuDrawerLayout"
         style="@style/MenuDrawer"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/menu_group"
+        android:orientation="horizontal"
         android:visibility="gone" >
-
-    </ScrollView>
     
+	    <ScrollView
+	        android:id="@+id/menuDrawer"
+	        style="@style/MenuDrawerScrollView">
+	    </ScrollView>
+
+    </LinearLayout>
     
     <View
         android:layout_width="6px"

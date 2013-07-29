@@ -20,9 +20,9 @@
     
     <TextView android:id="@+id/stowNoteNotes"
         style="@style/LinearLayoutTableCell" 
-        android:layout_weight="1.3"/>
+        android:layout_weight="1.2"/>
     
     <ImageView android:id="@+id/stowNoteImage"
         style="@style/LinearLayoutTableImageCell" 
-        android:layout_weight="1.3"/>
+        android:layout_weight="1.2"/>
 </LinearLayout>

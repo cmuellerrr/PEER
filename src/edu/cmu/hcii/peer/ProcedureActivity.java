@@ -26,17 +26,18 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.peer.AudioFeedbackView.AudioFeedbackThread;
 import edu.cmu.hcii.peer.page.AnnotationPage;
+import edu.cmu.hcii.peer.page.CompletionPage;
 import edu.cmu.hcii.peer.page.CoverPage;
 import edu.cmu.hcii.peer.page.CycleMarkerPage;
 import edu.cmu.hcii.peer.page.CycleSelectPage;
 import edu.cmu.hcii.peer.page.DrawerPageInterface;
 import edu.cmu.hcii.peer.page.ExecNotesPage;
-import edu.cmu.hcii.peer.page.CompletionPage;
 import edu.cmu.hcii.peer.page.GroundPage;
 import edu.cmu.hcii.peer.page.NavigationPage;
 import edu.cmu.hcii.peer.page.PageAdapter;
@@ -316,7 +317,7 @@ public class ProcedureActivity extends Activity {
 		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY, null);
 		
 		//Drawer animations
-		curId = findViewById(R.id.menuDrawer).getId();
+		curId = findViewById(R.id.menuDrawerLayout).getId();
 		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_drawer_enter, 0, new AnimationListener() {
 
 			@Override
@@ -328,7 +329,9 @@ public class ProcedureActivity extends Activity {
 			@Override
 			public void onAnimationStart(Animation animation) {
 				if (drawerContent != null) {
-					((ScrollView)findViewById(R.id.menuDrawer)).addView(drawerContent);
+					ScrollView sv = ((ScrollView)findViewById(R.id.menuDrawer));
+					if (sv.getChildCount() == 0)
+						sv.addView(drawerContent);
 					drawerContent = null;
 				}
 			}
@@ -352,9 +355,10 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
+				LinearLayout menuDrawerLayout = (LinearLayout)findViewById(R.id.menuDrawerLayout);
 				ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
 				drawer.removeAllViews();
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 			}
 
 			@Override
@@ -417,8 +421,9 @@ public class ProcedureActivity extends Activity {
 	private String getOpenedDrawer(){
 		String currentDrawer = DrawerPageInterface.DRAWER_NONE;
 		ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
-
-		if (drawer.getVisibility() == View.VISIBLE){
+		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		
+		if (menuDrawerLayout.getVisibility() == View.VISIBLE){
 			DrawerPageInterface drawerPage = (DrawerPageInterface) drawer.getChildAt(0);
 			if (drawerPage != null)
 				currentDrawer = drawerPage.getDrawerType();
@@ -445,24 +450,26 @@ public class ProcedureActivity extends Activity {
 	 */
 	private void openStepDrawer(View v){
 		ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
+		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+
 		if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
 			// do animation
 			drawerContent = v;
 			
 			//If the drawer is open for another menu
-			if (drawer.getVisibility() != View.GONE) {
+			if (menuDrawerLayout.getVisibility() != View.GONE) {
 				//change drawer
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
+				menuDrawerLayout.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
 				clearMenuSelection();
 		    //If the drawer is closed
 			} else {
 				//open the drawer
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
-				drawer.setVisibility(View.VISIBLE);
+				menuDrawerLayout.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
+				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}
 		}else{
 			drawer.removeAllViews();
-			drawer.setVisibility(View.VISIBLE);
+			menuDrawerLayout.setVisibility(View.VISIBLE);
 			drawer.addView(v);
 		}
 	}
@@ -471,10 +478,11 @@ public class ProcedureActivity extends Activity {
 	 * Close the drawer
 	 */
 	private void closeDrawer(){
-		FrameLayout drawer = (FrameLayout) findViewById(R.id.menuDrawer);
-		if (drawer.getVisibility() == View.VISIBLE) {
-			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE));
-			drawer.setVisibility(View.GONE);
+		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+
+		if (menuDrawerLayout.getVisibility() == View.VISIBLE) {
+			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE));
+			menuDrawerLayout.setVisibility(View.GONE);
 		}
 		clearMenuSelection();
 	}
@@ -485,11 +493,11 @@ public class ProcedureActivity extends Activity {
 	 * Then make sure to make all buttons unselected.
 	 */
 	private void closeMenu() {
-		View drawer = (View) findViewById(R.id.menuDrawer);
+		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
 		
-		if (drawer.getVisibility() == View.VISIBLE) {
-			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE + TAG_CASCADE));
-			drawer.setVisibility(View.GONE);
+		if (menuDrawerLayout.getVisibility() == View.VISIBLE) {
+			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE + TAG_CASCADE));
+			menuDrawerLayout.setVisibility(View.GONE);
 			
 		} else {
 			runMenuItemAnimations(TAG_CLOSE, View.GONE);
@@ -1193,13 +1201,13 @@ public class ProcedureActivity extends Activity {
 	 * @param v
 	 */
 	public void menuSelect(View v) {
-		FrameLayout drawer = (FrameLayout)findViewById(R.id.menuDrawer);
+		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
 		
 		//If I hit the same menu button
 		if (v.isSelected()) {
 			Log.v(TAG,"menuSelect: same menu");
-			drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CLOSE));
-			drawer.setVisibility(View.GONE);
+			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE));
+			menuDrawerLayout.setVisibility(View.GONE);
 			v.setSelected(false);
 		} else {
 			
@@ -1221,15 +1229,15 @@ public class ProcedureActivity extends Activity {
 			}
 			
 			//If the drawer is open for another menu
-			if (drawer.getVisibility() != View.GONE) {
+			if (menuDrawerLayout.getVisibility() != View.GONE) {
 				//change drawer
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CYCLE));
 				clearMenuSelection();
 		    //If the drawer is closed
 			} else {
 				//open the drawer
-				drawer.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
-				drawer.setVisibility(View.VISIBLE);
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
+				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}
 		    
 			v.setSelected(true);

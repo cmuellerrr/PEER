@@ -111,6 +111,14 @@
         <item name="android:textColor">#ffffffff</item>
     </style>
     
+    <style name="MenuDrawerScrollView">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:textColor">#ffffffff</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:layout_marginRight">10px</item>
+    </style>
+    
     <style name="MenuGroup">
         <item name="android:layout_width">222px</item>
         <item name="android:layout_height">fill_parent</item>
@@ -136,7 +144,6 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:visibility">gone</item>
     </style>
-    
     
     <!-- Elapsed Time -->
     
