@@ -519,12 +519,12 @@ public class ProcedureActivity extends Activity {
 			//If the drawer is open for another menu
 			if (menuDrawerLayout.getVisibility() != View.GONE) {
 				//change drawer
-				menuDrawerLayout.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CYCLE));
 				clearMenuSelection();
 		    //If the drawer is closed
 			} else {
 				//open the drawer
-				menuDrawerLayout.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}
 		}else{
@@ -706,11 +706,22 @@ public class ProcedureActivity extends Activity {
 					 timerTimeText.setText(String.format("%02d:%02d", minutes, seconds));
 					
 					 if(timerState.equals(TIMER_ON)){
-						 TextView tv = (TextView) findViewById(R.id.timerStopText);
-						 tv.setVisibility(View.VISIBLE);
+						 TextView tvStop = (TextView) findViewById(R.id.timerStopText);
+						 TextView tvReset = (TextView) findViewById(R.id.timerResetText);
+						 TextView tvStart = (TextView) findViewById(R.id.timerStartText);
+						 
+						 tvStop.setVisibility(View.VISIBLE);
+						 tvReset.setVisibility(View.GONE);
+						 tvStart.setVisibility(View.GONE);
 					 }else if(timerState.equals(TIMER_OFF) || timerState.equals(TIMER_RESET)){
-						 TextView tv = (TextView) findViewById(R.id.timerStopText);
-						 tv.setVisibility(View.GONE);
+						 TextView tvStop = (TextView) findViewById(R.id.timerStopText);
+						 TextView tvReset = (TextView) findViewById(R.id.timerResetText);
+						 TextView tvStart = (TextView) findViewById(R.id.timerStartText);
+						 
+						 tvStop.setVisibility(View.GONE);
+						 tvStart.setVisibility(View.VISIBLE);
+						 tvReset.setVisibility(View.VISIBLE);
+
 					 }
 				}
 				timerHandler.postDelayed(this, 0);

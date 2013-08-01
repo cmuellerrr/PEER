@@ -34,7 +34,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		
 		/** Variables that determine how animations are drawn **/
 		private int NUMBER_OF_BARS; // number of bars drawn
-		private int BAR_MAXIMUM_OFFSET = 60; // how quickly bars grow in height
+		private int BAR_MAXIMUM_OFFSET = 100; // how quickly bars grow in height
 		private int BAR_MARGIN = 0; // size of margin between bars
 		private int MINIMUM_RMS_READ = 1; // minimum noise level that will be drawn
 		public boolean SHIFT = false; // if shift is true, we show the left/right moving visualizer, if false, then we show the up/down bars

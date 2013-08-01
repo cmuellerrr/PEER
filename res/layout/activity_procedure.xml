@@ -39,23 +39,19 @@
         style="@style/Breadcrumb"
         android:layout_alignParentBottom="true" />
     
-	    <LinearLayout
-	        android:id="@+id/menuDrawerLayoutParent"
-	        style="@style/MenuDrawerParent"
-	        android:layout_above="@+id/stepPreviewWidget"
-	        android:layout_alignParentRight="true"
-	        android:layout_toRightOf="@+id/menu_group"
-	        android:orientation="horizontal"
-	        android:visibility="visible" 
-	     >
+    <LinearLayout
+        android:id="@+id/menuDrawerLayoutParent"
+        style="@style/MenuDrawerParent"
+        android:layout_above="@+id/stepPreviewWidget"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/menu_group"
+        android:orientation="horizontal"
+        android:visibility="visible" >
 	    
 	    <LinearLayout
 	        android:id="@+id/menuDrawerLayout"
 	        style="@style/MenuDrawer"
-	        
-	        android:layout_above="@+id/stepPreviewWidget"
-	        android:layout_alignParentRight="true"
-	        android:layout_toRightOf="@+id/menu_group"
+
 	        android:orientation="horizontal"
 	        android:visibility="gone" 
 	        >
@@ -159,6 +155,8 @@
 			android:id="@+id/timer"
 			style="@style/Timer"  
 	        android:layout_alignParentRight="true"
+	        android:padding="3dp"
+	        android:layout_margin="3dp"
 			android:text="00:00">
             
         </TextView>
