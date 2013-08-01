@@ -8,6 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
 import edu.cmu.hcii.peer.structure.Procedure;
+import edu.cmu.hcii.peer.util.FontManager;
+import edu.cmu.hcii.peer.util.FontManager.FontStyle;
 
 /**
  * 
@@ -26,7 +28,23 @@ public class StepPreviewWidget extends LinearLayout{
         View page = (View)inflater.inflate(R.layout.preview, null);
 
         this.addView(page);
+        
+        initFonts();
 	}
+	
+	
+	
+	/**
+	 * Setup the custom fonts for this view.
+	 */
+	private void initFonts() {
+		FontManager fm = FontManager.getInstance(getContext().getAssets());
+		
+		((TextView)findViewById(R.id.leftText)).setTypeface(fm.getFont(FontStyle.BODY));
+		((TextView)findViewById(R.id.rightText)).setTypeface(fm.getFont(FontStyle.BODY));
+	}
+	
+	
 	
 	/**
 	 * 
