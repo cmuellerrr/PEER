@@ -23,7 +23,7 @@
         <item name="android:scrollbarStyle">outsideInset</item>
         <item name="android:scrollbarTrackVertical">@drawable/scroller_line</item>
         <item name="android:scrollbarThumbVertical">@drawable/scroller_thumb_bar</item>
-        <item name="android:scrollbarSize">2px</item>
+        <item name="android:scrollbarSize">2dp</item>
     </style>
     
     
@@ -41,19 +41,19 @@
     
     <style name="hr">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">1px</item>
-        <item name="android:layout_marginTop">20px</item>
-        <item name="android:layout_marginBottom">20px</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
         <item name="android:background">@color/main</item>
     </style>
     
     <style name="hr_10" parent="hr">
-        <item name="android:layout_marginTop">10px</item>
-        <item name="android:layout_marginBottom">10px</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
     
     <style name="hr_heavy" parent="hr">
-        <item name="android:layout_height">5px</item>
+        <item name="android:layout_height">5dp</item>
     </style>
     
     <!-- Widgets -->
@@ -61,7 +61,7 @@
     
     <style name="TopWidgetBar">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">40px</item>
+        <item name="android:layout_height">40dp</item>
     </style>
     
     <style name="Timer">
@@ -71,31 +71,31 @@
     </style>   
     
     <style name="AudioFeedback">
-        <item name="android:layout_width">198px</item>
-        <item name="android:layout_height">72px</item>
-        <item name="android:layout_marginBottom">10px</item>
+        <item name="android:layout_width">198dp</item>
+        <item name="android:layout_height">72dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
     
     <style name="ViewPager">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginTop">40px</item>
-        <item name="android:layout_marginLeft">80px</item>
-        <item name="android:padding">10px</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:layout_marginLeft">80dp</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     <style name="StepPreview">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">82px</item>
+        <item name="android:layout_height">82dp</item>
     </style>
     
     <style name="StepPreviewText">
-        <item name="android:textSize">18px</item>
+        <item name="android:textSize">18sp</item>
     </style>
     
     <style name="Breadcrumb">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">10px</item>
+        <item name="android:layout_height">10dp</item>
     </style>
     
     
@@ -105,8 +105,8 @@
     <style name="MenuDrawer">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:layout_marginTop">40px</item>
-        <item name="android:padding">10px</item>
+        <item name="android:layout_marginTop">40dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:background">@drawable/drawer_background</item>
         <item name="android:textColor">#ffffffff</item>
     </style>
@@ -116,29 +116,29 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:fadeScrollbars">false</item>
-        <item name="android:layout_marginRight">10px</item>
+        <item name="android:layout_marginRight">10dp</item>
     </style>
     
     <style name="MenuGroup">
-        <item name="android:layout_width">222px</item>
+        <item name="android:layout_width">222dp</item>
         <item name="android:layout_height">fill_parent</item>
     </style>
     
     <style name="MenuTitle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">40px</item>
-        <item name="android:textSize">26px</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/menu_item</item>
     </style>
     
     <style name="MenuItem" >
         <item name="android:background">@drawable/menu_item_bg</item>
-        <item name="android:layout_width">188px</item>
-        <item name="android:layout_height">37px</item>
-        <item name="android:layout_marginTop">30px</item>
-        <item name="android:paddingLeft">40px</item>
+        <item name="android:layout_width">188dp</item>
+        <item name="android:layout_height">37dp</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:paddingLeft">40dp</item>
         <item name="android:textColor">@color/menu_item</item>
-        <item name="android:textSize">19px</item>
+        <item name="android:textSize">19sp</item>
         <item name="android:onClick">menuSelect</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:layout_centerHorizontal">true</item>
@@ -149,10 +149,10 @@
     
     
     <style name="ElapsedTimeView">
-        <item name="android:layout_width">150px</item>
-        <item name="android:layout_height">65px</item>
-        <item name="android:layout_marginTop">11px</item>
-        <item name="android:layout_marginLeft">55px</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:layout_marginTop">11dp</item>
+        <item name="android:layout_marginLeft">55dp</item>
         <item name="android:background">@drawable/border_blue</item>
     </style>
     
@@ -165,13 +165,13 @@
     <style name="ElapsedTime">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">30px</item>
+        <item name="android:textSize">30sp</item>
     </style>
     
     <style name="ElapsedTimeText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">15px</item>
+        <item name="android:textSize">15sp</item>
     </style>
     
     
@@ -179,9 +179,9 @@
     
     
     <style name="CallGround" parent="CenterText">
-        <item name="android:textSize">30px</item>
+        <item name="android:textSize">30sp</item>
         <item name="android:layout_gravity">center|center_vertical</item>
-        <item name="android:drawablePadding">10px</item>
+        <item name="android:drawablePadding">10dp</item>
     </style>
     
     
@@ -189,12 +189,12 @@
     
     
     <style name="CycleSelectTitle" parent="CenterText">
-        <item name="android:textSize">28px</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">@color/main</item>
     </style>
     
     <style name="CycleSelectItem" parent="CenterText">
-        <item name="android:textSize">26px</item>
+        <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/highlight</item>
     </style>
     
@@ -202,15 +202,15 @@
     <!-- Cover Page -->
     
     <style name="CoverSubTitle" parent="HorizontalStretch">
-        <item name="android:textSize">25px</item>
-        <item name="android:layout_marginBottom">15px</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginBottom">15dp</item>
         <item name="android:textColor">@color/main</item>
     </style>
     
     <style name="CoverText">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20px</item>
+        <item name="android:textSize">20sp</item>
     </style>
         
     
@@ -218,25 +218,25 @@
     
     
     <style name="ExecutionNotesTitle" parent="HorizontalStretch">
-        <item name="android:textSize">28px</item>
-        <item name="android:layout_marginBottom">10px</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
     
     <style name="ExecutionNotesSubTitle" parent="HorizontalStretch">
-        <item name="android:textSize">20px</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     <style name="ExecutionNotesNumber" >
-        <item name="android:layout_width">184px</item>
+        <item name="android:layout_width">184dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20px</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     <style name="ExecutionNotesText" >
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20px</item>
-        <item name="android:paddingLeft">20px</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:paddingLeft">20dp</item>
     </style>
     
     
@@ -246,26 +246,26 @@
     <style name="ProcedureName" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">36px</item>
-        <item name="android:layout_marginTop">63px</item>
-        <item name="android:layout_marginBottom">63px</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:layout_marginTop">63dp</item>
+        <item name="android:layout_marginBottom">63dp</item>
     </style>
     
     <style name="CoverTable" parent="Table" >
-        <item name="android:layout_width">729px</item>
+        <item name="android:layout_width">729dp</item>
         <item name="android:layout_height">fill_parent</item>
     </style>
     
     <style name="CoverTableHeaderCell" parent="TableHeaderCell" >
-        <item name="android:textSize">28px</item>
+        <item name="android:textSize">28sp</item>
     </style>
     
     <style name="CoverTableCell" parent="TableCell" >
-        <item name="android:textSize">20px</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     <style name="ObjectiveCell" parent="CoverTableCell" >
-        <item name="android:layout_width">450px</item>
+        <item name="android:layout_width">450dp</item>
     </style>
     
     
@@ -275,15 +275,15 @@
     <style name="CycleNote" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">20px</item>
+        <item name="android:paddingBottom">20dp</item>
         <item name="android:orientation">vertical</item>
     </style>
     
     <style name="CycleNoteText" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">10px</item>
-        <item name="android:textSize">20px</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     
@@ -291,16 +291,16 @@
     
     
     <style name="StepCycle" parent="HorizontalStretch">
-        <item name="android:textSize">10px</item>
+        <item name="android:textSize">10sp</item>
     </style>
     
     <style name="ParentStep" parent="HorizontalStretch">
-        <item name="android:textSize">22px</item>
+        <item name="android:textSize">22sp</item>
     </style>
     
     <style name="Step" parent="HorizontalStretch">
-        <item name="android:layout_marginBottom">40px</item>
-        <item name="android:textSize">26px</item>
+        <item name="android:layout_marginBottom">40dp</item>
+        <item name="android:textSize">26sp</item>
     </style>
     
     
@@ -310,7 +310,7 @@
     <style name="Callout">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingBottom">20px</item>
+        <item name="android:paddingBottom">20dp</item>
     </style>
     
     <style name="CalloutHeaderCell" parent="TableHeaderCell">
@@ -318,7 +318,7 @@
     </style>
     
     <style name="CalloutCell" parent="TableCell">
-        <item name="android:textSize">26px</item>
+        <item name="android:textSize">26sp</item>
     </style>
     
     
@@ -334,9 +334,9 @@
     
     <style name="ReferenceCaption" parent="CenterText">
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginTop">10px</item>
-        <item name="android:layout_marginBottom">20px</item>
-        <item name="android:textSize">15px</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:textSize">15sp</item>
     </style>    
     
     
@@ -355,36 +355,36 @@
     <style name="TableRow">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">5px</item>
+        <item name="android:layout_marginBottom">5dp</item>
     </style>
     
     <style name="TableHeaderRow" parent="TableRow">
         <item name="android:background">@drawable/dot_bg_blue</item>
-        <item name="android:layout_marginBottom">0px</item>
+        <item name="android:layout_marginBottom">0dp</item>
     </style>
     
     <style name="TableHeaderCell" parent="TableCell" >
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">28px</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:shadowColor">#ff000000</item>
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">1</item>  
         <item name="android:shadowDy">2</item>
-        <item name="android:padding">10px</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     <style name="TableCell" >
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:textSize">18px</item>
-        <item name="android:padding">10px</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     <style name="TableImageCell" parent="TableCell">
-        <item name="android:layout_width">150px</item>
-        <item name="android:layout_height">100px</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">100dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
     
@@ -400,14 +400,14 @@
     <style name="LinearLayoutTableRow">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">5px</item>
+        <item name="android:layout_marginBottom">5dp</item>
         <item name="android:orientation">horizontal</item>
         
     </style>
     
     <style name="LinearLayoutTableHeaderRow" parent="LinearLayoutTableRow">
         <item name="android:background">@drawable/dot_bg_blue</item>
-        <item name="android:layout_marginBottom">0px</item>
+        <item name="android:layout_marginBottom">0dp</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">fill_parent</item>
         
@@ -416,33 +416,33 @@
     <style name="LinearLayoutTableHeaderCell" parent="LinearLayoutTableCell" >
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">28px</item>
+        <item name="android:textSize">28sp</item>
         <item name="android:textColor">#ffffffff</item>
         <item name="android:shadowColor">#ff000000</item>
         <item name="android:shadowRadius">1.5</item>
         <item name="android:shadowDx">1</item>  
         <item name="android:shadowDy">2</item>
-        <item name="android:padding">10px</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     <style name="LinearLayoutTableCell" >
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">18px</item>
-        <item name="android:padding">10px</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">10dp</item>
     </style>
     
     <style name="LinearLayoutTableImageCell" parent="LinearLayoutTableCell">
-        <item name="android:layout_height">100px</item>
+        <item name="android:layout_height">100dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
     
     <!--  Timer -->
     
     <style name="TimerButtonText">
-        <item name="android:textSize">20px</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/menu_item</item>    
-        <item name="android:layout_height">40px</item>    
+        <item name="android:layout_height">40dp</item>    
         <item name="android:gravity">center|center_vertical</item>
         <item name="android:background">@drawable/border_blue_dots</item>
     </style>
@@ -451,20 +451,20 @@
     <!-- Input -->
     
     <style name="InputSection">
-        <item name="android:layout_width">300px</item>
+        <item name="android:layout_width">300dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:paddingBottom">40px</item>
+        <item name="android:paddingBottom">40dp</item>
     </style>
     
     <style name="InputInstruction">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">20px</item>
-        <item name="android:layout_marginBottom">20px</item>
-        <item name="android:textSize">20px</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
     
     <style name="InputReceived">
@@ -479,7 +479,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:textSize">60px</item>
+        <item name="android:textSize">60sp</item>
     </style>
     
     
@@ -489,15 +489,15 @@
     <style name="CompletionTitle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">36px</item>
-        <item name="android:layout_marginTop">63px</item>    
-        <item name="android:layout_marginBottom">63px</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:layout_marginTop">63dp</item>    
+        <item name="android:layout_marginBottom">63dp</item>
     </style>
     
     <style name="CompletionText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">28px</item>
+        <item name="android:textSize">28sp</item>
     </style>
     
 </resources>

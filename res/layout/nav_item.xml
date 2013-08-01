@@ -9,11 +9,11 @@
         android:layout_width="115px"
         android:layout_height="match_parent"
         android:textColor="@color/highlight"
-        android:textSize="21px" />
+        android:textSize="21sp" />
     
     <TextView android:id="@+id/navItemText"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:textSize="26px" />
+        android:textSize="26sp" />
 
 </LinearLayout>

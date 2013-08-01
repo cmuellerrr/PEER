@@ -5,28 +5,28 @@
     android:orientation="horizontal" >
     
     <RelativeLayout
-        android:layout_width="40px"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:layout_marginRight="10px" >
+        android:layout_marginRight="10dp" >
         
         <View
             android:id="@+id/navCycleMarker"
-            android:layout_width="20px"
+            android:layout_width="20dp"
             android:layout_height="fill_parent"
             android:layout_alignParentRight="true"
             android:background="@drawable/cycle_marker"
-            android:paddingLeft="10px" />
+            android:paddingLeft="10dp" />
         
         <TextView
             android:id="@+id/navCycleCount"
-            android:layout_width="40px"
-            android:layout_height="30px"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:background="@drawable/cycle_decoration"
             android:gravity="center"
             android:textColor="@color/main"
-            android:textSize="18px" />
+            android:textSize="18sp" />
         
     </RelativeLayout>
     

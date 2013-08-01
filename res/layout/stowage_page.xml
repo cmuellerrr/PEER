@@ -6,8 +6,8 @@
     
     <TextView android:id="@+id/stowNotesTitle"
         style="@style/HorizontalStretch"
-        android:textSize="35px"
-        android:layout_marginBottom="20px"
+        android:textSize="35sp"
+        android:layout_marginBottom="20dp"
         android:text="@string/stow_notes_title">
     </TextView>
     
