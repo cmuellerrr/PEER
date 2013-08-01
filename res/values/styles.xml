@@ -15,7 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:scrollViewStyle">@style/ScrollView</item>
     </style>
     
@@ -68,6 +68,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">25dp</item>
     </style>   
     
     <style name="AudioFeedback">
@@ -87,6 +88,8 @@
     <style name="StepPreview">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">82dp</item>
+        <item name="android:textColor">#ffffffff</item>
+        
     </style>
     
     <style name="StepPreviewText">
@@ -101,13 +104,19 @@
     
     <!-- Menu -->
     
+    <style name="MenuDrawerParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">#00FFFFFF</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
     
     <style name="MenuDrawer">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_marginTop">40dp</item>
         <item name="android:padding">10dp</item>
-        <item name="android:background">@drawable/drawer_background</item>
+        <item name="android:background">@drawable/drawer_background_transparent_lighter</item>
         <item name="android:textColor">#ffffffff</item>
     </style>
     

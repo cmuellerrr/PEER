@@ -1,21 +1,28 @@
 package edu.cmu.hcii.peer;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.TextureView;
+import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -90,6 +97,9 @@ public class ProcedureActivity extends Activity {
 	private static final String TIMER_OFF = "_timerOff";
 	private static final String TIMER_RESET = "_timerReset";
 	
+	private Camera mCamera;
+	private TextureView mTextureView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,6 +122,56 @@ public class ProcedureActivity extends Activity {
 		
 		initElapsedTime();
 		initTimer();
+		
+		initCamera();
+	}
+	
+	private void initCamera(){
+		
+		mTextureView = (TextureView) findViewById(R.id.cameraView);
+		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
+
+			@Override
+			public void onSurfaceTextureAvailable(SurfaceTexture surface,
+					int arg1, int arg2) {
+				mCamera = Camera.open();
+				
+				try{
+					mCamera.setPreviewTexture(surface);
+					mCamera.startPreview();
+				} catch (IOException ioe){
+					
+				}
+				
+			}
+
+			@Override
+			public boolean onSurfaceTextureDestroyed(SurfaceTexture arg0) {
+
+				mCamera.stopPreview();
+				mCamera.release();
+				
+				return true;
+			}
+
+			@Override
+			public void onSurfaceTextureSizeChanged(SurfaceTexture arg0,
+					int arg1, int arg2) {
+
+				
+			}
+
+			@Override
+			public void onSurfaceTextureUpdated(SurfaceTexture arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		
+		
+		mTextureView.setSurfaceTextureListener(surfaceTextureListener);
+		
 	}
 	
 	
@@ -160,6 +220,8 @@ public class ProcedureActivity extends Activity {
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_STATE);    
         intentFilter.addAction(MessageHandler.MSG_TYPE_AR_READ);    
 
+        intentFilter.addAction("speech");
+        
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	    
 	    audioFeedbackThread.unpause();
@@ -485,6 +547,8 @@ public class ProcedureActivity extends Activity {
 			menuDrawerLayout.setVisibility(View.GONE);
 		}
 		clearMenuSelection();
+		
+		viewPager.setVisibility(View.VISIBLE);
 	}
 	
 	/**
@@ -505,7 +569,8 @@ public class ProcedureActivity extends Activity {
 		
 		clearMenuSelection();
 		findViewById(R.id.menuTitle).setSelected(false);
-		
+		viewPager.setVisibility(View.VISIBLE);
+
 	}
 	
 	/**
@@ -840,7 +905,17 @@ public class ProcedureActivity extends Activity {
 	    		String val = intent.getExtras().getString("msg");
 	    		Log.v(TAG, "Received AR input: " + val);
 	    		commandLogInput(val);
-	    	}
+	    	} else if (intent.getAction().equals("speech")){
+	    		Bundle b = intent.getExtras();
+				if (b.getString("type").equals(MessageHandler.MSG_TYPE_COMMAND) || 
+					b.getString("type").equals(MessageHandler.MSG_TYPE_AUDIO_BUSY) ||
+					b.getString("type").equals(MessageHandler.MSG_TYPE_AUDIO_LEVEL) ||
+					b.getString("type").equals(MessageHandler.MSG_TYPE_AUDIO_STATE)){
+						Log.v(TAG,"message from other app");
+						
+				
+				}
+			}
 	    }
 	}
 
@@ -1209,6 +1284,9 @@ public class ProcedureActivity extends Activity {
 			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE));
 			menuDrawerLayout.setVisibility(View.GONE);
 			v.setSelected(false);
+			
+			viewPager.setVisibility(View.VISIBLE);
+			
 		} else {
 			
 			//Setup the new menu content
@@ -1239,7 +1317,8 @@ public class ProcedureActivity extends Activity {
 				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}
-		    
+			viewPager.setVisibility(View.GONE);
+
 			v.setSelected(true);
 		}
 	}

@@ -13,6 +13,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
@@ -178,7 +179,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private void doDraw(Canvas c) {
 			if (c==null)
 				return;
-			c.drawColor(Color.BLACK);
+			//c.drawColor(Color.BLACK);
+			c.drawColor(Color.TRANSPARENT);
 			//Log.v("hello","hello");
 			
 			
@@ -665,11 +667,13 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		mHolder = getHolder();
 		mHolder.addCallback(this);
         mContext = context;
-        
+        setZOrderOnTop(true);
+        mHolder.setFormat(PixelFormat.TRANSPARENT);
         // create thread only; it's started in surfaceCreated()
         thread = new AudioFeedbackThread(mHolder, mContext);
 
         setFocusable(true); // make sure we get key events
+        setBackgroundColor(Color.TRANSPARENT);
 	}
 	
     /**

@@ -3,17 +3,25 @@
     android:id="@+id/procedureLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ProcedureActivity" >
     
+    <TextureView
+        android:id="@+id/cameraView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        />
+    <View
+        android:id="@+id/cameraViewLayer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#33000000"
+        />
     <edu.cmu.hcii.peer.AudioFeedbackView
         android:id="@+id/audioFeedbackView"
         style="@style/AudioFeedback"
         android:layout_alignParentBottom="true"
-    	android:layout_centerHorizontal="true" />
+    	android:layout_centerHorizontal="true" 
+    	android:background="#FFFFFFFF"/>
     
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
@@ -31,20 +39,33 @@
         style="@style/Breadcrumb"
         android:layout_alignParentBottom="true" />
     
-    <LinearLayout
-        android:id="@+id/menuDrawerLayout"
-        style="@style/MenuDrawer"
-        android:layout_above="@+id/stepPreviewWidget"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/menu_group"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-    
-	    <ScrollView
-	        android:id="@+id/menuDrawer"
-	        style="@style/MenuDrawerScrollView">
-	    </ScrollView>
-
+	    <LinearLayout
+	        android:id="@+id/menuDrawerLayoutParent"
+	        style="@style/MenuDrawerParent"
+	        android:layout_above="@+id/stepPreviewWidget"
+	        android:layout_alignParentRight="true"
+	        android:layout_toRightOf="@+id/menu_group"
+	        android:orientation="horizontal"
+	        android:visibility="visible" 
+	     >
+	    
+	    <LinearLayout
+	        android:id="@+id/menuDrawerLayout"
+	        style="@style/MenuDrawer"
+	        
+	        android:layout_above="@+id/stepPreviewWidget"
+	        android:layout_alignParentRight="true"
+	        android:layout_toRightOf="@+id/menu_group"
+	        android:orientation="horizontal"
+	        android:visibility="gone" 
+	        >
+	    
+		    <ScrollView
+		        android:id="@+id/menuDrawer"
+		        style="@style/MenuDrawerScrollView">
+		    </ScrollView>
+	
+	    </LinearLayout>
     </LinearLayout>
     
     <View
@@ -65,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/menuTitle"
-            android:background="@drawable/menu_background"
+            android:background="@drawable/drawer_background_transparent"
             android:visibility="gone" />
         
         <TextView
