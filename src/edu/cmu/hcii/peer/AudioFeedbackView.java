@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
@@ -180,7 +181,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 			if (c==null)
 				return;
 			//c.drawColor(Color.BLACK);
-			c.drawColor(Color.TRANSPARENT);
+			c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 			//Log.v("hello","hello");
 			
 			

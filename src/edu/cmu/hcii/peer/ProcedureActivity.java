@@ -219,8 +219,6 @@ public class ProcedureActivity extends Activity {
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_BUSY);    
         intentFilter.addAction(MessageHandler.MSG_TYPE_AUDIO_STATE);    
         intentFilter.addAction(MessageHandler.MSG_TYPE_AR_READ);    
-
-        intentFilter.addAction("speech");
         
 	    registerReceiver(dataUpdateReceiver, intentFilter);
 	    
@@ -905,17 +903,7 @@ public class ProcedureActivity extends Activity {
 	    		String val = intent.getExtras().getString("msg");
 	    		Log.v(TAG, "Received AR input: " + val);
 	    		commandLogInput(val);
-	    	} else if (intent.getAction().equals("speech")){
-	    		Bundle b = intent.getExtras();
-				if (b.getString("type").equals(MessageHandler.MSG_TYPE_COMMAND) || 
-					b.getString("type").equals(MessageHandler.MSG_TYPE_AUDIO_BUSY) ||
-					b.getString("type").equals(MessageHandler.MSG_TYPE_AUDIO_LEVEL) ||
-					b.getString("type").equals(MessageHandler.MSG_TYPE_AUDIO_STATE)){
-						Log.v(TAG,"message from other app");
-						
-				
-				}
-			}
+	    	} 
 	    }
 	}
 

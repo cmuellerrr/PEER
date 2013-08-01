@@ -8,9 +8,15 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
+import org.json.JSONException;
+
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -51,7 +57,7 @@ public class ConnectionService extends Service {
 	private int spamCount;	
 	
 	ConnectionService mConnectionService;
-	
+	private DataUpdateReceiver dataUpdateReceiver;
 	
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -132,6 +138,12 @@ public class ConnectionService extends Service {
 		}  
         socket = new Socket();
         */
+        
+		if (dataUpdateReceiver == null)
+			dataUpdateReceiver = new DataUpdateReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("PEER_speech");
+		registerReceiver(dataUpdateReceiver, intentFilter);
     }
 
     // Called on start of service
@@ -147,6 +159,9 @@ public class ConnectionService extends Service {
         Log.v(TAG, "onDestroy");
         stop();
         socket = null;
+        
+		if (dataUpdateReceiver != null)
+			unregisterReceiver(dataUpdateReceiver);
     }
     
     // receiveSocket thread handles the input stream
@@ -241,5 +256,20 @@ public class ConnectionService extends Service {
         Intent intent = new Intent("command");
         intent.putExtra("msg", msg);
         sendBroadcast(intent);
+	}
+	
+	/**
+	 * Listens to broadcast messages
+	 */
+	private class DataUpdateReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			//Log.v(TAG, "on receive");
+			Bundle b = intent.getExtras();
+						
+			if (intent.getAction().equals("PEER_speech")){
+				MessageHandler.parseMsg(ConnectionService.this, b.getString("msg"));
+			}
+		}
 	}
 }
