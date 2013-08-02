@@ -9,10 +9,13 @@
         
         <View
             android:id="@+id/navCycleMarkerTop"
-            style="@style/NavCycleMarkerLineTop"            
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_above="@+id/navCycleCount" />
+            style="@style/NavCycleMarkerEnd"            
+            android:layout_alignParentTop="true" />
+        
+        <View
+            style="@style/NavCycleMarkerLine"
+            android:layout_above="@+id/navCycleCount"
+            android:layout_below="@+id/navCycleMarkerTop" />
         
         <TextView
             android:id="@+id/navCycleCount"
@@ -21,11 +24,14 @@
             android:layout_centerVertical="true" />
         
         <View
+            style="@style/NavCycleMarkerLine"
+            android:layout_above="@+id/navCycleMarkerBottom"
+            android:layout_below="@+id/navCycleCount" />
+        
+        <View
             android:id="@+id/navCycleMarkerBottom"
-            style="@style/NavCycleMarkerLineBottom" 
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/navCycleCount" />
+            style="@style/NavCycleMarkerEnd"
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
     
