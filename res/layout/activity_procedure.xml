@@ -14,8 +14,9 @@
         android:id="@+id/cameraViewLayer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#33000000"
+        android:background="@color/camera_overlay"
         />
+    
     <edu.cmu.hcii.peer.AudioFeedbackView
         android:id="@+id/audioFeedbackView"
         style="@style/AudioFeedback"

@@ -135,13 +135,14 @@ public class ProcedureActivity extends Activity {
 			public void onSurfaceTextureAvailable(SurfaceTexture surface,
 					int arg1, int arg2) {
 				mCamera = Camera.open();
-				
-				try{
-					mCamera.setPreviewTexture(surface);
-					mCamera.startPreview();
-				} catch (IOException ioe){
-					
-				}
+				/*if (System.currentTimeMillis()  ){*/
+					try{
+						mCamera.setPreviewTexture(surface);
+						mCamera.startPreview();
+					} catch (IOException ioe){
+						
+					}
+				//}
 				
 			}
 
