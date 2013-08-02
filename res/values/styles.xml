@@ -76,6 +76,11 @@
         <item name="android:layout_marginBottom">10dp</item>
     </style>
     
+    <style name="ViewPagerParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+    </style>
+    
     <style name="ViewPager">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
@@ -196,6 +201,35 @@
     <style name="CycleSelectItem" parent="CenterText">
         <item name="android:textSize">26sp</item>
         <item name="android:textColor">@color/highlight</item>
+    </style>
+    
+    <style name="NavCycleMarker" >
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+    
+    <style name="NavCycleMarkerLine" >
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+    
+    <style name="NavCycleMarkerLineTop" parent="NavCycleMarkerLine">
+        <item name="android:background">@drawable/cycle_marker_top</item>
+    </style>
+    
+    <style name="NavCycleMarkerLineBottom" parent="NavCycleMarkerLine">
+        <item name="android:background">@drawable/cycle_marker_bottom</item>
+    </style>
+    
+    <style name="NavCycleCount" >
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">@drawable/cycle_decoration</item>
     </style>
     
     
