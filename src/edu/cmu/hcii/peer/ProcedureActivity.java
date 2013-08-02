@@ -494,7 +494,7 @@ public class ProcedureActivity extends Activity {
 	
 	/**
 	 * Open the menu.  Run the menu background's open animation and set
-	 * it's visibility to VISIBLE.  This automatically opens the itmes.
+	 * it's visibility to VISIBLE.  This automatically opens the items.
 	 */
 	private void openMenu() {
 		View bg = (View) findViewById(R.id.menuBackground);
@@ -502,7 +502,6 @@ public class ProcedureActivity extends Activity {
 		bg.setVisibility(View.VISIBLE);
 		
 		findViewById(R.id.menuTitle).setSelected(true);
-
 	}
 	
 	/**
