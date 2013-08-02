@@ -458,12 +458,12 @@ public class ProcedureActivity extends Activity {
 			//If the drawer is open for another menu
 			if (menuDrawerLayout.getVisibility() != View.GONE) {
 				//change drawer
-				menuDrawerLayout.startAnimation(menuAnimations.get(drawer.getId() + TAG_CYCLE));
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CYCLE));
 				clearMenuSelection();
 		    //If the drawer is closed
 			} else {
 				//open the drawer
-				menuDrawerLayout.startAnimation(menuAnimations.get(drawer.getId() + TAG_OPEN));
+				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}
 		}else{
