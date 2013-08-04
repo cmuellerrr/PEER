@@ -1,28 +1,23 @@
 package edu.cmu.hcii.peer;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.json.JSONException;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.SurfaceTexture;
-import android.hardware.Camera;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.TextureView;
-import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -32,7 +27,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -97,9 +92,6 @@ public class ProcedureActivity extends Activity {
 	private static final String TIMER_OFF = "_timerOff";
 	private static final String TIMER_RESET = "_timerReset";
 	
-	private Camera mCamera;
-	private TextureView mTextureView;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -123,56 +115,9 @@ public class ProcedureActivity extends Activity {
 		initElapsedTime();
 		initTimer();
 		
-		initCamera();
-	}
-	
-	private void initCamera(){
-		
-		mTextureView = (TextureView) findViewById(R.id.cameraView);
-		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
+		ImageView img = (ImageView) findViewById(R.id.cameraView);
+		img.setImageDrawable(Drawable.createFromPath(Environment.getExternalStorageDirectory().toString() + "/PEER/rl_bg.JPG"));
 
-			@Override
-			public void onSurfaceTextureAvailable(SurfaceTexture surface,
-					int arg1, int arg2) {
-				mCamera = Camera.open();
-				/*if (System.currentTimeMillis()  ){*/
-					try{
-						mCamera.setPreviewTexture(surface);
-						mCamera.startPreview();
-					} catch (IOException ioe){
-						
-					}
-				//}
-				
-			}
-
-			@Override
-			public boolean onSurfaceTextureDestroyed(SurfaceTexture arg0) {
-
-				mCamera.stopPreview();
-				mCamera.release();
-				
-				return true;
-			}
-
-			@Override
-			public void onSurfaceTextureSizeChanged(SurfaceTexture arg0,
-					int arg1, int arg2) {
-
-				
-			}
-
-			@Override
-			public void onSurfaceTextureUpdated(SurfaceTexture arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-		
-		
-		mTextureView.setSurfaceTextureListener(surfaceTextureListener);
-		
 	}
 	
 	

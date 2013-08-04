@@ -2,7 +2,7 @@
 <resources>
     <color name="main">#FFA4ECE8</color>
     <color name="highlight">#FFFCDA4F</color>
-    <color name="camera_overlay">#33000000</color>
+    <color name="camera_overlay">#44000000</color>
     <color name="semitransparent_dark">#99000000</color>
     <color name="semitransparent_bright">#44000000</color>
     

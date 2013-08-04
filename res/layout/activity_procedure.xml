@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     tools:context=".ProcedureActivity" >
     
-    <TextureView
+    <ImageView
         android:id="@+id/cameraView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:scaleType="centerCrop"
         />
     <View
         android:id="@+id/cameraViewLayer"
