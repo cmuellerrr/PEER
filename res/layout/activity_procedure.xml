@@ -86,12 +86,47 @@
         android:layout_above="@+id/stepPreviewWidget" >
         
         <View
+            android:id="@+id/menuLine1"
+            style="@style/MenuLineLR"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/menuTitle"
+            android:visibility="gone" />
+        
+        <View
+            android:id="@+id/menuLine2"
+            style="@style/MenuLineLR"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/menuTitle"
+            android:visibility="gone" />
+        
+        <View
+            android:id="@+id/menuLine3"
+            style="@style/MenuLineLR"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/menuTitle"
+            android:visibility="gone" />
+        
+        <RelativeLayout
             android:id="@+id/menuBackground"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/menuTitle"
-            android:background="@drawable/drawer_background_transparent"
-            android:visibility="gone" />
+            android:background="@color/semitransparent_dark"
+            android:visibility="gone" >
+
+            <View
+                style="@style/MenuLineTB"
+                android:layout_alignParentTop="true" />
+            
+            <View
+	            style="@style/MenuLineLR"
+	            android:layout_alignParentRight="true" />
+            		    
+            <View
+                style="@style/MenuLineTB"
+                android:layout_alignParentBottom="true" />
+            
+        </RelativeLayout>
         
         <TextView
             android:id="@+id/menuTitle"

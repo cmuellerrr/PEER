@@ -160,6 +160,19 @@
         <item name="android:visibility">gone</item>
     </style>
     
+    <style name="MenuLineTB">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
+    <style name="MenuLineLR">
+        <item name="android:layout_width">6dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
+    
     <!-- Elapsed Time -->
     
     

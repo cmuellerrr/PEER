@@ -265,12 +265,28 @@ public class ProcedureActivity extends Activity {
 		
 		int curId = -1;
 		
+		
+		
 		//Menu background animations
+		curId = findViewById(R.id.menuLine1).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 0, null);
+		
+		curId = findViewById(R.id.menuLine2).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 200, null);
+		
+		curId = findViewById(R.id.menuLine3).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 300, null);
+		
 		curId = findViewById(R.id.menuBackground).getId();
-		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 400, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation arg0) {
+				//Hide the effect lines
+				findViewById(R.id.menuLine1).setVisibility(View.GONE);
+				findViewById(R.id.menuLine2).setVisibility(View.GONE);
+				findViewById(R.id.menuLine3).setVisibility(View.GONE);
+				
 				//Open the menu.  Run each menu item's open animation and set their visibility to VISIBLE.
 				runMenuItemAnimations(TAG_OPEN, View.VISIBLE);
 			}
@@ -443,7 +459,20 @@ public class ProcedureActivity extends Activity {
 	 * it's visibility to VISIBLE.  This automatically opens the items.
 	 */
 	private void openMenu() {
+		View l1 = (View) findViewById(R.id.menuLine1);
+		View l2 = (View) findViewById(R.id.menuLine2);
+		View l3 = (View) findViewById(R.id.menuLine3);
 		View bg = (View) findViewById(R.id.menuBackground);
+		
+		l1.startAnimation(menuAnimations.get(l1.getId() + TAG_OPEN));
+		l1.setVisibility(View.VISIBLE);
+		
+		l2.startAnimation(menuAnimations.get(l2.getId() + TAG_OPEN));
+		l2.setVisibility(View.VISIBLE);
+		
+		l3.startAnimation(menuAnimations.get(l3.getId() + TAG_OPEN));
+		l3.setVisibility(View.VISIBLE);
+		
 		bg.startAnimation(menuAnimations.get(bg.getId() + TAG_OPEN));
 		bg.setVisibility(View.VISIBLE);
 		
