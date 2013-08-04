@@ -47,15 +47,38 @@
         style="@style/Breadcrumb"
         android:layout_alignParentBottom="true" />
     
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/menuDrawerLayoutParent"
         style="@style/MenuDrawerParent"
         android:layout_above="@+id/stepPreviewWidget"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/menu_group"
-        android:orientation="horizontal"
         android:visibility="visible" >
 	    
+        <View
+            android:id="@+id/drawerLine1"
+            style="@style/MenuLineLR"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+	    
+        <View
+            android:id="@+id/drawerLine2"
+            style="@style/MenuLineLR"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+        
+        <View
+            android:id="@+id/drawerLine3"
+            style="@style/MenuLineLR"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:visibility="gone" />
+        
 	    <RelativeLayout
 	        android:id="@+id/menuDrawerLayout"
 	        style="@style/MenuDrawer"
@@ -79,7 +102,7 @@
 		    </ScrollView>
 	
 	    </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
     
     <View
         android:layout_width="6px"
