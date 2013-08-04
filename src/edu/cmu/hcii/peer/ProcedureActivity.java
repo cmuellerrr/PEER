@@ -21,6 +21,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
@@ -98,7 +100,7 @@ public class ProcedureActivity extends Activity {
 	private static final String TIMER_RESET = "_timerReset";
 	
 	private Camera mCamera;
-	private TextureView mTextureView;
+	private SurfaceView mTextureView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +125,60 @@ public class ProcedureActivity extends Activity {
 		initElapsedTime();
 		initTimer();
 		
+		initSurfaceView();
 		initCamera();
 	}
 	
+	 private SurfaceView surface_view;  
+	    SurfaceHolder.Callback sh_ob = null;
+	    SurfaceHolder surface_holder        = null;
+	    SurfaceHolder.Callback sh_callback  = null;
+		
+		private void initSurfaceView(){
+	        surface_view =  (SurfaceView) findViewById(R.id.cameraView);
+	        if (surface_holder == null) {
+	            surface_holder = surface_view.getHolder();
+	        }
+	        sh_callback = my_callback();
+	        surface_holder.addCallback(sh_callback);
+	        
+	        surface_view.setFadingEdgeLength(0);
+	      	}
+		
+		 SurfaceHolder.Callback my_callback() {      
+	         SurfaceHolder.Callback ob1 = new SurfaceHolder.Callback() {
+
+	             @Override
+	             public void surfaceDestroyed(SurfaceHolder holder) {
+	                   mCamera.stopPreview();
+	                   mCamera.release();
+	                   mCamera = null;
+	             }
+
+	             @Override
+	             public void surfaceCreated(SurfaceHolder holder) {
+	                 mCamera = Camera.open();
+
+	                   try {
+	                        mCamera.setPreviewDisplay(holder);  
+	                   } catch (IOException exception) {  
+	                         mCamera.release();  
+	                         mCamera = null;  
+	                   }
+	             }
+
+	             @Override
+	             public void surfaceChanged(SurfaceHolder holder, int format, int width,
+	                     int height) {
+	                 mCamera.startPreview();
+	             }
+	         };
+	         return ob1;
+	 }
+	
 	private void initCamera(){
 		
-		mTextureView = (TextureView) findViewById(R.id.cameraView);
+		//mTextureView = (TextureView) findViewById(R.id.cameraView);
 		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
 
 			@Override
@@ -171,7 +221,7 @@ public class ProcedureActivity extends Activity {
 		};
 		
 		
-		mTextureView.setSurfaceTextureListener(surfaceTextureListener);
+		//mTextureView.setSurfaceTextureListener(surfaceTextureListener);
 		
 	}
 	
