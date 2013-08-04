@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -150,6 +151,7 @@ public class ProcedureActivity extends Activity {
 
 	             @Override
 	             public void surfaceDestroyed(SurfaceHolder holder) {
+	            	 
 	                   mCamera.stopPreview();
 	                   mCamera.release();
 	                   mCamera = null;
@@ -158,13 +160,25 @@ public class ProcedureActivity extends Activity {
 	             @Override
 	             public void surfaceCreated(SurfaceHolder holder) {
 	                 mCamera = Camera.open();
-
+	                 Parameters p = mCamera.getParameters();
+	                 List<int[]> fpslist = p.getSupportedPreviewFpsRange();
+	                 for (int i=0;i < fpslist.size();i++) {
+	                	 Log.d("camera", i + " fps= " + fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
+	                	 Log.d("camera", i + " fps= " + fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
+	                	}
+	                 
 	                   try {
 	                        mCamera.setPreviewDisplay(holder);  
 	                   } catch (IOException exception) {  
 	                         mCamera.release();  
 	                         mCamera = null;  
 	                   }
+	                p.setPreviewFpsRange(15000,15000);
+	                int[] fpsrange = new int[2];
+
+	                p.getPreviewFpsRange(fpsrange);
+	                Log.d("camera", "min= " + fpsrange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
+	                Log.d("camera", "max= " + fpsrange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);	                
 	             }
 
 	             @Override
