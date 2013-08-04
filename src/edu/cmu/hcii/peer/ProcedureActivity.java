@@ -126,7 +126,7 @@ public class ProcedureActivity extends Activity {
 		initTimer();
 		
 		initSurfaceView();
-		initCamera();
+		//initCamera();
 	}
 	
 	 private SurfaceView surface_view;  
