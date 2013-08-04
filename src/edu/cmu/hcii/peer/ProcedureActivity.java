@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +19,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.TextureView;
 import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
@@ -32,7 +32,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -98,7 +97,8 @@ public class ProcedureActivity extends Activity {
 	private static final String TIMER_RESET = "_timerReset";
 	
 	private Camera mCamera;
-	private TextureView mTextureView;
+	private SurfaceView mTextureView;
+	private long lastCameraFrameTime;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -123,26 +123,82 @@ public class ProcedureActivity extends Activity {
 		initElapsedTime();
 		initTimer();
 		
-		initCamera();
+		initSurfaceView();
+		//initCamera();
 	}
+	
+	
+    private SurfaceView surface_view;  
+    SurfaceHolder.Callback sh_ob = null;
+    SurfaceHolder surface_holder        = null;
+    SurfaceHolder.Callback sh_callback  = null;
+	
+	private void initSurfaceView(){
+        surface_view =  (SurfaceView) findViewById(R.id.cameraView);
+        if (surface_holder == null) {
+            surface_holder = surface_view.getHolder();
+        }
+        sh_callback = my_callback();
+        surface_holder.addCallback(sh_callback);
+        
+        surface_view.setFadingEdgeLength(0);
+      	}
+	
+	 SurfaceHolder.Callback my_callback() {      
+         SurfaceHolder.Callback ob1 = new SurfaceHolder.Callback() {
+
+             @Override
+             public void surfaceDestroyed(SurfaceHolder holder) {
+                   mCamera.stopPreview();
+                   mCamera.release();
+                   mCamera = null;
+             }
+
+             @Override
+             public void surfaceCreated(SurfaceHolder holder) {
+                 mCamera = Camera.open();
+
+                   try {
+                        mCamera.setPreviewDisplay(holder);  
+                   } catch (IOException exception) {  
+                         mCamera.release();  
+                         mCamera = null;  
+                   }
+             }
+
+             @Override
+             public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                     int height) {
+                 mCamera.startPreview();
+             }
+         };
+         return ob1;
+ }
 	
 	private void initCamera(){
 		
-		mTextureView = (TextureView) findViewById(R.id.cameraView);
+		//mTextureView = (TextureView) findViewById(R.id.cameraView);
+		
 		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
-
+			
 			@Override
 			public void onSurfaceTextureAvailable(SurfaceTexture surface,
 					int arg1, int arg2) {
 				mCamera = Camera.open();
-				/*if (System.currentTimeMillis()  ){*/
-					try{
-						mCamera.setPreviewTexture(surface);
-						mCamera.startPreview();
-					} catch (IOException ioe){
-						
-					}
-				//}
+				
+				Camera.Parameters params = mCamera.getParameters();
+				params.setPreviewFpsRange(5000,5000);
+
+				mCamera.setParameters(params);
+				
+				try{
+					mCamera.setPreviewTexture(surface);
+					mCamera.startPreview();
+					lastCameraFrameTime = System.currentTimeMillis();
+				} catch (IOException ioe){
+					
+				}
+				
 				
 			}
 
@@ -169,9 +225,9 @@ public class ProcedureActivity extends Activity {
 			}
 			
 		};
+	
 		
-		
-		mTextureView.setSurfaceTextureListener(surfaceTextureListener);
+		//mTextureView.setSurfaceTextureListener(surfaceTextureListener);
 		
 	}
 	

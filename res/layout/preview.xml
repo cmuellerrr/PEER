@@ -5,24 +5,24 @@
 	    
 	<TextView
 	    android:id="@+id/leftText"
-	    android:layout_width="354dp"
+	    android:layout_width="354px"
 	    android:layout_height="match_parent"
 	    android:gravity="left|center_vertical"
 	    android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
 	    style="@style/StepPreviewText"
 	    android:drawableLeft="@drawable/preview_arrow_l"
-	    android:drawablePadding="10dp"
+	    android:drawablePadding="10px"
 	    android:singleLine="true" />
 
 	<TextView
 	    android:id="@+id/rightText"
-	    android:layout_width="354dp"
+	    android:layout_width="354px"
 	    android:layout_height="match_parent"
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentBottom="true"
 	    android:drawableRight="@drawable/preview_arrow_r"
-	    android:drawablePadding="10dp"
+	    android:drawablePadding="10px"
 	    style="@style/StepPreviewText"
 	    android:gravity="right|center_vertical"
 	    android:singleLine="true"/>

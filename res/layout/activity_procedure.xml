@@ -1,11 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/procedureLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".ProcedureActivity" >
     
-    <TextureView
+    
+    <SurfaceView
         android:id="@+id/cameraView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -162,8 +163,8 @@
 			android:id="@+id/timer"
 			style="@style/Timer"  
 	        android:layout_alignParentRight="true"
-	        android:padding="3dp"
-	        android:layout_margin="3dp"
+	        android:padding="3px"
+	        android:layout_margin="3px"
 			android:text="00:00">
             
         </TextView>

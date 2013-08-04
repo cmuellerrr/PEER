@@ -30,6 +30,7 @@
        
         <activity
             android:name="edu.cmu.hcii.peer.ProcedureActivity"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_procedure" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
