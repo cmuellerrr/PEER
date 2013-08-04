@@ -71,14 +71,6 @@
             android:layout_marginRight="10dp"
             android:visibility="gone" />
         
-        <View
-            android:id="@+id/drawerLine3"
-            style="@style/MenuLineLR"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="40dp"
-            android:layout_marginRight="10dp"
-            android:visibility="gone" />
-        
 	    <RelativeLayout
 	        android:id="@+id/menuDrawerLayout"
 	        style="@style/MenuDrawer"
@@ -126,13 +118,6 @@
         
         <View
             android:id="@+id/menuLine2"
-            style="@style/MenuLineLR"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/menuTitle"
-            android:visibility="gone" />
-        
-        <View
-            android:id="@+id/menuLine3"
             style="@style/MenuLineLR"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/menuTitle"
