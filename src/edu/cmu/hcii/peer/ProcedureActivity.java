@@ -29,6 +29,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -377,7 +378,7 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				LinearLayout menuDrawerLayout = (LinearLayout)findViewById(R.id.menuDrawerLayout);
+				View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 				ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
 				drawer.removeAllViews();
 				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
@@ -443,7 +444,7 @@ public class ProcedureActivity extends Activity {
 	private String getOpenedDrawer(){
 		String currentDrawer = DrawerPageInterface.DRAWER_NONE;
 		ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 		
 		if (menuDrawerLayout.getVisibility() == View.VISIBLE){
 			DrawerPageInterface drawerPage = (DrawerPageInterface) drawer.getChildAt(0);
@@ -484,7 +485,7 @@ public class ProcedureActivity extends Activity {
 	 */
 	private void openStepDrawer(View v){
 		ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 
 		if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
 			// do animation
@@ -512,7 +513,7 @@ public class ProcedureActivity extends Activity {
 	 * Close the drawer
 	 */
 	private void closeDrawer(){
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 
 		if (menuDrawerLayout.getVisibility() == View.VISIBLE) {
 			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE));
@@ -529,7 +530,7 @@ public class ProcedureActivity extends Activity {
 	 * Then make sure to make all buttons unselected.
 	 */
 	private void closeMenu() {
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 		
 		if (menuDrawerLayout.getVisibility() == View.VISIBLE) {
 			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE + TAG_CASCADE));
@@ -1249,7 +1250,7 @@ public class ProcedureActivity extends Activity {
 	 * @param v
 	 */
 	public void menuSelect(View v) {
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 		
 		//If I hit the same menu button
 		if (v.isSelected()) {

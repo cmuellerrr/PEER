@@ -56,20 +56,29 @@
         android:orientation="horizontal"
         android:visibility="visible" >
 	    
-	    <LinearLayout
+	    <RelativeLayout
 	        android:id="@+id/menuDrawerLayout"
 	        style="@style/MenuDrawer"
-
-	        android:orientation="horizontal"
-	        android:visibility="gone" 
-	        >
+	        android:visibility="gone" >
 	    
+	        <View
+                style="@style/MenuLineTB"
+                android:layout_alignParentTop="true" />
+            
+            <View
+                style="@style/MenuLineLR"
+                android:layout_alignParentRight="true" />
+                        
+            <View
+                style="@style/MenuLineTB"
+                android:layout_alignParentBottom="true" />
+            
 		    <ScrollView
 		        android:id="@+id/menuDrawer"
 		        style="@style/MenuDrawerScrollView">
 		    </ScrollView>
 	
-	    </LinearLayout>
+	    </RelativeLayout>
     </LinearLayout>
     
     <View
