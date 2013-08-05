@@ -21,8 +21,7 @@
         style="@style/AudioFeedback"
         android:layout_alignParentBottom="true"
     	android:layout_centerHorizontal="true" 
-    	android:background="#FFFFFFFF"
-    	android:visibility="invisible"/>
+    	android:background="#FFFFFFFF"/>
     
     <LinearLayout
         android:id="@+id/viewpagerParent"

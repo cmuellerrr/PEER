@@ -96,7 +96,6 @@ public class ProcedureActivity extends Activity {
 	private static final String TIMER_RESET = "_timerReset";
 	
 	private Camera mCamera;
-	private SurfaceView mTextureView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,121 +120,80 @@ public class ProcedureActivity extends Activity {
 		initElapsedTime();
 		initTimer();
 		
-		initSurfaceView();
-		//initCamera();
+		initBackground();
 		
 		//ImageView img = (ImageView) findViewById(R.id.cameraView);
 		//img.setImageDrawable(Drawable.createFromPath(Environment.getExternalStorageDirectory().toString() + "/PEER/rl_bg.JPG"));
 	}
 	
-	 private SurfaceView surface_view;  
-	    SurfaceHolder.Callback sh_ob = null;
-	    SurfaceHolder surface_holder        = null;
-	    SurfaceHolder.Callback sh_callback  = null;
+	private SurfaceView surface_view;  
+	SurfaceHolder.Callback sh_ob = null;
+	SurfaceHolder surface_holder        = null;
+	SurfaceHolder.Callback sh_callback  = null;
 		
-		private void initSurfaceView(){
-	        surface_view =  (SurfaceView) findViewById(R.id.cameraView);
-	        if (surface_holder == null) {
-	            surface_holder = surface_view.getHolder();
-	        }
-	        sh_callback = my_callback();
-	        surface_holder.addCallback(sh_callback);
+	private void initBackground() {
+	    surface_view =  (SurfaceView) findViewById(R.id.cameraView);
+	    if (surface_holder == null) {
+	        surface_holder = surface_view.getHolder();
+	    }
+	    sh_callback = my_callback();
+	    surface_holder.addCallback(sh_callback);
 	        
-	        surface_view.setFadingEdgeLength(0);
-	      	}
-		
-		 SurfaceHolder.Callback my_callback() {      
-	         SurfaceHolder.Callback ob1 = new SurfaceHolder.Callback() {
-
-	             @Override
-	             public void surfaceDestroyed(SurfaceHolder holder) {
-	            	 
-	                   mCamera.stopPreview();
-	                   mCamera.release();
-	                   mCamera = null;
-	             }
-
-	             @Override
-	             public void surfaceCreated(SurfaceHolder holder) {
-	                 mCamera = Camera.open();
-	                 Parameters p = mCamera.getParameters();
-	                 List<int[]> fpslist = p.getSupportedPreviewFpsRange();
-	                 for (int i=0;i < fpslist.size();i++) {
-	                	 Log.d("camera", i + " fps= " + fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
-	                	 Log.d("camera", i + " fps= " + fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
-	                	}
-	                 
-	                   try {
-	                        mCamera.setPreviewDisplay(holder);  
-	                   } catch (IOException exception) {  
-	                         mCamera.release();  
-	                         mCamera = null;  
-	                   }
-	                p.setPreviewFpsRange(15000,15000);
-	                int[] fpsrange = new int[2];
-
-	                p.getPreviewFpsRange(fpsrange);
-	                Log.d("camera", "min= " + fpsrange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
-	                Log.d("camera", "max= " + fpsrange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);	                
-	             }
-
-	             @Override
-	             public void surfaceChanged(SurfaceHolder holder, int format, int width,
-	                     int height) {
-	                 mCamera.startPreview();
-	             }
-	         };
-	         return ob1;
-	 }
+	    surface_view.setFadingEdgeLength(0);
+	}
 	
-	private void initCamera(){
+	SurfaceHolder.Callback my_callback() {
+		SurfaceHolder.Callback ob1 = new SurfaceHolder.Callback() {
 
-		//mTextureView = (TextureView) findViewById(R.id.cameraView);
-		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
-	
 			@Override
-			public void onSurfaceTextureAvailable(SurfaceTexture surface,
-					int arg1, int arg2) {
-				mCamera = Camera.open();
-				/*if (System.currentTimeMillis()  ){*/
-					try{
-						mCamera.setPreviewTexture(surface);
-						mCamera.startPreview();
-					} catch (IOException ioe){
-	
-					}
-				//}
-	
-			}
-	
-			@Override
-			public boolean onSurfaceTextureDestroyed(SurfaceTexture arg0) {
-	
+			public void surfaceDestroyed(SurfaceHolder holder) {
+
 				mCamera.stopPreview();
 				mCamera.release();
-	
-				return true;
+				mCamera = null;
 			}
-	
+
 			@Override
-			public void onSurfaceTextureSizeChanged(SurfaceTexture arg0,
-					int arg1, int arg2) {
-	
-	
+			public void surfaceCreated(SurfaceHolder holder) {
+				mCamera = Camera.open();
+				Parameters p = mCamera.getParameters();
+				List<int[]> fpslist = p.getSupportedPreviewFpsRange();
+				for (int i = 0; i < fpslist.size(); i++) {
+					Log.d("camera",
+							i
+									+ " fps= "
+									+ fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
+					Log.d("camera",
+							i
+									+ " fps= "
+									+ fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
+				}
+
+				try {
+					mCamera.setPreviewDisplay(holder);
+				} catch (IOException exception) {
+					mCamera.release();
+					mCamera = null;
+				}
+				p.setPreviewFpsRange(15000, 15000);
+				int[] fpsrange = new int[2];
+
+				p.getPreviewFpsRange(fpsrange);
+				Log.d("camera", "min= "
+						+ fpsrange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
+				Log.d("camera", "max= "
+						+ fpsrange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
 			}
-	
+
 			@Override
-			public void onSurfaceTextureUpdated(SurfaceTexture arg0) {
-				// TODO Auto-generated method stub
-	
+			public void surfaceChanged(SurfaceHolder holder, int format,
+					int width, int height) {
+				mCamera.startPreview();
 			}
-	
 		};
-		
-		
-		//mTextureView.setSurfaceTextureListener(surfaceTextureListener);
-		
+		return ob1;
 	}
+	
 
 
 	/**
