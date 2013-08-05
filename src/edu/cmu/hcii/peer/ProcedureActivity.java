@@ -12,11 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.SurfaceTexture;
-import android.graphics.drawable.Drawable;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -34,7 +32,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -131,34 +128,33 @@ public class ProcedureActivity extends Activity {
 		//img.setImageDrawable(Drawable.createFromPath(Environment.getExternalStorageDirectory().toString() + "/PEER/rl_bg.JPG"));
 	}
 	
-	
-	private SurfaceView surface_view;  
-    SurfaceHolder.Callback sh_ob = null;
-    SurfaceHolder surface_holder        = null;
-    SurfaceHolder.Callback sh_callback  = null;
-
-	private void initSurfaceView(){
+	 private SurfaceView surface_view;  
+	    SurfaceHolder.Callback sh_ob = null;
+	    SurfaceHolder surface_holder        = null;
+	    SurfaceHolder.Callback sh_callback  = null;
+		
+		private void initSurfaceView(){
 	        surface_view =  (SurfaceView) findViewById(R.id.cameraView);
 	        if (surface_holder == null) {
 	            surface_holder = surface_view.getHolder();
 	        }
 	        sh_callback = my_callback();
 	        surface_holder.addCallback(sh_callback);
-	
+	        
 	        surface_view.setFadingEdgeLength(0);
 	      	}
-	
+		
 		 SurfaceHolder.Callback my_callback() {      
 	         SurfaceHolder.Callback ob1 = new SurfaceHolder.Callback() {
-	
+
 	             @Override
 	             public void surfaceDestroyed(SurfaceHolder holder) {
-	
+	            	 
 	                   mCamera.stopPreview();
 	                   mCamera.release();
 	                   mCamera = null;
 	             }
-	
+
 	             @Override
 	             public void surfaceCreated(SurfaceHolder holder) {
 	                 mCamera = Camera.open();
@@ -168,7 +164,7 @@ public class ProcedureActivity extends Activity {
 	                	 Log.d("camera", i + " fps= " + fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
 	                	 Log.d("camera", i + " fps= " + fpslist.get(i)[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
 	                	}
-	
+	                 
 	                   try {
 	                        mCamera.setPreviewDisplay(holder);  
 	                   } catch (IOException exception) {  
@@ -177,12 +173,12 @@ public class ProcedureActivity extends Activity {
 	                   }
 	                p.setPreviewFpsRange(15000,15000);
 	                int[] fpsrange = new int[2];
-	
+
 	                p.getPreviewFpsRange(fpsrange);
 	                Log.d("camera", "min= " + fpsrange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX]);
 	                Log.d("camera", "max= " + fpsrange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);	                
 	             }
-	
+
 	             @Override
 	             public void surfaceChanged(SurfaceHolder holder, int format, int width,
 	                     int height) {
@@ -190,10 +186,10 @@ public class ProcedureActivity extends Activity {
 	             }
 	         };
 	         return ob1;
-	}
+	 }
 	
 	private void initCamera(){
-	
+
 		//mTextureView = (TextureView) findViewById(R.id.cameraView);
 		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
 	
@@ -235,11 +231,11 @@ public class ProcedureActivity extends Activity {
 			}
 	
 		};
-	
-	
+		
+		
 		//mTextureView.setSurfaceTextureListener(surfaceTextureListener);
+		
 	}
-
 
 
 	/**
