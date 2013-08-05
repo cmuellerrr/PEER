@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<!--
+This procedure is the updated version to "Microbe Analysis."
+Currently missing handling for input (7/11)
+Items that need to be fixed indicated with in-line comments.
+Last edit: Kristina, 7/11
+-->
+<procedure>
+	<section>2</section>
+	<subsection>6</subsection>
+	<sub_subsection>580</sub_subsection>
+	<title>Air Filtration Unit Maintenance (Demo)</title>
+	<objective>To test two air filters for high microbe levels, and remove and stow the filter if microbe level is too high.</objective>
+	<duration>15 Minutes</duration>
+	<execution_notes>
+		<note>
+            <step>2</step>
+            <substep>1</substep>
+            <text>Instead of testing Node 3 site 9553, test JEM site 8224.</text>
+        </note>
+        <note>
+            <step>5</step>
+            <substep>1</substep>
+            <text>Do not perform this step.</text>
+        </note>
+	</execution_notes>
+	<stowage_notes>
+		<item>
+			<module>JEM</module>
+			<name>Microbe Analysis Ziploc Bag</name>
+			<quantity>1</quantity>
+			<item_code>732C</item_code>
+			<bin_code>JEM1_A7</bin_code>
+			<text>Two swabs inside Ziploc</text>
+			<url>ziplock.jpg</url>
+		</item>
+		<item>
+		    <module>JEM</module>
+			<name>Cleaning wipes</name>
+			<quantity>2</quantity>
+			<item_code>173D</item_code>
+			<bin_code>JEM1_A7</bin_code>
+			<text>Remove two from package</text>
+			<url>wipes.jpg</url>
+		</item>		
+		<item>
+			<module>USL</module>
+			<name>Refuse bag</name>
+			<quantity>1</quantity>
+			<item_code></item_code>
+			<bin_code>USL1_C5</bin_code>
+			<text></text>
+			<url>refuse.jpg</url>
+		</item>
+		<item>
+			<module>USL</module>
+			<name>Gloves (pair)</name>
+			<quantity>1</quantity>
+			<item_code>376A</item_code>
+			<bin_code>USL1_C5</bin_code>
+			<url>gloves.jpg</url>
+		</item>
+		<item>
+		    <module>USL</module>
+			<name>Blue tape</name>
+			<quantity>1</quantity>
+			<item_code>899B</item_code>
+			<bin_code>USL1_C5</bin_code>
+			<url>tape.jpg</url>
+		</item>
+		<item>
+		    <module>COL</module>
+			<name>Sharpie</name>
+			<item_code>143B</item_code>
+			<bin_code>COL1_B2</bin_code>
+			<url>sharpie.jpg</url>
+		</item>
+		<item>
+		    <module>COL</module>
+			<name>Microbe analyzer</name>
+			<quantity>2</quantity>
+			<item_code>261B, 463B</item_code>
+			<bin_code>COL1_B4</bin_code>
+			<text>Use microbe analyzers in order listed</text>
+			<url>analyzer.jpg</url>
+		</item>
+	</stowage_notes>
+	<ops_notes>
+		<note>
+			<text>These samples are used to determine bacterial growth within the station environment, and to determine efficacy of the air filtration system.</text>
+		</note>
+	</ops_notes>
+	<equipment>
+		<materials>
+			<item>
+				<name>Microbe Analysis Ziploc Bag</name>
+				<contents>
+					<item>
+						<name>Swab</name>
+						<quantity>2</quantity>
+					</item>
+				</contents>
+			</item>
+			<item>
+				<name>Cleaning Swabs</name>
+			</item>
+			<item>
+				<name>Refuse bag</name>
+			</item>
+			<item>
+				<name>Gloves (pair)</name>
+			</item>
+			<item>
+				<name>Blue tape</name>
+			</item>
+			<item>
+				<name>Sharpie</name>
+			</item>
+		</materials>
+		<tools>
+			<item>
+				<name>Microbe analyzer</name>
+				<quantity>2</quantity>
+			</item>
+		</tools>
+	</equipment>
+	<steps>
+	    <step>
+            <number>1</number>
+            <text>Put on gloves</text>
+        </step>
+	    <cycle>
+	        <repetitions>2</repetitions>
+	        <cycle_notes>
+		        <note>
+		            <text>Backup sites should be used only if primary sites are inaccessible.</text>
+		        </note>
+		        <!--I think we were changing the table below somehow, but I kept it as-is for now.-->
+		        <note>
+		            <text>Samples in Table 1 are listed in order of collection priority</text>
+		            <reference>
+		                <type>table</type>
+		                <name>Table 1</name>
+		                <description>Air Filter Locations for Microbial Monitoring</description>
+		                <table>
+		                    <row>
+                                <cell>Module</cell>
+                                <cell>Primary Site</cell>
+                                <cell>Backup Site</cell>
+                            </row>
+		                    <row>
+		                        <cell>Node 3</cell>
+		                        <cell>9553</cell>
+		                        <cell>7689</cell>
+		                        <step>2.1</step>
+		                        <repetition>1</repetition>
+		                    </row>
+		                    <row>
+		                        <cell>Columbus</cell>
+		                        <cell>9101</cell>
+		                        <cell>3689</cell>
+		                        <step>2.1</step>
+		                        <repetition>2</repetition>
+		                    </row>
+		                </table>
+		            </reference>
+		        </note>
+		    </cycle_notes>
+			<step>
+				<number>2</number>
+				<text>Collect Microbe Sample</text>
+				<step>
+					<number>2.1</number>
+					<callout>
+						<type>caution</type>
+						<text>Be sure to work on the sample site within the module it came from to avoid cross-module contamination.</text>
+					</callout>
+					<text>Remove swab from Ziploc bag and swipe front face of air filtration unit in zigzag motion as shown in AR overlay.</text>
+				</step>
+			</step>
+			<step>
+				<number>3</number>
+				<text>Analyze Microbe Sample</text>
+				<step>
+					<number>3.1</number>
+					<text>Insert tip of swab into microbe analyzer for 15-20 seconds.  Place swab into refuse bag when done.</text>
+					<timer>true</timer>
+				</step>
+				<step>
+				<!--For this step, don't we need some bit in the XML about input?-->
+					<number>3.2</number>
+					<text>Record the resulting microbe level reading (Table 1).</text>
+					<reference>
+						<type>table</type>
+						<name>Table 1</name>
+						<description>Table indicating number of microbes based on color returned.</description>
+						<table>
+							<row>
+							    <cell>Microbe Count</cell>
+							    <cell>Color</cell>
+							</row>
+							<row>
+								<cell>10</cell>
+								<cell>Red</cell>
+							</row>
+							<row>
+								<cell>50</cell>
+								<cell>Blue</cell>
+							</row>
+							<row>
+								<cell>100</cell>
+								<cell>Green</cell>
+							</row>
+							<row>
+								<cell>500</cell>
+								<cell>Yellow</cell>
+							</row>
+						</table>
+					</reference>
+					<input>true</input>
+				</step>
+			</step>
+			<step>
+				<number>4</number>
+				<text>Handle Air Filter</text>
+				<step>
+					<number>4.1</number>
+					<text>If air filter microbe test resulted in a microbe level of 500 or over...</text>
+					<consequent>4.1.1 Remove filter from wall.
+
+4.1.2 Place filter into refuse bag.
+
+4.1.3 Draw an X on a piece of blue tape and place it above the filter site to mark it for future replacement.</consequent>
+				</step>
+				<step>
+					<number>4.2</number>
+					<text>If air filter microbe test resulted in a microbe level below 500...</text>
+					<consequent>4.2.1 Wipe down all sides of filter with cleaning wipe.
+
+4.2.2 Place cleaning wipe into refuse bag.</consequent>
+				</step>
+			</step>
+		</cycle>
+		<step>
+			<number>5</number>
+			<text>Clean Up</text>
+			<step>
+				<number>5.1</number>
+				<text>Using cleaning wipe, thoroughly wipe down microbe analyzer used.</text>
+			</step>
+			<step>
+				<number>5.2</number>
+				<text>Place cleaning wipes into refuse bag.</text>
+			</step>
+			<step>
+				<number>5.3</number>
+				<text>Remove gloves and place them into refuse bag.</text>
+			</step>
+		</step>
+		<step>
+			<number>6</number>
+			<text>Stow refuse bag in COL1_B2.</text>
+		</step>
+		<step>
+			<number>7</number>
+			<text>Stow reusable tools in their original locations</text>
+		</step>
+	</steps>
+</procedure>

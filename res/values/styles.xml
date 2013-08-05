@@ -120,8 +120,8 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_marginTop">40dp</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:background">@drawable/drawer_background_transparent_lighter</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@color/semitransparent_bright</item>
         <item name="android:textColor">#ffffffff</item>
     </style>
     
@@ -131,7 +131,7 @@
         <item name="android:textColor">#ffffffff</item>
         <item name="android:fadeScrollbars">false</item>
         <item name="android:layout_marginRight">10dp</item>
-        <item name="android:paddingRight">15dp</item>
+        <item name="android:padding">15dp</item>
     </style>
     
     <style name="MenuGroup">
@@ -159,6 +159,19 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:visibility">gone</item>
     </style>
+    
+    <style name="MenuLineTB">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
+    <style name="MenuLineLR">
+        <item name="android:layout_width">6dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
     
     <!-- Elapsed Time -->
     

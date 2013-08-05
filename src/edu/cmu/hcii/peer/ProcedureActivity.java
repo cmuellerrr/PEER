@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,7 +22,6 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.TextureView;
 import android.view.TextureView.SurfaceTextureListener;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,8 +32,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import edu.cmu.hcii.novo.kadarbra.R;
@@ -128,6 +123,9 @@ public class ProcedureActivity extends Activity {
 		
 		initSurfaceView();
 		//initCamera();
+		
+		//ImageView img = (ImageView) findViewById(R.id.cameraView);
+		//img.setImageDrawable(Drawable.createFromPath(Environment.getExternalStorageDirectory().toString() + "/PEER/rl_bg.JPG"));
 	}
 	
 	 private SurfaceView surface_view;  
@@ -191,10 +189,10 @@ public class ProcedureActivity extends Activity {
 	 }
 	
 	private void initCamera(){
-		
+
 		//mTextureView = (TextureView) findViewById(R.id.cameraView);
 		SurfaceTextureListener surfaceTextureListener = new SurfaceTextureListener(){
-
+	
 			@Override
 			public void onSurfaceTextureAvailable(SurfaceTexture surface,
 					int arg1, int arg2) {
@@ -204,42 +202,42 @@ public class ProcedureActivity extends Activity {
 						mCamera.setPreviewTexture(surface);
 						mCamera.startPreview();
 					} catch (IOException ioe){
-						
+	
 					}
 				//}
-				
+	
 			}
-
+	
 			@Override
 			public boolean onSurfaceTextureDestroyed(SurfaceTexture arg0) {
-
+	
 				mCamera.stopPreview();
 				mCamera.release();
-				
+	
 				return true;
 			}
-
+	
 			@Override
 			public void onSurfaceTextureSizeChanged(SurfaceTexture arg0,
 					int arg1, int arg2) {
-
-				
+	
+	
 			}
-
+	
 			@Override
 			public void onSurfaceTextureUpdated(SurfaceTexture arg0) {
 				// TODO Auto-generated method stub
-				
+	
 			}
-			
+	
 		};
 		
 		
 		//mTextureView.setSurfaceTextureListener(surfaceTextureListener);
 		
 	}
-	
-	
+
+
 	/**
 	 * Set up the custom fonts on the views that are static to a procedure.
 	 * Mainly, the menu and timer.
@@ -384,12 +382,24 @@ public class ProcedureActivity extends Activity {
 		
 		int curId = -1;
 		
+		
+		
 		//Menu background animations
+		curId = findViewById(R.id.menuLine1).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 0, null);
+		
+		curId = findViewById(R.id.menuLine2).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 100, null);
+		
 		curId = findViewById(R.id.menuBackground).getId();
-		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_enter, 400, new AnimationListener() {
 
 			@Override
 			public void onAnimationEnd(Animation arg0) {
+				//Hide the effect lines
+				findViewById(R.id.menuLine1).setVisibility(View.GONE);
+				findViewById(R.id.menuLine2).setVisibility(View.GONE);
+				
 				//Open the menu.  Run each menu item's open animation and set their visibility to VISIBLE.
 				runMenuItemAnimations(TAG_OPEN, View.VISIBLE);
 			}
@@ -442,11 +452,21 @@ public class ProcedureActivity extends Activity {
 		addMenuAnimation(curId + TAG_CLOSE, R.anim.menu_exit, ANIM_DELAY, null);
 		
 		//Drawer animations
+		curId = findViewById(R.id.drawerLine1).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_drawer_enter, 0, null);
+		
+		curId = findViewById(R.id.drawerLine2).getId();
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_drawer_enter, 100, null);
+		
 		curId = findViewById(R.id.menuDrawerLayout).getId();
-		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_drawer_enter, 0, new AnimationListener() {
+		addMenuAnimation(curId + TAG_OPEN, R.anim.menu_drawer_enter, 400, new AnimationListener() {
 
 			@Override
-			public void onAnimationEnd(Animation animation) {}
+			public void onAnimationEnd(Animation animation) {
+				//Hide the effect lines
+				findViewById(R.id.drawerLine1).setVisibility(View.GONE);
+				findViewById(R.id.drawerLine2).setVisibility(View.GONE);
+			}
 
 			@Override
 			public void onAnimationRepeat(Animation animation) {}
@@ -480,9 +500,19 @@ public class ProcedureActivity extends Activity {
 
 			@Override
 			public void onAnimationEnd(Animation animation) {
-				LinearLayout menuDrawerLayout = (LinearLayout)findViewById(R.id.menuDrawerLayout);
+				View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 				ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
 				drawer.removeAllViews();
+				
+				View l1 = (View) findViewById(R.id.drawerLine1);
+				View l2 = (View) findViewById(R.id.drawerLine2);
+				
+				l1.startAnimation(menuAnimations.get(l1.getId() + TAG_OPEN));
+				l1.setVisibility(View.VISIBLE);
+				
+				l2.startAnimation(menuAnimations.get(l2.getId() + TAG_OPEN));
+				l2.setVisibility(View.VISIBLE);
+				
 				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 			}
 
@@ -546,7 +576,7 @@ public class ProcedureActivity extends Activity {
 	private String getOpenedDrawer(){
 		String currentDrawer = DrawerPageInterface.DRAWER_NONE;
 		ScrollView drawer = (ScrollView)findViewById(R.id.menuDrawer);
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 		
 		if (menuDrawerLayout.getVisibility() == View.VISIBLE){
 			DrawerPageInterface drawerPage = (DrawerPageInterface) drawer.getChildAt(0);
@@ -562,7 +592,16 @@ public class ProcedureActivity extends Activity {
 	 * it's visibility to VISIBLE.  This automatically opens the items.
 	 */
 	private void openMenu() {
+		View l1 = (View) findViewById(R.id.menuLine1);
+		View l2 = (View) findViewById(R.id.menuLine2);
 		View bg = (View) findViewById(R.id.menuBackground);
+		
+		l1.startAnimation(menuAnimations.get(l1.getId() + TAG_OPEN));
+		l1.setVisibility(View.VISIBLE);
+		
+		l2.startAnimation(menuAnimations.get(l2.getId() + TAG_OPEN));
+		l2.setVisibility(View.VISIBLE);
+		
 		bg.startAnimation(menuAnimations.get(bg.getId() + TAG_OPEN));
 		bg.setVisibility(View.VISIBLE);
 		
@@ -574,7 +613,7 @@ public class ProcedureActivity extends Activity {
 	 */
 	private void openStepDrawer(View v){
 		ScrollView drawer = ((ScrollView)findViewById(R.id.menuDrawer));
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 
 		if (!getOpenedDrawer().equals(DrawerPageInterface.DRAWER_NAVIGATION)){
 			// do animation
@@ -588,6 +627,15 @@ public class ProcedureActivity extends Activity {
 		    //If the drawer is closed
 			} else {
 				//open the drawer
+				View l1 = (View) findViewById(R.id.drawerLine1);
+				View l2 = (View) findViewById(R.id.drawerLine2);
+				
+				l1.startAnimation(menuAnimations.get(l1.getId() + TAG_OPEN));
+				l1.setVisibility(View.VISIBLE);
+				
+				l2.startAnimation(menuAnimations.get(l2.getId() + TAG_OPEN));
+				l2.setVisibility(View.VISIBLE);
+				
 				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}
@@ -602,7 +650,7 @@ public class ProcedureActivity extends Activity {
 	 * Close the drawer
 	 */
 	private void closeDrawer(){
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 
 		if (menuDrawerLayout.getVisibility() == View.VISIBLE) {
 			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE));
@@ -619,7 +667,7 @@ public class ProcedureActivity extends Activity {
 	 * Then make sure to make all buttons unselected.
 	 */
 	private void closeMenu() {
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 		
 		if (menuDrawerLayout.getVisibility() == View.VISIBLE) {
 			menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_CLOSE + TAG_CASCADE));
@@ -1339,7 +1387,7 @@ public class ProcedureActivity extends Activity {
 	 * @param v
 	 */
 	public void menuSelect(View v) {
-		LinearLayout menuDrawerLayout = (LinearLayout) findViewById(R.id.menuDrawerLayout);
+		View menuDrawerLayout = findViewById(R.id.menuDrawerLayout);
 		
 		//If I hit the same menu button
 		if (v.isSelected()) {
@@ -1377,6 +1425,16 @@ public class ProcedureActivity extends Activity {
 		    //If the drawer is closed
 			} else {
 				//open the drawer
+				//TODO this gets repeated like 3 times...
+				View l1 = (View) findViewById(R.id.drawerLine1);
+				View l2 = (View) findViewById(R.id.drawerLine2);
+				
+				l1.startAnimation(menuAnimations.get(l1.getId() + TAG_OPEN));
+				l1.setVisibility(View.VISIBLE);
+				
+				l2.startAnimation(menuAnimations.get(l2.getId() + TAG_OPEN));
+				l2.setVisibility(View.VISIBLE);
+				
 				menuDrawerLayout.startAnimation(menuAnimations.get(menuDrawerLayout.getId() + TAG_OPEN));
 				menuDrawerLayout.setVisibility(View.VISIBLE);
 			}

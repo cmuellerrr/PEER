@@ -71,7 +71,7 @@ public class ViewFactory {
 		//If a lone step, set a margin so that it matches those which are a the cycle
 		if (reps < 2) {
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-			params.setMargins(34, 0, 0, 0);
+			params.setMargins(67, 0, 0, 0);
 			newStep.setLayoutParams(params);
 		}
 		
