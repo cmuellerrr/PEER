@@ -263,7 +263,7 @@ public class Procedure implements Serializable {
 	private void generateStepPreviews(){
 		stepPreviews = new ArrayList<String>();
 		
-		for (int i = 0; i < children.size(); i++){
+		for (int i = 0; i < children.size(); i++) {
 			traverseSteps(children.get(i));
 		}
 	}

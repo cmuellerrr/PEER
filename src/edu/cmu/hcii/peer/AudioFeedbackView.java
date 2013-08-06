@@ -13,6 +13,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
+import android.graphics.PixelFormat;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.util.AttributeSet;
@@ -32,7 +34,7 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		
 		/** Variables that determine how animations are drawn **/
 		private int NUMBER_OF_BARS; // number of bars drawn
-		private int BAR_MAXIMUM_OFFSET = 60; // how quickly bars grow in height
+		private int BAR_MAXIMUM_OFFSET = 100; // how quickly bars grow in height
 		private int BAR_MARGIN = 0; // size of margin between bars
 		private int MINIMUM_RMS_READ = 1; // minimum noise level that will be drawn
 		public boolean SHIFT = false; // if shift is true, we show the left/right moving visualizer, if false, then we show the up/down bars
@@ -178,7 +180,8 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		private void doDraw(Canvas c) {
 			if (c==null)
 				return;
-			c.drawColor(Color.BLACK);
+			//c.drawColor(Color.BLACK);
+			c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 			//Log.v("hello","hello");
 			
 			
@@ -665,11 +668,13 @@ public class AudioFeedbackView extends SurfaceView implements SurfaceHolder.Call
 		mHolder = getHolder();
 		mHolder.addCallback(this);
         mContext = context;
-        
+        setZOrderOnTop(true);
+        mHolder.setFormat(PixelFormat.TRANSPARENT);
         // create thread only; it's started in surfaceCreated()
         thread = new AudioFeedbackThread(mHolder, mContext);
 
         setFocusable(true); // make sure we get key events
+        setBackgroundColor(Color.TRANSPARENT);
 	}
 	
     /**

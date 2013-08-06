@@ -15,7 +15,7 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-        
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:scrollViewStyle">@style/ScrollView</item>
     </style>
     
@@ -68,6 +68,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/main</item>
+        <item name="android:textSize">25dp</item>
     </style>   
     
     <style name="AudioFeedback">
@@ -92,6 +93,8 @@
     <style name="StepPreview">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">82dp</item>
+        <item name="android:textColor">#ffffffff</item>
+        
     </style>
     
     <style name="StepPreviewText">
@@ -106,13 +109,19 @@
     
     <!-- Menu -->
     
+    <style name="MenuDrawerParent">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">#00FFFFFF</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
     
     <style name="MenuDrawer">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_marginTop">40dp</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:background">@drawable/drawer_background</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@color/semitransparent_bright</item>
         <item name="android:textColor">#ffffffff</item>
     </style>
     
@@ -122,6 +131,7 @@
         <item name="android:textColor">#ffffffff</item>
         <item name="android:fadeScrollbars">false</item>
         <item name="android:layout_marginRight">10dp</item>
+        <item name="android:padding">15dp</item>
     </style>
     
     <style name="MenuGroup">
@@ -149,6 +159,19 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:visibility">gone</item>
     </style>
+    
+    <style name="MenuLineTB">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
+    <style name="MenuLineLR">
+        <item name="android:layout_width">6dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/main</item>
+    </style>
+    
     
     <!-- Elapsed Time -->
     
@@ -467,7 +490,7 @@
     </style>
     
     <style name="LinearLayoutTableImageCell" parent="LinearLayoutTableCell">
-        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_height">130dp</item>
         <item name="android:scaleType">fitCenter</item>
     </style>
     
