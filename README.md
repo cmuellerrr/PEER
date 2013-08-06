@@ -1,7 +1,7 @@
 # PEER
 
 **P**rocedure **E**xecution with **E**nhanced **R**eality
-========
+
 
 ## Background
 
